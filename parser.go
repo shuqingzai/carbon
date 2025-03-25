@@ -26,7 +26,7 @@ func Parse(value string, timezone ...string) *Carbon {
 	case "tomorrow":
 		return Tomorrow(c.Timezone())
 	}
-	for _, layout := range layouts {
+	for _, layout := range supportedLayouts {
 		if tt, err := time.ParseInLocation(layout, value, c.loc); err == nil {
 			c.time = tt
 			c.layout = layout
@@ -112,4 +112,54 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 	c.time = tt
 	c.layout = layout
 	return c
+}
+
+// ParseWithLayouts parses time string with layouts as a Carbon instance.
+// 通过自定义布局模板将时间字符串解析成 Carbon 实例
+func ParseWithLayouts(value string, layouts []string, timezone ...string) *Carbon {
+	c := NewCarbon()
+	if value == "" {
+		return nil
+	}
+	if len(timezone) > 0 {
+		c.loc, c.Error = getLocationByTimezone(timezone[0])
+	}
+	if c.HasError() {
+		return c
+	}
+	if len(layouts) == 0 {
+		return Parse(value, timezone...)
+	}
+	for _, layout := range append(supportedLayouts, layouts...) {
+		if tt, err := time.ParseInLocation(layout, value, c.loc); err == nil {
+			c.time = tt
+			c.layout = layout
+			return c
+		}
+	}
+	c.Error = failedParseError(value)
+	return c
+}
+
+// ParseWithFormats parses time string with formats as a Carbon instance.
+// 通过自定义格式化模板将时间字符串解析成 Carbon 实例
+func ParseWithFormats(value string, formats []string, timezone ...string) *Carbon {
+	c := NewCarbon()
+	if value == "" {
+		return nil
+	}
+	if len(timezone) > 0 {
+		c.loc, c.Error = getLocationByTimezone(timezone[0])
+	}
+	if c.HasError() {
+		return c
+	}
+	if len(formats) == 0 {
+		return Parse(value, timezone...)
+	}
+	var layouts []string
+	for _, format := range formats {
+		layouts = append(layouts, format2layout(format))
+	}
+	return ParseWithLayouts(value, layouts, timezone...)
 }
