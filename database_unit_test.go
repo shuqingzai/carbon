@@ -722,7 +722,7 @@ func TestTimestamp_GormDataType(t *testing.T) {
 	assert.Equal(t, dataType, c4.GormDataType())
 }
 
-type RFC3339Layout struct{}
+type RFC3339Layout string
 
 func (t RFC3339Layout) SetLayout() string {
 	return carbon.RFC3339Layout
@@ -749,7 +749,7 @@ func TestLayoutType_Customer(t *testing.T) {
 	assert.Equal(t, "2020-08-05T13:14:15Z", person.Customer.String())
 }
 
-type ISO8601Format struct{}
+type ISO8601Format string
 
 func (t ISO8601Format) SetFormat() string {
 	return carbon.ISO8601Format

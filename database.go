@@ -381,8 +381,7 @@ func (t TimestampType[T]) getPrecision() string {
 
 // DateTime defines a DateTime struct.
 // 定义 DateTime 结构体
-type DateTime struct {
-}
+type DateTime string
 
 // SetFormat implements formatFactory interface for DateTime struct.
 // 实现 formatFactory 接口
@@ -398,8 +397,7 @@ func (t DateTime) SetLayout() string {
 
 // Date defines a Date struct.
 // 定义 Date 结构体
-type Date struct {
-}
+type Date string
 
 // SetFormat implements formatFactory interface for Date struct.
 // 实现 formatFactory 接口
@@ -415,8 +413,7 @@ func (t Date) SetLayout() string {
 
 // Time defines a Time struct.
 // 定义 Time 结构体
-type Time struct {
-}
+type Time string
 
 // SetFormat implements formatFactory interface for Time struct.
 // 实现 formatFactory 接口
@@ -432,23 +429,19 @@ func (t Time) SetLayout() string {
 
 // Timestamp defines a Timestamp struct.
 // 定义 Timestamp 结构体
-type Timestamp struct {
-}
+type Timestamp string
 
 // TimestampMilli defines a TimestampMilli struct.
 // 定义 TimestampMilli 结构体
-type TimestampMilli struct {
-}
+type TimestampMilli string
 
 // TimestampMicro defines a TimestampMicro struct.
 // 定义 TimestampMicro 结构体
-type TimestampMicro struct {
-}
+type TimestampMicro string
 
 // TimestampNano defines a TimestampNano struct.
 // 定义 TimestampNano 结构体
-type TimestampNano struct {
-}
+type TimestampNano string
 
 // SetPrecision implements timestampFactory interface for Timestamp struct.
 // 实现 timestampFactory 接口
