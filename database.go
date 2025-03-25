@@ -11,10 +11,10 @@ import (
 // timestamp precision constants
 // 时间戳精度常量
 const (
-	PrecisionSecond      = "second"
-	PrecisionMillisecond = "millisecond"
-	PrecisionMicrosecond = "microsecond"
-	PrecisionNanosecond  = "nanosecond"
+	PrecisionSecond      = 9
+	PrecisionMillisecond = 999
+	PrecisionMicrosecond = 999999
+	PrecisionNanosecond  = 999999999
 )
 
 // returns a failed scan error
@@ -52,8 +52,8 @@ type FormatType[T FormatFactory] struct {
 // TimestampFactory defines a TimestampFactory interface.
 // 定义 TimestampFactory 接口
 type TimestampFactory interface {
-	~string
-	SetPrecision() string
+	~int
+	SetPrecision() int
 }
 
 // TimestampType defines a TimestampType generic struct.
@@ -377,7 +377,7 @@ func (t TimestampType[T]) GormDataType() string {
 
 // getPrecision returns the set timestamp precision.
 // 返回设置的时间戳精度
-func (t TimestampType[T]) getPrecision() string {
+func (t TimestampType[T]) getPrecision() int {
 	var factory T
 	return factory.SetPrecision()
 }
@@ -432,40 +432,40 @@ func (t Time) SetLayout() string {
 
 // Timestamp defines a Timestamp struct.
 // 定义 Timestamp 结构体
-type Timestamp string
+type Timestamp int
 
 // TimestampMilli defines a TimestampMilli struct.
 // 定义 TimestampMilli 结构体
-type TimestampMilli string
+type TimestampMilli int
 
 // TimestampMicro defines a TimestampMicro struct.
 // 定义 TimestampMicro 结构体
-type TimestampMicro string
+type TimestampMicro int
 
 // TimestampNano defines a TimestampNano struct.
 // 定义 TimestampNano 结构体
-type TimestampNano string
+type TimestampNano int
 
 // SetPrecision implements timestampFactory interface for Timestamp struct.
 // 实现 timestampFactory 接口
-func (t Timestamp) SetPrecision() string {
+func (t Timestamp) SetPrecision() int {
 	return PrecisionSecond
 }
 
 // SetPrecision implements timestampFactory interface for TimestampMilli struct.
 // 实现 timestampFactory 接口
-func (t TimestampMilli) SetPrecision() string {
+func (t TimestampMilli) SetPrecision() int {
 	return PrecisionMillisecond
 }
 
 // SetPrecision implements timestampFactory interface for TimestampMicro struct.
 // 实现 timestampFactory 接口
-func (t TimestampMicro) SetPrecision() string {
+func (t TimestampMicro) SetPrecision() int {
 	return PrecisionMicrosecond
 }
 
 // SetPrecision implements timestampFactory interface for TimestampNano struct.
 // 实现 timestampFactory 接口
-func (t TimestampNano) SetPrecision() string {
+func (t TimestampNano) SetPrecision() int {
 	return PrecisionNanosecond
 }
