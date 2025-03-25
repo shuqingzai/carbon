@@ -1329,12 +1329,12 @@ fmt.Printf("%+v", person)
 ###### 自定义输出格式
 
 ```go
-type RFC3339Layout struct {}
+type RFC3339Layout string
 func (t CustomerLayout) SetLayout() string {
     return carbon.RFC3339Layout
 }
 
-type ISO8601Format struct {}
+type ISO8601Format string
 func (t CustomerFormat) SetFormat() string {
     return carbon.ISO8601Format
 }
