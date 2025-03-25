@@ -1407,7 +1407,7 @@ fmt.Printf("%+v", person)
 * [印地语(hi)](./lang/hi.json "印地语"): 由 [chauhan17nitin](https://github.com/chauhan17nitin "chauhan17nitin") 翻译
 * [波兰语(pl)](./lang/pl.json "波兰语"): 由 [gouguoyin](https://github.com/gouguoyin "gouguoyin") 翻译
 * [保加利亚语(bg)](./lang/bg.json "保加利亚语"): 由 [yuksbg](https://github.com/yuksbg "yuksbg") 翻译
-* [阿拉伯语(ar)](./lang/bg.json "阿拉伯语"): 由 [zumoshi](https://github.com/yuksbg "zumoshi") 翻译
+* [阿拉伯语(ar)](./lang/bg.json "阿拉伯语"): 由 [zumoshi](https://github.com/zumoshi "zumoshi") 翻译
 * [匈牙利语(hu)](./lang/hu.json "匈牙利语"): 由 [kenlas](https://github.com/kenlas "kenlas") 翻译
 * [丹麦语(dk)](./lang/dk.json "丹麦语"): 由 [Munk91](https://github.com/Munk91 "Munk91") 翻译
 * [挪威语(nb)](./lang/nb.json "挪威语"): 由 [bendikrb](https://github.com/bendikrb "bendikrb") 翻译
