@@ -23,45 +23,48 @@ var failedScanError = func(src interface{}) error {
 	return fmt.Errorf("failed to scan value: %v", src)
 }
 
-// layoutFactory defines a layoutFactory interface
-// 定义 layoutFactory 接口
-type layoutFactory interface {
+// LayoutFactory defines a LayoutFactory interface
+// 定义 LayoutFactory 接口
+type LayoutFactory interface {
+	~string
 	SetLayout() string
 }
 
 // LayoutType defines a LayoutType generic struct
 // 定义 LayoutType 泛型结构体
-type LayoutType[T layoutFactory] struct {
+type LayoutType[T LayoutFactory] struct {
 	*Carbon
 }
 
-// formatFactory defines a formatFactory interface.
-// 定义 formatFactory 接口
-type formatFactory interface {
+// FormatFactory defines a FormatFactory interface.
+// 定义 FormatFactory 接口
+type FormatFactory interface {
+	~string
 	SetFormat() string
 }
 
 // FormatType defines a FormatType generic struct.
 // 定义 FormatType 泛型结构体
-type FormatType[T formatFactory] struct {
+type FormatType[T FormatFactory] struct {
 	*Carbon
 }
 
-// timestampFactory defines a timestampFactory interface.
-// 定义 timestampFactory 接口
-type timestampFactory interface {
+// TimestampFactory defines a TimestampFactory interface.
+// 定义 TimestampFactory 接口
+type TimestampFactory interface {
+	~string
 	SetPrecision() string
 }
 
 // TimestampType defines a TimestampType generic struct.
 // 定义 TimestampType 泛型结构体
-type TimestampType[T timestampFactory] struct {
+type TimestampType[T TimestampFactory] struct {
 	*Carbon
 }
 
 // NewLayoutType returns a new LayoutType generic instance.
 // 返回 LayoutType 泛型实例
-func NewLayoutType[T layoutFactory](carbon *Carbon) LayoutType[T] {
+func NewLayoutType[T LayoutFactory](carbon *Carbon) LayoutType[T] {
 	return LayoutType[T]{
 		Carbon: carbon,
 	}
@@ -69,7 +72,7 @@ func NewLayoutType[T layoutFactory](carbon *Carbon) LayoutType[T] {
 
 // NewFormatType returns a new FormatType generic instance.
 // 返回 FormatType 泛型实例
-func NewFormatType[T formatFactory](carbon *Carbon) FormatType[T] {
+func NewFormatType[T FormatFactory](carbon *Carbon) FormatType[T] {
 	return FormatType[T]{
 		Carbon: carbon,
 	}
@@ -77,7 +80,7 @@ func NewFormatType[T formatFactory](carbon *Carbon) FormatType[T] {
 
 // NewTimestampType returns a new TimestampType generic instance.
 // 返回 TimestampType 泛型实例
-func NewTimestampType[T timestampFactory](carbon *Carbon) TimestampType[T] {
+func NewTimestampType[T TimestampFactory](carbon *Carbon) TimestampType[T] {
 	return TimestampType[T]{
 		Carbon: carbon,
 	}
