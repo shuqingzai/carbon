@@ -252,7 +252,8 @@ carbon.ParseByLayout("今天是 2020年08月05日13时14分15秒", "今天是 20
 ##### parse a time string with layouts as a `Carbon` instance.
 
 ```go
-carbon.ParseWithLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05"}).ToDateTimeString() // 2020-08-05 13:14:15
+carbon.ParseWithLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006/01/02 15/04/05"}).ToDateTimeString() // 2020-08-05 13:14:15
+carbon.ParseWithLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006/01/02 15/04/05"}).CurrentLayout() // 2006|01|02 15|04|05
 ```
 
 ##### Parse a time string as a `Carbon` instance by format
@@ -266,7 +267,8 @@ carbon.ParseByFormat("今天是 2020年08月05日13时14分15秒", "今天是 Y�
 ##### ##### parse a time string with formats as a `Carbon` instance.
 
 ```go
-carbon.ParseWithFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s"}).ToDateTimeString() // 2020-08-05 13:14:15
+carbon.ParseWithFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "Y/m/d H/i/s"}).ToDateTimeString() // 2020-08-05 13:14:15
+carbon.ParseWithFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "Y/m/d H/i/s"}).CurrentLayout() // 2006|01|02 15|04|05
 ```
 
 ##### Freeze
