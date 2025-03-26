@@ -866,15 +866,6 @@ func (c *Carbon) Format(format string, timezone ...string) string {
 				}
 			case 'G': // 24-hour format, no padding, ranging from 0-23
 				buffer.WriteString(strconv.Itoa(c.Hour()))
-			case 'v': // current millisecond, such as 999
-				s := c.Layout(".999")
-				buffer.WriteString(strings.Trim(s, "."))
-			case 'x': // current microsecond, such as 999999
-				s := c.Layout(".999999")
-				buffer.WriteString(strings.Trim(s, "."))
-			case 'z': // current nanosecond, such as 999999999
-				s := c.Layout(".999999999")
-				buffer.WriteString(strings.Trim(s, "."))
 			case 'w': // day of the week represented by the number, ranging from 0-6
 				buffer.WriteString(strconv.Itoa(c.DayOfWeek() - 1))
 			case 't': // number of days in the month, ranging from 28-31
