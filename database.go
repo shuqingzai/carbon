@@ -397,14 +397,14 @@ func (t TimestampType[T]) getPrecision() int64 {
 // 定义 DateTime 结构体
 type DateTime string
 
-// SetFormat implements formatFactory interface for DateTime struct.
-// 实现 formatFactory 接口
+// SetFormat implements FormatFactory interface for DateTime struct.
+// 实现 FormatFactory 接口
 func (t DateTime) SetFormat() string {
 	return DateTimeFormat
 }
 
-// SetLayout implements layoutFactory interface for DateTime struct.
-// 实现 layoutFactory 接口
+// SetLayout implements LayoutFactory interface for DateTime struct.
+// 实现 LayoutFactory 接口
 func (t DateTime) SetLayout() string {
 	return DateTimeLayout
 }
@@ -413,14 +413,14 @@ func (t DateTime) SetLayout() string {
 // 定义 Date 结构体
 type Date string
 
-// SetFormat implements formatFactory interface for Date struct.
-// 实现 formatFactory 接口
+// SetFormat implements FormatFactory interface for Date struct.
+// 实现 FormatFactory 接口
 func (t Date) SetFormat() string {
 	return DateFormat
 }
 
-// SetLayout implements layoutFactory interface for Date struct.
-// 实现 layoutFactory 接口
+// SetLayout implements LayoutFactory interface for Date struct.
+// 实现 LayoutFactory 接口
 func (t Date) SetLayout() string {
 	return DateLayout
 }
@@ -429,14 +429,14 @@ func (t Date) SetLayout() string {
 // 定义 Time 结构体
 type Time string
 
-// SetFormat implements formatFactory interface for Time struct.
-// 实现 formatFactory 接口
+// SetFormat implements FormatFactory interface for Time struct.
+// 实现 FormatFactory 接口
 func (t Time) SetFormat() string {
 	return TimeFormat
 }
 
-// SetLayout implements layoutFactory interface for Time struct.
-// 实现 layoutFactory 接口
+// SetLayout implements LayoutFactory interface for Time struct.
+// 实现 LayoutFactory 接口
 func (t Time) SetLayout() string {
 	return TimeLayout
 }
@@ -457,26 +457,26 @@ type TimestampMicro int64
 // 定义 TimestampNano 结构体
 type TimestampNano int64
 
-// SetPrecision implements timestampFactory interface for Timestamp struct.
-// 实现 timestampFactory 接口
+// SetPrecision implements TimestampFactory interface for Timestamp struct.
+// 实现 TimestampFactory 接口
 func (t Timestamp) SetPrecision() int64 {
 	return PrecisionSecond
 }
 
-// SetPrecision implements timestampFactory interface for TimestampMilli struct.
-// 实现 timestampFactory 接口
+// SetPrecision implements TimestampFactory interface for TimestampMilli struct.
+// 实现 TimestampFactory 接口
 func (t TimestampMilli) SetPrecision() int64 {
 	return PrecisionMillisecond
 }
 
-// SetPrecision implements timestampFactory interface for TimestampMicro struct.
-// 实现 timestampFactory 接口
+// SetPrecision implements TimestampFactory interface for TimestampMicro struct.
+// 实现 TimestampFactory 接口
 func (t TimestampMicro) SetPrecision() int64 {
 	return PrecisionMicrosecond
 }
 
-// SetPrecision implements timestampFactory interface for TimestampNano struct.
-// 实现 timestampFactory 接口
+// SetPrecision implements TimestampFactory interface for TimestampNano struct.
+// 实现 TimestampFactory 接口
 func (t TimestampNano) SetPrecision() int64 {
 	return PrecisionNanosecond
 }
