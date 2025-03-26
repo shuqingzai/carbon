@@ -1295,7 +1295,7 @@ carbon.Parse("2020-08-05 13:14:15").IsWinter() // false
 ```
 
 ##### JSON
-###### 内置输出格式
+###### 内置字段类型
 
 ```go
 type User struct {
@@ -1340,7 +1340,7 @@ fmt.Printf("%+v", person)
 {Date:2020-08-05 Time:13:14:15 DateTime:2020-08-05 13:14:15 Timestamp:1596633255 TimestampMilli:1596633255000 TimestampMicro:1596633255000000 TimestampNano:1596671999999999999}
 ```
 
-###### 自定义输出格式
+###### 自定义字段类型
 
 ```go
 type RFC3339Layout string

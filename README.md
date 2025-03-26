@@ -1286,7 +1286,7 @@ carbon.Parse("2020-08-05 13:14:15").IsWinter() // false
 ```
 
 ##### JSON
-###### Built in output format
+###### Built-in type
 
 ```go
 type User struct {
@@ -1331,7 +1331,7 @@ fmt.Printf("%+v", person)
 {Date:2020-08-05 Time:13:14:15 DateTime:2020-08-05 13:14:15 Timestamp:1596633255 TimestampMilli:1596633255000 TimestampMicro:1596633255000000 TimestampNano:1596671999999999999}
 ```
 
-###### Customize output format
+###### Customize type
 
 ```go
 type RFC3339Layout string
