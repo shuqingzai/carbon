@@ -79,7 +79,7 @@ func ExampleParseByFormat() {
 }
 
 func ExampleParseWithLayouts() {
-	c := carbon.ParseWithLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05"})
+	c := carbon.ParseWithLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"})
 	fmt.Println(c.ToString())
 	fmt.Println(c.CurrentLayout())
 
@@ -89,7 +89,7 @@ func ExampleParseWithLayouts() {
 }
 
 func ExampleParseWithFormats() {
-	c := carbon.ParseWithFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s"})
+	c := carbon.ParseWithFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"})
 	fmt.Println(c.ToString())
 	fmt.Println(c.CurrentLayout())
 
