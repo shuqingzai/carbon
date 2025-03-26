@@ -52,8 +52,8 @@ type FormatType[T FormatFactory] struct {
 // TimestampFactory defines a TimestampFactory interface.
 // 定义 TimestampFactory 接口
 type TimestampFactory interface {
-	~int
-	SetPrecision() int
+	~int64
+	SetPrecision() int64
 }
 
 // TimestampType defines a TimestampType generic struct.
@@ -377,7 +377,7 @@ func (t TimestampType[T]) GormDataType() string {
 
 // getPrecision returns the set timestamp precision.
 // 返回设置的时间戳精度
-func (t TimestampType[T]) getPrecision() int {
+func (t TimestampType[T]) getPrecision() int64 {
 	var factory T
 	return factory.SetPrecision()
 }
@@ -432,40 +432,40 @@ func (t Time) SetLayout() string {
 
 // Timestamp defines a Timestamp struct.
 // 定义 Timestamp 结构体
-type Timestamp int
+type Timestamp int64
 
 // TimestampMilli defines a TimestampMilli struct.
 // 定义 TimestampMilli 结构体
-type TimestampMilli int
+type TimestampMilli int64
 
 // TimestampMicro defines a TimestampMicro struct.
 // 定义 TimestampMicro 结构体
-type TimestampMicro int
+type TimestampMicro int64
 
 // TimestampNano defines a TimestampNano struct.
 // 定义 TimestampNano 结构体
-type TimestampNano int
+type TimestampNano int64
 
 // SetPrecision implements timestampFactory interface for Timestamp struct.
 // 实现 timestampFactory 接口
-func (t Timestamp) SetPrecision() int {
+func (t Timestamp) SetPrecision() int64 {
 	return PrecisionSecond
 }
 
 // SetPrecision implements timestampFactory interface for TimestampMilli struct.
 // 实现 timestampFactory 接口
-func (t TimestampMilli) SetPrecision() int {
+func (t TimestampMilli) SetPrecision() int64 {
 	return PrecisionMillisecond
 }
 
 // SetPrecision implements timestampFactory interface for TimestampMicro struct.
 // 实现 timestampFactory 接口
-func (t TimestampMicro) SetPrecision() int {
+func (t TimestampMicro) SetPrecision() int64 {
 	return PrecisionMicrosecond
 }
 
 // SetPrecision implements timestampFactory interface for TimestampNano struct.
 // 实现 timestampFactory 接口
-func (t TimestampNano) SetPrecision() int {
+func (t TimestampNano) SetPrecision() int64 {
 	return PrecisionNanosecond
 }
