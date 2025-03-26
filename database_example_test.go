@@ -7,11 +7,18 @@ import (
 	"github.com/dromara/carbon/v2"
 )
 
+type W3cLayout string
+
+func (W3cLayout) SetLayout() string {
+	return carbon.W3cLayout
+}
+
 func ExampleLayoutType_MarshalJSON() {
 	type User struct {
 		Date     carbon.LayoutType[carbon.Date]     `json:"date"`
 		Time     carbon.LayoutType[carbon.Time]     `json:"time"`
 		DateTime carbon.LayoutType[carbon.DateTime] `json:"date_time"`
+		Customer carbon.LayoutType[W3cLayout]       `json:"customer"`
 	}
 
 	var user User
@@ -21,12 +28,13 @@ func ExampleLayoutType_MarshalJSON() {
 	user.Date = carbon.NewLayoutType[carbon.Date](c)
 	user.Time = carbon.NewLayoutType[carbon.Time](c)
 	user.DateTime = carbon.NewLayoutType[carbon.DateTime](c)
+	user.Customer = carbon.NewLayoutType[W3cLayout](c)
 
 	data, _ := json.Marshal(&user)
 	fmt.Printf("%s", data)
 
 	// Output:
-	// {"date":"2020-08-05","time":"13:14:15","date_time":"2020-08-05 13:14:15"}
+	// {"date":"2020-08-05","time":"13:14:15","date_time":"2020-08-05 13:14:15","customer":"2020-08-05T13:14:15Z"}
 }
 
 func ExampleLayoutType_UnmarshalJSON() {
@@ -34,21 +42,30 @@ func ExampleLayoutType_UnmarshalJSON() {
 		Date     carbon.LayoutType[carbon.Date]     `json:"date"`
 		Time     carbon.LayoutType[carbon.Time]     `json:"time"`
 		DateTime carbon.LayoutType[carbon.DateTime] `json:"date_time"`
+		Customer carbon.LayoutType[W3cLayout]       `json:"customer"`
 	}
 
 	var user User
 
-	value := `{"date":"2020-08-05","time":"13:14:15","date_time":"2020-08-05 13:14:15"}`
+	value := `{"date":"2020-08-05","time":"13:14:15","date_time":"2020-08-05 13:14:15","customer":"2020-08-05T13:14:15Z"}`
 	_ = json.Unmarshal([]byte(value), &user)
 
 	fmt.Println(user.Date.String())
 	fmt.Println(user.Time.String())
 	fmt.Println(user.DateTime.String())
+	fmt.Println(user.Customer.String())
 
 	// Output:
 	// 2020-08-05
 	// 13:14:15
 	// 2020-08-05 13:14:15
+	// 2020-08-05T13:14:15Z
+}
+
+type RFC3339Format string
+
+func (RFC3339Format) SetFormat() string {
+	return carbon.RFC3339Format
 }
 
 func ExampleFormatType_MarshalJSON() {
@@ -56,6 +73,7 @@ func ExampleFormatType_MarshalJSON() {
 		Date     carbon.FormatType[carbon.Date]     `json:"date"`
 		Time     carbon.FormatType[carbon.Time]     `json:"time"`
 		DateTime carbon.FormatType[carbon.DateTime] `json:"date_time"`
+		Customer carbon.FormatType[RFC3339Format]   `json:"customer"`
 	}
 
 	var user User
@@ -65,12 +83,13 @@ func ExampleFormatType_MarshalJSON() {
 	user.Date = carbon.NewFormatType[carbon.Date](c)
 	user.Time = carbon.NewFormatType[carbon.Time](c)
 	user.DateTime = carbon.NewFormatType[carbon.DateTime](c)
+	user.Customer = carbon.NewFormatType[RFC3339Format](c)
 
 	data, _ := json.Marshal(&user)
 	fmt.Printf("%s", data)
 
 	// Output:
-	// {"date":"2020-08-05","time":"13:14:15","date_time":"2020-08-05 13:14:15"}
+	// {"date":"2020-08-05","time":"13:14:15","date_time":"2020-08-05 13:14:15","customer":"2020-08-05T13:14:15+00:00"}
 }
 
 func ExampleFormatType_UnmarshalJSON() {
@@ -78,21 +97,24 @@ func ExampleFormatType_UnmarshalJSON() {
 		Date     carbon.FormatType[carbon.Date]     `json:"date"`
 		Time     carbon.FormatType[carbon.Time]     `json:"time"`
 		DateTime carbon.FormatType[carbon.DateTime] `json:"date_time"`
+		Customer carbon.FormatType[RFC3339Format]   `json:"customer"`
 	}
 
 	var user User
 
-	value := `{"date":"2020-08-05","time":"13:14:15","date_time":"2020-08-05 13:14:15"}`
+	value := `{"date":"2020-08-05","time":"13:14:15","date_time":"2020-08-05 13:14:15","customer":"2020-08-05T13:14:15+00:00"}`
 	_ = json.Unmarshal([]byte(value), &user)
 
 	fmt.Println(user.Date.String())
 	fmt.Println(user.Time.String())
 	fmt.Println(user.DateTime.String())
+	fmt.Println(user.Customer.String())
 
 	// Output:
 	// 2020-08-05
 	// 13:14:15
 	// 2020-08-05 13:14:15
+	// 2020-08-05T13:14:15+00:00
 }
 
 func ExampleTimestampType_MarshalJSON() {
