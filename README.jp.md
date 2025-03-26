@@ -1569,7 +1569,7 @@ invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for 
 | z  | ナノ秒 | - | 1-999999999 | 999999999 |
 | w  | 数字表示の曜日 | 1 | 0-6 | 1 |
 | t  | 月の総日数 | 2 | 28-31 | 31 |
-| e  | リージョン | - | - | America/New_York |
+| e  | タイムゾーン | - | - | America/New_York |
 | Q  | 四半期 | 1 | 1-4 | 1 |
 | C  | 世紀 | - | 0-99 | 21 |
 

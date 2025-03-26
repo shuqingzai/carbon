@@ -1556,7 +1556,7 @@ invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for 
 |  s   |                                          Second, padded to 2                                           |   2    |      01-59       |         05          |
 |  O   |               Difference to Greenwich time (GMT) without colon between hours and minutes               |   -    |        -         |        -0700        |
 |  P   |                Difference to Greenwich time (GMT) with colon between hours and minutes                 |   -    |        -         |       -07:00        |
-|  T   |                                          Abbreviated timezone                                          |   -    |        -         |         MST         |
+|  T   |                                               zone name                                                |   -    |        -         |         MST         |
 |  W   |                                     week of the year, padded to 2                                      |   2    |      01-52       |         01          |
 |  N   |                                      day of the week, padded to 2                                      |   2    |      01-07       |         02          |
 |  L   |                                        Whether it's a leap year                                        |   1    |       0-1        |          0          |
@@ -1569,7 +1569,7 @@ invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for 
 |  z   |                                               Nanosecond                                               |   -    |   1-999999999    |      999999999      |
 |  w   |                                            Day of the week                                             |   1    |       0-6        |          1          |
 |  t   |                                        Total days of the month                                         |   2    |      28-31       |         31          |
-|  e   |                                                Location                                                |   -    |        -         |  America/New_York   |
+|  e   |                                               time zone                                                |   -    |        -         |  America/New_York   |
 |  Q   |                                                Quarter                                                 |   1    |       1-4        |          1          |
 |  C   |                                                Century                                                 |   -    |       0-99       |         21          |
 
