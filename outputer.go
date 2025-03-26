@@ -872,9 +872,9 @@ func (c *Carbon) Format(format string, timezone ...string) string {
 				buffer.WriteString(strconv.Itoa(c.DaysInMonth()))
 			case 'e': // current location, such as UTC，GMT，Atlantic/Azores
 				buffer.WriteString(c.Timezone())
-			case 'Q': // current quarter, ranging from 1-4
+			case 'q': // current quarter, ranging from 1-4
 				buffer.WriteString(strconv.Itoa(c.Quarter()))
-			case 'C': // current century, ranging from 0-99
+			case 'c': // current century, ranging from 0-99
 				buffer.WriteString(strconv.Itoa(c.Century()))
 			default:
 				buffer.WriteByte(format[i])
