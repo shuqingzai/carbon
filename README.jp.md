@@ -1292,7 +1292,7 @@ carbon.Parse("2020-08-05 13:14:15").IsWinter() // false
 ```
 
 ##### JSON
-###### 組み込み出力フォーマット
+###### 組み込みフィールドタイプ
 
 ```go
 type User struct {
@@ -1337,7 +1337,7 @@ fmt.Printf("%+v", person)
 {Date:2020-08-05 Time:13:14:15 DateTime:2020-08-05 13:14:15 Timestamp:1596633255 TimestampMilli:1596633255000 TimestampMicro:1596633255000000 TimestampNano:1596671999999999999}
 ```
 
-###### カスタム出力フォーマット
+###### カスタムフィールドタイプ
 
 ```go
 type RFC3339Layout string
