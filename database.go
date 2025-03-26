@@ -11,10 +11,10 @@ import (
 // timestamp precision constants
 // 时间戳精度常量
 const (
-	PrecisionSecond      = "second"
-	PrecisionMillisecond = "millisecond"
-	PrecisionMicrosecond = "microsecond"
-	PrecisionNanosecond  = "nanosecond"
+	PrecisionSecond      = 9
+	PrecisionMillisecond = 999
+	PrecisionMicrosecond = 999999
+	PrecisionNanosecond  = 999999999
 )
 
 // returns a failed scan error
@@ -23,45 +23,48 @@ var failedScanError = func(src interface{}) error {
 	return fmt.Errorf("failed to scan value: %v", src)
 }
 
-// layoutFactory defines a layoutFactory interface
-// 定义 layoutFactory 接口
-type layoutFactory interface {
+// LayoutFactory defines a LayoutFactory interface
+// 定义 LayoutFactory 接口
+type LayoutFactory interface {
+	~string
 	SetLayout() string
 }
 
 // LayoutType defines a LayoutType generic struct
 // 定义 LayoutType 泛型结构体
-type LayoutType[T layoutFactory] struct {
+type LayoutType[T LayoutFactory] struct {
 	*Carbon
 }
 
-// formatFactory defines a formatFactory interface.
-// 定义 formatFactory 接口
-type formatFactory interface {
+// FormatFactory defines a FormatFactory interface.
+// 定义 FormatFactory 接口
+type FormatFactory interface {
+	~string
 	SetFormat() string
 }
 
 // FormatType defines a FormatType generic struct.
 // 定义 FormatType 泛型结构体
-type FormatType[T formatFactory] struct {
+type FormatType[T FormatFactory] struct {
 	*Carbon
 }
 
-// timestampFactory defines a timestampFactory interface.
-// 定义 timestampFactory 接口
-type timestampFactory interface {
-	SetPrecision() string
+// TimestampFactory defines a TimestampFactory interface.
+// 定义 TimestampFactory 接口
+type TimestampFactory interface {
+	~int64
+	SetPrecision() int64
 }
 
 // TimestampType defines a TimestampType generic struct.
 // 定义 TimestampType 泛型结构体
-type TimestampType[T timestampFactory] struct {
+type TimestampType[T TimestampFactory] struct {
 	*Carbon
 }
 
 // NewLayoutType returns a new LayoutType generic instance.
 // 返回 LayoutType 泛型实例
-func NewLayoutType[T layoutFactory](carbon *Carbon) LayoutType[T] {
+func NewLayoutType[T LayoutFactory](carbon *Carbon) LayoutType[T] {
 	return LayoutType[T]{
 		Carbon: carbon,
 	}
@@ -69,7 +72,7 @@ func NewLayoutType[T layoutFactory](carbon *Carbon) LayoutType[T] {
 
 // NewFormatType returns a new FormatType generic instance.
 // 返回 FormatType 泛型实例
-func NewFormatType[T formatFactory](carbon *Carbon) FormatType[T] {
+func NewFormatType[T FormatFactory](carbon *Carbon) FormatType[T] {
 	return FormatType[T]{
 		Carbon: carbon,
 	}
@@ -77,7 +80,7 @@ func NewFormatType[T formatFactory](carbon *Carbon) FormatType[T] {
 
 // NewTimestampType returns a new TimestampType generic instance.
 // 返回 TimestampType 泛型实例
-func NewTimestampType[T timestampFactory](carbon *Carbon) TimestampType[T] {
+func NewTimestampType[T TimestampFactory](carbon *Carbon) TimestampType[T] {
 	return TimestampType[T]{
 		Carbon: carbon,
 	}
@@ -86,19 +89,21 @@ func NewTimestampType[T timestampFactory](carbon *Carbon) TimestampType[T] {
 // Scan implements driver.Scanner interface for LayoutType generic struct.
 // 实现 driver.Scanner 接口
 func (t *LayoutType[T]) Scan(src interface{}) error {
+	c := NewCarbon()
 	switch v := src.(type) {
 	case []byte:
-		t.Carbon = Parse(string(v), DefaultTimezone)
+		c = Parse(string(v), DefaultTimezone)
 	case string:
-		t.Carbon = Parse(v, DefaultTimezone)
-	case int64:
-		t.Carbon = CreateFromTimestamp(v, DefaultTimezone)
+		c = Parse(v, DefaultTimezone)
 	case time.Time:
-		t.Carbon = CreateFromStdTime(v, DefaultTimezone)
+		c = CreateFromStdTime(v, DefaultTimezone)
+	case int64:
+		c = CreateFromTimestamp(v, DefaultTimezone)
 	default:
 		return failedScanError(v)
 	}
-	return nil
+	*t = NewLayoutType[T](c)
+	return t.Error
 }
 
 // Value implements driver.Valuer interface for LayoutType generic struct.
@@ -134,7 +139,7 @@ func (t *LayoutType[T]) UnmarshalJSON(b []byte) error {
 		t.Carbon = nil
 		return nil
 	}
-	t.Carbon = ParseByLayout(value, t.getLayout())
+	*t = NewLayoutType[T](ParseByLayout(value, t.getLayout()))
 	return t.Error
 }
 
@@ -150,7 +155,7 @@ func (t LayoutType[T]) String() string {
 // GormDataType sets gorm data type for LayoutType generic struct.
 // 设置 gorm 数据类型
 func (t LayoutType[T]) GormDataType() string {
-	return "carbonLayout"
+	return "time"
 }
 
 // getLayout returns the set layout.
@@ -163,19 +168,21 @@ func (t LayoutType[T]) getLayout() string {
 // Scan implements driver.Scanner interface for FormatType generic struct.
 // 实现 driver.Scanner 接口
 func (t *FormatType[T]) Scan(src interface{}) error {
+	c := NewCarbon()
 	switch v := src.(type) {
 	case []byte:
-		t.Carbon = Parse(string(v), DefaultTimezone)
+		c = Parse(string(v), DefaultTimezone)
 	case string:
-		t.Carbon = Parse(v, DefaultTimezone)
-	case int64:
-		t.Carbon = CreateFromTimestamp(v, DefaultTimezone)
+		c = Parse(v, DefaultTimezone)
 	case time.Time:
-		t.Carbon = CreateFromStdTime(v, DefaultTimezone)
+		c = CreateFromStdTime(v, DefaultTimezone)
+	case int64:
+		c = CreateFromTimestamp(v, DefaultTimezone)
 	default:
 		return failedScanError(v)
 	}
-	return nil
+	*t = NewFormatType[T](c)
+	return t.Error
 }
 
 // Value implements driver.Valuer interface for FormatType generic struct.
@@ -211,7 +218,7 @@ func (t *FormatType[T]) UnmarshalJSON(b []byte) error {
 		t.Carbon = nil
 		return nil
 	}
-	t.Carbon = ParseByFormat(value, t.getFormat())
+	*t = NewFormatType[T](ParseByFormat(value, t.getFormat()))
 	return t.Error
 }
 
@@ -227,7 +234,7 @@ func (t FormatType[T]) String() string {
 // GormDataType sets gorm data type for FormatType generic struct.
 // 设置 gorm 数据类型
 func (t FormatType[T]) GormDataType() string {
-	return "carbonFormat"
+	return "time"
 }
 
 // getFormat returns the set format.
@@ -241,35 +248,38 @@ func (t FormatType[T]) getFormat() string {
 // 实现 driver.Scanner 接口
 func (t *TimestampType[T]) Scan(src interface{}) (err error) {
 	ts := int64(0)
+	c := NewCarbon()
 	switch v := src.(type) {
 	case []byte:
 		ts, err = strconv.ParseInt(string(v), 10, 64)
 		if err != nil {
-			return err
+			return invalidTimestampError(string(v))
 		}
 	case string:
 		ts, err = strconv.ParseInt(v, 10, 64)
 		if err != nil {
-			return err
+			return invalidTimestampError(v)
 		}
 	case int64:
 		ts = v
 	case time.Time:
-		t.Carbon = CreateFromStdTime(v, DefaultTimezone)
+		c = CreateFromStdTime(v, DefaultTimezone)
+		*t = NewTimestampType[T](c)
 		return t.Error
 	default:
 		return failedScanError(src)
 	}
 	switch t.getPrecision() {
 	case PrecisionSecond:
-		t.Carbon = CreateFromTimestamp(ts, DefaultTimezone)
+		c = CreateFromTimestamp(ts, DefaultTimezone)
 	case PrecisionMillisecond:
-		t.Carbon = CreateFromTimestampMilli(ts, DefaultTimezone)
+		c = CreateFromTimestampMilli(ts, DefaultTimezone)
 	case PrecisionMicrosecond:
-		t.Carbon = CreateFromTimestampMicro(ts, DefaultTimezone)
+		c = CreateFromTimestampMicro(ts, DefaultTimezone)
 	case PrecisionNanosecond:
-		t.Carbon = CreateFromTimestampNano(ts, DefaultTimezone)
+		c = CreateFromTimestampNano(ts, DefaultTimezone)
 	}
+	*t = NewTimestampType[T](c)
 	return t.Error
 }
 
@@ -323,22 +333,26 @@ func (t TimestampType[T]) MarshalJSON() ([]byte, error) {
 // 实现 json.Unmarshaler 接口
 func (t *TimestampType[T]) UnmarshalJSON(b []byte) error {
 	value := string(bytes.Trim(b, `"`))
+	c := NewCarbon()
 	if value == "" || value == "null" || value == "0" {
 		t.Carbon = nil
 		return nil
 	}
-	ts, _ := strconv.ParseInt(value, 10, 64)
-	tz := DefaultTimezone
+	ts, err := strconv.ParseInt(value, 10, 64)
+	if err != nil {
+		return invalidTimestampError(value)
+	}
 	switch t.getPrecision() {
 	case PrecisionSecond:
-		t.Carbon = CreateFromTimestamp(ts, tz)
+		c = CreateFromTimestamp(ts, DefaultTimezone)
 	case PrecisionMillisecond:
-		t.Carbon = CreateFromTimestampMilli(ts, tz)
+		c = CreateFromTimestampMilli(ts, DefaultTimezone)
 	case PrecisionMicrosecond:
-		t.Carbon = CreateFromTimestampMicro(ts, tz)
+		c = CreateFromTimestampMicro(ts, DefaultTimezone)
 	case PrecisionNanosecond:
-		t.Carbon = CreateFromTimestampNano(ts, tz)
+		c = CreateFromTimestampNano(ts, DefaultTimezone)
 	}
+	*t = NewTimestampType[T](c)
 	return t.Error
 }
 
@@ -369,20 +383,19 @@ func (t TimestampType[T]) Int64() int64 {
 // GormDataType sets gorm data type for TimestampType generic struct.
 // 设置 gorm 数据类型
 func (t TimestampType[T]) GormDataType() string {
-	return "carbonTimestamp"
+	return "time"
 }
 
 // getPrecision returns the set timestamp precision.
 // 返回设置的时间戳精度
-func (t TimestampType[T]) getPrecision() string {
+func (t TimestampType[T]) getPrecision() int64 {
 	var factory T
 	return factory.SetPrecision()
 }
 
 // DateTime defines a DateTime struct.
 // 定义 DateTime 结构体
-type DateTime struct {
-}
+type DateTime string
 
 // SetFormat implements formatFactory interface for DateTime struct.
 // 实现 formatFactory 接口
@@ -398,8 +411,7 @@ func (t DateTime) SetLayout() string {
 
 // Date defines a Date struct.
 // 定义 Date 结构体
-type Date struct {
-}
+type Date string
 
 // SetFormat implements formatFactory interface for Date struct.
 // 实现 formatFactory 接口
@@ -415,8 +427,7 @@ func (t Date) SetLayout() string {
 
 // Time defines a Time struct.
 // 定义 Time 结构体
-type Time struct {
-}
+type Time string
 
 // SetFormat implements formatFactory interface for Time struct.
 // 实现 formatFactory 接口
@@ -432,44 +443,40 @@ func (t Time) SetLayout() string {
 
 // Timestamp defines a Timestamp struct.
 // 定义 Timestamp 结构体
-type Timestamp struct {
-}
+type Timestamp int64
 
 // TimestampMilli defines a TimestampMilli struct.
 // 定义 TimestampMilli 结构体
-type TimestampMilli struct {
-}
+type TimestampMilli int64
 
 // TimestampMicro defines a TimestampMicro struct.
 // 定义 TimestampMicro 结构体
-type TimestampMicro struct {
-}
+type TimestampMicro int64
 
 // TimestampNano defines a TimestampNano struct.
 // 定义 TimestampNano 结构体
-type TimestampNano struct {
-}
+type TimestampNano int64
 
 // SetPrecision implements timestampFactory interface for Timestamp struct.
 // 实现 timestampFactory 接口
-func (t Timestamp) SetPrecision() string {
+func (t Timestamp) SetPrecision() int64 {
 	return PrecisionSecond
 }
 
 // SetPrecision implements timestampFactory interface for TimestampMilli struct.
 // 实现 timestampFactory 接口
-func (t TimestampMilli) SetPrecision() string {
+func (t TimestampMilli) SetPrecision() int64 {
 	return PrecisionMillisecond
 }
 
 // SetPrecision implements timestampFactory interface for TimestampMicro struct.
 // 实现 timestampFactory 接口
-func (t TimestampMicro) SetPrecision() string {
+func (t TimestampMicro) SetPrecision() int64 {
 	return PrecisionMicrosecond
 }
 
 // SetPrecision implements timestampFactory interface for TimestampNano struct.
 // 实现 timestampFactory 接口
-func (t TimestampNano) SetPrecision() string {
+func (t TimestampNano) SetPrecision() int64 {
 	return PrecisionNanosecond
 }

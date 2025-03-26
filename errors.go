@@ -16,19 +16,19 @@ var invalidTimestampError = func(value string) error {
 	return fmt.Errorf("invalid timestamp %s, please make sure the timestamp is valid", value)
 }
 
-// returns an nil location error.
+// returns a nil location error.
 // 无效的位置错误
 var nilLocationError = func() error {
 	return fmt.Errorf("location cannot be nil")
 }
 
-// returns an nil language error.
+// returns a nil language error.
 // 无效的语言错误
 var nilLanguageError = func() error {
 	return fmt.Errorf("language cannot be nil")
 }
 
-// returns an empty timezone error.
+// returns a empty timezone error.
 // 空的时区错误
 var emptyTimezoneError = func() error {
 	return fmt.Errorf("timezone cannot be empty")

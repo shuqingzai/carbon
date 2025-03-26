@@ -304,7 +304,7 @@ func (c *Carbon) Minute() int {
 	return c.StdTime().Minute()
 }
 
-// Second gets current second like 15.
+// Second gets current second like 9.
 // 获取当前秒数
 func (c *Carbon) Second() int {
 	if c.IsInvalid() {

@@ -183,7 +183,7 @@ func TestLayoutType_UnmarshalJSON(t *testing.T) {
 
 func TestLayoutType_GormDataType(t *testing.T) {
 	c := carbon.Now()
-	dataType := "carbonLayout"
+	dataType := "time"
 
 	c1 := carbon.NewLayoutType[carbon.Date](c)
 	assert.Equal(t, dataType, c1.GormDataType())
@@ -365,7 +365,7 @@ func TestFormatType_UnmarshalJSON(t *testing.T) {
 
 func TestFormatType_GormDataType(t *testing.T) {
 	c := carbon.Now()
-	dataType := "carbonFormat"
+	dataType := "time"
 
 	c1 := carbon.NewFormatType[carbon.Date](c)
 	assert.Equal(t, dataType, c1.GormDataType())
@@ -635,10 +635,11 @@ func TestTimestamp_UnmarshalJSON(t *testing.T) {
 	t.Run("empty value", func(t *testing.T) {
 		var user User
 
-		value := `{"timestamp":0,"timestamp_milli":0,"timestamp_micro":0,"timestamp_nano":0}`
+		value := `{"timestamp":"","timestamp_milli":"","timestamp_micro":"","timestamp_nano":""}`
 		err := json.Unmarshal([]byte(value), &user)
 
 		assert.NoError(t, err)
+
 		assert.Equal(t, "0", user.Timestamp.String())
 		assert.Equal(t, "0", user.TimestampMilli.String())
 		assert.Equal(t, "0", user.TimestampMicro.String())
@@ -653,10 +654,11 @@ func TestTimestamp_UnmarshalJSON(t *testing.T) {
 	t.Run("null value", func(t *testing.T) {
 		var user User
 
-		value := `{"timestamp":0,"timestamp_milli":0,"timestamp_micro":0,"timestamp_nano":0}`
+		value := `{"timestamp":"null","timestamp_milli":"null","timestamp_micro":"null","timestamp_nano":"null"}`
 		err := json.Unmarshal([]byte(value), &user)
 
 		assert.NoError(t, err)
+
 		assert.Equal(t, "0", user.Timestamp.String())
 		assert.Equal(t, "0", user.TimestampMilli.String())
 		assert.Equal(t, "0", user.TimestampMicro.String())
@@ -675,6 +677,26 @@ func TestTimestamp_UnmarshalJSON(t *testing.T) {
 		err := json.Unmarshal([]byte(value), &user)
 
 		assert.NoError(t, err)
+
+		assert.Equal(t, "0", user.Timestamp.String())
+		assert.Equal(t, "0", user.TimestampMilli.String())
+		assert.Equal(t, "0", user.TimestampMicro.String())
+		assert.Equal(t, "0", user.TimestampNano.String())
+
+		assert.Zero(t, user.Timestamp.Int64())
+		assert.Zero(t, user.TimestampMilli.Int64())
+		assert.Zero(t, user.TimestampMicro.Int64())
+		assert.Zero(t, user.TimestampNano.Int64())
+	})
+
+	t.Run("invalid value", func(t *testing.T) {
+		var user User
+
+		value := `{"timestamp":"xxx","timestamp_milli":"xxx","timestamp_micro":"xxx","timestamp_nano":"xxx"}`
+		err := json.Unmarshal([]byte(value), &user)
+
+		assert.Error(t, err)
+
 		assert.Equal(t, "0", user.Timestamp.String())
 		assert.Equal(t, "0", user.TimestampMilli.String())
 		assert.Equal(t, "0", user.TimestampMicro.String())
@@ -707,7 +729,7 @@ func TestTimestamp_UnmarshalJSON(t *testing.T) {
 
 func TestTimestamp_GormDataType(t *testing.T) {
 	c := carbon.Now()
-	dataType := "carbonTimestamp"
+	dataType := "time"
 
 	c1 := carbon.NewTimestampType[carbon.Timestamp](c)
 	assert.Equal(t, dataType, c1.GormDataType())
