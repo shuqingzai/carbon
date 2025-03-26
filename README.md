@@ -1565,11 +1565,10 @@ invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for 
 |  X   |                                    Unix timestamp with microsecond                                     |   -    |        -         |  1596604455666666   |
 |  Z   |                                    Unix timestamp with nanoseconds                                     |   -    |        -         | 1596604455666666666 |
 |  v   |                                              Millisecond                                               |   -    |      1-999       |         999         |
-|  u   |                                              Microsecond                                               |   -    |     1-999999     |       999999        |
-|  x   |                                               Nanosecond                                               |   -    |   1-999999999    |      999999999      |
+|  x   |                                              Microsecond                                               |   -    |     1-999999     |       999999        |
+|  z   |                                               Nanosecond                                               |   -    |   1-999999999    |      999999999      |
 |  w   |                                            Day of the week                                             |   1    |       0-6        |          1          |
 |  t   |                                        Total days of the month                                         |   2    |      28-31       |         31          |
-|  z   |                                            Day of the year                                             |   -    |      1-365       |          2          |
 |  e   |                                                Location                                                |   -    |        -         |  America/New_York   |
 |  Q   |                                                Quarter                                                 |   1    |       1-4        |          1          |
 |  C   |                                                Century                                                 |   -    |       0-99       |         21          |

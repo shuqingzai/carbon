@@ -662,12 +662,11 @@ func ExampleCarbon_Format() {
 	fmt.Printf("X format: %s\n", carbon.Parse("2020-08-05 13:14:15").Format("X"))
 	fmt.Printf("Z format: %s\n", carbon.Parse("2020-08-05 13:14:15").Format("Z"))
 	fmt.Printf("v format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("v"))
-	fmt.Printf("u format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("u"))
 	fmt.Printf("x format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("x"))
+	fmt.Printf("z format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("z"))
 
 	fmt.Printf("w format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("w"))
 	fmt.Printf("t format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("t"))
-	fmt.Printf("z format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("z"))
 	fmt.Printf("e format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("e"))
 	fmt.Printf("Q format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("Q"))
 	fmt.Printf("C format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("C"))
@@ -699,11 +698,10 @@ func ExampleCarbon_Format() {
 	// X format: 1596633255000000
 	// Z format: 1596633255000000000
 	// v format: 999
-	// u format: 999999
-	// x format: 999999999
+	// x format: 999999
+	// z format: 999999999
 	// w format: 2
 	// t format: 31
-	// z format: 217
 	// e format: UTC
 	// Q format: 3
 	// C format: 21
