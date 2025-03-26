@@ -1572,7 +1572,7 @@ invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for 
 | w  |          数字表示的周几           | 1 | 0-6 | 1 |
 | t  |          月份中的总天数           | 2 | 28-31 | 31 |
 | e  |            时区位置            | - | - | America/New_York |
-| Q  |            当前季节            | 1 | 1-4 | 1 |
+| q  |            当前季节            | 1 | 1-4 | 1 |
 | C  |           当前世纪数            | - | 0-99 | 21 |
 
 #### 常见问题

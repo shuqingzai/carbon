@@ -1570,8 +1570,8 @@ invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for 
 | w  | 数字表示の曜日 | 1 | 0-6 | 1 |
 | t  | 月の総日数 | 2 | 28-31 | 31 |
 | e  | タイムゾーン | - | - | America/New_York |
-| Q  | 四半期 | 1 | 1-4 | 1 |
-| C  | 世紀 | - | 0-99 | 21 |
+| q  | 四半期 | 1 | 1-4 | 1 |
+| c  | 世紀 | - | 0-99 | 21 |
 
 #### FAQ
 

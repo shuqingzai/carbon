@@ -668,8 +668,8 @@ func ExampleCarbon_Format() {
 	fmt.Printf("w format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("w"))
 	fmt.Printf("t format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("t"))
 	fmt.Printf("e format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("e"))
-	fmt.Printf("Q format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("Q"))
-	fmt.Printf("C format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("C"))
+	fmt.Printf("q format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("q"))
+	fmt.Printf("c format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("c"))
 	fmt.Printf("jS format: %s\n", carbon.Parse("2020-08-05 13:14:15").Format("jS"))
 	fmt.Printf("jS format: %s\n", carbon.Parse("2020-08-22 13:14:15").Format("jS"))
 	fmt.Printf("jS format: %s\n", carbon.Parse("2020-08-23 13:14:15").Format("jS"))
@@ -703,8 +703,8 @@ func ExampleCarbon_Format() {
 	// w format: 2
 	// t format: 31
 	// e format: UTC
-	// Q format: 3
-	// C format: 21
+	// q format: 3
+	// c format: 21
 	// jS format: 5th
 	// jS format: 22nd
 	// jS format: 23rd
