@@ -89,19 +89,21 @@ func NewTimestampType[T TimestampFactory](carbon *Carbon) TimestampType[T] {
 // Scan implements driver.Scanner interface for LayoutType generic struct.
 // 实现 driver.Scanner 接口
 func (t *LayoutType[T]) Scan(src interface{}) error {
+	c := NewCarbon()
 	switch v := src.(type) {
 	case []byte:
-		t.Carbon = Parse(string(v), DefaultTimezone)
+		c = Parse(string(v), DefaultTimezone)
 	case string:
-		t.Carbon = Parse(v, DefaultTimezone)
-	case int64:
-		t.Carbon = CreateFromTimestamp(v, DefaultTimezone)
+		c = Parse(v, DefaultTimezone)
 	case time.Time:
-		t.Carbon = CreateFromStdTime(v, DefaultTimezone)
+		c = CreateFromStdTime(v, DefaultTimezone)
+	case int64:
+		c = CreateFromTimestamp(v, DefaultTimezone)
 	default:
 		return failedScanError(v)
 	}
-	return nil
+	*t = NewLayoutType[T](c)
+	return t.Error
 }
 
 // Value implements driver.Valuer interface for LayoutType generic struct.
@@ -137,7 +139,7 @@ func (t *LayoutType[T]) UnmarshalJSON(b []byte) error {
 		t.Carbon = nil
 		return nil
 	}
-	t.Carbon = ParseByLayout(value, t.getLayout())
+	*t = NewLayoutType[T](ParseByLayout(value, t.getLayout()))
 	return t.Error
 }
 
@@ -153,7 +155,7 @@ func (t LayoutType[T]) String() string {
 // GormDataType sets gorm data type for LayoutType generic struct.
 // 设置 gorm 数据类型
 func (t LayoutType[T]) GormDataType() string {
-	return "carbonLayout"
+	return "time"
 }
 
 // getLayout returns the set layout.
@@ -166,19 +168,21 @@ func (t LayoutType[T]) getLayout() string {
 // Scan implements driver.Scanner interface for FormatType generic struct.
 // 实现 driver.Scanner 接口
 func (t *FormatType[T]) Scan(src interface{}) error {
+	c := NewCarbon()
 	switch v := src.(type) {
 	case []byte:
-		t.Carbon = Parse(string(v), DefaultTimezone)
+		c = Parse(string(v), DefaultTimezone)
 	case string:
-		t.Carbon = Parse(v, DefaultTimezone)
-	case int64:
-		t.Carbon = CreateFromTimestamp(v, DefaultTimezone)
+		c = Parse(v, DefaultTimezone)
 	case time.Time:
-		t.Carbon = CreateFromStdTime(v, DefaultTimezone)
+		c = CreateFromStdTime(v, DefaultTimezone)
+	case int64:
+		c = CreateFromTimestamp(v, DefaultTimezone)
 	default:
 		return failedScanError(v)
 	}
-	return nil
+	*t = NewFormatType[T](c)
+	return t.Error
 }
 
 // Value implements driver.Valuer interface for FormatType generic struct.
@@ -214,7 +218,7 @@ func (t *FormatType[T]) UnmarshalJSON(b []byte) error {
 		t.Carbon = nil
 		return nil
 	}
-	t.Carbon = ParseByFormat(value, t.getFormat())
+	*t = NewFormatType[T](ParseByFormat(value, t.getFormat()))
 	return t.Error
 }
 
@@ -230,7 +234,7 @@ func (t FormatType[T]) String() string {
 // GormDataType sets gorm data type for FormatType generic struct.
 // 设置 gorm 数据类型
 func (t FormatType[T]) GormDataType() string {
-	return "carbonFormat"
+	return "time"
 }
 
 // getFormat returns the set format.
@@ -244,35 +248,38 @@ func (t FormatType[T]) getFormat() string {
 // 实现 driver.Scanner 接口
 func (t *TimestampType[T]) Scan(src interface{}) (err error) {
 	ts := int64(0)
+	c := NewCarbon()
 	switch v := src.(type) {
 	case []byte:
 		ts, err = strconv.ParseInt(string(v), 10, 64)
 		if err != nil {
-			return err
+			return invalidTimestampError(string(v))
 		}
 	case string:
 		ts, err = strconv.ParseInt(v, 10, 64)
 		if err != nil {
-			return err
+			return invalidTimestampError(v)
 		}
 	case int64:
 		ts = v
 	case time.Time:
-		t.Carbon = CreateFromStdTime(v, DefaultTimezone)
+		c = CreateFromStdTime(v, DefaultTimezone)
+		*t = NewTimestampType[T](c)
 		return t.Error
 	default:
 		return failedScanError(src)
 	}
 	switch t.getPrecision() {
 	case PrecisionSecond:
-		t.Carbon = CreateFromTimestamp(ts, DefaultTimezone)
+		c = CreateFromTimestamp(ts, DefaultTimezone)
 	case PrecisionMillisecond:
-		t.Carbon = CreateFromTimestampMilli(ts, DefaultTimezone)
+		c = CreateFromTimestampMilli(ts, DefaultTimezone)
 	case PrecisionMicrosecond:
-		t.Carbon = CreateFromTimestampMicro(ts, DefaultTimezone)
+		c = CreateFromTimestampMicro(ts, DefaultTimezone)
 	case PrecisionNanosecond:
-		t.Carbon = CreateFromTimestampNano(ts, DefaultTimezone)
+		c = CreateFromTimestampNano(ts, DefaultTimezone)
 	}
+	*t = NewTimestampType[T](c)
 	return t.Error
 }
 
@@ -326,22 +333,26 @@ func (t TimestampType[T]) MarshalJSON() ([]byte, error) {
 // 实现 json.Unmarshaler 接口
 func (t *TimestampType[T]) UnmarshalJSON(b []byte) error {
 	value := string(bytes.Trim(b, `"`))
+	c := NewCarbon()
 	if value == "" || value == "null" || value == "0" {
 		t.Carbon = nil
 		return nil
 	}
-	ts, _ := strconv.ParseInt(value, 10, 64)
-	tz := DefaultTimezone
+	ts, err := strconv.ParseInt(value, 10, 64)
+	if err != nil {
+		return invalidTimestampError(value)
+	}
 	switch t.getPrecision() {
 	case PrecisionSecond:
-		t.Carbon = CreateFromTimestamp(ts, tz)
+		c = CreateFromTimestamp(ts, DefaultTimezone)
 	case PrecisionMillisecond:
-		t.Carbon = CreateFromTimestampMilli(ts, tz)
+		c = CreateFromTimestampMilli(ts, DefaultTimezone)
 	case PrecisionMicrosecond:
-		t.Carbon = CreateFromTimestampMicro(ts, tz)
+		c = CreateFromTimestampMicro(ts, DefaultTimezone)
 	case PrecisionNanosecond:
-		t.Carbon = CreateFromTimestampNano(ts, tz)
+		c = CreateFromTimestampNano(ts, DefaultTimezone)
 	}
+	*t = NewTimestampType[T](c)
 	return t.Error
 }
 
@@ -372,7 +383,7 @@ func (t TimestampType[T]) Int64() int64 {
 // GormDataType sets gorm data type for TimestampType generic struct.
 // 设置 gorm 数据类型
 func (t TimestampType[T]) GormDataType() string {
-	return "carbonTimestamp"
+	return "time"
 }
 
 // getPrecision returns the set timestamp precision.
