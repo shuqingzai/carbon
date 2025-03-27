@@ -89,7 +89,7 @@ func ExampleFormatType_MarshalJSON() {
 	fmt.Printf("%s", data)
 
 	// Output:
-	// {"date":"2020-08-05","time":"13:14:15","date_time":"2020-08-05 13:14:15","customer":"2020-08-05T13:14:15+00:00"}
+	// {"date":"2020-08-05","time":"13:14:15","date_time":"2020-08-05 13:14:15","customer":"2020-08-05T13:14:15Z"}
 }
 
 func ExampleFormatType_UnmarshalJSON() {
@@ -102,7 +102,7 @@ func ExampleFormatType_UnmarshalJSON() {
 
 	var user User
 
-	value := `{"date":"2020-08-05","time":"13:14:15","date_time":"2020-08-05 13:14:15","customer":"2020-08-05T13:14:15+00:00"}`
+	value := `{"date":"2020-08-05","time":"13:14:15","date_time":"2020-08-05 13:14:15","customer":"2020-08-05T13:14:15Z"}`
 	_ = json.Unmarshal([]byte(value), &user)
 
 	fmt.Println(user.Date.String())
@@ -114,7 +114,7 @@ func ExampleFormatType_UnmarshalJSON() {
 	// 2020-08-05
 	// 13:14:15
 	// 2020-08-05 13:14:15
-	// 2020-08-05T13:14:15+00:00
+	// 2020-08-05T13:14:15Z
 }
 
 func ExampleTimestampType_MarshalJSON() {
