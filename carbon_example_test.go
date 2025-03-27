@@ -8,17 +8,23 @@ import (
 )
 
 func ExampleNewCarbon() {
+	loc, _ := time.LoadLocation(carbon.PRC)
+
 	fmt.Println(carbon.NewCarbon().ToString())
+
+	fmt.Println(time.Time{}.String())
+	fmt.Println(time.Time{}.In(loc).String())
 
 	t1, _ := time.Parse(carbon.DateTimeLayout, "2020-08-05 13:14:15")
 	fmt.Println(carbon.NewCarbon(t1).ToString())
 
-	loc, _ := time.LoadLocation(carbon.PRC)
 	t2, _ := time.ParseInLocation(carbon.DateTimeLayout, "2020-08-05 13:14:15", loc)
 	fmt.Println(carbon.NewCarbon(t2).ToString())
 
 	// Output:
 	// 0001-01-01 00:00:00 +0000 UTC
+	// 0001-01-01 00:00:00 +0000 UTC
+	// 0001-01-01 08:05:43 +0805 LMT
 	// 2020-08-05 13:14:15 +0000 UTC
 	// 2020-08-05 13:14:15 +0800 CST
 }

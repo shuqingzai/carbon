@@ -126,10 +126,10 @@ func TestParseByFormat(t *testing.T) {
 
 	// https://github.com/dromara/carbon/issues/206
 	t.Run("issue206", func(t *testing.T) {
-		assert.Equal(t, "2023-11-11 04:34:00 +0000 UTC", ParseByFormat("1699677240", "U").ToString())
-		assert.Equal(t, "2023-11-11 04:34:00.666 +0000 UTC", ParseByFormat("1699677240666", "V").ToString())
-		assert.Equal(t, "2023-11-11 04:34:00.666666 +0000 UTC", ParseByFormat("1699677240666666", "X").ToString())
-		assert.Equal(t, "2023-11-11 04:34:00.666666666 +0000 UTC", ParseByFormat("1699677240666666666", "Z").ToString())
+		assert.Equal(t, "2023-11-11 04:34:00 +0000 UTC", ParseByFormat("1699677240", TimestampFormat).ToString())
+		assert.Equal(t, "2023-11-11 04:34:00.666 +0000 UTC", ParseByFormat("1699677240666", TimestampMilliFormat).ToString())
+		assert.Equal(t, "2023-11-11 04:34:00.666666 +0000 UTC", ParseByFormat("1699677240666666", TimestampMicroFormat).ToString())
+		assert.Equal(t, "2023-11-11 04:34:00.666666666 +0000 UTC", ParseByFormat("1699677240666666666", TimestampNanoFormat).ToString())
 	})
 }
 
@@ -153,15 +153,15 @@ func TestParseByLayout(t *testing.T) {
 	})
 
 	t.Run("invalid timestamp", func(t *testing.T) {
-		assert.True(t, ParseByLayout("2020-08-05", "timestamp").HasError())
-		assert.True(t, ParseByLayout("2020-08-05", "timestampMilli").HasError())
-		assert.True(t, ParseByLayout("2020-08-05", "timestampMicro").HasError())
-		assert.True(t, ParseByLayout("2020-08-05", "timestampNano").HasError())
+		assert.True(t, ParseByLayout("2020-08-05", TimestampLayout).HasError())
+		assert.True(t, ParseByLayout("2020-08-05", TimestampMilliLayout).HasError())
+		assert.True(t, ParseByLayout("2020-08-05", TimestampMicroLayout).HasError())
+		assert.True(t, ParseByLayout("2020-08-05", TimestampNanoLayout).HasError())
 
-		assert.Empty(t, ParseByLayout("2020-08-05", "timestamp").ToString())
-		assert.Empty(t, ParseByLayout("2020-08-05", "timestampMilli").ToString())
-		assert.Empty(t, ParseByLayout("2020-08-05", "timestampMicro").ToString())
-		assert.Empty(t, ParseByLayout("2020-08-05", "timestampNano").ToString())
+		assert.Empty(t, ParseByLayout("2020-08-05", TimestampLayout).ToString())
+		assert.Empty(t, ParseByLayout("2020-08-05", TimestampMilliLayout).ToString())
+		assert.Empty(t, ParseByLayout("2020-08-05", TimestampMicroLayout).ToString())
+		assert.Empty(t, ParseByLayout("2020-08-05", TimestampNanoLayout).ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -175,7 +175,7 @@ func TestParseByLayout(t *testing.T) {
 		assert.Equal(t, "2020-08-05 13:14:15 +0000 UTC", ParseByLayout("2020-08-05 13:14:15", DateTimeLayout).ToString())
 
 		assert.Equal(t, "2020-08-05 13:14:15 +0000 UTC", ParseByLayout("2020|08|05 13:14:15", "2006|01|02 15:04:05").ToString())
-		assert.Equal(t, "2020-08-05 13:14:15 +0000 UTC", ParseByFormat("It is 2020-08-05 13:14:15", "\\I\\t \\i\\s 2006-01-02 15:04:05").ToString())
+		assert.Equal(t, "2020-08-05 13:14:15 +0000 UTC", ParseByLayout("It is 2020-08-05 13:14:15", "It is 2006-01-02 15:04:05").ToString())
 		assert.Equal(t, "2020-08-05 13:14:15 +0000 UTC", ParseByLayout("今天是 2020年08月05日13时14分15秒", "今天是 2006年01月02日15时04分05秒").ToString())
 	})
 
