@@ -860,17 +860,17 @@ carbon.Parse("2020-08-05 13:14:15").BetweenIncludedBoth(carbon.Parse("2020-08-04
 
 ```go
 // Set timezone
-carbon.Parse("2020-08-05 13:14:15").SetTimezone(carbon.UTC).ToDateTimeString() // 2020-08-05 13:14:15
-carbon.Parse("2020-08-05 13:14:15").SetTimezone(carbon.PRC).ToDateTimeString() // 2020-08-05 21:14:15
-carbon.Parse("2020-08-05 13:14:15").SetTimezone(carbon.Tokyo).ToDateTimeString() // 2020-08-05 22:14:15
+carbon.Parse("2020-08-05 13:14:15").SetTimezone(carbon.UTC).ToString() // 2020-08-05 13:14:15 +0000 UTC
+carbon.Parse("2020-08-05 13:14:15").SetTimezone(carbon.PRC).ToString() // 2020-08-05 21:14:15 +0800 CST
+carbon.Parse("2020-08-05 13:14:15").SetTimezone(carbon.Tokyo).ToString() // 2020-08-05 22:14:15 +0900 JST
 
 // Set location
 utc, _ := time.LoadLocation(carbon.UTC)
-carbon.Parse("2020-08-05 13:14:15").SetLocation(utc).ToDateTimeString() // 2020-08-05 13:14:15
+carbon.Parse("2020-08-05 13:14:15").SetLocation(utc).ToString() // 2020-08-05 13:14:15 +0000 UTC
 prc, _ := time.LoadLocation(carbon.PRC)
-carbon.Parse("2020-08-05 13:14:15").SetLocation(prc).ToDateTimeString() // 2020-08-05 21:14:15
+carbon.Parse("2020-08-05 13:14:15").SetLocation(prc).ToString() // 2020-08-05 21:14:15 +0800 CST
 tokyo, _ := time.LoadLocation(carbon.Tokyo)
-carbon.Parse("2020-08-05 13:14:15").SetLocation(tokyo).ToDateTimeString() // 2020-08-05 22:14:15
+carbon.Parse("2020-08-05 13:14:15").SetLocation(tokyo).ToString() // 2020-08-05 22:14:15 +0900 JST
 
 // Set locale
 carbon.Parse("2020-07-05 13:14:15").SetLocale("en").DiffForHumans() // 1 month before
@@ -1286,6 +1286,7 @@ carbon.Parse("2020-08-05 13:14:15").IsWinter() // false
 ```
 
 ##### JSON
+
 ###### Built-in type
 
 ```go
