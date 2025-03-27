@@ -357,7 +357,7 @@ func (c *Carbon) IsSameCentury(t *Carbon) bool {
 // IsSameDecade reports whether is same decade.
 // 是否是同一年代
 func (c *Carbon) IsSameDecade(t *Carbon) bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || t.IsInvalid() {
 		return false
 	}
 	return c.Decade() == t.Decade()
@@ -366,7 +366,7 @@ func (c *Carbon) IsSameDecade(t *Carbon) bool {
 // IsSameYear reports whether is same year.
 // 是否是同一年
 func (c *Carbon) IsSameYear(t *Carbon) bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || t.IsInvalid() {
 		return false
 	}
 	return c.Year() == t.Year()
@@ -375,7 +375,7 @@ func (c *Carbon) IsSameYear(t *Carbon) bool {
 // IsSameQuarter reports whether is same quarter.
 // 是否是同一季节
 func (c *Carbon) IsSameQuarter(t *Carbon) bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || t.IsInvalid() {
 		return false
 	}
 	return c.Year() == t.Year() && c.Quarter() == t.Quarter()
@@ -384,7 +384,7 @@ func (c *Carbon) IsSameQuarter(t *Carbon) bool {
 // IsSameMonth reports whether is same month.
 // 是否是同一月
 func (c *Carbon) IsSameMonth(t *Carbon) bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || t.IsInvalid() {
 		return false
 	}
 	return c.Format("Ym") == t.Format("Ym")
@@ -393,7 +393,7 @@ func (c *Carbon) IsSameMonth(t *Carbon) bool {
 // IsSameDay reports whether is same day.
 // 是否是同一天
 func (c *Carbon) IsSameDay(t *Carbon) bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || t.IsInvalid() {
 		return false
 	}
 	return c.Format("Ymd") == t.Format("Ymd")
@@ -402,7 +402,7 @@ func (c *Carbon) IsSameDay(t *Carbon) bool {
 // IsSameHour reports whether is same hour.
 // 是否是同一小时
 func (c *Carbon) IsSameHour(t *Carbon) bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || t.IsInvalid() {
 		return false
 	}
 	return c.Format("YmdH") == t.Format("YmdH")
@@ -411,7 +411,7 @@ func (c *Carbon) IsSameHour(t *Carbon) bool {
 // IsSameMinute reports whether is same minute.
 // 是否是同一分钟
 func (c *Carbon) IsSameMinute(t *Carbon) bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || t.IsInvalid() {
 		return false
 	}
 	return c.Format("YmdHi") == t.Format("YmdHi")
@@ -420,7 +420,7 @@ func (c *Carbon) IsSameMinute(t *Carbon) bool {
 // IsSameSecond reports whether is same second.
 // 是否是同一秒
 func (c *Carbon) IsSameSecond(t *Carbon) bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || t.IsInvalid() {
 		return false
 	}
 	return c.Format("YmdHis") == t.Format("YmdHis")
@@ -430,7 +430,7 @@ func (c *Carbon) IsSameSecond(t *Carbon) bool {
 // Compare compares by an operator.
 // 时间比较
 func (c *Carbon) Compare(operator string, t *Carbon) bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || t.IsInvalid() {
 		return false
 	}
 	switch operator {
