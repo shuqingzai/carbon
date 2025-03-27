@@ -876,6 +876,12 @@ func (c *Carbon) Format(format string, timezone ...string) string {
 				buffer.WriteString(strconv.Itoa(c.Quarter()))
 			case 'c': // current century, ranging from 0-99
 				buffer.WriteString(strconv.Itoa(c.Century()))
+			case 'R':
+				if c.ZoneOffset() == 0 {
+					buffer.WriteString("Z")
+				} else {
+					buffer.WriteString(c.Layout("-07:00"))
+				}
 			default:
 				buffer.WriteByte(format[i])
 			}

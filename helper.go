@@ -97,6 +97,8 @@ func format2layout(format string) string {
 				buffer.WriteByte(format[i+1])
 				i++
 				continue
+			case 'R':
+				buffer.WriteByte('Z')
 			default:
 				buffer.WriteByte(format[i])
 			}
