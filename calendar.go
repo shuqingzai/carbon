@@ -27,7 +27,7 @@ func CreateFromLunar(year, month, day, hour, minute, second int, isLeapMonth boo
 	if !l.IsValid() {
 		return nil
 	}
-	t := lunar.FromLunar(year, month, day, hour, minute, second, isLeapMonth).ToGregorian().Time
+	t := l.ToGregorian().Time
 	return CreateFromStdTime(t)
 }
 
