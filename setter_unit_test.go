@@ -196,6 +196,7 @@ func TestCarbon_SetTimezone(t *testing.T) {
 		c := NewCarbon().SetTimezone(UTC)
 		assert.Equal(t, UTC, c.Timezone())
 		assert.Equal(t, UTC, c.ZoneName())
+		assert.Equal(t, 0, c.ZoneOffset())
 		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", c.ToString())
 
 		c.SetTimezone(PRC)
@@ -204,12 +205,12 @@ func TestCarbon_SetTimezone(t *testing.T) {
 		assert.Equal(t, 28800, c.ZoneOffset())
 		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", c.ToString())
 
-		tt := time.Time{}
 		loc, _ := getLocationByTimezone(PRC)
-		name, offset := tt.In(loc).Zone()
+		tt := time.Time{}.In(loc)
+		name, offset := tt.Zone()
 		assert.Equal(t, "LMT", name)
 		assert.Equal(t, 29143, offset)
-		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", tt.In(loc).String())
+		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", tt.String())
 	})
 
 	t.Run("nil time", func(t *testing.T) {
@@ -217,6 +218,7 @@ func TestCarbon_SetTimezone(t *testing.T) {
 		c = nil
 		assert.Empty(t, c.SetTimezone(UTC).Timezone())
 		assert.Empty(t, c.SetTimezone(UTC).ZoneName())
+		assert.Empty(t, c.SetTimezone(UTC).ZoneOffset())
 		assert.Empty(t, c.SetTimezone(UTC).ToString())
 	})
 
@@ -243,11 +245,15 @@ func TestCarbon_SetTimezone(t *testing.T) {
 		assert.Equal(t, PRC, DefaultTimezone)
 		assert.Equal(t, PRC, c.Timezone())
 		assert.Equal(t, "CST", c.ZoneName())
+		assert.Equal(t, 28800, c.ZoneOffset())
+		assert.Equal(t, "2020-08-05 00:00:00 +0800 CST", c.ToString())
 
 		c.SetTimezone(UTC)
 		assert.Equal(t, PRC, DefaultTimezone)
 		assert.Equal(t, UTC, c.Timezone())
 		assert.Equal(t, UTC, c.ZoneName())
+		assert.Equal(t, 0, c.ZoneOffset())
+		assert.Equal(t, "2020-08-04 16:00:00 +0000 UTC", c.ToString())
 	})
 }
 
@@ -256,26 +262,38 @@ func TestCarbon_SetLocation(t *testing.T) {
 
 	t.Run("zero time", func(t *testing.T) {
 		c := NewCarbon().SetLocation(time.UTC)
+		assert.Equal(t, UTC, c.Timezone())
+		assert.Equal(t, UTC, c.ZoneName())
+		assert.Equal(t, 0, c.ZoneOffset())
 		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", c.ToString())
 
 		loc, _ := time.LoadLocation(PRC)
 		c.SetLocation(loc)
+		assert.Equal(t, PRC, c.Timezone())
+		assert.Equal(t, "CST", c.ZoneName())
+		assert.Equal(t, 28800, c.ZoneOffset())
 		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", c.ToString())
 
-		tt := time.Time{}
-		name, offset := tt.In(loc).Zone()
+		tt := time.Time{}.In(loc)
+		name, offset := tt.Zone()
 		assert.Equal(t, "LMT", name)
 		assert.Equal(t, 29143, offset)
-		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", tt.In(loc).String())
+		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", tt.String())
 	})
 
 	t.Run("nil time", func(t *testing.T) {
 		c := NewCarbon()
 		c = nil
+		assert.Empty(t, c.SetLocation(time.UTC).Timezone())
+		assert.Empty(t, c.SetLocation(time.UTC).ZoneName())
+		assert.Empty(t, c.SetLocation(time.UTC).ZoneOffset())
 		assert.Empty(t, c.SetLocation(time.UTC).ToString())
 	})
 
 	t.Run("nil location", func(t *testing.T) {
+		assert.Empty(t, Parse("2020-08-05").SetLocation(nil).Timezone())
+		assert.Empty(t, Parse("2020-08-05").SetLocation(nil).ZoneName())
+		assert.Empty(t, Parse("2020-08-05").SetLocation(nil).ZoneOffset())
 		assert.Empty(t, Parse("2020-08-05").SetLocation(nil).ToString())
 	})
 
@@ -293,11 +311,13 @@ func TestCarbon_SetLocation(t *testing.T) {
 		assert.Equal(t, PRC, DefaultTimezone)
 		assert.Equal(t, PRC, c.Timezone())
 		assert.Equal(t, "CST", c.ZoneName())
+		assert.Equal(t, 28800, c.ZoneOffset())
 
 		c.SetLocation(time.UTC)
 		assert.Equal(t, PRC, DefaultTimezone)
 		assert.Equal(t, UTC, c.Timezone())
 		assert.Equal(t, UTC, c.ZoneName())
+		assert.Equal(t, 0, c.ZoneOffset())
 	})
 }
 
