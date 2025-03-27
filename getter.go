@@ -355,8 +355,7 @@ func (c *Carbon) TimestampMilli() int64 {
 	if c.IsInvalid() {
 		return 0
 	}
-	t := c.StdTime()
-	return t.Unix()*1e3 + int64(t.Nanosecond())/1e6
+	return c.StdTime().UnixMilli()
 }
 
 // TimestampMicro gets timestamp with microsecond like 1596604455000000.
@@ -365,8 +364,7 @@ func (c *Carbon) TimestampMicro() int64 {
 	if c.IsInvalid() {
 		return 0
 	}
-	t := c.StdTime()
-	return t.Unix()*1e6 + int64(t.Nanosecond())/1e3
+	return c.StdTime().UnixMicro()
 }
 
 // TimestampNano gets timestamp with nanosecond like 1596604455000000000.
