@@ -1291,21 +1291,46 @@ carbon.Parse("2020-08-05 13:14:15").IsWinter() // false
 
 ```go
 type User struct {
-    Date     carbon.FormatType[carbon.Date]     `json:"date"`
-    Time     carbon.LayoutType[carbon.Time]     `json:"time"`
-    DateTime carbon.LayoutType[carbon.DateTime] `json:"date_time"`
-    Timestamp      carbon.TimestampType[carbon.Timestamp]      `json:"timestamp"`
-    TimestampMilli carbon.TimestampType[carbon.TimestampMilli] `json:"timestamp_milli"`
-    TimestampMicro carbon.TimestampType[carbon.TimestampMicro] `json:"timestamp_micro"`
-    TimestampNano  carbon.TimestampType[carbon.TimestampNano]  `json:"timestamp_nano"`
+	Date      carbon.LayoutType[carbon.Date]      `json:"date"`
+	DateMilli carbon.LayoutType[carbon.DateMilli] `json:"date_milli"`
+	DateMicro carbon.LayoutType[carbon.DateMicro] `json:"date_micro"`
+	DateNano  carbon.LayoutType[carbon.DateNano]  `json:"date_nano"`
+	
+	Time      carbon.LayoutType[carbon.Time]      `json:"time"`
+	TimeMilli carbon.LayoutType[carbon.TimeMilli] `json:"time_milli"`
+	TimeMicro carbon.LayoutType[carbon.TimeMicro] `json:"time_micro"`
+	TimeNano  carbon.LayoutType[carbon.TimeNano]  `json:"time_nano"`
+	
+	DateTime      carbon.FormatType[carbon.DateTime]      `json:"date_time"`
+	DateTimeMilli carbon.FormatType[carbon.DateTimeMilli] `json:"date_time_milli"`
+	DateTimeMicro carbon.FormatType[carbon.DateTimeMicro] `json:"date_time_micro"`
+	DateTimeNano  carbon.FormatType[carbon.DateTimeNano]  `json:"date_time_nano"`
+	
+	Timestamp      carbon.TimestampType[carbon.Timestamp]      `json:"timestamp"`
+	TimestampMilli carbon.TimestampType[carbon.TimestampMilli] `json:"timestamp_milli"`
+	TimestampMicro carbon.TimestampType[carbon.TimestampMicro] `json:"timestamp_micro"`
+	TimestampNano  carbon.TimestampType[carbon.TimestampNano]  `json:"timestamp_nano"`
 }
 
 var user User
 
-c := carbon.Parse("2020-08-05 13:14:15")
+c := carbon.Parse("2020-08-05 13:14:15.999999999")
+
 user.Date = carbon.NewFormatType[carbon.Date](c)
+user.DateMilli = carbon.NewLayoutType[carbon.DateMilli](c)
+user.DateMicro = carbon.NewLayoutType[carbon.DateMicro](c)
+user.DateNano  = carbon.NewLayoutType[carbon.DateNano](c)
+
 user.Time = carbon.NewLayoutType[carbon.Time](c)
-user.DateTime = carbon.NewLayoutType[carbon.DateTime](c)
+user.TimeMilli = carbon.NewLayoutType[carbon.TimeMilli](c)
+user.TimeMicro = carbon.NewLayoutType[carbon.TimeMicro](c)
+user.TimeNano  = carbon.NewLayoutType[carbon.TimeNano](c)
+
+user.DateTime = carbon.NewFormatType[carbon.DateTime](c)
+user.DateTimeMilli = carbon.NewFormatType[carbon.DateTimeMilli](c)
+user.DateTimeMicro = carbon.NewFormatType[carbon.DateTimeMicro](c)
+user.DateTimeNano  = carbon.NewFormatType[carbon.DateTimeNano](c)
+
 user.Timestamp = carbon.NewTimestampType[carbon.Timestamp](c)
 user.TimestampMilli = carbon.NewTimestampType[carbon.TimestampMilli](c)
 user.TimestampMicro = carbon.NewTimestampType[carbon.TimestampMicro](c)
@@ -1316,9 +1341,26 @@ if err != nil {
   // Error handle...
   log.Fatal(err)
 }
-fmt.Printf("%s", data)
+fmt.Printf("%s\n", data)
 // Output
-{"date":"2020-08-05","time":"13:14:15","date_time":"2020-08-05 13:14:15","timestamp":1596633255,"timestamp_milli":1596633255000,"timestamp_micro":1596633255000000,"timestamp_nano":1596671999999999999}
+{
+	"date": "2020-08-05",
+	"date_milli": "2020-08-05.999",
+	"date_micro": "2020-08-05.999999",
+	"date_nano": "2020-08-05.999999999",
+	"time": "13:14:15",
+	"time_milli": "13:14:15.999",
+	"time_micro": "13:14:15.999999",
+	"time_nano": "13:14:15.999999999",
+	"date_time": "2020-08-05 13:14:15",
+	"date_time_milli": "2020-08-05 13:14:15.999",
+	"date_time_micro": "2020-08-05 13:14:15.999999",
+	"date_time_nano": "2020-08-05 13:14:15.999999999",
+	"timestamp": 1596633255,
+	"timestamp_milli": 1596633255999,
+	"timestamp_micro": 1596633255999999,
+	"timestamp_nano": 1596633255999999999
+}
 
 var person User
 err := json.Unmarshal(data, &person)
@@ -1327,9 +1369,9 @@ if err != nil {
   log.Fatal(err)
 }
 
-fmt.Printf("%+v", person)
+fmt.Printf("person: %+v\n", person)
 // Output
-{Date:2020-08-05 Time:13:14:15 DateTime:2020-08-05 13:14:15 Timestamp:1596633255 TimestampMilli:1596633255000 TimestampMicro:1596633255000000 TimestampNano:1596671999999999999}
+person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 DateNano:2020-08-05.999999999 Time:13:14:15 TimeMilli:13:14:15.999 TimeMicro:13:14:15.999999 TimeNano:13:14:15.999999999 DateTime:2020-08-05 13:14:15 DateTimeMilli:2020-08-05 13:14:15.999 DateTimeMicro:2020-08-05 13:14:15.999999 DateTimeNano:2020-08-05 13:14:15.999999999 Timestamp:1596633255 TimestampMilli:1596633255999 TimestampMicro:1596633255999999 TimestampNano:1596633255999999999}
 ```
 
 ###### Customize type
@@ -1353,6 +1395,7 @@ type User struct {
 var user User
 
 c := carbon.Parse("2020-08-05 13:14:15")
+
 user.Customer1 = carbon.NewLayoutType[RFC3339Layout](c)
 user.Customer2 = carbon.NewFormatType[ISO8601Format](c)
 
@@ -1361,7 +1404,7 @@ if err != nil {
   // Error handle...
   log.Fatal(err)
 }
-fmt.Printf("%s", data)
+fmt.Printf("%s\n", data)
 // Output
 {"customer1":"2020-08-05T13:14:15Z","customer2":"2020-08-05T13:14:15+00:00"}
 
@@ -1372,9 +1415,9 @@ if err != nil {
   log.Fatal(err)
 }
 
-fmt.Printf("%+v", person)
+fmt.Printf("person: %+v\n", person)
 // Output
-{Customer1:2020-08-05T13:14:15Z Customer2:2020-08-05T13:14:15+00:00}
+person: {Customer1:2020-08-05T13:14:15Z Customer2:2020-08-05T13:14:15+00:00}
 ```
 
 ##### Calendar
