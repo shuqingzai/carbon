@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// HasError reports whether has error.
+// HasError reports whether it has error.
 // 是否有错误
 func (c *Carbon) HasError() bool {
 	if c.IsNil() {
@@ -13,7 +13,7 @@ func (c *Carbon) HasError() bool {
 	return c.Error != nil
 }
 
-// IsNil reports whether is nil time.
+// IsNil reports whether is a nil time.
 // 是否是空时间
 func (c *Carbon) IsNil() bool {
 	if c == nil || &c.time == nil {
@@ -22,7 +22,7 @@ func (c *Carbon) IsNil() bool {
 	return false
 }
 
-// IsZero reports whether is zero time(0001-01-01 00:00:00 +0000 UTC).
+// IsZero reports whether is a zero time(0001-01-01 00:00:00 +0000 UTC).
 // 是否是零值时间(0001-01-01 00:00:00 +0000 UTC)
 func (c *Carbon) IsZero() bool {
 	if c.IsNil() || c.HasError() {
@@ -31,7 +31,7 @@ func (c *Carbon) IsZero() bool {
 	return c.time.IsZero()
 }
 
-// IsValid reports whether is valid time.
+// IsValid reports whether is a valid time.
 // 是否是有效时间
 func (c *Carbon) IsValid() bool {
 	if !c.IsNil() && !c.HasError() {
@@ -40,13 +40,13 @@ func (c *Carbon) IsValid() bool {
 	return false
 }
 
-// IsInvalid reports whether is invalid time.
+// IsInvalid reports whether is an invalid time.
 // 是否是无效时间
 func (c *Carbon) IsInvalid() bool {
 	return !c.IsValid()
 }
 
-// IsDST reports whether is daylight saving time.
+// IsDST reports whether is a daylight saving time.
 // 是否是夏令时
 func (c *Carbon) IsDST() bool {
 	if c.IsInvalid() {
