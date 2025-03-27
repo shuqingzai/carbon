@@ -362,6 +362,8 @@ func (t TimestampType[T]) String() string {
 	return strconv.FormatInt(t.Int64(), 10)
 }
 
+// Int64 returns the timestamp value.
+// 返回时间戳
 func (t TimestampType[T]) Int64() int64 {
 	ts := int64(0)
 	if t.IsZero() || t.IsInvalid() {
