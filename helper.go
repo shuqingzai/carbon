@@ -51,9 +51,9 @@ var formatMap = map[byte]string{
 	'Z': TimestampNanoLayout,  // Timestamp with nanosecond. Eg: 1596604455666666666.
 }
 
-// supported layouts
-// 支持的布局模板
-var supportedLayouts = []string{
+// default layouts
+// 默认布局模板
+var defaultLayouts = []string{
 	DateTimeLayout, DateLayout, TimeLayout,
 	ISO8601Layout, DayDateTimeLayout, ISO8601NanoLayout,
 	DateTimeNanoLayout, ShortDateTimeLayout, ShortDateTimeNanoLayout,
