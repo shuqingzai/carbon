@@ -220,10 +220,10 @@ const (
 	ShortTimeMicroLayout = "150405.999999"
 	ShortTimeNanoLayout  = "150405.999999999"
 
-	TimestampLayout      = "timestamp"
-	TimestampMilliLayout = "timestampMilli"
-	TimestampMicroLayout = "timestampMicro"
-	TimestampNanoLayout  = "timestampNano"
+	TimestampLayout      = "unix"
+	TimestampMilliLayout = "unixMilli"
+	TimestampMicroLayout = "unixMicro"
+	TimestampNanoLayout  = "unixNano"
 )
 
 // format constants
