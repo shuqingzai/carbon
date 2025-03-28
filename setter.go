@@ -152,12 +152,6 @@ func SetLocale(locale string) *Carbon {
 
 // SetLanguage sets language.
 // 设置语言对象
-func SetLanguage(lang *Language) *Carbon {
-	return NewCarbon().SetLanguage(lang)
-}
-
-// SetLanguage sets language.
-// 设置语言对象
 func (c *Carbon) SetLanguage(lang *Language) *Carbon {
 	if c.IsInvalid() {
 		return c
