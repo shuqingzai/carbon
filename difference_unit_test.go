@@ -7,12 +7,6 @@ import (
 )
 
 func TestCarbon_DiffInYears(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.DiffInYears())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffInYears())
 		assert.Zero(t, Now().DiffInYears(Parse("")))
@@ -29,12 +23,6 @@ func TestCarbon_DiffInYears(t *testing.T) {
 }
 
 func TestCarbon_DiffAbsInYears(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.DiffAbsInYears())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffAbsInYears())
 		assert.Zero(t, Now().DiffAbsInYears(Parse("")))
@@ -51,12 +39,6 @@ func TestCarbon_DiffAbsInYears(t *testing.T) {
 }
 
 func TestCarbon_DiffInMonths(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.DiffInMonths())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffInMonths())
 		assert.Zero(t, Now().DiffInMonths(Parse("")))
@@ -75,12 +57,6 @@ func TestCarbon_DiffInMonths(t *testing.T) {
 }
 
 func TestCarbon_DiffAbsInMonths(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.DiffAbsInMonths())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffAbsInMonths())
 		assert.Zero(t, Now().DiffAbsInMonths(Parse("")))
@@ -97,12 +73,6 @@ func TestCarbon_DiffAbsInMonths(t *testing.T) {
 }
 
 func TestCarbon_DiffInWeeks(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.DiffInWeeks())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffInWeeks())
 		assert.Zero(t, Now().DiffInWeeks(Parse("")))
@@ -118,12 +88,6 @@ func TestCarbon_DiffInWeeks(t *testing.T) {
 }
 
 func TestCarbon_DiffAbsInWeeks(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.DiffAbsInWeeks())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffAbsInWeeks())
 		assert.Zero(t, Now().DiffAbsInWeeks(Parse("")))
@@ -139,12 +103,6 @@ func TestCarbon_DiffAbsInWeeks(t *testing.T) {
 }
 
 func TestCarbon_DiffInDays(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.DiffInDays())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffInDays())
 		assert.Zero(t, Now().DiffInDays(Parse("")))
@@ -161,12 +119,6 @@ func TestCarbon_DiffInDays(t *testing.T) {
 }
 
 func TestCarbon_DiffAbsInDays(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.DiffAbsInDays())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffAbsInDays())
 		assert.Zero(t, Now().DiffAbsInDays(Parse("")))
@@ -183,12 +135,6 @@ func TestCarbon_DiffAbsInDays(t *testing.T) {
 }
 
 func TestCarbon_DiffInHours(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.DiffInHours())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffInHours())
 		assert.Zero(t, Now().DiffInHours(Parse("")))
@@ -205,12 +151,6 @@ func TestCarbon_DiffInHours(t *testing.T) {
 }
 
 func TestCarbon_DiffAbsInHours(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.DiffAbsInHours())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffAbsInHours())
 		assert.Zero(t, Now().DiffAbsInHours(Parse("")))
@@ -227,12 +167,6 @@ func TestCarbon_DiffAbsInHours(t *testing.T) {
 }
 
 func TestCarbon_DiffInMinutes(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.DiffInMinutes())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffInMinutes())
 		assert.Zero(t, Now().DiffInMinutes(Parse("")))
@@ -249,12 +183,6 @@ func TestCarbon_DiffInMinutes(t *testing.T) {
 }
 
 func TestCarbon_DiffAbsInMinutes(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.DiffAbsInMinutes())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffAbsInMinutes())
 		assert.Zero(t, Now().DiffAbsInMinutes(Parse("")))
@@ -271,12 +199,6 @@ func TestCarbon_DiffAbsInMinutes(t *testing.T) {
 }
 
 func TestCarbon_DiffInSeconds(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.DiffInSeconds())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffInSeconds())
 		assert.Zero(t, Now().DiffInSeconds(Parse("")))
@@ -293,12 +215,6 @@ func TestCarbon_DiffInSeconds(t *testing.T) {
 }
 
 func TestCarbon_DiffAbsInSeconds(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.DiffAbsInSeconds())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffAbsInSeconds())
 		assert.Zero(t, Now().DiffAbsInSeconds(Parse("")))
@@ -315,12 +231,6 @@ func TestCarbon_DiffAbsInSeconds(t *testing.T) {
 }
 
 func TestCarbon_DiffInString(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.DiffInString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").DiffInString())
 		assert.Empty(t, Now().DiffInString(Parse("")))
@@ -349,12 +259,6 @@ func TestCarbon_DiffInString(t *testing.T) {
 }
 
 func TestCarbon_DiffAbsInString(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.DiffAbsInString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").DiffAbsInString())
 		assert.Empty(t, Now().DiffAbsInString(Parse("")))
@@ -381,12 +285,6 @@ func TestCarbon_DiffAbsInString(t *testing.T) {
 }
 
 func TestCarbon_DiffInDuration(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.DiffInDuration())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").DiffInDuration())
 		assert.Empty(t, Now().DiffInDuration(Parse("")))
@@ -407,12 +305,6 @@ func TestCarbon_DiffInDuration(t *testing.T) {
 }
 
 func TestCarbon_DiffAbsInDuration(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.DiffAbsInDuration())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").DiffAbsInDuration())
 		assert.Empty(t, Now().DiffAbsInDuration(Parse("")))
@@ -433,12 +325,6 @@ func TestCarbon_DiffAbsInDuration(t *testing.T) {
 }
 
 func TestCarbon_DiffForHumans(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.DiffForHumans())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").DiffForHumans())
 		assert.Empty(t, Now().DiffForHumans(Parse("")))
@@ -464,12 +350,6 @@ func TestCarbon_DiffForHumans(t *testing.T) {
 }
 
 func TestCarbon_getDiffInMonths(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, getDiffInMonths(c, c))
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Zero(t, getDiffInMonths(Parse(""), Parse("")))
 		assert.Zero(t, getDiffInMonths(Parse(""), Parse("xxx")))

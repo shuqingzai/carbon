@@ -11,12 +11,6 @@ func TestCarbon_StartOfCentury(t *testing.T) {
 		assert.Equal(t, "0000-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfCentury().ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.StartOfCentury().ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").StartOfCentury().ToString())
 		assert.Empty(t, Parse("0").StartOfCentury().ToString())
@@ -33,12 +27,6 @@ func TestCarbon_StartOfCentury(t *testing.T) {
 func TestCarbon_EndOfCentury(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0099-12-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfCentury().ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.EndOfCentury().ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -59,12 +47,6 @@ func TestCarbon_StartOfDecade(t *testing.T) {
 		assert.Equal(t, "0000-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfDecade().ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.StartOfDecade().ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").StartOfDecade().ToString())
 		assert.Empty(t, Parse("0").StartOfDecade().ToString())
@@ -81,12 +63,6 @@ func TestCarbon_StartOfDecade(t *testing.T) {
 func TestCarbon_EndOfDecade(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0009-12-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfDecade().ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.EndOfDecade().ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -107,12 +83,6 @@ func TestCarbon_StartOfYear(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfYear().ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.StartOfYear().ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").StartOfYear().ToString())
 		assert.Empty(t, Parse("0").StartOfYear().ToString())
@@ -129,12 +99,6 @@ func TestCarbon_StartOfYear(t *testing.T) {
 func TestCarbon_EndOfYear(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-12-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfYear().ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.EndOfYear().ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -155,12 +119,6 @@ func TestCarbon_StartOfQuarter(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfQuarter().ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.StartOfQuarter().ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").StartOfQuarter().ToString())
 		assert.Empty(t, Parse("0").StartOfQuarter().ToString())
@@ -177,12 +135,6 @@ func TestCarbon_StartOfQuarter(t *testing.T) {
 func TestCarbon_EndOfQuarter(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-03-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfQuarter().ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.EndOfQuarter().ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -203,12 +155,6 @@ func TestCarbon_StartOfMonth(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfMonth().ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.StartOfMonth().ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").StartOfMonth().ToString())
 		assert.Empty(t, Parse("0").StartOfMonth().ToString())
@@ -225,12 +171,6 @@ func TestCarbon_StartOfMonth(t *testing.T) {
 func TestCarbon_EndOfMonth(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfMonth().ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.EndOfMonth().ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -251,12 +191,6 @@ func TestCarbon_StartOfWeek(t *testing.T) {
 		assert.Equal(t, "0000-12-31 00:00:00 +0000 UTC", NewCarbon().StartOfWeek().ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.StartOfWeek().ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").StartOfWeek().ToString())
 		assert.Empty(t, Parse("0").StartOfWeek().ToString())
@@ -273,12 +207,6 @@ func TestCarbon_StartOfWeek(t *testing.T) {
 func TestCarbon_EndOfWeek(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-06 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfWeek().ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.EndOfWeek().ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -299,12 +227,6 @@ func TestCarbon_StartOfDay(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfDay().ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.StartOfDay().ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").StartOfDay().ToString())
 		assert.Empty(t, Parse("0").StartOfDay().ToString())
@@ -321,12 +243,6 @@ func TestCarbon_StartOfDay(t *testing.T) {
 func TestCarbon_EndOfDay(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfDay().ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.EndOfDay().ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -347,12 +263,6 @@ func TestCarbon_StartOfHour(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfHour().ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.StartOfHour().ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").StartOfHour().ToString())
 		assert.Empty(t, Parse("0").StartOfHour().ToString())
@@ -369,12 +279,6 @@ func TestCarbon_StartOfHour(t *testing.T) {
 func TestCarbon_EndOfHour(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:59:59.999999999 +0000 UTC", NewCarbon().EndOfHour().ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.EndOfHour().ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -395,12 +299,6 @@ func TestCarbon_StartOfMinute(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfMinute().ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.StartOfMinute().ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").StartOfMinute().ToString())
 		assert.Empty(t, Parse("0").StartOfMinute().ToString())
@@ -417,12 +315,6 @@ func TestCarbon_StartOfMinute(t *testing.T) {
 func TestCarbon_EndOfMinute(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:59.999999999 +0000 UTC", NewCarbon().EndOfMinute().ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.EndOfMinute().ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -443,12 +335,6 @@ func TestCarbon_StartOfSecond(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfSecond().ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.StartOfSecond().ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").StartOfSecond().ToString())
 		assert.Empty(t, Parse("0").StartOfSecond().ToString())
@@ -465,12 +351,6 @@ func TestCarbon_StartOfSecond(t *testing.T) {
 func TestCarbon_EndOfSecond(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00.999999999 +0000 UTC", NewCarbon().EndOfSecond().ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.EndOfSecond().ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {

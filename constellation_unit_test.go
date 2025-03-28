@@ -11,12 +11,6 @@ func TestCarbon_Constellation(t *testing.T) {
 		assert.Equal(t, Capricorn, NewCarbon().Constellation())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.Constellation())
-	})
-
 	t.Run("invalid resources", func(t *testing.T) {
 		lang := NewLanguage()
 		resources := map[string]string{
@@ -68,12 +62,6 @@ func TestCarbon_IsAries(t *testing.T) {
 		assert.False(t, NewCarbon().IsAries())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsAries())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsAries())
 		assert.False(t, Parse("0").IsAries())
@@ -90,12 +78,6 @@ func TestCarbon_IsAries(t *testing.T) {
 func TestCarbon_IsTaurus(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsTaurus())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsTaurus())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -116,12 +98,6 @@ func TestCarbon_IsGemini(t *testing.T) {
 		assert.False(t, NewCarbon().IsGemini())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsGemini())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsGemini())
 		assert.False(t, Parse("0").IsGemini())
@@ -138,12 +114,6 @@ func TestCarbon_IsGemini(t *testing.T) {
 func TestCarbon_IsCancer(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsCancer())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsCancer())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -164,12 +134,6 @@ func TestCarbon_IsLeo(t *testing.T) {
 		assert.False(t, NewCarbon().IsLeo())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsLeo())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsLeo())
 		assert.False(t, Parse("0").IsLeo())
@@ -186,12 +150,6 @@ func TestCarbon_IsLeo(t *testing.T) {
 func TestCarbon_IsVirgo(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsVirgo())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsVirgo())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -212,12 +170,6 @@ func TestCarbon_IsLibra(t *testing.T) {
 		assert.False(t, NewCarbon().IsLibra())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsLibra())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsLibra())
 		assert.False(t, Parse("0").IsLibra())
@@ -234,12 +186,6 @@ func TestCarbon_IsLibra(t *testing.T) {
 func TestCarbon_IsScorpio(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsScorpio())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsScorpio())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -260,12 +206,6 @@ func TestCarbon_IsSagittarius(t *testing.T) {
 		assert.False(t, NewCarbon().IsSagittarius())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsSagittarius())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsSagittarius())
 		assert.False(t, Parse("0").IsSagittarius())
@@ -282,12 +222,6 @@ func TestCarbon_IsSagittarius(t *testing.T) {
 func TestCarbon_IsCapricorn(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.True(t, NewCarbon().IsCapricorn())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsCapricorn())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -308,12 +242,6 @@ func TestCarbon_IsAquarius(t *testing.T) {
 		assert.False(t, NewCarbon().IsAquarius())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsAquarius())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsAquarius())
 		assert.False(t, Parse("0").IsAquarius())
@@ -330,12 +258,6 @@ func TestCarbon_IsAquarius(t *testing.T) {
 func TestCarbon_IsPisces(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsPisces())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsPisces())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {

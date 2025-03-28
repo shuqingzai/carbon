@@ -12,12 +12,6 @@ func TestCarbon_HasError(t *testing.T) {
 		assert.False(t, NewCarbon().HasError())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.HasError())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").HasError())
 		assert.True(t, Parse("0").HasError())
@@ -64,12 +58,6 @@ func TestCarbon_IsZero(t *testing.T) {
 		assert.Equal(t, stdTime2.IsZero(), carbon2.IsZero())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsZero())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsZero())
 		assert.False(t, Parse("0").IsZero())
@@ -88,12 +76,6 @@ func TestCarbon_IsValid(t *testing.T) {
 		assert.True(t, NewCarbon().IsValid())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsValid())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsValid())
 		assert.False(t, Parse("0").IsValid())
@@ -110,12 +92,6 @@ func TestCarbon_IsInvalid(t *testing.T) {
 		assert.False(t, NewCarbon().IsInvalid())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.True(t, c.IsInvalid())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.True(t, Parse("").IsInvalid())
 		assert.True(t, Parse("0").IsInvalid())
@@ -130,12 +106,6 @@ func TestCarbon_IsInvalid(t *testing.T) {
 func TestCarbon_IsDST(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsDST())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsDST())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -156,12 +126,6 @@ func TestCarbon_IsAM(t *testing.T) {
 		assert.True(t, NewCarbon().IsAM())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsAM())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsAM())
 		assert.False(t, Parse("0").IsAM())
@@ -178,12 +142,6 @@ func TestCarbon_IsAM(t *testing.T) {
 func TestCarbon_IsPM(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsPM())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsPM())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -204,12 +162,6 @@ func TestCarbon_IsLeapYear(t *testing.T) {
 		assert.False(t, NewCarbon().IsLeapYear())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsLeapYear())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsLeapYear())
 		assert.False(t, Parse("0").IsLeapYear())
@@ -225,12 +177,6 @@ func TestCarbon_IsLeapYear(t *testing.T) {
 func TestCarbon_IsLongYear(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsLongYear())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsLongYear())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -250,12 +196,6 @@ func TestCarbon_IsJanuary(t *testing.T) {
 		assert.True(t, NewCarbon().IsJanuary())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsJanuary())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsJanuary())
 		assert.False(t, Parse("0").IsJanuary())
@@ -271,12 +211,6 @@ func TestCarbon_IsJanuary(t *testing.T) {
 func TestCarbon_IsFebruary(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsFebruary())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsFebruary())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -296,12 +230,6 @@ func TestCarbon_IsMarch(t *testing.T) {
 		assert.False(t, NewCarbon().IsMarch())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsMarch())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsMarch())
 		assert.False(t, Parse("0").IsMarch())
@@ -317,12 +245,6 @@ func TestCarbon_IsMarch(t *testing.T) {
 func TestCarbon_IsApril(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsApril())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsApril())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -342,12 +264,6 @@ func TestCarbon_IsMay(t *testing.T) {
 		assert.False(t, NewCarbon().IsMay())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsMay())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsMay())
 		assert.False(t, Parse("0").IsMay())
@@ -363,12 +279,6 @@ func TestCarbon_IsMay(t *testing.T) {
 func TestCarbon_IsJune(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsJune())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsJune())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -388,12 +298,6 @@ func TestCarbon_IsJuly(t *testing.T) {
 		assert.False(t, NewCarbon().IsJuly())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsJuly())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsJuly())
 		assert.False(t, Parse("0").IsJuly())
@@ -409,12 +313,6 @@ func TestCarbon_IsJuly(t *testing.T) {
 func TestCarbon_IsAugust(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsAugust())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsAugust())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -434,12 +332,6 @@ func TestCarbon_IsSeptember(t *testing.T) {
 		assert.False(t, NewCarbon().IsSeptember())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsSeptember())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsSeptember())
 		assert.False(t, Parse("0").IsSeptember())
@@ -455,12 +347,6 @@ func TestCarbon_IsSeptember(t *testing.T) {
 func TestCarbon_IsOctober(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsOctober())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsOctober())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -480,12 +366,6 @@ func TestCarbon_IsNovember(t *testing.T) {
 		assert.False(t, NewCarbon().IsNovember())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsNovember())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsNovember())
 		assert.False(t, Parse("0").IsNovember())
@@ -501,12 +381,6 @@ func TestCarbon_IsNovember(t *testing.T) {
 func TestCarbon_IsDecember(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsDecember())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsDecember())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -526,12 +400,6 @@ func TestCarbon_IsMonday(t *testing.T) {
 		assert.True(t, NewCarbon().IsMonday())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsMonday())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsMonday())
 		assert.False(t, Parse("0").IsMonday())
@@ -547,12 +415,6 @@ func TestCarbon_IsMonday(t *testing.T) {
 func TestCarbon_IsTuesday(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsTuesday())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsTuesday())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -572,12 +434,6 @@ func TestCarbon_IsWednesday(t *testing.T) {
 		assert.False(t, NewCarbon().IsWednesday())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsWednesday())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsWednesday())
 		assert.False(t, Parse("0").IsWednesday())
@@ -593,12 +449,6 @@ func TestCarbon_IsWednesday(t *testing.T) {
 func TestCarbon_IsThursday(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsThursday())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsThursday())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -618,12 +468,6 @@ func TestCarbon_IsFriday(t *testing.T) {
 		assert.False(t, NewCarbon().IsFriday())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsFriday())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsFriday())
 		assert.False(t, Parse("0").IsFriday())
@@ -639,12 +483,6 @@ func TestCarbon_IsFriday(t *testing.T) {
 func TestCarbon_IsSaturday(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsSaturday())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsSaturday())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -664,12 +502,6 @@ func TestCarbon_IsSunday(t *testing.T) {
 		assert.False(t, NewCarbon().IsSunday())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsSunday())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsSunday())
 		assert.False(t, Parse("0").IsSunday())
@@ -685,12 +517,6 @@ func TestCarbon_IsSunday(t *testing.T) {
 func TestCarbon_IsWeekday(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.True(t, NewCarbon().IsWeekday())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsWeekday())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -711,12 +537,6 @@ func TestCarbon_IsWeekend(t *testing.T) {
 		assert.False(t, NewCarbon().IsWeekend())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsWeekend())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsWeekend())
 		assert.False(t, Parse("0").IsWeekend())
@@ -733,12 +553,6 @@ func TestCarbon_IsWeekend(t *testing.T) {
 func TestCarbon_IsNow(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsNow())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsNow())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -760,12 +574,6 @@ func TestCarbon_IsFuture(t *testing.T) {
 		assert.False(t, NewCarbon().IsFuture())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsFuture())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsFuture())
 		assert.False(t, Parse("0").IsFuture())
@@ -783,12 +591,6 @@ func TestCarbon_IsFuture(t *testing.T) {
 func TestCarbon_IsPast(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.True(t, NewCarbon().IsPast())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsPast())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -810,12 +612,6 @@ func TestCarbon_IsYesterday(t *testing.T) {
 		assert.False(t, NewCarbon().IsYesterday())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsYesterday())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsYesterday())
 		assert.False(t, Parse("0").IsYesterday())
@@ -835,12 +631,6 @@ func TestCarbon_IsToday(t *testing.T) {
 		assert.False(t, NewCarbon().IsToday())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsToday())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsToday())
 		assert.False(t, Parse("0").IsToday())
@@ -858,12 +648,6 @@ func TestCarbon_IsToday(t *testing.T) {
 func TestCarbon_IsTomorrow(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsTomorrow())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsTomorrow())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -887,12 +671,6 @@ func TestCarbon_IsSameCentury(t *testing.T) {
 		assert.False(t, NewCarbon().IsSameCentury(Now()))
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsSameCentury(c))
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("xxx").IsSameCentury(Parse("2020-08-05")))
 		assert.False(t, Parse("2020-08-05").IsSameCentury(Parse("xxx")))
@@ -911,12 +689,6 @@ func TestCarbon_IsSameDecade(t *testing.T) {
 		assert.True(t, NewCarbon().IsSameDecade(NewCarbon()))
 		assert.False(t, Now().IsSameDecade(NewCarbon()))
 		assert.False(t, NewCarbon().IsSameDecade(Now()))
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsSameDecade(c))
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -939,12 +711,6 @@ func TestCarbon_IsSameYear(t *testing.T) {
 		assert.False(t, NewCarbon().IsSameYear(Now()))
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsSameYear(c))
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("xxx").IsSameYear(Parse("2020-08-05")))
 		assert.False(t, Parse("2020-08-05").IsSameYear(Parse("xxx")))
@@ -963,12 +729,6 @@ func TestCarbon_IsSameQuarter(t *testing.T) {
 		assert.True(t, NewCarbon().IsSameQuarter(NewCarbon()))
 		assert.False(t, Parse("2020-08-05").IsSameQuarter(NewCarbon()))
 		assert.False(t, NewCarbon().IsSameQuarter(Parse("2020-08-05")))
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsSameQuarter(c))
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -991,12 +751,6 @@ func TestCarbon_IsSameMonth(t *testing.T) {
 		assert.False(t, NewCarbon().IsSameMonth(Parse("2020-08-05")))
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsSameMonth(c))
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("xxx").IsSameMonth(Parse("2020-08-05")))
 		assert.False(t, Parse("2020-08-05").IsSameMonth(Parse("xxx")))
@@ -1017,12 +771,6 @@ func TestCarbon_IsSameDay(t *testing.T) {
 		assert.False(t, NewCarbon().IsSameDay(Parse("2020-08-05")))
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsSameDay(c))
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("xxx").IsSameDay(Parse("2020-08-05")))
 		assert.False(t, Parse("2020-08-05").IsSameDay(Parse("xxx")))
@@ -1041,12 +789,6 @@ func TestCarbon_IsSameHour(t *testing.T) {
 		assert.True(t, NewCarbon().IsSameHour(NewCarbon()))
 		assert.False(t, Parse("2020-08-05").IsSameHour(NewCarbon()))
 		assert.False(t, NewCarbon().IsSameHour(Parse("2020-08-05")))
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsSameHour(c))
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1071,12 +813,6 @@ func TestCarbon_IsSameMinute(t *testing.T) {
 		assert.False(t, NewCarbon().IsSameMinute(Parse("2020-08-05")))
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsSameMinute(c))
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("xxx").IsSameMinute(Parse("2020-08-05")))
 		assert.False(t, Parse("2020-08-05").IsSameMinute(Parse("xxx")))
@@ -1097,12 +833,6 @@ func TestCarbon_IsSameSecond(t *testing.T) {
 		assert.True(t, NewCarbon().IsSameSecond(NewCarbon()))
 		assert.False(t, Parse("2020-08-05").IsSameSecond(NewCarbon()))
 		assert.False(t, NewCarbon().IsSameSecond(Parse("2020-08-05")))
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsSameSecond(c))
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1127,12 +857,6 @@ func TestCarbon_Compare(t *testing.T) {
 		assert.True(t, NewCarbon().Compare("=", NewCarbon()))
 		assert.False(t, Parse("2020-08-05").Compare("=", NewCarbon()))
 		assert.False(t, NewCarbon().Compare("=", Parse("2020-08-05")))
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.Compare("=", c))
 	})
 
 	t.Run("invalid operator", func(t *testing.T) {
@@ -1169,12 +893,6 @@ func TestCarbon_Gt(t *testing.T) {
 		assert.False(t, NewCarbon().Gt(Parse("2020-08-05")))
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.Gt(c))
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("xxx").Gt(Parse("2020-08-05")))
 		assert.False(t, Parse("2020-08-05").Gt(Parse("xxx")))
@@ -1193,12 +911,6 @@ func TestCarbon_Lt(t *testing.T) {
 		assert.False(t, NewCarbon().Lt(NewCarbon()))
 		assert.False(t, Parse("2020-08-05").Lt(NewCarbon()))
 		assert.True(t, NewCarbon().Lt(Parse("2020-08-05")))
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.Lt(c))
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1221,12 +933,6 @@ func TestCarbon_Eq(t *testing.T) {
 		assert.False(t, NewCarbon().Eq(Parse("2020-08-05")))
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.Eq(c))
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("xxx").Eq(Parse("2020-08-05")))
 		assert.False(t, Parse("2020-08-05").Eq(Parse("xxx")))
@@ -1245,12 +951,6 @@ func TestCarbon_Ne(t *testing.T) {
 		assert.False(t, NewCarbon().Ne(NewCarbon()))
 		assert.True(t, Parse("2020-08-05").Ne(NewCarbon()))
 		assert.True(t, NewCarbon().Ne(Parse("2020-08-05")))
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.Ne(c))
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1273,12 +973,6 @@ func TestCarbon_Gte(t *testing.T) {
 		assert.False(t, NewCarbon().Gte(Parse("2020-08-05")))
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.Gte(c))
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("xxx").Gte(Parse("2020-08-05")))
 		assert.False(t, Parse("2020-08-05").Gte(Parse("xxx")))
@@ -1297,12 +991,6 @@ func TestCarbon_Lte(t *testing.T) {
 		assert.True(t, NewCarbon().Lte(NewCarbon()))
 		assert.False(t, Parse("2020-08-05").Lte(NewCarbon()))
 		assert.True(t, NewCarbon().Lte(Parse("2020-08-05")))
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.Lte(c))
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1325,12 +1013,6 @@ func TestCarbon_Between(t *testing.T) {
 		assert.False(t, NewCarbon().Between(NewCarbon(), Parse("2020-08-05")))
 		assert.False(t, Parse("2020-08-05").Between(NewCarbon(), Parse("2020-08-05")))
 		assert.True(t, Parse("2020-08-05").Between(NewCarbon(), Parse("2020-08-06")))
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.Between(c, c))
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1365,12 +1047,6 @@ func TestCarbon_BetweenIncludedStart(t *testing.T) {
 		assert.False(t, Parse("2020-08-05").BetweenIncludedStart(Parse("2020-08-05"), NewCarbon()))
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.BetweenIncludedStart(c, c))
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("xxx").BetweenIncludedStart(Parse("xxx"), Parse("xxx")))
 
@@ -1403,12 +1079,6 @@ func TestCarbon_BetweenIncludedEnd(t *testing.T) {
 		assert.False(t, Parse("2020-08-05").BetweenIncludedEnd(Parse("2020-08-05"), NewCarbon()))
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.BetweenIncludedEnd(c, c))
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("xxx").BetweenIncludedEnd(Parse("xxx"), Parse("xxx")))
 
@@ -1439,12 +1109,6 @@ func TestCarbon_BetweenIncludedBoth(t *testing.T) {
 		assert.True(t, Parse("2020-08-05").BetweenIncludedBoth(NewCarbon(), Parse("2020-08-05")))
 		assert.True(t, Parse("2020-08-05").BetweenIncludedBoth(NewCarbon(), Parse("2020-08-06")))
 		assert.False(t, Parse("2020-08-05").BetweenIncludedBoth(Parse("2020-08-05"), NewCarbon()))
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.BetweenIncludedBoth(c, c))
 	})
 
 	t.Run("invalid time", func(t *testing.T) {

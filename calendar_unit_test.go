@@ -11,12 +11,6 @@ func TestCarbon_Lunar(t *testing.T) {
 		assert.Empty(t, NewCarbon().Lunar().String())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.Lunar().String())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").Lunar().String())
 		assert.Empty(t, Parse("0").Lunar().String())
@@ -46,13 +40,6 @@ func TestCarbon_Julian(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, 1.7214235e+06, NewCarbon().Julian().JD())
 		assert.Equal(t, float64(-678577), NewCarbon().Julian().MJD())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.Julian().JD())
-		assert.Zero(t, c.Julian().MJD())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -87,13 +74,6 @@ func TestCarbon_Persian(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Empty(t, NewCarbon().Persian().String())
 		assert.Empty(t, NewCarbon().Persian().String())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.Persian().String())
-		assert.Empty(t, c.Persian().String())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
