@@ -96,7 +96,6 @@ func (c *Carbon) SetTimezone(name string) *Carbon {
 func SetTimezone(name string) *Carbon {
 	c := NewCarbon().SetTimezone(name)
 	if !c.HasError() {
-		time.Local = c.loc
 		DefaultTimezone = name
 	}
 	return c
