@@ -41,14 +41,14 @@ var formatMap = map[byte]string{
 	'P': "-07:00",  // Zone:   Difference to Greenwich time (GMT) with colon between hours and minutes. Eg: +02:00.
 	'T': "MST",     // Zone:   Zone name. Eg: UTC, EST, MDT ...
 
-	'U': "timestamp",      // Timestamp with second. Eg: 1699677240.
-	'V': "timestampMilli", // Timestamp with millisecond. Eg: 1596604455666.
-	'X': "timestampMicro", // Timestamp with microsecond. Eg: 1596604455666666.
-	'Z': "timestampNano",  // Timestamp with nanosecond. Eg: 1596604455666666666.
-
 	'v': "999",       // Millisecond. Eg: 999.
 	'x': "999999",    // Microsecond. Eg: 999999.
 	'z': "999999999", // Nanosecond. Eg: 999999999.
+
+	'U': TimestampLayout,      // Timestamp with second. Eg: 1699677240.
+	'V': TimestampMilliLayout, // Timestamp with millisecond. Eg: 1596604455666.
+	'X': TimestampMicroLayout, // Timestamp with microsecond. Eg: 1596604455666666.
+	'Z': TimestampNanoLayout,  // Timestamp with nanosecond. Eg: 1596604455666666666.
 }
 
 // supported layouts

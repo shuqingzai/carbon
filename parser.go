@@ -72,7 +72,7 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 	if c.HasError() {
 		return c
 	}
-	if layout == "timestamp" {
+	if layout == TimestampLayout {
 		ts, err := strconv.ParseInt(value, 10, 64)
 		if err != nil {
 			c.Error = invalidTimestampError(value)
@@ -80,7 +80,7 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 		}
 		return CreateFromTimestamp(ts, c.Timezone())
 	}
-	if layout == "timestampMilli" {
+	if layout == TimestampMilliLayout {
 		ts, err := strconv.ParseInt(value, 10, 64)
 		if err != nil {
 			c.Error = invalidTimestampError(value)
@@ -88,7 +88,7 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 		}
 		return CreateFromTimestampMilli(ts, c.Timezone())
 	}
-	if layout == "timestampMicro" {
+	if layout == TimestampMicroLayout {
 		ts, err := strconv.ParseInt(value, 10, 64)
 		if err != nil {
 			c.Error = invalidTimestampError(value)
@@ -96,7 +96,7 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 		}
 		return CreateFromTimestampMicro(ts, c.Timezone())
 	}
-	if layout == "timestampNano" {
+	if layout == TimestampNanoLayout {
 		ts, err := strconv.ParseInt(value, 10, 64)
 		if err != nil {
 			c.Error = invalidTimestampError(value)
