@@ -142,7 +142,7 @@ func ParseWithLayouts(value string, layouts []string, timezone ...string) *Carbo
 }
 
 // ParseWithFormats parses time string with formats as a Carbon instance.
-// 通过自定义格式化模板将时间字符串解析成 Carbon 实例
+// 通过自定义格式模板将时间字符串解析成 Carbon 实例
 func ParseWithFormats(value string, formats []string, timezone ...string) *Carbon {
 	c := NewCarbon()
 	if value == "" {

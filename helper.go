@@ -18,7 +18,7 @@ var weekdays = map[string]time.Weekday{
 }
 
 // format map
-// 格式化符号映射表
+// 格式符号映射表
 var formatMap = map[byte]string{
 	'd': "02",      // Day:    Day of the month, 2 digits with leading zeros. Eg: 01 to 31.
 	'D': "Mon",     // Day:    A textual representation of a day, three letters. Eg: Mon through Sun.
