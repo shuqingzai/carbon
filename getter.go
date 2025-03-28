@@ -391,11 +391,6 @@ func (c *Carbon) ZoneName() string {
 	if c.IsInvalid() {
 		return ""
 	}
-	if c.IsZero() {
-		// prevent returning to LMT timezone before 1901
-		name, _ := time.Now().In(c.loc).Zone()
-		return name
-	}
 	name, _ := c.StdTime().Zone()
 	return name
 }
@@ -405,11 +400,6 @@ func (c *Carbon) ZoneName() string {
 func (c *Carbon) ZoneOffset() int {
 	if c.IsInvalid() {
 		return 0
-	}
-	if c.IsZero() {
-		// prevent returning to LMT timezone before 1901
-		_, offset := time.Now().In(c.loc).Zone()
-		return offset
 	}
 	_, offset := c.StdTime().Zone()
 	return offset
