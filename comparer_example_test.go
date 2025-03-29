@@ -9,14 +9,14 @@ import (
 func ExampleCarbon_HasError() {
 	fmt.Println(carbon.NewCarbon().HasError())
 	fmt.Println(carbon.Parse("").HasError())
-	fmt.Println(carbon.Parse("xxx").HasError())
 	fmt.Println(carbon.Now().HasError())
+	fmt.Println(carbon.Parse("xxx").HasError())
 
 	// Output:
 	// false
 	// false
-	// true
 	// false
+	// true
 }
 
 func ExampleCarbon_IsNil() {

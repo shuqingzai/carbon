@@ -18,11 +18,29 @@ func ExampleSetLayout() {
 	// current layout: 15:04:05
 }
 
+func ExampleCarbon_SetLayout() {
+	fmt.Println("current layout:", carbon.Now().SetLayout(carbon.DateTimeLayout).CurrentLayout())
+	fmt.Println("current layout:", carbon.Now().SetLayout(carbon.TimeLayout).CurrentLayout())
+
+	// Output:
+	// current layout: 2006-01-02 15:04:05
+	// current layout: 15:04:05
+}
+
 func ExampleSetFormat() {
 	defer carbon.SetFormat(carbon.DateTimeFormat)
 
 	fmt.Println("current layout:", carbon.SetFormat(carbon.DateTimeFormat).CurrentLayout())
 	fmt.Println("current layout:", carbon.SetFormat(carbon.TimeFormat).CurrentLayout())
+
+	// Output:
+	// current layout: 2006-01-02 15:04:05
+	// current layout: 15:04:05
+}
+
+func ExampleCarbon_SetFormat() {
+	fmt.Println("current layout:", carbon.Now().SetFormat(carbon.DateTimeFormat).CurrentLayout())
+	fmt.Println("current layout:", carbon.Now().SetFormat(carbon.TimeFormat).CurrentLayout())
 
 	// Output:
 	// current layout: 2006-01-02 15:04:05
@@ -38,6 +56,15 @@ func ExampleSetWeekStartsAt() {
 	// Output:
 	// Sunday
 	// Monday
+}
+
+func ExampleCarbon_SetWeekStartsAt() {
+	fmt.Println("week starts at:", carbon.Now().SetWeekStartsAt(carbon.Sunday).WeekStartsAt())
+	fmt.Println("week starts at:", carbon.Now().SetWeekStartsAt(carbon.Monday).WeekStartsAt())
+
+	// Output:
+	// week starts at: Sunday
+	// week starts at: Monday
 }
 
 func ExampleSetTimezone() {
@@ -65,6 +92,31 @@ func ExampleSetTimezone() {
 	// Japan zone location: Japan
 	// Japan zone name: LMT
 	// Japan zone offset: 33539
+}
+
+func ExampleCarbon_SetTimezone() {
+	fmt.Println("UTC zone location:", carbon.Now().SetTimezone(carbon.UTC).Timezone())
+	fmt.Println("UTC zone name:", carbon.Now().SetTimezone(carbon.UTC).ZoneName())
+	fmt.Println("UTC zone offset:", carbon.Now().SetTimezone(carbon.UTC).ZoneOffset())
+
+	fmt.Println("PRC zone location:", carbon.Now().SetTimezone(carbon.PRC).Timezone())
+	fmt.Println("PRC zone name:", carbon.Now().SetTimezone(carbon.PRC).ZoneName())
+	fmt.Println("PRC zone offset:", carbon.Now().SetTimezone(carbon.PRC).ZoneOffset())
+
+	fmt.Println("Japan zone location:", carbon.Now().SetTimezone(carbon.Japan).Timezone())
+	fmt.Println("Japan zone name:", carbon.Now().SetTimezone(carbon.Japan).ZoneName())
+	fmt.Println("Japan zone offset:", carbon.Now().SetTimezone(carbon.Japan).ZoneOffset())
+
+	// Output:
+	// UTC zone location: UTC
+	// UTC zone name: UTC
+	// UTC zone offset: 0
+	// PRC zone location: PRC
+	// PRC zone name: CST
+	// PRC zone offset: 28800
+	// Japan zone location: Japan
+	// Japan zone name: JST
+	// Japan zone offset: 32400
 }
 
 func ExampleSetLocation() {
@@ -97,58 +149,6 @@ func ExampleSetLocation() {
 	// Japan zone offset: 33539
 }
 
-func ExampleCarbon_SetLayout() {
-	fmt.Println("current layout:", carbon.Now().SetLayout(carbon.DateTimeLayout).CurrentLayout())
-	fmt.Println("current layout:", carbon.Now().SetLayout(carbon.TimeLayout).CurrentLayout())
-
-	// Output:
-	// current layout: 2006-01-02 15:04:05
-	// current layout: 15:04:05
-}
-
-func ExampleCarbon_SetFormat() {
-	fmt.Println("current layout:", carbon.Now().SetFormat(carbon.DateTimeFormat).CurrentLayout())
-	fmt.Println("current layout:", carbon.Now().SetFormat(carbon.TimeFormat).CurrentLayout())
-
-	// Output:
-	// current layout: 2006-01-02 15:04:05
-	// current layout: 15:04:05
-}
-
-func ExampleCarbon_SetWeekStartsAt() {
-	fmt.Println("week starts at:", carbon.Now().SetWeekStartsAt(carbon.Sunday).WeekStartsAt())
-	fmt.Println("week starts at:", carbon.Now().SetWeekStartsAt(carbon.Monday).WeekStartsAt())
-
-	// Output:
-	// week starts at: Sunday
-	// week starts at: Monday
-}
-
-func ExampleCarbon_SetTimezone() {
-	fmt.Println("UTC zone location:", carbon.Now().SetTimezone(carbon.UTC).Timezone())
-	fmt.Println("UTC zone name:", carbon.Now().SetTimezone(carbon.UTC).ZoneName())
-	fmt.Println("UTC zone offset:", carbon.Now().SetTimezone(carbon.UTC).ZoneOffset())
-
-	fmt.Println("PRC zone location:", carbon.Now().SetTimezone(carbon.PRC).Timezone())
-	fmt.Println("PRC zone name:", carbon.Now().SetTimezone(carbon.PRC).ZoneName())
-	fmt.Println("PRC zone offset:", carbon.Now().SetTimezone(carbon.PRC).ZoneOffset())
-
-	fmt.Println("Japan zone location:", carbon.Now().SetTimezone(carbon.Japan).Timezone())
-	fmt.Println("Japan zone name:", carbon.Now().SetTimezone(carbon.Japan).ZoneName())
-	fmt.Println("Japan zone offset:", carbon.Now().SetTimezone(carbon.Japan).ZoneOffset())
-
-	// Output:
-	// UTC zone location: UTC
-	// UTC zone name: UTC
-	// UTC zone offset: 0
-	// PRC zone location: PRC
-	// PRC zone name: CST
-	// PRC zone offset: 28800
-	// Japan zone location: Japan
-	// Japan zone name: JST
-	// Japan zone offset: 32400
-}
-
 func ExampleCarbon_SetLocation() {
 	defer carbon.SetLocation(time.UTC)
 
@@ -174,6 +174,25 @@ func ExampleSetLocale() {
 	carbon.SetLocale("zh-CN")
 
 	c := carbon.Parse("2020-08-05")
+
+	fmt.Println(c.Constellation())
+	fmt.Println(c.Season())
+	fmt.Println(c.ToMonthString())
+	fmt.Println(c.ToShortMonthString())
+	fmt.Println(c.ToWeekString())
+	fmt.Println(c.ToShortWeekString())
+
+	// Output:
+	// 狮子座
+	// 夏季
+	// 八月
+	// 8月
+	// 星期三
+	// 周三
+}
+
+func ExampleCarbon_SetLocale() {
+	c := carbon.Parse("2020-08-05").SetLocale("zh-CN")
 
 	fmt.Println(c.Constellation())
 	fmt.Println(c.Season())
