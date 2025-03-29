@@ -10,23 +10,28 @@ import (
 func ExampleNewCarbon() {
 	loc, _ := time.LoadLocation(carbon.PRC)
 
-	fmt.Println(carbon.NewCarbon().ToString())
-
-	fmt.Println(time.Time{}.String())
-	fmt.Println(time.Time{}.In(loc).String())
-
 	t1, _ := time.Parse(carbon.DateTimeLayout, "2020-08-05 13:14:15")
-	fmt.Println(carbon.NewCarbon(t1).ToString())
-
 	t2, _ := time.ParseInLocation(carbon.DateTimeLayout, "2020-08-05 13:14:15", loc)
-	fmt.Println(carbon.NewCarbon(t2).ToString())
+
+	fmt.Println("go zero time:", time.Time{}.String())
+	fmt.Println("go zero time with timezone:", time.Time{}.In(loc).String())
+	fmt.Println("go valid time:", t1.String())
+	fmt.Println("go valid time with timezone:", t2.In(loc).String())
+
+	fmt.Println("carbon zero time:", carbon.NewCarbon().ToString())
+	fmt.Println("carbon zero time with timezone:", carbon.NewCarbon().SetLocation(loc).ToString())
+	fmt.Println("carbon valid time:", carbon.NewCarbon(t1).ToString())
+	fmt.Println("carbon valid time with timezone:", carbon.NewCarbon(t2).SetLocation(loc).ToString())
 
 	// Output:
-	// 0001-01-01 00:00:00 +0000 UTC
-	// 0001-01-01 00:00:00 +0000 UTC
-	// 0001-01-01 08:05:43 +0805 LMT
-	// 2020-08-05 13:14:15 +0000 UTC
-	// 2020-08-05 13:14:15 +0800 CST
+	// go zero time: 0001-01-01 00:00:00 +0000 UTC
+	// go zero time with timezone: 0001-01-01 08:05:43 +0805 LMT
+	// go valid time: 2020-08-05 13:14:15 +0000 UTC
+	// go valid time with timezone: 2020-08-05 13:14:15 +0800 CST
+	// carbon zero time: 0001-01-01 00:00:00 +0000 UTC
+	// carbon zero time with timezone: 0001-01-01 08:05:43 +0805 LMT
+	// carbon valid time: 2020-08-05 13:14:15 +0000 UTC
+	// carbon valid time with timezone: 2020-08-05 13:14:15 +0800 CST
 }
 
 func ExampleCarbon_Copy() {
