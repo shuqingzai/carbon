@@ -233,8 +233,8 @@ func (l *Lunar) LeapMonth() int {
 	return years[l.year-minYear] & 0xf
 }
 
-// String implements Stringer interface and outputs a string in YYYY-MM-DD format like "2019-12-070".
-// 实现 Stringer 接口, 输出 YYYY-MM-DD 格式字符串，如 "2019-12-07"
+// String implements Stringer interface for Lunar.
+// 实现 Stringer 接口
 func (l *Lunar) String() string {
 	if !l.IsValid() {
 		return ""
