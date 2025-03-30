@@ -58,6 +58,7 @@ func (c *Carbon) Persian() *persian.Persian {
 		return nil
 	}
 	if c.HasError() {
+		p.Error = c.Error
 		return p
 	}
 	return persian.FromStdTime(c.StdTime())
