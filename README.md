@@ -1604,10 +1604,10 @@ invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for 
 |  W   |                                     week of the year, padded to 2                                      |   2    |      01-52       |           01            |
 |  N   |                                      day of the week, padded to 2                                      |   2    |      01-07       |           02            |
 |  L   |                                        Whether it's a leap year                                        |   1    |       0-1        |            0            |
-|  S   |                                      Unix timestamp with seconds                                       |   -    |        -         |       1596604455        |
+|  S   |                                       Unix timestamp with second                                       |   -    |        -         |       1596604455        |
 |  U   |                                    Unix timestamp with millisecond                                     |   -    |        -         |      1596604455666      |
 |  V   |                                    Unix timestamp with microsecond                                     |   -    |        -         |    1596604455666666     |
-|  X   |                                    Unix timestamp with nanoseconds                                     |   -    |        -         |   1596604455666666666   |
+|  X   |                                     Unix timestamp with nanosecond                                     |   -    |        -         |   1596604455666666666   |
 |  u   |                                              Millisecond                                               |   -    |      1-999       |           999           |
 |  v   |                                              Microsecond                                               |   -    |     1-999999     |         999999          |
 |  x   |                                               Nanosecond                                               |   -    |   1-999999999    |        999999999        |
