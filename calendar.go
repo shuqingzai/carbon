@@ -27,7 +27,7 @@ func CreateFromLunar(year, month, day int, isLeapMonth bool) *Carbon {
 	if !l.IsValid() {
 		return nil
 	}
-	return NewCarbon(l.ToGregorian().Time)
+	return NewCarbon(l.ToGregorian(DefaultTimezone).Time)
 }
 
 // Julian converts Carbon instance to Julian instance.
@@ -47,7 +47,7 @@ func (c *Carbon) Julian() *julian.Julian {
 // 从 儒略日/简化儒略日 创建 Carbon 实例
 func CreateFromJulian(f float64) *Carbon {
 	j := julian.NewJulian(f)
-	return NewCarbon(j.ToGregorian().Time)
+	return NewCarbon(j.ToGregorian(DefaultTimezone).Time)
 }
 
 // Persian converts Carbon instance to Persian instance.
@@ -71,5 +71,5 @@ func CreateFromPersian(year, month, day int) *Carbon {
 	if !p.IsValid() {
 		return nil
 	}
-	return NewCarbon(p.ToGregorian().Time)
+	return NewCarbon(p.ToGregorian(DefaultTimezone).Time)
 }
