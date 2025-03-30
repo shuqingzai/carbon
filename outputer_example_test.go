@@ -657,25 +657,26 @@ func ExampleCarbon_Format() {
 	fmt.Printf("L format: %s\n", carbon.Parse("2020-08-05 01:14:15").Format("L"))
 	fmt.Printf("L format: %s\n", carbon.Parse("2021-08-05 13:14:15").Format("L"))
 	fmt.Printf("G format: %s\n", carbon.Parse("2020-08-05 13:14:15").Format("G"))
+	fmt.Printf("S format: %s\n", carbon.Parse("2020-08-05 13:14:15").Format("S"))
 	fmt.Printf("U format: %s\n", carbon.Parse("2020-08-05 13:14:15").Format("U"))
 	fmt.Printf("V format: %s\n", carbon.Parse("2020-08-05 13:14:15").Format("V"))
 	fmt.Printf("X format: %s\n", carbon.Parse("2020-08-05 13:14:15").Format("X"))
-	fmt.Printf("Z format: %s\n", carbon.Parse("2020-08-05 13:14:15").Format("Z"))
+	fmt.Printf("u format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("u"))
 	fmt.Printf("v format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("v"))
 	fmt.Printf("x format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("x"))
-	fmt.Printf("z format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("z"))
 
 	fmt.Printf("w format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("w"))
 	fmt.Printf("t format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("t"))
-	fmt.Printf("e format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("e"))
+	fmt.Printf("z format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999", carbon.PRC).Format("z"))
+	fmt.Printf("o format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999", carbon.PRC).Format("o"))
 	fmt.Printf("q format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("q"))
 	fmt.Printf("c format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("c"))
-	fmt.Printf("R format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999", carbon.UTC).Format("R"))
-	fmt.Printf("R format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999", carbon.PRC).Format("R"))
-	fmt.Printf("jS format: %s\n", carbon.Parse("2020-08-05 13:14:15").Format("jS"))
-	fmt.Printf("jS format: %s\n", carbon.Parse("2020-08-22 13:14:15").Format("jS"))
-	fmt.Printf("jS format: %s\n", carbon.Parse("2020-08-23 13:14:15").Format("jS"))
-	fmt.Printf("jS format: %s\n", carbon.Parse("2020-08-31 13:14:15").Format("jS"))
+	fmt.Printf("Z format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999", carbon.UTC).Format("Z"))
+	fmt.Printf("Z format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999", carbon.PRC).Format("Z"))
+	fmt.Printf("jK format: %s\n", carbon.Parse("2020-08-05 13:14:15").Format("jK"))
+	fmt.Printf("jK format: %s\n", carbon.Parse("2020-08-22 13:14:15").Format("jK"))
+	fmt.Printf("jK format: %s\n", carbon.Parse("2020-08-23 13:14:15").Format("jK"))
+	fmt.Printf("jK format: %s\n", carbon.Parse("2020-08-31 13:14:15").Format("jK"))
 	fmt.Printf("I\\t \\i\\s Y-m-d H:i:s format: %s\n", carbon.Parse("2020-08-31 13:14:15").Format("I\\t \\i\\s Y-m-d H:i:s"))
 	fmt.Printf("上次打卡时间:Y-m-d H:i:s，请每日按时打卡 format: %s\n", carbon.Parse("2020-08-31 13:14:15").Format("上次打卡时间:Y-m-d H:i:s，请每日按时打卡"))
 
@@ -695,24 +696,25 @@ func ExampleCarbon_Format() {
 	// L format: 1
 	// L format: 0
 	// G format: 13
-	// U format: 1596633255
-	// V format: 1596633255000
-	// X format: 1596633255000000
-	// Z format: 1596633255000000000
-	// v format: 999
-	// x format: 999999
-	// z format: 999999999
+	// S format: 1596633255
+	// U format: 1596633255000
+	// V format: 1596633255000000
+	// X format: 1596633255000000000
+	// u format: 999
+	// v format: 999999
+	// x format: 999999999
 	// w format: 2
 	// t format: 31
-	// e format: UTC
+	// z format: CST
+	// o format: 28800
 	// q format: 3
 	// c format: 21
-	// R format: Z
-	// R format: +08:00
-	// jS format: 5th
-	// jS format: 22nd
-	// jS format: 23rd
-	// jS format: 31st
+	// Z format: Z
+	// Z format: +08:00
+	// jK format: 5th
+	// jK format: 22nd
+	// jK format: 23rd
+	// jK format: 31st
 	// I\t \i\s Y-m-d H:i:s format: It is 2020-08-31 13:14:15
 	// 上次打卡时间:Y-m-d H:i:s，请每日按时打卡 format: 上次打卡时间:2020-08-31 13:14:15，请每日按时打卡
 }
