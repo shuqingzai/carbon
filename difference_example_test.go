@@ -274,7 +274,7 @@ func ExampleCarbon_DiffInDuration() {
 	// -8760h0m0s
 	// 8760h0m0s
 	// -744h0m0s
-	// 696h0m0s
+	// 720h0m0s
 	// -24h0m0s
 	// 24h0m0s
 }
@@ -295,7 +295,7 @@ func ExampleCarbon_DiffAbsInDuration() {
 	// 8760h0m0s
 	// 8760h0m0s
 	// 744h0m0s
-	// 696h0m0s
+	// 720h0m0s
 	// 24h0m0s
 	// 24h0m0s
 }
