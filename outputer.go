@@ -868,8 +868,8 @@ func (c *Carbon) Format(format string, timezone ...string) string {
 				buffer.WriteString(strconv.Itoa(c.DayOfWeek() - 1))
 			case 't': // number of days in the month, ranging from 28-31
 				buffer.WriteString(strconv.Itoa(c.DaysInMonth()))
-			case 'z': // current zone name, such as CST
-				buffer.WriteString(c.ZoneName())
+			case 'z': // current zone location, such as Asia/Tokyo
+				buffer.WriteString(c.Timezone())
 			case 'o': // current zone offset, such as 28800
 				buffer.WriteString(strconv.Itoa(c.ZoneOffset()))
 			case 'q': // current quarter, ranging from 1-4

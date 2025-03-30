@@ -39,7 +39,8 @@ var formatMap = map[byte]string{
 	's': "05",      // Time:   Seconds with leading zeros. Eg: 00 through 59.
 	'O': "-0700",   // Zone:   Difference to Greenwich time (GMT) in hours. Eg: +0200.
 	'P': "-07:00",  // Zone:   Difference to Greenwich time (GMT) with colon between hours and minutes. Eg: +02:00.
-	'Z': "Z07:00",  // Zone:   Difference to Greenwich time (GMT) in hours. Eg: Z/+0200.
+	'Q': "Z0700",   // Zone:   ISO8601 timezone. Eg: Z, +0200.
+	'Z': "Z07:00",  // Zone:   ISO8601 colon timezone. Eg: Z, +02:00.
 	'T': "MST",     // Zone:   Zone name. Eg: UTC, EST, MDT ...
 
 	'u': "999",       // Millisecond. Eg: 999.
