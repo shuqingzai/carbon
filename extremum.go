@@ -1,15 +1,21 @@
 package carbon
 
+import "time"
+
 // MaxValue returns a Carbon instance for the greatest supported date.
 // 返回 Carbon 的最大值
 func MaxValue() *Carbon {
-	return create(9999, 12, 31, 23, 59, 59, 999999999, UTC)
+	c := new(Carbon)
+	c.time = time.Date(9999, time.December, 31, 23, 59, 59, 999999999, time.UTC)
+	return c
 }
 
 // MinValue returns a Carbon instance for the lowest supported date.
 // 返回 Carbon 的最小值
 func MinValue() *Carbon {
-	return create(-9998, 1, 1, 0, 0, 0, 0, UTC)
+	c := new(Carbon)
+	c.time = time.Date(-9998, time.January, 1, 0, 0, 0, 0, time.UTC)
+	return c
 }
 
 // Max returns the maximum Carbon instance from the given Carbon instance (second-precision).
