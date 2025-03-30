@@ -671,10 +671,11 @@ func ExampleCarbon_Format() {
 	fmt.Printf("o format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999", carbon.PRC).Format("o"))
 	fmt.Printf("q format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("q"))
 	fmt.Printf("c format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999").Format("c"))
-	fmt.Printf("Z format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999", carbon.UTC).Format("Z"))
-	fmt.Printf("Z format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999", carbon.PRC).Format("Z"))
+	fmt.Printf("R format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999", carbon.UTC).Format("R"))
+	fmt.Printf("R format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999", carbon.PRC).Format("R"))
 	fmt.Printf("Q format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999", carbon.UTC).Format("Q"))
 	fmt.Printf("Q format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999", carbon.PRC).Format("Q"))
+	fmt.Printf("Z format: %s\n", carbon.Parse("2020-08-05 13:14:15.999999999", carbon.PRC).Format("Z"))
 	fmt.Printf("jK format: %s\n", carbon.Parse("2020-08-05 13:14:15").Format("jK"))
 	fmt.Printf("jK format: %s\n", carbon.Parse("2020-08-22 13:14:15").Format("jK"))
 	fmt.Printf("jK format: %s\n", carbon.Parse("2020-08-23 13:14:15").Format("jK"))
@@ -711,10 +712,11 @@ func ExampleCarbon_Format() {
 	// o format: 28800
 	// q format: 3
 	// c format: 21
-	// Z format: Z
-	// Z format: +08:00
+	// R format: Z
+	// R format: +08:00
 	// Q format: Z
 	// Q format: +0800
+	// Z format: CST
 	// jK format: 5th
 	// jK format: 22nd
 	// jK format: 23rd

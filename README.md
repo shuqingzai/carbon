@@ -1600,7 +1600,7 @@ invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for 
 |  s   |                                          Second, padded to 2                                           |   2    |      01-59       |         05          |
 |  O   |               Difference to Greenwich time (GMT) without colon between hours and minutes               |   -    |        -         |        -0700        |
 |  P   |                Difference to Greenwich time (GMT) with colon between hours and minutes                 |   -    |        -         |       -07:00        |
-|  T   |                                               Zone name                                                |   -    |        -         |         MST         |
+|  Z   |                                               Zone name                                                |   -    |        -         |         MST         |
 |  W   |                                     week of the year, padded to 2                                      |   2    |      01-52       |         01          |
 |  N   |                                      day of the week, padded to 2                                      |   2    |      01-07       |         02          |
 |  L   |                                        Whether it's a leap year                                        |   1    |       0-1        |          0          |
