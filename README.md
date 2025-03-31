@@ -90,7 +90,7 @@ carbon.Now().StdTime()
 // Return datetime of today
 fmt.Printf("%s", carbon.Now()) // 2020-08-05 13:14:15
 carbon.Now().String() // 2020-08-05 13:14:15
-carbon.Now().ToString() // 2025-03-24 03:13:26.664761 +0000 UTC
+carbon.Now().ToString() // 2020-08-05 13:14:15.999999999 +0000 UTC
 carbon.Now().ToDateTimeString() // 2020-08-05 13:14:15
 // Return date of today
 carbon.Now().ToDateString() // 2020-08-05
@@ -155,13 +155,13 @@ carbon.Tomorrow().TimestampNano() // 1596719655999999999
 carbon.CreateFromTimestamp(-1).ToString() // 1969-12-31 23:59:59 +0000 UTC
 carbon.CreateFromTimestamp(0).ToString() // 1970-01-01 00:00:00 +0000 UTC
 carbon.CreateFromTimestamp(1).ToString() // 1970-01-01 00:00:01 +0000 UTC
-carbon.CreateFromTimestamp(1649735755).ToString() // 2022-04-12 03:55:55 +0000 UTC
+carbon.CreateFromTimestamp(1596633255).ToString() // 2020-08-05 13:14:15 +0000 UTC
 // Create a Carbon instance from a given timestamp with millisecond
-carbon.CreateFromTimestampMilli(1649735755981).ToString() // 2022-04-12 03:55:55.981 +0000 UTC
+carbon.CreateFromTimestampMilli(1596633255999999).ToString() // 2020-08-05 13:14:15.999 +0000 UTC
 // Create a Carbon instance from a given timestamp with microsecond
-carbon.CreateFromTimestampMicro(1649735755981566).ToString() // 2022-04-12 03:55:55.981566 +0000 UTC
+carbon.CreateFromTimestampMicro(1596633255999999).ToString() // 2020-08-05 13:14:15.999999 +0000 UTC
 // Create a Carbon instance from a given timestamp with nanosecond
-carbon.CreateFromTimestampNano(1649735755981566000).ToString() // 2022-04-12 03:55:55.981566 +0000 UTC
+carbon.CreateFromTimestampNano(1596633255999999999).ToString() // 2020-08-05 13:14:15.999999999 +0000 UTC
 
 // Create a Carbon instance from a given date and time
 carbon.CreateFromDateTime(2020, 8, 5, 13, 14, 15).ToString() // 2020-08-05 13:14:15 +0000 UTC

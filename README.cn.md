@@ -146,7 +146,7 @@ carbon.Tomorrow(carbon.NewYork).ToDateTimeString() // 2020-08-06 14:14:15
 // 明天秒级时间戳
 carbon.Tomorrow().Timestamp() // 1596690855
 // 明天毫秒级时间戳
-carbon.Tomorrow().TimestampMilli() // 1596690855999
+carbon.Tomorrow().TimestampMilli() //1596690855999
 // 明天微秒级时间戳
 carbon.Tomorrow().TimestampMicro() // 1596690855999999
 // 明天纳秒级时间戳
@@ -160,13 +160,13 @@ carbon.Tomorrow().TimestampNano() // 1596690855999999999
 carbon.CreateFromTimestamp(-1).ToString() // 1970-01-01 07:59:59 +0800 CST
 carbon.CreateFromTimestamp(0).ToString() // 1970-01-01 08:00:00 +0800 CST
 carbon.CreateFromTimestamp(1).ToString() // 1970-01-01 08:00:01 +0800 CST
-carbon.CreateFromTimestamp(1649735755).ToString() // 2022-04-12 11:55:55 +0800 CST
+carbon.CreateFromTimestamp(1596604455).ToString() // 2020-08-05 13:14:15 +0800 CST
 // 从毫秒级时间戳创建 Carbon 实例
-carbon.CreateFromTimestampMilli(1649735755981).ToString() // 2022-04-12 11:55:55.981 +0800 CST
+carbon.CreateFromTimestampMilli(1596604455999).ToString() // 2020-08-05 13:14:15.999 +0800 CST
 // 从微秒级时间戳创建 Carbon 实例
-carbon.CreateFromTimestampMicro(1649735755981566).ToString() // 2022-04-12 11:55:55.981566 +0800 CST
+carbon.CreateFromTimestampMicro(1596604455999999).ToString() // 2020-08-05 13:14:15.999999 +0800 CST
 // 从纳秒级时间戳创建 Carbon 实例
-carbon.CreateFromTimestampNano(1649735755981566000).ToString() // 2022-04-12 11:55:55.981566 +0800 CST
+carbon.CreateFromTimestampNano(1596604455999999999).ToString() // 2020-08-05 13:14:15.999999999 +0800 CST
 
 // 从年月日时分秒创建 Carbon 实例
 carbon.CreateFromDateTime(2020, 8, 5, 13, 14, 15).ToString() // 2020-08-05 13:14:15 +0800 CST

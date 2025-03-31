@@ -159,13 +159,13 @@ carbon.Tomorrow().TimestampNano() // 1596687255999999999
 carbon.CreateFromTimestamp(-1).ToString() // 1970-01-01 08:59:59 +0900 JST
 carbon.CreateFromTimestamp(0).ToString() // 1970-01-01 09:00:00 +0900 JST
 carbon.CreateFromTimestamp(1).ToString() // 1970-01-01 09:00:01 +0900 JST
-carbon.CreateFromTimestamp(1649735755).ToString() // 2022-04-12 12:55:55 +0900 JST
+carbon.CreateFromTimestamp(1596600855).ToString() // 2020-08-05 13:14:15 +0900 JST
 // ミリ秒のタイムスタンプから Carbon インスタンスを作成します
-carbon.CreateFromTimestampMilli(1649735755981).ToString() // 2022-04-12 12:55:55.981 +0900 JST
+carbon.CreateFromTimestampMilli(1596600855999).ToString() // 2020-08-05 13:14:15.999 +0900 JST
 // マイクロ秒タイムスタンプから Carbon インスタンスを作成します
-carbon.CreateFromTimestampMicro(1649735755981566).ToString() // 2022-04-12 12:55:55.981566 +0900 JST
+carbon.CreateFromTimestampMicro(1596600855999999).ToString() // 2020-08-05 13:14:15.999999 +0900 JST
 // ナノタイムスタンプから Carbon インスタンスを作成します
-carbon.CreateFromTimestampNano(1649735755981566000).ToString() // 2022-04-12 12:55:55.981566 +0900 JST
+carbon.CreateFromTimestampNano(1596600855999999999).ToString() // 2020-08-05 13:14:15.999999999 +0900 JST
 
 // 日付と時間から Carbon インスタンスを作成します
 carbon.CreateFromDateTime(2020, 8, 5, 13, 14, 15).ToDateTimeString() // 2020-08-05 13:14:15
