@@ -33,9 +33,7 @@ func NewCarbon(time ...time.Time) *Carbon {
 	}
 	if len(time) > 0 {
 		c.time = time[0]
-		if c.time.Location() != nil {
-			c.loc = c.time.Location()
-		}
+		c.loc = c.time.Location()
 	}
 	c.layout = DefaultLayout
 	return c
