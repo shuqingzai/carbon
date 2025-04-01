@@ -632,6 +632,11 @@ carbon.Min(yesterday, today, tomorrow) // yesterday
 carbon.MaxValue().ToString() // 9999-12-31 23:59:59.999999999 +0000 UTC
 // 返回 Carbon 的最小值
 carbon.MinValue().ToString() // -9998-01-01 00:00:00 +0000 UTC
+
+// 返回 Duration 的最大值
+carbon.MaxDuration().Seconds() // 9.223372036854776e+09
+// 返回 Duration 的最小值
+carbon.MinDuration().Seconds() // -9.223372036854776e+09
 ```
 
 ##### 时间判断

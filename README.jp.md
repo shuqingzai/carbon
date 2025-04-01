@@ -627,6 +627,11 @@ carbon.Min(yesterday, today, tomorrow) // yesterday
 carbon.MaxCarbon().ToString() // 9999-12-31 23:59:59.999999999 +0900 JST
 // Carbonの最小値を戻す
 carbon.MinCarbon().ToString() // -9998-01-01 00:00:00 +0900 JST
+
+// 期間の最大値を返します
+carbon.MaxDuration().Seconds() // 9.223372036854776e+09
+// 最小の持続時間値を返します
+carbon.MinDuration().Seconds() // -9.223372036854776e+09
 ```
 
 ##### 時間比較
