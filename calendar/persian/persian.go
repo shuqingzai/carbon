@@ -24,6 +24,10 @@ var (
 	ShortFaWeeks = []string{"پ", "چ", "س", "د", "ی", "ش", "ج"}
 )
 
+var invalidPersianError = func() error {
+	return fmt.Errorf("invalid persian date, please make sure the persian date is valid")
+}
+
 // Persian defines a Persian struct.
 // 定义 Persian 结构体
 type Persian struct {
@@ -36,6 +40,9 @@ type Persian struct {
 func NewPersian(year, month, day int) *Persian {
 	p := new(Persian)
 	p.year, p.month, p.day = year, month, day
+	if !p.IsValid() {
+		p.Error = invalidPersianError()
+	}
 	return p
 }
 
