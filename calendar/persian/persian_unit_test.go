@@ -35,6 +35,7 @@ func TestFromStdTime(t *testing.T) {
 func TestPersian_Gregorian(t *testing.T) {
 	t.Run("invalid lunar", func(t *testing.T) {
 		assert.Empty(t, new(Persian).ToGregorian().String())
+		assert.Error(t, NewPersian(9400, 1, 1).Error)
 		assert.Empty(t, NewPersian(9400, 1, 1).ToGregorian().String())
 	})
 
