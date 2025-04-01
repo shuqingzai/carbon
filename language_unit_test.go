@@ -12,20 +12,20 @@ func TestLanguage_SetLocale(t *testing.T) {
 		lang := NewLanguage()
 		lang = nil
 		lang.SetLocale("en")
-		assert.Empty(t, Now().SetLanguage(lang).ToMonthString())
+		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	t.Run("invalid locale", func(t *testing.T) {
 		lang := NewLanguage()
 		lang.SetLocale("xxx")
-		assert.Empty(t, Now().SetLanguage(lang).ToMonthString())
+		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	t.Run("empty locale", func(t *testing.T) {
 		lang := NewLanguage()
 		lang.SetLocale("")
 		fmt.Println("lang", lang.locale)
-		assert.Empty(t, Now().SetLanguage(lang).ToMonthString())
+		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	t.Run("valid time", func(t *testing.T) {
@@ -56,20 +56,19 @@ func TestLanguage_SetResources(t *testing.T) {
 		lang := NewLanguage()
 		lang = nil
 		lang.SetResources(nil)
-		assert.Empty(t, Now().SetLanguage(lang).ToMonthString())
+		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	t.Run("nil resources", func(t *testing.T) {
 		lang := NewLanguage()
 		lang.SetResources(nil)
-		assert.Empty(t, Now().SetLanguage(lang).ToMonthString())
+		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	t.Run("empty resources", func(t *testing.T) {
 		lang := NewLanguage()
 		lang.SetResources(map[string]string{})
-		fmt.Println("lang", lang.locale)
-		assert.Equal(t, March, Now().SetLanguage(lang).ToMonthString())
+		assert.Equal(t, August, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	t.Run("invalid resources", func(t *testing.T) {
@@ -78,7 +77,7 @@ func TestLanguage_SetResources(t *testing.T) {
 			"xxx": "xxx",
 		})
 		fmt.Println("lang", lang.locale)
-		assert.Empty(t, Now().SetLanguage(lang).ToMonthString())
+		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	t.Run("set some resources", func(t *testing.T) {
