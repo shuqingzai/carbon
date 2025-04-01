@@ -17,12 +17,6 @@ const (
 	PrecisionNanosecond  = 999999999
 )
 
-// returns a failed scan error
-// 失败的扫描错误
-var failedScanError = func(src interface{}) error {
-	return fmt.Errorf("failed to scan value: %v", src)
-}
-
 // LayoutFactory defines a LayoutFactory interface
 // 定义 LayoutFactory 接口
 type LayoutFactory interface {
