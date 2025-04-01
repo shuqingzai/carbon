@@ -130,7 +130,7 @@ func ParseWithLayouts(value string, layouts []string, timezone ...string) *Carbo
 	if len(layouts) == 0 {
 		return Parse(value, timezone...)
 	}
-	for _, layout := range append(defaultLayouts, layouts...) {
+	for _, layout := range layouts {
 		if tt, err := time.ParseInLocation(layout, value, c.loc); err == nil {
 			c.time = tt
 			c.layout = layout
