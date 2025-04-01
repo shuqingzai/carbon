@@ -168,31 +168,31 @@ carbon.CreateFromTimestampMicro(1596604455999999).ToString() // 2020-08-05 13:14
 // 从纳秒级时间戳创建 Carbon 实例
 carbon.CreateFromTimestampNano(1596604455999999999).ToString() // 2020-08-05 13:14:15.999999999 +0800 CST
 
-// 从年月日时分秒创建 Carbon 实例
+// 从年、月、日、时、分、秒创建 Carbon 实例
 carbon.CreateFromDateTime(2020, 8, 5, 13, 14, 15).ToString() // 2020-08-05 13:14:15 +0800 CST
-// 从年月日时分秒创建 Carbon 实例，包含毫秒
+// 从年、月、日、时、分、秒、毫秒创建 Carbon 实例
 carbon.CreateFromDateTimeMilli(2020, 8, 5, 13, 14, 15, 999).ToString() // 2020-08-05 13:14:15.999 +0800 CST
-// 从年月日时分秒创建 Carbon 实例，包含微秒
+// 从年、月、日、时、分、秒、微秒创建 Carbon 实例
 carbon.CreateFromDateTimeMicro(2020, 8, 5, 13, 14, 15, 999999).ToString() // 2020-08-05 13:14:15.999999 +0800 CST
-// 从年月日时分秒创建 Carbon 实例，包含纳秒
+// 从年、月、日、时、分、秒、纳秒创建 Carbon 实例
 carbon.CreateFromDateTimeNano(2020, 8, 5, 13, 14, 15, 999999999).ToString() // 2020-08-05 13:14:15.999999999 +0800 CST
 
-// 从年月日创建 Carbon 实例
+// 从年、月、日创建 Carbon 实例
 carbon.CreateFromDate(2020, 8, 5).ToString() // 2020-08-05 00:00:00 +0800 CST
-// 从年月日创建 Carbon 实例，包含毫秒
+// 从年、月、日、毫秒创建 Carbon 实例
 carbon.CreateFromDateMilli(2020, 8, 5, 999).ToString() // 2020-08-05 00:00:00.999 +0800 CST
-// 从年月日创建 Carbon 实例，包含微秒
+// 从年、月、日、微秒创建 Carbon 实例
 carbon.CreateFromDateMicro(2020, 8, 5, 999999).ToString() // 2020-08-05 00:00:00.999999 +0800 CST
-// 从年月日创建 Carbon 实例，包含纳秒
+// 从年、月、日、纳秒创建 Carbon 实例
 carbon.CreateFromDateNano(2020, 8, 5, 999999999).ToString() // 2020-08-05 00:00:00.999999999 +0800 CST
 
-// 从时分秒创建 Carbon 实例(年月日默认为当前年月日)
+// 从时、分、秒创建 Carbon 实例(年月日默认为当前年月日)
 carbon.CreateFromTime(13, 14, 15).ToString() // 2020-08-05 13:14:15 +0800 CST
-// 从时分秒创建 Carbon 实例(年月日默认为当前年月日)，包含毫秒
+// 从时、分、秒、毫秒创建 Carbon 实例(年月日默认为当前年月日)
 carbon.CreateFromTimeMilli(13, 14, 15, 999).ToString() // 2020-08-05 13:14:15.999 +0800 CST
-// 从时分秒创建 Carbon 实例(年月日默认为当前年月日)，包含微秒
+// 从时、分、秒、微秒创建 Carbon 实例(年月日默认为当前年月日)
 carbon.CreateFromTimeMicro(13, 14, 15, 999999).ToString() // 2020-08-05 13:14:15.999999 +0800 CST
-// 从时分秒创建 Carbon 实例(年月日默认为当前年月日)，包含纳秒
+// 从时、分、秒、纳秒创建 Carbon 实例(年月日默认为当前年月日)
 carbon.CreateFromTimeNano(13, 14, 15, 999999999).ToString() // 2020-08-05 13:14:15.999999999 +0800 CST
 ```
 
@@ -645,7 +645,7 @@ carbon.Parse("0").HasError() // true
 carbon.Parse("xxx").HasError() // true
 carbon.Parse("2020-08-05").IsNil() // false
 
-// 是否是 nil 时间
+// 是否是 nil
 carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsNil() // false
 carbon.NewCarbon().IsNil() // false
 carbon.Parse("").IsNil() // true
@@ -886,42 +886,42 @@ carbon.Parse("2020-08-05 13:14:15").SetLocation(tokyo).ToString() // 2020-08-05 
 carbon.Parse("2020-07-05 13:14:15").SetLocale("en").DiffForHumans() // 1 month ago
 carbon.Parse("2020-07-05 13:14:15").SetLocale("zh-CN").DiffForHumans() // 1 月前
 
-// 设置年月日时分秒
+// 设置年、月、日、时、分、秒
 carbon.Parse("2020-01-01").SetDateTime(2019, 2, 2, 13, 14, 15).ToString() // 2019-02-02 13:14:15 +0800 CST
 carbon.Parse("2020-01-01").SetDateTime(2019, 2, 31, 13, 14, 15).ToString() // 2019-03-03 13:14:15 +0800 CST
-// 设置年月日时分秒毫秒
+// 设置年、月、日、时、分、秒、毫秒
 carbon.Parse("2020-01-01").SetDateTimeMilli(2019, 2, 2, 13, 14, 15, 999).ToString() // 2019-02-02 13:14:15.999 +0800 CST
 carbon.Parse("2020-01-01").SetDateTimeMilli(2019, 2, 31, 13, 14, 15, 999).ToString() // 2019-03-03 13:14:15.999 +0800 CST
-// 设置年月日时分秒微秒
+// 设置年、月、日、时、分、秒、微秒
 carbon.Parse("2020-01-01").SetDateTimeMicro(2019, 2, 2, 13, 14, 15, 999999).ToString() // 2019-02-02 13:14:15.999999 +0800 CST
 carbon.Parse("2020-01-01").SetDateTimeMicro(2019, 2, 31, 13, 14, 15, 999999).ToString() // 2019-03-03 13:14:15.999999 +0800 CST
-// 设置年月日时分秒纳秒
+// 设置年、月、日、时、分、秒、纳秒
 carbon.Parse("2020-01-01").SetDateTimeNano(2019, 2, 2, 13, 14, 15, 999999999).ToString() // 2019-02-02 13:14:15.999999999 +0800 CST
 carbon.Parse("2020-01-01").SetDateTimeNano(2019, 2, 31, 13, 14, 15, 999999999).ToString() // 2019-03-03 13:14:15.999999999 +0800 CST
 
-// 设置年月日
+// 设置年、月、日
 carbon.Parse("2020-01-01").SetDate(2019, 2, 2).ToString() // 2019-02-02 00:00:00 +0800 CST
 carbon.Parse("2020-01-01").SetDate(2019, 2, 31).ToString() // 2019-03-03 00:00:00 +0800 CST
-// 设置年月日毫秒
+// 设置年、月、日、毫秒
 carbon.Parse("2020-01-01").SetDateMilli(2019, 2, 2, 999).ToString() // 2019-02-02 00:00:00.999 +0800 CST
 carbon.Parse("2020-01-01").SetDateMilli(2019, 2, 31, 999).ToString() // 2019-03-03 00:00:00.999 +0800 CST
-// 设置年月日微秒
+// 设置年、月、日、微秒
 carbon.Parse("2020-01-01").SetDateMicro(2019, 2, 2, 999999).ToString() // 2019-02-02 00:00:00.999999 +0800 CST
 carbon.Parse("2020-01-01").SetDateMicro(2019, 2, 31, 999999).ToString() // 2019-03-03 00:00:00.999999 +0800 CST
-// 设置年月日纳秒
+// 设置年、月、日、纳秒
 carbon.Parse("2020-01-01").SetDateNano(2019, 2, 2, 999999999).ToString() // 2019-02-02 00:00:00.999999999 +0800 CST
 carbon.Parse("2020-01-01").SetDateNano(2019, 2, 31, 999999999).ToString() // 2019-03-03 00:00:00.999999999 +0800 CST
 
-// 设置时分秒
+// 设置时、分、秒
 carbon.Parse("2020-01-01").SetTime(13, 14, 15).ToString() // 2020-01-01 13:14:15 +0800 CST
 carbon.Parse("2020-01-01").SetTime(13, 14, 90).ToString() // 2020-01-01 13:15:30 +0800 CST
-// 设置时分秒毫秒
+// 设置时、分、秒、毫秒
 carbon.Parse("2020-01-01").SetTimeMilli(13, 14, 15, 999).ToString() // 2020-01-01 13:14:15.999 +0800 CST
 carbon.Parse("2020-01-01").SetTimeMilli(13, 14, 90, 999).ToString() // 2020-01-01 13:15:30.999 +0800 CST
-// 设置时分秒微秒
+// 设置时、分、秒、微秒
 carbon.Parse("2020-01-01").SetTimeMicro(13, 14, 15, 999999).ToString() // 2020-01-01 13:14:15.999999 +0800 CST
 carbon.Parse("2020-01-01").SetTimeMicro(13, 14, 90, 999999).ToString() // 2020-01-01 13:15:30.999999 +0800 CST
-// 设置时分秒纳秒
+// 设置时、分、秒、纳秒
 carbon.Parse("2020-01-01").SetTimeNano(13, 14, 15, 999999999).ToString() // 2020-01-01 13:14:15.999999999 +0800 CST
 carbon.Parse("2020-01-01").SetTimeNano(13, 14, 90, 999999999).ToString() // 2020-01-01 13:15:30.999999999 +0800 CST
 

@@ -1613,7 +1613,7 @@ invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for 
 |  x   |                                               Nanosecond                                               |   -    |   1-999999999    |      999999999      |
 |  w   |                                            Day of the week                                             |   1    |       0-6        |          1          |
 |  t   |                                        Total days of the month                                         |   2    |      28-31       |         31          |
-|  z   |                                             Time location                                              |   -    |        -         |    Asia/Shanghai    |
+|  z   |                                               Time zone                                                |   -    |        -         |    Asia/Shanghai    |
 |  o   |                                              Time offset                                               |   -    |        -         |          28800      |
 |  q   |                                                Quarter                                                 |   1    |       1-4        |          1          |
 |  c   |                                                Century                                                 |   -    |       0-99       |         21          |
