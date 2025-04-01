@@ -30,7 +30,7 @@ func CreateFromTimestamp(timestamp int64, timezone ...string) *Carbon {
 
 // CreateFromTimestampMilli creates a Carbon instance from a given timestamp with millisecond.
 // 从给定的毫秒级时间戳创建 Carbon 实例
-func CreateFromTimestampMilli(timestamp int64, timezone ...string) *Carbon {
+func CreateFromTimestampMilli(timestampMilli int64, timezone ...string) *Carbon {
 	c := NewCarbon()
 	if len(timezone) > 0 {
 		c.loc, c.Error = getLocationByTimezone(timezone[0])
@@ -38,13 +38,13 @@ func CreateFromTimestampMilli(timestamp int64, timezone ...string) *Carbon {
 	if c.HasError() {
 		return c
 	}
-	c.time = time.Unix(timestamp/1e3, (timestamp%1e3)*1e6)
+	c.time = time.Unix(timestampMilli/1e3, (timestampMilli%1e3)*1e6)
 	return c
 }
 
 // CreateFromTimestampMicro creates a Carbon instance from a given timestamp with microsecond.
 // 从给定的微秒级时间戳创建 Carbon 实例
-func CreateFromTimestampMicro(timestamp int64, timezone ...string) *Carbon {
+func CreateFromTimestampMicro(timestampMicro int64, timezone ...string) *Carbon {
 	c := NewCarbon()
 	if len(timezone) > 0 {
 		c.loc, c.Error = getLocationByTimezone(timezone[0])
@@ -52,13 +52,13 @@ func CreateFromTimestampMicro(timestamp int64, timezone ...string) *Carbon {
 	if c.HasError() {
 		return c
 	}
-	c.time = time.Unix(timestamp/1e6, (timestamp%1e6)*1e3)
+	c.time = time.Unix(timestampMicro/1e6, (timestampMicro%1e6)*1e3)
 	return c
 }
 
 // CreateFromTimestampNano creates a Carbon instance from a given timestamp with nanosecond.
 // 从给定的纳秒级时间戳创建 Carbon 实例
-func CreateFromTimestampNano(timestamp int64, timezone ...string) *Carbon {
+func CreateFromTimestampNano(timestampNano int64, timezone ...string) *Carbon {
 	c := NewCarbon()
 	if len(timezone) > 0 {
 		c.loc, c.Error = getLocationByTimezone(timezone[0])
@@ -66,7 +66,7 @@ func CreateFromTimestampNano(timestamp int64, timezone ...string) *Carbon {
 	if c.HasError() {
 		return c
 	}
-	c.time = time.Unix(timestamp/1e9, timestamp%1e9)
+	c.time = time.Unix(timestampNano/1e9, timestampNano%1e9)
 	return c
 }
 
