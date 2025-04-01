@@ -52,7 +52,7 @@ func (c *Carbon) IsDST() bool {
 	if c.IsInvalid() {
 		return false
 	}
-	return c.time.IsDST()
+	return c.StdTime().IsDST()
 }
 
 // IsAM reports whether is before noon.
