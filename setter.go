@@ -4,6 +4,85 @@ import (
 	"time"
 )
 
+// SetLayout sets globally default layout.
+// 设置全局默认布局模板
+func SetLayout(layout string) *Carbon {
+	c := NewCarbon().SetLayout(layout)
+	if !c.HasError() {
+		DefaultLayout = layout
+	}
+	return c
+}
+
+// SetFormat sets globally default format.
+// 设置全局默认格式模板
+func SetFormat(format string) *Carbon {
+	layout := format2layout(format)
+	c := NewCarbon().SetLayout(layout)
+	if !c.HasError() {
+		DefaultLayout = layout
+	}
+	return c
+}
+
+// SetWeekStartsAt sets globally default start day of the week.
+// 设置全局默认周起始日期
+func SetWeekStartsAt(day string) *Carbon {
+	c := NewCarbon().SetWeekStartsAt(day)
+	if !c.HasError() {
+		DefaultWeekStartsAt = day
+	}
+	return c
+}
+
+// SetTimezone sets globally default timezone.
+// 设置全局默认时区
+func SetTimezone(name string) *Carbon {
+	c := NewCarbon().SetTimezone(name)
+	if !c.HasError() {
+		DefaultTimezone = name
+	}
+	return c
+}
+
+// SetLocation sets globally default location.
+// 设置全局默认位置
+func SetLocation(loc *time.Location) *Carbon {
+	c := NewCarbon().SetLocation(loc)
+	if !c.HasError() {
+		time.Local = loc
+		DefaultTimezone = loc.String()
+	}
+	return c
+}
+
+// SetLocale sets globally default locale.
+// 设置全局默认语言区域
+func SetLocale(locale string) *Carbon {
+	c := NewCarbon().SetLocale(locale)
+	if !c.HasError() {
+		DefaultLocale = locale
+	}
+	return c
+}
+
+// SetWeekStartsAt sets start day of the week.
+// 设置一周起始日期
+func (c *Carbon) SetWeekStartsAt(day string) *Carbon {
+	if day == "" {
+		c.Error = emptyWeekStartsDayError()
+	}
+	if c.IsInvalid() {
+		return c
+	}
+	if weekday, ok := weekdays[day]; ok {
+		c.weekStartsAt = weekday
+	} else {
+		c.Error = invalidWeekStartsAtError(day)
+	}
+	return c
+}
+
 // SetLayout sets layout.
 // 设置布局模板
 func (c *Carbon) SetLayout(layout string) *Carbon {
@@ -14,16 +93,6 @@ func (c *Carbon) SetLayout(layout string) *Carbon {
 		return c
 	}
 	c.layout = layout
-	return c
-}
-
-// SetLayout sets globally default layout.
-// 设置全局默认布局模板
-func SetLayout(layout string) *Carbon {
-	c := NewCarbon().SetLayout(layout)
-	if !c.HasError() {
-		DefaultLayout = layout
-	}
 	return c
 }
 
@@ -40,44 +109,6 @@ func (c *Carbon) SetFormat(format string) *Carbon {
 	return c
 }
 
-// SetFormat sets globally default format.
-// 设置全局默认格式模板
-func SetFormat(format string) *Carbon {
-	layout := format2layout(format)
-	c := NewCarbon().SetLayout(layout)
-	if !c.HasError() {
-		DefaultLayout = layout
-	}
-	return c
-}
-
-// SetWeekStartsAt sets start day of the week.
-// 设置周起始日期
-func (c *Carbon) SetWeekStartsAt(day string) *Carbon {
-	if day == "" {
-		c.Error = emptyWeekStartsDayError()
-	}
-	if c.IsInvalid() {
-		return c
-	}
-	if weekday, ok := weekdays[day]; ok {
-		c.weekStartsAt = weekday
-	} else {
-		c.Error = invalidWeekStartsAtError(day)
-	}
-	return c
-}
-
-// SetWeekStartsAt sets globally default start day of the week.
-// 设置全局默认周起始日期
-func SetWeekStartsAt(day string) *Carbon {
-	c := NewCarbon().SetWeekStartsAt(day)
-	if !c.HasError() {
-		DefaultWeekStartsAt = day
-	}
-	return c
-}
-
 // SetTimezone sets timezone.
 // 设置时区
 func (c *Carbon) SetTimezone(name string) *Carbon {
@@ -88,16 +119,6 @@ func (c *Carbon) SetTimezone(name string) *Carbon {
 		return c
 	}
 	c.loc, c.Error = getLocationByTimezone(name)
-	return c
-}
-
-// SetTimezone sets globally default timezone.
-// 设置全局默认时区
-func SetTimezone(name string) *Carbon {
-	c := NewCarbon().SetTimezone(name)
-	if !c.HasError() {
-		DefaultTimezone = name
-	}
 	return c
 }
 
@@ -114,17 +135,6 @@ func (c *Carbon) SetLocation(loc *time.Location) *Carbon {
 	return c
 }
 
-// SetLocation sets globally default location.
-// 设置全局默认位置
-func SetLocation(loc *time.Location) *Carbon {
-	c := NewCarbon().SetLocation(loc)
-	if !c.HasError() {
-		time.Local = loc
-		DefaultTimezone = loc.String()
-	}
-	return c
-}
-
 // SetLocale sets locale.
 // 设置语言区域
 func (c *Carbon) SetLocale(locale string) *Carbon {
@@ -136,16 +146,6 @@ func (c *Carbon) SetLocale(locale string) *Carbon {
 	}
 	c.lang.SetLocale(locale)
 	c.Error = c.lang.Error
-	return c
-}
-
-// SetLocale sets globally default locale.
-// 设置全局默认语言区域
-func SetLocale(locale string) *Carbon {
-	c := NewCarbon().SetLocale(locale)
-	if !c.HasError() {
-		DefaultLocale = locale
-	}
 	return c
 }
 
