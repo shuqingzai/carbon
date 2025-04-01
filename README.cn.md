@@ -41,10 +41,11 @@ go get -u gitcode.com/dromara/carbon/v2
 import "gitcode.com/dromara/carbon/v2"
 ```
 
-`Carbon` 已经捐赠给了 [dromara](https://dromara.org/ "dromara") 组织，仓库地址发生了改变，如果之前用的路径是 `golang-module/carbon`，请在 `go.mod` 里将原地址更换为新路径，或执行如下命令
+`Carbon` 已经捐赠给了 [dromara](https://dromara.org/ "dromara") 组织，仓库地址发生了改变，如果之前用的路径是
+`golang-module/carbon`，请在 `go.mod` 里将原地址更换为新路径，或执行如下命令
 
 ```go
-go mod edit -replace github.com/golang-module/carbon/v2=github.com/dromara/carbon/v2
+go mod edit -replace github.com/golang-module/carbon/v2 = github.com/dromara/carbon/v2
 ```
 
 #### 用法示例
@@ -62,10 +63,10 @@ carbon.SetLocale("zh-CN")
 或
 
 carbon.SetDefault(carbon.Default{
-  Layout: carbon.DateTimeLayout,
-  Timezone: carbon.PRC,
-  WeekStartsAt: carbon.Sunday,
-  Locale: "zh-CN", 
+	Layout: carbon.DateTimeLayout,
+	Timezone: carbon.PRC,
+	WeekStartsAt: carbon.Sunday,
+	Locale: "zh-CN",
 })
 ```
 
@@ -73,11 +74,11 @@ carbon.SetDefault(carbon.Default{
 
 ```go
 // 将标准 time.Time 转换成 Carbon
-carbon.NewCarbon(time.Now()) 
+carbon.NewCarbon(time.Now())
 // 将 Carbon 转换成标准 time.Time
 carbon.Now().StdTime()
 
-或 
+或
 
 // 将标准 time.Time 转换成 Carbon
 carbon.CreateFromStdTime(time.Now())
@@ -621,8 +622,8 @@ c0.Closest(c1, c2) // c1
 c0.Farthest(c1, c2) // c2
 
 yesterday := carbon.Yesterday()
-today     := carbon.Now()
-tomorrow  := carbon.Tomorrow()
+today := carbon.Now()
+tomorrow := carbon.Tomorrow()
 // 返回最大的 Carbon 实例
 carbon.Max(yesterday, today, tomorrow) // tomorrow
 // 返回最小的 Carbon 实例
@@ -737,7 +738,7 @@ carbon.Parse("2020-08-05 13:14:15").IsFebruary() // false
 // 是否是三月
 carbon.Parse("2020-08-05 13:14:15").IsMarch() // false
 // 是否是四月
-carbon.Parse("2020-08-05 13:14:15").IsApril()  // false
+carbon.Parse("2020-08-05 13:14:15").IsApril() // false
 // 是否是五月
 carbon.Parse("2020-08-05 13:14:15").IsMay() // false
 // 是否是六月
@@ -1335,17 +1336,17 @@ c := carbon.Parse("2020-08-05 13:14:15.999999999")
 user.Date = carbon.NewFormatType[carbon.Date](c)
 user.DateMilli = carbon.NewLayoutType[carbon.DateMilli](c)
 user.DateMicro = carbon.NewLayoutType[carbon.DateMicro](c)
-user.DateNano  = carbon.NewLayoutType[carbon.DateNano](c)
+user.DateNano = carbon.NewLayoutType[carbon.DateNano](c)
 
 user.Time = carbon.NewLayoutType[carbon.Time](c)
 user.TimeMilli = carbon.NewLayoutType[carbon.TimeMilli](c)
 user.TimeMicro = carbon.NewLayoutType[carbon.TimeMicro](c)
-user.TimeNano  = carbon.NewLayoutType[carbon.TimeNano](c)
+user.TimeNano = carbon.NewLayoutType[carbon.TimeNano](c)
 
 user.DateTime = carbon.NewFormatType[carbon.DateTime](c)
 user.DateTimeMilli = carbon.NewFormatType[carbon.DateTimeMilli](c)
 user.DateTimeMicro = carbon.NewFormatType[carbon.DateTimeMicro](c)
-user.DateTimeNano  = carbon.NewFormatType[carbon.DateTimeNano](c)
+user.DateTimeNano = carbon.NewFormatType[carbon.DateTimeNano](c)
 
 user.Timestamp = carbon.NewTimestampType[carbon.Timestamp](c)
 user.TimestampMilli = carbon.NewTimestampType[carbon.TimestampMilli](c)
@@ -1354,8 +1355,8 @@ user.TimestampNano = carbon.NewTimestampType[carbon.TimestampNano](c)
 
 data, err := json.Marshal(&user)
 if err != nil {
-  // 错误处理
-  log.Fatal(err)
+	// 错误处理
+	log.Fatal(err)
 }
 fmt.Printf("%s\n", data)
 // 输出
@@ -1381,8 +1382,8 @@ fmt.Printf("%s\n", data)
 var person User
 err := json.Unmarshal(data, &person)
 if err != nil {
-  // 错误处理
-  log.Fatal(err)
+	// 错误处理
+	log.Fatal(err)
 }
 
 fmt.Printf("person: %+v\n", person)
@@ -1394,18 +1395,18 @@ person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 Da
 
 ```go
 type RFC3339Layout string
-func (t CustomerLayout) SetLayout() string {
-    return carbon.RFC3339Layout
+	func (t CustomerLayout) SetLayout() string {
+	return carbon.RFC3339Layout
 }
 
 type ISO8601Format string
-func (t CustomerFormat) SetFormat() string {
-    return carbon.ISO8601Format
+	func (t CustomerFormat) SetFormat() string {
+	return carbon.ISO8601Format
 }
 
 type User struct {
-    Customer1 carbon.LayoutType[RFC3339Layout] `json:"customer1"`
-    Customer2 carbon.FormatType[ISO8601Format] `json:"customer2"`
+	Customer1 carbon.LayoutType[RFC3339Layout] `json:"customer1"`
+	Customer2 carbon.FormatType[ISO8601Format] `json:"customer2"`
 }
 
 var user User
@@ -1417,18 +1418,18 @@ user.Customer2 = carbon.NewFormatType[ISO8601Format](c)
 
 data, err := json.Marshal(&user)
 if err != nil {
-  // 错误处理
-  log.Fatal(err)
+	// 错误处理
+	log.Fatal(err)
 }
 fmt.Printf("%s\n", data)
 // 输出
-{"customer1":"2020-08-05T13:14:15Z","customer2":"2020-08-05T13:14:15+00:00"}
+{"customer1":"2020-08-05T13:14:15Z", "customer2":"2020-08-05T13:14:15+00:00"}
 
 var person User
 err := json.Unmarshal(data, &person)
 if err != nil {
-  // 错误处理
-  log.Fatal(err)
+	// 错误处理
+	log.Fatal(err)
 }
 
 fmt.Printf("person: %+v\n", person)
@@ -1462,7 +1463,8 @@ person: {Customer1:2020-08-05T13:14:15Z Customer2:2020-08-05T13:14:15+00:00}
 * [罗马尼亚语(ro)](./lang/ro.json "罗马尼亚语"): 由 [DrOctavius](https://github.com/DrOctavius "DrOctavius") 翻译
 * [印度尼西亚语(id)](./lang/id.json "印度尼西亚语"): 由 [justpoypoy](https://github.com/justpoypoy "justpoypoy") 翻译
 * [意大利语(it)](./lang/it.json "意大利语"): 由 [nicoloHevelop](https://github.com/justpoypoy "nicoloHevelop") 翻译
-* [马来西亚巴哈马语(ms-MY)](./lang/ms-MY.json "马来西亚巴哈马语"): 由 [hollowaykeanho](https://github.com/hollowaykeanho "hollowaykeanho") 翻译
+* [马来西亚巴哈马语(ms-MY)](./lang/ms-MY.json "马来西亚巴哈马语"):
+	由 [hollowaykeanho](https://github.com/hollowaykeanho "hollowaykeanho") 翻译
 * [法语(fr)](./lang/fr.json "法语"): 由 [hollowaykeanho](https://github.com/hollowaykeanho "hollowaykeanho") 翻译
 * [泰语(th)](./lang/th.json "泰语"): 由 [izcream](https://github.com/izcream "izcream") 翻译
 * [瑞典语(se)](./lang/se.json "瑞典语"): 由 [jwanglof](https://github.com/jwanglof "jwanglof") 翻译
@@ -1495,8 +1497,8 @@ lang.SetLocale("zh-CN")
 
 c := carbon.SetLanguage(lang)
 if c.Error != nil {
-  // 错误处理
-  log.Fatal(c.Error)
+	// 错误处理
+	log.Fatal(c.Error)
 }
 
 c.Now().AddHours(1).DiffForHumans() // 1 小时后
@@ -1514,14 +1516,14 @@ c.Now().AddHours(1).Season() // 夏季
 lang := carbon.NewLanguage()
 
 resources := map[string]string {
-  "hour": "%dh",
+	"hour": "%dh",
 }
 lang.SetLocale("en").SetResources(resources)
 
 c := carbon.SetLanguage(lang)
 if c.Error != nil {
-  // 错误处理
-  log.Fatal(c.Error)
+	// 错误处理
+	log.Fatal(c.Error)
 }
 
 c.Now().AddYears(1).DiffForHumans() // 1 year from now
@@ -1539,24 +1541,24 @@ c.Now().Season() // Summer
 ```go
 lang := carbon.NewLanguage()
 resources := map[string]string {
-  "months": "january|february|march|april|may|june|july|august|september|october|november|december",
-  "short_months": "jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec",
-  "weeks": "sunday|monday|tuesday|wednesday|thursday|friday|saturday",
-  "short_weeks": "sun|mon|tue|wed|thu|fri|sat",
-  "seasons": "spring|summer|autumn|winter",
-  "constellations": "aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricornus|aquarius|pisce",
-  "year": "1 yr|%d yrs",
-  "month": "1 mo|%d mos",
-  "week": "%dw",
-  "day": "%dd",
-  "hour": "%dh",
-  "minute": "%dm",
-  "second": "%ds",
-  "now": "just now",
-  "ago": "%s ago",
-  "from_now": "in %s",
-  "before": "%s before",
-  "after": "%s after",
+	"months": "january|february|march|april|may|june|july|august|september|october|november|december",
+	"short_months": "jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec",
+	"weeks": "sunday|monday|tuesday|wednesday|thursday|friday|saturday",
+	"short_weeks": "sun|mon|tue|wed|thu|fri|sat",
+	"seasons": "spring|summer|autumn|winter",
+	"constellations": "aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricornus|aquarius|pisce",
+	"year": "1 yr|%d yrs",
+	"month": "1 mo|%d mos",
+	"week": "%dw",
+	"day": "%dd",
+	"hour": "%dh",
+	"minute": "%dm",
+	"second": "%ds",
+	"now": "just now",
+	"ago": "%s ago",
+	"from_now": "in %s",
+	"before": "%s before",
+	"after": "%s after",
 }
 lang.SetResources(resources)
 
@@ -1576,8 +1578,8 @@ c.Now().Season() // summer
 ```go
 c := carbon.Parse("2020-08-05").SetTimezone("xxx")
 if c.HasError() {
-  // 错误处理
-  log.Fatal(c.Error)
+	// 错误处理
+	log.Fatal(c.Error)
 }
 // 输出
 invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for all valid timezones
@@ -1587,57 +1589,60 @@ invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for 
 
 ##### <a id="format-sign-table">格式符号表</a>
 
-| 符号 |             描述             | 长度 |        范围        |            示例            |
-|:--:|:--------------------------:|:--:|:----------------:|:------------------------:|
-| d  |        月份中的第几天，有前导零        | 2  |      01-31       |            02            |
-| D  |         缩写单词表示的周几          | 3  |     Mon-Sun      |           Mon            |
-| j  |       月份中的第几天，没有前导零        | -  |       1-31       |            2             |
-| K  |    第几天的英文缩写后缀，一般和j配合使用     | 2  |   st/nd/rd/th    |            th            |
-| l  |         完整单词表示的周几          | -  |  Monday-Sunday   |          Monday          |
-| F  |         完整单词表示的月份          | -  | January-December |         January          |
-| m  |        数字表示的月份，有前导零        | 2  |      01-12       |            01            |
-| M  |         缩写单词表示的月份          | 3  |     Jan-Dec      |           Jan            |
-| n  |       数字表示的月份，没有前导零        | -  |       1-12       |            1             |
-| Y  |        4 位数字完整表示的年份        | 4  |    0000-9999     |           2006           |
-| y  |         2 位数字表示的年份         | 2  |      00-99       |            06            |
-| a  |         小写的上午和下午标识         | 2  |      am/pm       |            pm            |
-| A  |         大写的上午和下午标识         | 2  |      AM/PM       |            PM            |
-| g  |         小时，12 小时格式         | -  |       1-12       |            3             |
-| G  |         小时，24 小时格式         | -  |       0-23       |            15            |
-| h  |         小时，12 小时格式         | 2  |      00-11       |            03            |
-| H  |         小时，24 小时格式         | 2  |      00-23       |            15            |
-| i  |             分钟             | 2  |      01-59       |            04            |
-| s  |             秒数             | 2  |      01-59       |            05            |
-| O  |       与格林威治时间相差的小时数        | -  |        -         |          -0700           |
-| P  | 与格林威治时间相差的小时数，小时和分钟之间有冒号分隔 | -  |        -         |          -07:00          |
-| Z  |            时区名字            | -  |        -         |           CST            |
-| W  |   ISO8601 格式数字表示的年份中的第几周   | 2  |      01-52       |            01            |
-| N  |   ISO8601 格式数字表示的星期中的第几天   | 2  |      01-07       |            02            |
-| L  |    是否为闰年，如果是闰年为 1，否则为 0    | 1  |       0-1        |            0             |
-| S  |           秒级时间戳            | -  |        -         |        1596604455        |
-| U  |           毫级时间戳            | -  |        -         |      1596604455666       |
-| V  |           微级时间戳            | -  |        -         |     1596604455666666     |
-| X  |           纳级时间戳            | -  |        -         |   1596604455666666666    |
-| u  |             毫秒             | -  |      1-999       |           999            |
-| v  |             微秒             | -  |     1-999999     |          999999          |
-| x  |             纳秒             | -  |   1-999999999    |        999999999         |
-| w  |          数字表示的周几           | 1  |       0-6        |            1             |
-| t  |          月份中的总天数           | 2  |      28-31       |            31            |
-| z  |            时区位置            | -  |        -         |      Asia/Shanghai       |
-| o  |           时区偏移量            | -  |        -         |          28800           |
-| q  |            当前季节            | 1  |       1-4        |            1             |
-| c  |           当前世纪数            | -  |       0-99       |            21            |
+| 符号 |             描述             | 长度 |        范围        |         示例          |
+|:--:|:--------------------------:|:--:|:----------------:|:-------------------:|
+| d  |        月份中的第几天，有前导零        | 2  |      01-31       |         02          |
+| D  |         缩写单词表示的周几          | 3  |     Mon-Sun      |         Mon         |
+| j  |       月份中的第几天，没有前导零        | -  |       1-31       |          2          |
+| K  |    第几天的英文缩写后缀，一般和j配合使用     | 2  |   st/nd/rd/th    |         th          |
+| l  |         完整单词表示的周几          | -  |  Monday-Sunday   |       Monday        |
+| F  |         完整单词表示的月份          | -  | January-December |       January       |
+| m  |        数字表示的月份，有前导零        | 2  |      01-12       |         01          |
+| M  |         缩写单词表示的月份          | 3  |     Jan-Dec      |         Jan         |
+| n  |       数字表示的月份，没有前导零        | -  |       1-12       |          1          |
+| Y  |        4 位数字完整表示的年份        | 4  |    0000-9999     |        2006         |
+| y  |         2 位数字表示的年份         | 2  |      00-99       |         06          |
+| a  |         小写的上午和下午标识         | 2  |      am/pm       |         pm          |
+| A  |         大写的上午和下午标识         | 2  |      AM/PM       |         PM          |
+| g  |         小时，12 小时格式         | -  |       1-12       |          3          |
+| G  |         小时，24 小时格式         | -  |       0-23       |         15          |
+| h  |         小时，12 小时格式         | 2  |      00-11       |         03          |
+| H  |         小时，24 小时格式         | 2  |      00-23       |         15          |
+| i  |             分钟             | 2  |      01-59       |         04          |
+| s  |             秒数             | 2  |      01-59       |         05          |
+| O  |       与格林威治时间相差的小时数        | -  |        -         |        -0700        |
+| P  | 与格林威治时间相差的小时数，小时和分钟之间有冒号分隔 | -  |        -         |       -07:00        |
+| Z  |            时区名字            | -  |        -         |         CST         |
+| W  |   ISO8601 格式数字表示的年份中的第几周   | 2  |      01-52       |         01          |
+| N  |   ISO8601 格式数字表示的星期中的第几天   | 2  |      01-07       |         02          |
+| L  |    是否为闰年，如果是闰年为 1，否则为 0    | 1  |       0-1        |          0          |
+| S  |           秒级时间戳            | -  |        -         |     1596604455      |
+| U  |           毫级时间戳            | -  |        -         |    1596604455666    |
+| V  |           微级时间戳            | -  |        -         |  1596604455666666   |
+| X  |           纳级时间戳            | -  |        -         | 1596604455666666666 |
+| u  |             毫秒             | -  |      1-999       |         999         |
+| v  |             微秒             | -  |     1-999999     |       999999        |
+| x  |             纳秒             | -  |   1-999999999    |      999999999      |
+| w  |          数字表示的周几           | 1  |       0-6        |          1          |
+| t  |          月份中的总天数           | 2  |      28-31       |         31          |
+| z  |            时区位置            | -  |        -         |    Asia/Shanghai    |
+| o  |           时区偏移量            | -  |        -         |        28800        |
+| q  |            当前季节            | 1  |       1-4        |          1          |
+| c  |           当前世纪数            | -  |       0-99       |         21          |
 
 #### 常见问题
 
 1、v1 和 v2 版本有什么区别？
-> v1 和 v2 版本的 API 没有任何区别，只是 `language.go` 里翻译资源文件内嵌的实现方式不同，v1 版本是用第三方扩展库 [packr](https://github.com/gobuffalo/packr)
+> v1 和 v2 版本的 API 没有任何区别，只是 `language.go` 里翻译资源文件内嵌的实现方式不同，v1
+> 版本是用第三方扩展库 [packr](https://github.com/gobuffalo/packr)
 > 实现的，
-> v2 版本是用 `golang1.16` 后内置标准库 [embed](https://pkg.go.dev/embed) 实现的。如果你的 go 版本大于 1.16推荐使用 v2 版本，否则必须使用 v1 版本。
+> v2 版本是用 `golang1.16` 后内置标准库 [embed](https://pkg.go.dev/embed) 实现的。如果你的 go 版本大于 1.16推荐使用 v2
+> 版本，否则必须使用 v1 版本。
 
 2、window 系统下部署二进制文件时区报错
 
-> window 系统如果没有安装 golang 环境，部署时会报 `GOROOT/lib/time/zoneinfo.zip: no such file or directory` 异常，原因是由于 window
+> window 系统如果没有安装 golang 环境，部署时会报 `GOROOT/lib/time/zoneinfo.zip: no such file or directory` 异常，原因是由于
+> window
 > 系统没有内置时区文件，只需要手动下载并指定 `zoneinfo.zip` 路径即可，如 `go/lib/time/zoneinfo.zip`
 
 ```go
@@ -1650,7 +1655,7 @@ os.Setenv("ZONEINFO", "./go/lib/time/zoneinfo.zip")
 > 异常，只需要把 `zoneinfo.zip` 复制到容器中即可，即在 Dockerfile 中加入
 
 ```go
-COPY ./zoneinfo.zip /usr/local/go/lib/time/zoneinfo.zip
+COPY ./zoneinfo.zip /usr/local/go /lib/time/zoneinfo.zip
 ```
 
 #### 参考项目
@@ -1665,13 +1670,15 @@ COPY ./zoneinfo.zip /usr/local/go/lib/time/zoneinfo.zip
 * [iamkun/dayjs](https://github.com/iamkun/dayjs)
 
 #### 贡献者
+
 感谢以下所有为 `Carbon` 做出贡献的人：
 
 <a href="https://github.com/dromara/carbon/graphs/contributors"><img src="https://contrib.rocks/image?repo=dromara/carbon&max=100&columns=16"/></a>
 
 #### 赞助
 
-`Carbon` 是一个非商业开源项目, 如果你想支持 `Carbon`, 你可以为开发者 [购买一杯咖啡](https://www.gouguoyin.com/zanzhu.html)
+`Carbon` 是一个非商业开源项目, 如果你想支持 `Carbon`,
+你可以为开发者 [购买一杯咖啡](https://www.gouguoyin.com/zanzhu.html)
 
 #### 致谢
 
