@@ -1327,25 +1327,25 @@ var user User
 
 c := carbon.Parse("2020-08-05 13:14:15.999999999")
 
-user.Date = carbon.NewFormatType[carbon.Date](c)
+user.Date      = carbon.NewFormatType[carbon.Date](c)
 user.DateMilli = carbon.NewLayoutType[carbon.DateMilli](c)
 user.DateMicro = carbon.NewLayoutType[carbon.DateMicro](c)
 user.DateNano  = carbon.NewLayoutType[carbon.DateNano](c)
 
-user.Time = carbon.NewLayoutType[carbon.Time](c)
+user.Time      = carbon.NewLayoutType[carbon.Time](c)
 user.TimeMilli = carbon.NewLayoutType[carbon.TimeMilli](c)
 user.TimeMicro = carbon.NewLayoutType[carbon.TimeMicro](c)
 user.TimeNano  = carbon.NewLayoutType[carbon.TimeNano](c)
 
-user.DateTime = carbon.NewFormatType[carbon.DateTime](c)
+user.DateTime      = carbon.NewFormatType[carbon.DateTime](c)
 user.DateTimeMilli = carbon.NewFormatType[carbon.DateTimeMilli](c)
 user.DateTimeMicro = carbon.NewFormatType[carbon.DateTimeMicro](c)
 user.DateTimeNano  = carbon.NewFormatType[carbon.DateTimeNano](c)
 
-user.Timestamp = carbon.NewTimestampType[carbon.Timestamp](c)
+user.Timestamp      = carbon.NewTimestampType[carbon.Timestamp](c)
 user.TimestampMilli = carbon.NewTimestampType[carbon.TimestampMilli](c)
 user.TimestampMicro = carbon.NewTimestampType[carbon.TimestampMicro](c)
-user.TimestampNano = carbon.NewTimestampType[carbon.TimestampNano](c)
+user.TimestampNano  = carbon.NewTimestampType[carbon.TimestampNano](c)
 
 data, err := json.Marshal(&user)
 if err != nil {
