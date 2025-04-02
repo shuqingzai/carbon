@@ -14,28 +14,23 @@ func TestLayoutType_Scan(t *testing.T) {
 	c := carbon.NewLayoutType[carbon.DateTime](carbon.Now())
 
 	t.Run("[]byte type", func(t *testing.T) {
-		e := c.Scan([]byte(carbon.Now().ToDateString()))
-		assert.Nil(t, e)
+		assert.Nil(t, c.Scan([]byte(carbon.Now().ToDateString())))
 	})
 
 	t.Run("string type", func(t *testing.T) {
-		e := c.Scan(carbon.Now().ToDateString())
-		assert.Nil(t, e)
+		assert.Nil(t, c.Scan(carbon.Now().ToDateString()))
 	})
 
 	t.Run("int64 type", func(t *testing.T) {
-		e := c.Scan(carbon.Now().Timestamp())
-		assert.Nil(t, e)
+		assert.Nil(t, c.Scan(carbon.Now().Timestamp()))
 	})
 
 	t.Run("time type", func(t *testing.T) {
-		e := c.Scan(carbon.Now().StdTime())
-		assert.Nil(t, e)
+		assert.Nil(t, c.Scan(carbon.Now().StdTime()))
 	})
 
 	t.Run("unsupported type", func(t *testing.T) {
-		e := c.Scan(nil)
-		assert.Error(t, e)
+		assert.Error(t, c.Scan(nil))
 	})
 }
 
@@ -316,28 +311,23 @@ func TestFormatType_Scan(t *testing.T) {
 	c := carbon.NewFormatType[carbon.DateTime](carbon.Now())
 
 	t.Run("[]byte type", func(t *testing.T) {
-		e := c.Scan([]byte(carbon.Now().ToDateString()))
-		assert.Nil(t, e)
+		assert.Nil(t, c.Scan([]byte(carbon.Now().ToDateString())))
 	})
 
 	t.Run("string type", func(t *testing.T) {
-		e := c.Scan(carbon.Now().ToDateString())
-		assert.Nil(t, e)
+		assert.Nil(t, c.Scan(carbon.Now().ToDateString()))
 	})
 
 	t.Run("int64 type", func(t *testing.T) {
-		e := c.Scan(carbon.Now().Timestamp())
-		assert.Nil(t, e)
+		assert.Nil(t, c.Scan(carbon.Now().Timestamp()))
 	})
 
 	t.Run("time type", func(t *testing.T) {
-		e := c.Scan(carbon.Now().StdTime())
-		assert.Nil(t, e)
+		assert.Nil(t, c.Scan(carbon.Now().StdTime()))
 	})
 
 	t.Run("unsupported type", func(t *testing.T) {
-		e := c.Scan(nil)
-		assert.Error(t, e)
+		assert.Error(t, c.Scan(nil))
 	})
 }
 
@@ -616,101 +606,83 @@ func TestFormatType_GormDataType(t *testing.T) {
 
 func TestTimestampType_Scan(t *testing.T) {
 	t.Run("[]byte type", func(t *testing.T) {
-		c1 := carbon.NewTimestampType[carbon.Timestamp](carbon.Now())
-		e1 := c1.Scan([]byte(strconv.Itoa(int(c1.Timestamp()))))
-		assert.Nil(t, e1)
+		ts1 := carbon.NewTimestampType[carbon.Timestamp](carbon.Now())
+		assert.Error(t, ts1.Scan([]byte("xxx")))
+		assert.Nil(t, ts1.Scan([]byte(strconv.Itoa(int(ts1.Timestamp())))))
 
-		c2 := carbon.NewTimestampType[carbon.TimestampMilli](carbon.Now())
-		e2 := c2.Scan([]byte(strconv.Itoa(int(c2.Timestamp()))))
-		assert.Nil(t, e2)
+		ts2 := carbon.NewTimestampType[carbon.TimestampMilli](carbon.Now())
+		assert.Error(t, ts2.Scan([]byte("xxx")))
+		assert.Nil(t, ts2.Scan([]byte(strconv.Itoa(int(ts2.Timestamp())))))
 
-		c3 := carbon.NewTimestampType[carbon.TimestampMicro](carbon.Now())
-		e3 := c3.Scan([]byte(strconv.Itoa(int(c3.Timestamp()))))
-		assert.Nil(t, e3)
+		ts3 := carbon.NewTimestampType[carbon.TimestampMicro](carbon.Now())
+		assert.Error(t, ts3.Scan([]byte("xxx")))
+		assert.Nil(t, ts3.Scan([]byte(strconv.Itoa(int(ts3.Timestamp())))))
 
-		c4 := carbon.NewTimestampType[carbon.TimestampNano](carbon.Now())
-		e4 := c4.Scan([]byte(strconv.Itoa(int(c4.Timestamp()))))
-		assert.Nil(t, e4)
-
-		e5 := c4.Scan([]byte("xxx"))
-		assert.Error(t, e5)
+		ts4 := carbon.NewTimestampType[carbon.TimestampNano](carbon.Now())
+		assert.Error(t, ts4.Scan([]byte("xxx")))
+		assert.Nil(t, ts4.Scan([]byte(strconv.Itoa(int(ts4.Timestamp())))))
 	})
 
 	t.Run("string type", func(t *testing.T) {
-		c1 := carbon.NewTimestampType[carbon.Timestamp](carbon.Now())
-		e1 := c1.Scan(strconv.Itoa(int(c1.Timestamp())))
-		assert.Nil(t, e1)
+		ts1 := carbon.NewTimestampType[carbon.Timestamp](carbon.Now())
+		assert.Error(t, ts1.Scan("xxx"))
+		assert.Nil(t, ts1.Scan(strconv.Itoa(int(ts1.Timestamp()))))
 
-		c2 := carbon.NewTimestampType[carbon.TimestampMilli](carbon.Now())
-		e2 := c2.Scan(strconv.Itoa(int(c2.Timestamp())))
-		assert.Nil(t, e2)
+		ts2 := carbon.NewTimestampType[carbon.TimestampMilli](carbon.Now())
+		assert.Error(t, ts2.Scan("xxx"))
+		assert.Nil(t, ts2.Scan(strconv.Itoa(int(ts2.Timestamp()))))
 
-		c3 := carbon.NewTimestampType[carbon.TimestampMicro](carbon.Now())
-		e3 := c3.Scan(strconv.Itoa(int(c3.Timestamp())))
-		assert.Nil(t, e3)
+		ts3 := carbon.NewTimestampType[carbon.TimestampMicro](carbon.Now())
+		assert.Error(t, ts3.Scan("xxx"))
+		assert.Nil(t, ts3.Scan(strconv.Itoa(int(ts3.Timestamp()))))
 
-		c4 := carbon.NewTimestampType[carbon.TimestampNano](carbon.Now())
-		e4 := c4.Scan(strconv.Itoa(int(c4.Timestamp())))
-		assert.Nil(t, e4)
-
-		e5 := c4.Scan("xxx")
-		assert.Error(t, e5)
+		ts4 := carbon.NewTimestampType[carbon.TimestampNano](carbon.Now())
+		assert.Error(t, ts4.Scan("xxx"))
+		assert.Nil(t, ts4.Scan(strconv.Itoa(int(ts4.Timestamp()))))
 	})
 
 	t.Run("int64 type", func(t *testing.T) {
-		c1 := carbon.NewTimestampType[carbon.Timestamp](carbon.Now())
-		e1 := c1.Scan(carbon.Now().Timestamp())
-		assert.Nil(t, e1)
+		ts1 := carbon.NewTimestampType[carbon.Timestamp](carbon.Now())
+		assert.Nil(t, ts1.Scan(carbon.Now().Timestamp()))
 
-		c2 := carbon.NewTimestampType[carbon.TimestampMilli](carbon.Now())
-		e2 := c2.Scan(carbon.Now().TimestampMilli())
-		assert.Nil(t, e2)
+		ts2 := carbon.NewTimestampType[carbon.TimestampMilli](carbon.Now())
+		assert.Nil(t, ts2.Scan(carbon.Now().TimestampMilli()))
 
-		c3 := carbon.NewTimestampType[carbon.TimestampMicro](carbon.Now())
-		e3 := c3.Scan(carbon.Now().TimestampMicro())
-		assert.Nil(t, e3)
+		ts3 := carbon.NewTimestampType[carbon.TimestampMicro](carbon.Now())
+		assert.Nil(t, ts3.Scan(carbon.Now().TimestampMicro()))
 
-		c4 := carbon.NewTimestampType[carbon.TimestampNano](carbon.Now())
-		e4 := c4.Scan(carbon.Now().TimestampNano())
-		assert.Nil(t, e4)
+		ts4 := carbon.NewTimestampType[carbon.TimestampNano](carbon.Now())
+		assert.Nil(t, ts4.Scan(carbon.Now().TimestampNano()))
 	})
 
 	t.Run("time type", func(t *testing.T) {
-		c1 := carbon.NewTimestampType[carbon.Timestamp](carbon.Now())
-		e1 := c1.Scan(carbon.Now().StdTime())
-		assert.Nil(t, e1)
+		ts1 := carbon.NewTimestampType[carbon.Timestamp](carbon.Now())
+		assert.Nil(t, ts1.Scan(carbon.Now().StdTime()))
 
-		c2 := carbon.NewTimestampType[carbon.TimestampMilli](carbon.Now())
-		e2 := c2.Scan(carbon.Now().StdTime())
-		assert.Nil(t, e2)
+		ts2 := carbon.NewTimestampType[carbon.TimestampMilli](carbon.Now())
+		assert.Nil(t, ts2.Scan(carbon.Now().StdTime()))
 
-		c3 := carbon.NewTimestampType[carbon.TimestampMicro](carbon.Now())
-		e3 := c3.Scan(carbon.Now().StdTime())
-		assert.Nil(t, e3)
+		ts3 := carbon.NewTimestampType[carbon.TimestampMicro](carbon.Now())
+		assert.Nil(t, ts3.Scan(carbon.Now().StdTime()))
 
-		c4 := carbon.NewTimestampType[carbon.TimestampNano](carbon.Now())
-		e4 := c4.Scan(carbon.Now().StdTime())
-		assert.Nil(t, e4)
+		ts4 := carbon.NewTimestampType[carbon.TimestampNano](carbon.Now())
+		assert.Nil(t, ts4.Scan(carbon.Now().StdTime()))
 	})
 
 	t.Run("unsupported type", func(t *testing.T) {
 		c := carbon.Now()
 
-		c1 := carbon.NewTimestampType[carbon.Timestamp](c)
-		e1 := c1.Scan(nil)
-		assert.Error(t, e1)
+		ts1 := carbon.NewTimestampType[carbon.Timestamp](c)
+		assert.Error(t, ts1.Scan(nil))
 
-		c2 := carbon.NewTimestampType[carbon.TimestampMilli](c)
-		e2 := c2.Scan(nil)
-		assert.Error(t, e2)
+		ts2 := carbon.NewTimestampType[carbon.TimestampMilli](c)
+		assert.Error(t, ts2.Scan(nil))
 
-		c3 := carbon.NewTimestampType[carbon.TimestampMicro](c)
-		e3 := c3.Scan(nil)
-		assert.Error(t, e3)
+		ts3 := carbon.NewTimestampType[carbon.TimestampMicro](c)
+		assert.Error(t, ts3.Scan(nil))
 
-		c4 := carbon.NewTimestampType[carbon.TimestampNano](c)
-		e4 := c4.Scan(nil)
-		assert.Error(t, e4)
+		ts4 := carbon.NewTimestampType[carbon.TimestampNano](c)
+		assert.Error(t, ts4.Scan(nil))
 	})
 }
 
