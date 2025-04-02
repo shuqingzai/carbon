@@ -14,10 +14,12 @@ func TestSetLayout(t *testing.T) {
 		SetLayout(DateLayout)
 		assert.Equal(t, DateLayout, DefaultLayout)
 		assert.Equal(t, DateLayout, NewCarbon().CurrentLayout())
+		assert.Equal(t, "0001-01-01", NewCarbon().String())
 
 		SetLayout(DateTimeLayout)
 		assert.Equal(t, DateTimeLayout, DefaultLayout)
 		assert.Equal(t, DateTimeLayout, NewCarbon().CurrentLayout())
+		assert.Equal(t, "0001-01-01 00:00:00", NewCarbon().String())
 	})
 
 	t.Run("valid time", func(t *testing.T) {
@@ -25,11 +27,13 @@ func TestSetLayout(t *testing.T) {
 		c1 := Parse("2020-08-05")
 		assert.Equal(t, DateLayout, DefaultLayout)
 		assert.Equal(t, DateLayout, c1.CurrentLayout())
+		assert.Equal(t, "2020-08-05", c1.String())
 
 		SetLayout(DateTimeLayout)
 		c2 := Parse("2020-08-05 13:14:15")
 		assert.Equal(t, DateTimeLayout, DefaultLayout)
 		assert.Equal(t, DateTimeLayout, c2.CurrentLayout())
+		assert.Equal(t, "2020-08-05 13:14:15", c2.String())
 	})
 }
 
@@ -37,25 +41,29 @@ func TestCarbon_SetLayout(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		c := NewCarbon().SetLayout(DateLayout)
 		assert.Equal(t, DateLayout, c.CurrentLayout())
+		assert.Equal(t, "0001-01-01", c.String())
 	})
 
 	t.Run("empty layout", func(t *testing.T) {
 		assert.True(t, Now().SetLayout("").HasError())
 		assert.Empty(t, Now().SetLayout("").CurrentLayout())
+		assert.Empty(t, Now().SetLayout("").String())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").SetLayout(DateLayout).CurrentLayout())
-		assert.Empty(t, Parse("0").SetLayout(DateLayout).CurrentLayout())
-		assert.Empty(t, Parse("xxx").SetLayout(DateLayout).CurrentLayout())
+		assert.Empty(t, Parse("").SetLayout(DateLayout).String())
+		assert.Empty(t, Parse("0").SetLayout(DateLayout).String())
+		assert.Empty(t, Parse("xxx").SetLayout(DateLayout).String())
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		c1 := Parse("2020-08-05").SetLayout(DateLayout)
-		assert.Equal(t, DateLayout, c1.CurrentLayout())
+		now := Parse("2020-08-05 13:14:15.999999 +0000 UTC")
 
-		c2 := Parse("2020-08-05").SetLayout(DateTimeLayout)
-		assert.Equal(t, DateTimeLayout, c2.CurrentLayout())
+		assert.Equal(t, "2020-08-05 13:14:15", now.SetLayout(DateTimeLayout).String())
+		assert.Equal(t, "1596633255", now.SetLayout(TimestampLayout).String())
+		assert.Equal(t, "1596633255999", now.SetLayout(TimestampMilliLayout).String())
+		assert.Equal(t, "1596633255999999", now.SetLayout(TimestampMicroLayout).String())
+		assert.Equal(t, "1596633255999999000", now.SetLayout(TimestampNanoLayout).String())
 	})
 }
 
@@ -94,20 +102,23 @@ func TestCarbon_SetFormat(t *testing.T) {
 	t.Run("empty layout", func(t *testing.T) {
 		assert.True(t, Now().SetFormat("").HasError())
 		assert.Empty(t, Now().SetFormat("").CurrentLayout())
+		assert.Empty(t, Now().SetFormat("").String())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").SetFormat(DateFormat).CurrentLayout())
-		assert.Empty(t, Parse("0").SetFormat(DateFormat).CurrentLayout())
-		assert.Empty(t, Parse("xxx").SetFormat(DateFormat).CurrentLayout())
+		assert.Empty(t, Parse("").SetFormat(DateFormat).String())
+		assert.Empty(t, Parse("0").SetFormat(DateFormat).String())
+		assert.Empty(t, Parse("xxx").SetFormat(DateFormat).String())
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		c1 := Parse("2020-08-05").SetFormat(DateFormat)
-		assert.Equal(t, DateLayout, c1.CurrentLayout())
+		now := Parse("2020-08-05 13:14:15.999999 +0000 UTC")
 
-		c2 := Parse("2020-08-05").SetFormat(DateTimeFormat)
-		assert.Equal(t, DateTimeLayout, c2.CurrentLayout())
+		assert.Equal(t, "2020-08-05 13:14:15", now.SetFormat(DateTimeFormat).String())
+		assert.Equal(t, "1596633255", now.SetFormat(TimestampFormat).String())
+		assert.Equal(t, "1596633255999", now.SetFormat(TimestampMilliFormat).String())
+		assert.Equal(t, "1596633255999999", now.SetFormat(TimestampMicroFormat).String())
+		assert.Equal(t, "1596633255999999000", now.SetFormat(TimestampNanoFormat).String())
 	})
 }
 

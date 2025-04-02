@@ -19,12 +19,18 @@ func ExampleSetLayout() {
 }
 
 func ExampleCarbon_SetLayout() {
-	fmt.Println("current layout:", carbon.Now().SetLayout(carbon.DateTimeLayout).CurrentLayout())
-	fmt.Println("current layout:", carbon.Now().SetLayout(carbon.TimeLayout).CurrentLayout())
+	c := carbon.Parse("2020-08-05 13:14:15.999999 +0000 UTC")
+
+	fmt.Println("date layout:", c.SetLayout(carbon.DateLayout))
+	fmt.Println("time layout:", c.SetLayout(carbon.TimeLayout))
+	fmt.Println("datetime layout:", c.SetLayout(carbon.DateTimeLayout))
+	fmt.Println("timestamp layout:", c.SetLayout(carbon.TimestampLayout))
 
 	// Output:
-	// current layout: 2006-01-02 15:04:05
-	// current layout: 15:04:05
+	// date layout: 2020-08-05
+	// time layout: 13:14:15
+	// datetime layout: 2020-08-05 13:14:15
+	// timestamp layout: 1596633255
 }
 
 func ExampleSetFormat() {
@@ -39,12 +45,18 @@ func ExampleSetFormat() {
 }
 
 func ExampleCarbon_SetFormat() {
-	fmt.Println("current layout:", carbon.Now().SetFormat(carbon.DateTimeFormat).CurrentLayout())
-	fmt.Println("current layout:", carbon.Now().SetFormat(carbon.TimeFormat).CurrentLayout())
+	c := carbon.Parse("2020-08-05 13:14:15.999999 +0000 UTC")
+
+	fmt.Println("date format:", c.SetFormat(carbon.DateFormat))
+	fmt.Println("time format:", c.SetFormat(carbon.TimeFormat))
+	fmt.Println("datetime format:", c.SetFormat(carbon.DateTimeFormat))
+	fmt.Println("timestamp format:", c.SetFormat(carbon.TimestampFormat))
 
 	// Output:
-	// current layout: 2006-01-02 15:04:05
-	// current layout: 15:04:05
+	// date format: 2020-08-05
+	// time format: 13:14:15
+	// datetime format: 2020-08-05 13:14:15
+	// timestamp format: 1596633255
 }
 
 func ExampleSetWeekStartsAt() {
