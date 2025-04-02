@@ -82,7 +82,7 @@ func NewTimestampType[T TimestampFactory](carbon *Carbon) TimestampType[T] {
 
 // Scan implements driver.Scanner interface for LayoutType generic struct.
 // 实现 driver.Scanner 接口
-func (t *LayoutType[T]) Scan(src interface{}) error {
+func (t *LayoutType[T]) Scan(src any) error {
 	c := NewCarbon()
 	switch v := src.(type) {
 	case []byte:
@@ -161,7 +161,7 @@ func (t LayoutType[T]) getLayout() string {
 
 // Scan implements driver.Scanner interface for FormatType generic struct.
 // 实现 driver.Scanner 接口
-func (t *FormatType[T]) Scan(src interface{}) error {
+func (t *FormatType[T]) Scan(src any) error {
 	c := NewCarbon()
 	switch v := src.(type) {
 	case []byte:
@@ -240,7 +240,7 @@ func (t FormatType[T]) getFormat() string {
 
 // Scan implements driver.Scanner interface for TimestampType generic struct.
 // 实现 driver.Scanner 接口
-func (t *TimestampType[T]) Scan(src interface{}) (err error) {
+func (t *TimestampType[T]) Scan(src any) (err error) {
 	ts := int64(0)
 	c := NewCarbon()
 	switch v := src.(type) {

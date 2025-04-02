@@ -6,7 +6,7 @@ import (
 
 // returns a failed scan error
 // 失败的扫描错误
-var failedScanError = func(value interface{}) error {
+var failedScanError = func(value any) error {
 	return fmt.Errorf("failed to scan value: %v", value)
 }
 
