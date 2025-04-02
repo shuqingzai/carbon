@@ -625,20 +625,26 @@ func ExampleCarbon_ToFormattedDayDateString() {
 }
 
 func ExampleCarbon_Layout() {
-	fmt.Printf("2006-01-02 15:04:05 layout: %s\n", carbon.Parse("2020-08-05 13:14:15").Layout(carbon.DateTimeLayout))
-	fmt.Printf("2006-01-02 layout: %s\n", carbon.Parse("2020-08-05T13:14:15.999999999+00:00").Layout(carbon.DateLayout))
-	fmt.Printf("2006-01-02 15:04:05 with PRC timezone layout: %s\n", carbon.Parse("2020-08-05", carbon.PRC).Layout(carbon.DateTimeLayout))
-	fmt.Printf("2006-01-02 15:04:05 with PRC timezone layout: %s\n", carbon.Parse("2020-08-05").Layout(carbon.DateTimeLayout, carbon.PRC))
-	fmt.Printf("2006年01月02日 layout: %s\n", carbon.Parse("2020-08-05 13:14:15").Layout("2006年01月02日"))
-	fmt.Printf("Mon, 02 Jan 2006 15:04:05 GMT layout: %s\n", carbon.Parse("2020-08-05 13:14:15").Layout("Mon, 02 Jan 2006 15:04:05 GMT"))
+	c := carbon.Parse("2020-08-05T13:14:15.999999999+00:00")
+
+	fmt.Printf("date layout: %s\n", c.Layout(carbon.DateLayout))
+	fmt.Printf("time layout: %s\n", c.Layout(carbon.TimeLayout))
+	fmt.Printf("datetime layout: %s\n", c.Layout(carbon.DateTimeLayout))
+
+	fmt.Printf("timestamp layout: %s\n", c.Layout(carbon.TimestampLayout))
+	fmt.Printf("TimestampMilli layout: %s\n", c.Layout(carbon.TimestampMilliLayout))
+	fmt.Printf("timestampMicro layout: %s\n", c.Layout(carbon.TimestampMicroLayout))
+	fmt.Printf("timestampNano layout: %s\n", c.Layout(carbon.TimestampNanoLayout))
 
 	// Output:
-	// 2006-01-02 15:04:05 layout: 2020-08-05 13:14:15
-	// 2006-01-02 layout: 2020-08-05
-	// 2006-01-02 15:04:05 with PRC timezone layout: 2020-08-05 00:00:00
-	// 2006-01-02 15:04:05 with PRC timezone layout: 2020-08-05 08:00:00
-	// 2006年01月02日 layout: 2020年08月05日
-	// Mon, 02 Jan 2006 15:04:05 GMT layout: Wed, 05 Aug 2020 13:14:15 GMT
+	// date layout: 2020-08-05
+	// time layout: 13:14:15
+	// datetime layout: 2020-08-05 13:14:15
+	// timestamp layout: 1596633255
+	// TimestampMilli layout: 1596633255999
+	// timestampMicro layout: 1596633255999999
+	// timestampNano layout: 1596633255999999999
+
 }
 
 func ExampleCarbon_Format() {
@@ -680,6 +686,12 @@ func ExampleCarbon_Format() {
 	fmt.Printf("jK format: %s\n", carbon.Parse("2020-08-22 13:14:15").Format("jK"))
 	fmt.Printf("jK format: %s\n", carbon.Parse("2020-08-23 13:14:15").Format("jK"))
 	fmt.Printf("jK format: %s\n", carbon.Parse("2020-08-31 13:14:15").Format("jK"))
+
+	fmt.Printf("timestamp format: %s\n", carbon.Parse("2020-08-05T13:14:15.999999999+00:00").Format(carbon.TimestampFormat))
+	fmt.Printf("TimestampMilli format: %s\n", carbon.Parse("2020-08-05T13:14:15.999999999+00:00").Format(carbon.TimestampMilliFormat))
+	fmt.Printf("timestampMicro format: %s\n", carbon.Parse("2020-08-05T13:14:15.999999999+00:00").Format(carbon.TimestampMicroFormat))
+	fmt.Printf("timestampNano format: %s\n", carbon.Parse("2020-08-05T13:14:15.999999999+00:00").Format(carbon.TimestampNanoFormat))
+
 	fmt.Printf("I\\t \\i\\s Y-m-d H:i:s format: %s\n", carbon.Parse("2020-08-31 13:14:15").Format("I\\t \\i\\s Y-m-d H:i:s"))
 	fmt.Printf("上次打卡时间:Y-m-d H:i:s，请每日按时打卡 format: %s\n", carbon.Parse("2020-08-31 13:14:15").Format("上次打卡时间:Y-m-d H:i:s，请每日按时打卡"))
 
@@ -721,6 +733,10 @@ func ExampleCarbon_Format() {
 	// jK format: 22nd
 	// jK format: 23rd
 	// jK format: 31st
+	// timestamp format: 1596633255
+	// TimestampMilli format: 1596633255999
+	// timestampMicro format: 1596633255999999
+	// timestampNano format: 1596633255999999999
 	// I\t \i\s Y-m-d H:i:s format: It is 2020-08-31 13:14:15
 	// 上次打卡时间:Y-m-d H:i:s，请每日按时打卡 format: 上次打卡时间:2020-08-31 13:14:15，请每日按时打卡
 }
