@@ -1625,8 +1625,24 @@ invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for 
 
 #### FAQ
 
-1、What is the difference between v1 and v2?
-> There is no difference between v1 and v2 of the API, but the implementation of the translation resource files in `language.go` is different. The v1 is implemented by the third-party extension library [packr](https://github.com/gobuffalo/packr), and the v2 is implemented by the standard library [embed](https://pkg.go.dev/embed) after `golang1.16`. If your golang version is `1.16+`, the v2 is recommended, otherwise, the v1 is required.
+1、What is the difference between v2.5.x and v2.6.x?
+> `v2.5.x` and below use value passing, while `v2.6.x` and above use pointer passing, and use generics to implement custom `JSON` encoding output format. Both versions will be maintained for a long time, but it is strongly recommended to use `v2.6.x`.
+
+2、Timezone error when deploying on `Windows` system
+
+> If the `window` system does not have the `golang` environment installed, the `GOROOT/lib/time/zoneinfo.zip: no such file or directory` exception will be reported during deployment. The reason is that the `window` system does not have a built-in time zone file. You only need to manually download and specify the `zoneinfo.zip` path, such as `go/lib/time/zoneinfo.zip`
+
+```go
+os.Setenv("ZONEINFO", "./go/lib/time/zoneinfo.zip")
+```
+
+3、Timezone error when deploying on `Docker` container
+
+> If the `docker` container does not have the `golang` environment installed, the `open /usr/local/go/lib/time/zoneinfo.zip: no such file or directory` exception will be reported during deployment. You only need to copy `zoneinfo.zip` to the container, that is, add it to the `Dockerfile`
+
+```go
+COPY ./zoneinfo.zip /usr/local/go /lib/time/zoneinfo.zip
+```
 
 #### References
 
