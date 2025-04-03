@@ -1330,7 +1330,7 @@ var user User
 
 c := carbon.Parse("2020-08-05 13:14:15.999999999")
 
-user.Date      = carbon.NewFormatType[carbon.Date](c)
+user.Date      = carbon.NewLayoutType[carbon.Date](c)
 user.DateMilli = carbon.NewLayoutType[carbon.DateMilli](c)
 user.DateMicro = carbon.NewLayoutType[carbon.DateMicro](c)
 user.DateNano  = carbon.NewLayoutType[carbon.DateNano](c)
