@@ -56,17 +56,23 @@ var formatMap = map[byte]string{
 // default layouts
 // 默认布局模板
 var defaultLayouts = []string{
-	DateTimeLayout, DateLayout, TimeLayout,
-	ISO8601Layout, DayDateTimeLayout, ISO8601NanoLayout,
-	DateTimeNanoLayout, ShortDateTimeLayout, ShortDateTimeNanoLayout,
-	DateLayout, DateNanoLayout, ShortDateLayout, ShortDateNanoLayout,
-	TimeMicroLayout, TimeMilliLayout, TimeNanoLayout,
-	RFC822Layout, RFC822ZLayout, RFC850Layout, RFC1123Layout, RFC1123ZLayout, RFC3339Layout, RFC3339NanoLayout, RFC1036Layout, RFC7231Layout,
-	KitchenLayout,
-	CookieLayout,
-	ANSICLayout,
-	UnixDateLayout,
-	RubyDateLayout,
+	DateTimeLayout, DateLayout, TimeLayout, DayDateTimeLayout,
+
+	ISO8601Layout, RFC1036Layout, RFC822Layout, RFC822ZLayout, RFC850Layout, RFC1123Layout, RFC1123ZLayout, RFC3339Layout, RFC7231Layout,
+	KitchenLayout, CookieLayout, ANSICLayout, UnixDateLayout, RubyDateLayout,
+
+	ShortDateTimeLayout, ShortDateLayout, ShortTimeLayout,
+
+	DateTimeMilliLayout, DateTimeMicroLayout, DateTimeNanoLayout,
+	DateMilliLayout, DateMicroLayout, DateNanoLayout,
+	TimeMilliLayout, TimeMicroLayout, TimeNanoLayout,
+
+	ShortDateTimeMilliLayout, ShortDateTimeMicroLayout, ShortDateTimeNanoLayout,
+	ShortDateMilliLayout, ShortDateMicroLayout, ShortDateNanoLayout,
+	ShortTimeMilliLayout, ShortTimeMicroLayout, ShortTimeNanoLayout,
+
+	ISO8601MilliLayout, ISO8601MicroLayout, ISO8601NanoLayout,
+	RFC3339MilliLayout, RFC3339MicroLayout, RFC3339NanoLayout,
 	"2006",
 	"2006-1", "2006-1-2", "2006-1-2 15", "2006-1-2 15:4", "2006-1-2 15:4:5", "2006-1-2 15:4:5.999999999",
 	"2006.1", "2006.1.2", "2006.1.2 15", "2006.1.2 15:4", "2006.1.2 15:4:5", "2006.1.2 15:4:5.999999999",
