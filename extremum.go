@@ -10,17 +10,13 @@ const (
 // MaxValue returns a Carbon instance for the greatest supported date.
 // 返回 Carbon 的最大值
 func MaxValue() *Carbon {
-	c := new(Carbon)
-	c.time = time.Date(9999, time.December, 31, 23, 59, 59, 999999999, time.UTC)
-	return c
+	return NewCarbon(time.Date(9999, time.December, 31, 23, 59, 59, 999999999, time.UTC))
 }
 
 // MinValue returns a Carbon instance for the lowest supported date.
 // 返回 Carbon 的最小值
 func MinValue() *Carbon {
-	c := new(Carbon)
-	c.time = time.Date(-9998, time.January, 1, 0, 0, 0, 0, time.UTC)
-	return c
+	return NewCarbon(time.Date(-9998, time.January, 1, 0, 0, 0, 0, time.UTC))
 }
 
 // MaxDuration returns the maximum duration value.
@@ -39,6 +35,9 @@ func MinDuration() time.Duration {
 // 返回最大的 Carbon 实例
 func Max(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	c = c1
+	if len(c2) == 0 {
+		return
+	}
 	for i := range c2 {
 		if c.IsInvalid() || c2[i].IsInvalid() {
 			return nil
@@ -54,6 +53,9 @@ func Max(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 // 返回最小的 Carbon 实例
 func Min(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	c = c1
+	if len(c2) == 0 {
+		return
+	}
 	for i := range c2 {
 		if c.IsInvalid() || c2[i].IsInvalid() {
 			return nil

@@ -8,10 +8,14 @@ import (
 
 func TestMaxValue(t *testing.T) {
 	assert.Equal(t, "9999-12-31 23:59:59.999999999 +0000 UTC", MaxValue().ToString())
+	assert.Equal(t, "December", MaxValue().ToMonthString())
+	assert.Equal(t, "十二月", MaxValue().SetLocale("zh-CN").ToMonthString())
 }
 
 func TestMinValue(t *testing.T) {
 	assert.Equal(t, "-9998-01-01 00:00:00 +0000 UTC", MinValue().ToString())
+	assert.Equal(t, "January", MinValue().ToMonthString())
+	assert.Equal(t, "一月", MinValue().SetLocale("zh-CN").ToMonthString())
 }
 
 func TestMaxDuration(t *testing.T) {
@@ -36,6 +40,7 @@ func TestMax(t *testing.T) {
 	})
 
 	t.Run("valid time", func(t *testing.T) {
+		assert.Equal(t, "2020-08-06 00:00:00 +0000 UTC", Max(Parse("2020-08-06")).ToString())
 		assert.Equal(t, "2021-08-05 00:00:00 +0000 UTC", Max(Parse("2020-08-06"), Parse("2021-08-05")).ToString())
 	})
 }
@@ -54,6 +59,7 @@ func TestMin(t *testing.T) {
 	})
 
 	t.Run("valid time", func(t *testing.T) {
+		assert.Equal(t, "2020-08-06 00:00:00 +0000 UTC", Min(Parse("2020-08-06")).ToString())
 		assert.Equal(t, "2020-08-06 00:00:00 +0000 UTC", Min(Parse("2020-08-06"), Parse("2021-08-05")).ToString())
 	})
 }
