@@ -9,7 +9,7 @@ var (
 	// 默认时区
 	DefaultTimezone = UTC
 
-	// DefaultWeekStartsAt default default week start date
+	// DefaultWeekStartsAt default week start date
 	// 默认一周开始日期
 	DefaultWeekStartsAt = Sunday
 
