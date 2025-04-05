@@ -20,7 +20,7 @@ func (c *Carbon) Lunar() *lunar.Lunar {
 	return lunar.FromStdTime(c.StdTime())
 }
 
-// CreateFromLunar creates a Carbon instance from Lunar date and time.
+// CreateFromLunar creates a Carbon instance from Lunar date.
 // 从 农历日期 创建 Carbon 实例
 func CreateFromLunar(year, month, day int, isLeapMonth bool) *Carbon {
 	l := lunar.NewLunar(year, month, day, isLeapMonth)
@@ -64,7 +64,7 @@ func (c *Carbon) Persian() *persian.Persian {
 	return persian.FromStdTime(c.StdTime())
 }
 
-// CreateFromPersian creates a Carbon instance from Persian date and time.
+// CreateFromPersian creates a Carbon instance from Persian date.
 // 从 波斯日期 创建 Carbon 实例
 func CreateFromPersian(year, month, day int) *Carbon {
 	p := persian.NewPersian(year, month, day)
