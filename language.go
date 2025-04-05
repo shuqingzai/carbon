@@ -110,7 +110,6 @@ func (lang *Language) SetResources(resources map[string]string) *Language {
 
 	if len(lang.resources) == 0 {
 		lang.resources = resources
-		return lang
 	}
 
 	return lang
