@@ -25,16 +25,6 @@ func SetFormat(format string) *Carbon {
 	return c
 }
 
-// SetWeekStartsAt sets globally default start day of the week.
-// 设置全局默认周起始日期
-func SetWeekStartsAt(day string) *Carbon {
-	c := NewCarbon().SetWeekStartsAt(day)
-	if !c.HasError() {
-		DefaultWeekStartsAt = day
-	}
-	return c
-}
-
 // SetTimezone sets globally default timezone.
 // 设置全局默认时区
 func SetTimezone(name string) *Carbon {
@@ -66,19 +56,12 @@ func SetLocale(locale string) *Carbon {
 	return c
 }
 
-// SetWeekStartsAt sets start day of the week.
-// 设置一周起始日期
-func (c *Carbon) SetWeekStartsAt(day string) *Carbon {
-	if day == "" {
-		c.Error = emptyWeekStartsDayError()
-	}
-	if c.IsInvalid() {
-		return c
-	}
-	if weekday, ok := weekdays[day]; ok {
-		c.weekStartsAt = weekday
-	} else {
-		c.Error = invalidWeekStartsAtError(day)
+// SetWeekStartsAt sets globally default start day of the week.
+// 设置全局默认周起始日期
+func SetWeekStartsAt(day string) *Carbon {
+	c := NewCarbon().SetWeekStartsAt(day)
+	if !c.HasError() {
+		DefaultWeekStartsAt = day
 	}
 	return c
 }
@@ -146,6 +129,23 @@ func (c *Carbon) SetLocale(locale string) *Carbon {
 	}
 	c.lang.SetLocale(locale)
 	c.Error = c.lang.Error
+	return c
+}
+
+// SetWeekStartsAt sets start day of the week.
+// 设置一周起始日期
+func (c *Carbon) SetWeekStartsAt(day string) *Carbon {
+	if day == "" {
+		c.Error = emptyWeekStartsDayError()
+	}
+	if c.IsInvalid() {
+		return c
+	}
+	if weekday, ok := weekdays[day]; ok {
+		c.weekStartsAt = weekday
+	} else {
+		c.Error = invalidWeekStartsAtError(day)
+	}
 	return c
 }
 
