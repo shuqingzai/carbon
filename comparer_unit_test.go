@@ -35,9 +35,9 @@ func TestCarbon_IsNil(t *testing.T) {
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
+		assert.True(t, Parse("").IsNil())
 		assert.False(t, Parse("0").IsNil())
 		assert.False(t, Parse("xxx").IsNil())
-		assert.True(t, Parse("").IsNil())
 	})
 
 	t.Run("valid time", func(t *testing.T) {
