@@ -28,9 +28,7 @@ type Carbon struct {
 func NewCarbon(time ...time.Time) *Carbon {
 	c := &Carbon{lang: NewLanguage()}
 	c.layout = DefaultLayout
-	if weekday, ok := weekdays[DefaultWeekStartsAt]; ok {
-		c.weekStartsAt = weekday
-	}
+	c.weekStartsAt = weekdays[DefaultWeekStartsAt]
 	if len(time) > 0 {
 		c.time = time[0]
 		c.loc = c.time.Location()
