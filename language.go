@@ -14,7 +14,7 @@ var fs embed.FS
 
 var (
 	// empty locale error
-	// 空区域错误
+	// 空的区域错误
 	emptyLocaleError = func() error {
 		return fmt.Errorf("locale cannot be empty")
 	}
@@ -23,6 +23,12 @@ var (
 	// 无效的区域错误
 	invalidLocaleError = func(locale string) error {
 		return fmt.Errorf("invalid locale file %q, please make sure the json file exists and is valid", locale)
+	}
+
+	// empty resources error
+	// 空的资源错误
+	emptyResourcesError = func() error {
+		return fmt.Errorf("resources cannot be empty")
 	}
 
 	// invalid resources error
@@ -86,23 +92,27 @@ func (lang *Language) SetResources(resources map[string]string) *Language {
 		return lang
 	}
 
-	if resources == nil {
-		lang.Error = invalidResourcesError()
+	if len(resources) == 0 {
+		lang.Error = emptyResourcesError()
 		return lang
 	}
 
 	lang.rw.Lock()
 	defer lang.rw.Unlock()
 
+	for k, v := range resources {
+		if _, ok := lang.resources[k]; ok {
+			lang.resources[k] = v
+		} else {
+			lang.Error = invalidResourcesError()
+		}
+	}
+
 	if len(lang.resources) == 0 {
 		lang.resources = resources
 		return lang
 	}
-	for k, v := range resources {
-		if _, ok := lang.resources[k]; ok {
-			lang.resources[k] = v
-		}
-	}
+
 	return lang
 }
 
