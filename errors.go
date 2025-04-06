@@ -7,7 +7,7 @@ import (
 // returns a failed parse error.
 // 失败的解析错误
 var failedParseError = func(value string) error {
-	return fmt.Errorf("cannot parse %q as carbon, please make sure the value is valid", value)
+	return fmt.Errorf("failed to parse %q as carbon", value)
 }
 
 // returns a failed scan error.
@@ -19,7 +19,7 @@ var failedScanError = func(value any) error {
 // returns an invalid timestamp error.
 // 无效的时间戳错误
 var invalidTimestampError = func(value string) error {
-	return fmt.Errorf("invalid timestamp %s, please make sure the timestamp is valid", value)
+	return fmt.Errorf("timestamp %s is invalid", value)
 }
 
 // returns a nil location error.
@@ -28,35 +28,35 @@ var nilLocationError = func() error {
 	return fmt.Errorf("location cannot be nil")
 }
 
-var (
-	// returns a nil language error.
-	// 空指针语言错误
-	nilLanguageError = func() error {
-		return fmt.Errorf("language cannot be nil")
-	}
+// returns a nil language error.
+// 空指针语言错误
+var nilLanguageError = func() error {
+	return fmt.Errorf("language cannot be nil")
+}
 
+var (
 	// returns a empty locale error
 	// 空的区域错误
 	emptyLocaleError = func() error {
 		return fmt.Errorf("locale cannot be empty")
 	}
-
 	// returns an invalid locale error.
 	// 无效的区域错误
 	invalidLocaleError = func(locale string) error {
-		return fmt.Errorf("invalid locale file %q, please make sure the json file exists and is valid", locale)
+		return fmt.Errorf("locale file %q doesn't exist or is invalid", locale)
 	}
+)
 
+var (
 	// returns a empty resources error.
 	// 空的资源错误
 	emptyResourcesError = func() error {
 		return fmt.Errorf("resources cannot be empty")
 	}
-
 	// returns an invalid resources error.
 	// 无效的资源错误
 	invalidResourcesError = func() error {
-		return fmt.Errorf("invalid resources, please make sure the resources exists and is valid")
+		return fmt.Errorf("resources is invalid")
 	}
 )
 
@@ -66,11 +66,10 @@ var (
 	emptyTimezoneError = func() error {
 		return fmt.Errorf("timezone cannot be empty")
 	}
-
 	// returns an invalid timezone error.
 	// 无效的时区错误
 	invalidTimezoneError = func(timezone string) error {
-		return fmt.Errorf("invalid timezone %q, please see the file %q for all valid timezones", timezone, "$GOROOT/lib/time/zoneinfo.zip")
+		return fmt.Errorf("timezone %q is invalid, please see the file %q for all valid timezones", timezone, "$GOROOT/lib/time/zoneinfo.zip")
 	}
 )
 
@@ -80,11 +79,10 @@ var (
 	emptyDurationError = func() error {
 		return fmt.Errorf("duration cannot be empty")
 	}
-
 	// returns an invalid duration error.
 	// 无效的时长错误
 	invalidDurationError = func(duration string) error {
-		return fmt.Errorf("invalid duration %q, please make sure the duration is valid", duration)
+		return fmt.Errorf("duration %q is invalid", duration)
 	}
 )
 
@@ -94,7 +92,6 @@ var (
 	emptyLayoutError = func() error {
 		return fmt.Errorf("layout cannot be empty")
 	}
-
 	// returns an invalid layout error.
 	// 无效的布局模板错误
 	invalidLayoutError = func(value, layout string) error {
@@ -108,7 +105,6 @@ var (
 	emptyFormatError = func() error {
 		return fmt.Errorf("format cannot be empty")
 	}
-
 	// returns an invalid format error.
 	// 无效的格式模板错误
 	invalidFormatError = func(value, format string) error {
@@ -122,10 +118,9 @@ var (
 	emptyWeekStartsDayError = func() error {
 		return fmt.Errorf("week start day cannot be empty")
 	}
-
 	// returns an invalid week starts at day error.
 	// 无效的周起始日期错误
 	invalidWeekStartsAtError = func(day string) error {
-		return fmt.Errorf("invalid week starts at day %s, please make sure the day is valid", day)
+		return fmt.Errorf("week starts at day %q is invalid", day)
 	}
 )
