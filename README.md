@@ -606,13 +606,12 @@ carbon.Parse("2022-08-05 13:14:15").DiffForHumans(carbon.Now()) // 2 years after
 ##### Extremum
 
 ```go
-c0 := carbon.Parse("2023-04-01")
 c1 := carbon.Parse("2023-03-28")
 c2 := carbon.Parse("2023-04-16")
 // Return the closest Carbon instance
-c0.Closest(c1, c2) // c1
+carbon.Parse("2023-04-01").Closest(c1, c2) // c1
 // Return the farthest Carbon instance
-c0.Farthest(c1, c2) // c2
+carbon.Parse("2023-04-01").Farthest(c1, c2) // c2
 
 yesterday := carbon.Yesterday()
 today     := carbon.Now()
@@ -1622,7 +1621,7 @@ invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for 
 |  w   |                                            Day of the week                                             |   1    |       0-6        |          1          |
 |  t   |                                        Total days of the month                                         |   2    |      28-31       |         31          |
 |  z   |                                               Time zone                                                |   -    |        -         |    Asia/Shanghai    |
-|  o   |                                              Time offset                                               |   -    |        -         |          28800      |
+|  o   |                                              Time offset                                               |   -    |        -         |        28800        |
 |  q   |                                                Quarter                                                 |   1    |       1-4        |          1          |
 |  c   |                                                Century                                                 |   -    |       0-99       |         21          |
 
