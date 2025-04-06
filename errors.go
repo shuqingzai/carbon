@@ -13,7 +13,7 @@ var failedParseError = func(value string) error {
 // returns a failed scan error.
 // 失败的扫描错误
 var failedScanError = func(value any) error {
-	return fmt.Errorf("failed to scan value %v as carbon", value)
+	return fmt.Errorf("failed to scan value %q as carbon", value)
 }
 
 // returns an invalid timestamp error.
