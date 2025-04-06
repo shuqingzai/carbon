@@ -3,7 +3,6 @@ package carbon
 import (
 	"embed"
 	"encoding/json"
-	"fmt"
 	"strconv"
 	"strings"
 	"sync"
@@ -11,32 +10,6 @@ import (
 
 //go:embed lang
 var fs embed.FS
-
-var (
-	// empty locale error
-	// 空的区域错误
-	emptyLocaleError = func() error {
-		return fmt.Errorf("locale cannot be empty")
-	}
-
-	// invalid locale error
-	// 无效的区域错误
-	invalidLocaleError = func(locale string) error {
-		return fmt.Errorf("invalid locale file %q, please make sure the json file exists and is valid", locale)
-	}
-
-	// empty resources error
-	// 空的资源错误
-	emptyResourcesError = func() error {
-		return fmt.Errorf("resources cannot be empty")
-	}
-
-	// invalid resources error
-	// 无效的资源错误
-	invalidResourcesError = func() error {
-		return fmt.Errorf("invalid resources, please make sure the resources exists and is valid")
-	}
-)
 
 // Language defines a Language struct.
 // 定义 Language 结构体
