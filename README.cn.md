@@ -1497,19 +1497,16 @@ person: {Customer1:2020-08-05T13:14:15Z Customer2:2020-08-05T13:14:15+00:00}
 lang := carbon.NewLanguage()
 lang.SetLocale("zh-CN")
 
-c := carbon.SetLanguage(lang)
-if c.Error != nil {
-	// 错误处理
-	log.Fatal(c.Error)
-}
+carbon.SetTestNow(carbon.Parse("2020-08-05 13:14:15"))
+now := carbon.Now().SetLanguage(lang)
 
-c.Now().AddHours(1).DiffForHumans() // 1 小时后
-c.Now().AddHours(1).ToMonthString() // 八月
-c.Now().AddHours(1).ToShortMonthString() // 8月
-c.Now().AddHours(1).ToWeekString() // 星期二
-c.Now().AddHours(1).ToShortWeekString() // 周二
-c.Now().AddHours(1).Constellation() // 狮子座
-c.Now().AddHours(1).Season() // 夏季
+now.Copy().AddHours(1).DiffForHumans() // 1 小时后
+now.Copy().AddHours(1).ToMonthString() // 八月
+now.Copy().AddHours(1).ToShortMonthString() // 8月
+now.Copy().AddHours(1).ToWeekString() // 星期二
+now.Copy().AddHours(1).ToShortWeekString() // 周二
+now.Copy().AddHours(1).Constellation() // 狮子座
+now.Copy().AddHours(1).Season() // 夏季
 ```
 
 ###### 重写部分翻译资源(其余仍然按照指定的 `locale` 文件内容翻译)
@@ -1522,20 +1519,17 @@ resources := map[string]string {
 }
 lang.SetLocale("en").SetResources(resources)
 
-c := carbon.SetLanguage(lang)
-if c.Error != nil {
-	// 错误处理
-	log.Fatal(c.Error)
-}
+carbon.SetTestNow(carbon.Parse("2020-08-05 13:14:15"))
+now := carbon.Now().SetLanguage(lang)
 
-c.Now().AddYears(1).DiffForHumans() // 1 year from now
-c.Now().AddHours(1).DiffForHumans() // 1h from now
-c.Now().ToMonthString() // August
-c.Now().ToShortMonthString() // Aug
-c.Now().ToWeekString() // Tuesday
-c.Now().ToShortWeekString() // Tue
-c.Now().Constellation() // Leo
-c.Now().Season() // Summer
+now.Copy().AddYears(1).DiffForHumans() // 1 year from now
+now.Copy().AddHours(1).DiffForHumans() // 1h from now
+now.Copy().ToMonthString() // August
+now.Copy().ToShortMonthString() // Aug
+now.Copy().ToWeekString() // Tuesday
+now.Copy().ToShortWeekString() // Tue
+now.Copy().Constellation() // Leo
+now.Copy().Season() // Summer
 ```
 
 ###### 重写全部翻译资源(无需指定 `locale`)
@@ -1564,15 +1558,17 @@ resources := map[string]string {
 }
 lang.SetResources(resources)
 
-c := carbon.SetLanguage(lang)
-c.Now().AddYears(1).DiffForHumans() // in 1 yr
-c.Now().AddHours(1).DiffForHumans() // in 1h
-c.Now().ToMonthString() // august
-c.Now().ToShortMonthString() // aug
-c.Now().ToWeekString() // tuesday
-c.Now().ToShortWeekString() // tue
-c.Now().Constellation() // leo
-c.Now().Season() // summer
+carbon.SetTestNow(carbon.Parse("2020-08-05 13:14:15"))
+now := carbon.Now().SetLanguage(lang)
+
+now.Copy().AddYears(1).DiffForHumans() // in 1 yr
+now.Copy().AddHours(1).DiffForHumans() // in 1h
+now.Copy().ToMonthString() // august
+now.Copy().ToShortMonthString() // aug
+now.Copy().ToWeekString() // tuesday
+now.Copy().ToShortWeekString() // tue
+now.Copy().Constellation() // leo
+now.Copy().Season() // summer
 ```
 
 ##### 错误处理
@@ -1584,7 +1580,7 @@ if c.HasError() {
 	log.Fatal(c.Error)
 }
 // 输出
-invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for all valid timezones
+timezone "xxx" is invalid, please see the file "$GOROOT/lib/time/zoneinfo.zip" for all valid timezones
 ```
 
 #### 附录

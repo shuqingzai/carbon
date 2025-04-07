@@ -1490,19 +1490,16 @@ person: {Customer1:2020-08-05T13:14:15Z Customer2:2020-08-05T13:14:15+00:00}
 lang := carbon.NewLanguage()
 lang.SetLocale("jp")
 
-c := carbon.SetLanguage(lang)
-if c.Error != nil {
-  // エラー処理
-  log.Fatal(c.Error)
-}
+carbon.SetTestNow(carbon.Parse("2020-08-05 13:14:15"))
+now := carbon.Now().SetLanguage(lang)
 
-c.Now().AddHours(1).DiffForHumans() // 1 時間後
-c.Now().AddHours(1).ToMonthString() // はちがつ
-c.Now().AddHours(1).ToShortMonthString() // 8がつ
-c.Now().AddHours(1).ToWeekString() // 日曜日
-c.Now().AddHours(1).ToShortWeekString() // 日
-c.Now().AddHours(1).Constellation() // しし座
-c.Now().AddHours(1).Season() // 夏
+now.Copy().AddHours(1).DiffForHumans() // 1 時間後
+now.Copy().AddHours(1).ToMonthString() // はちがつ
+now.Copy().AddHours(1).ToShortMonthString() // 8がつ
+now.Copy().AddHours(1).ToWeekString() // 日曜日
+now.Copy().AddHours(1).ToShortWeekString() // 日
+now.Copy().AddHours(1).Constellation() // しし座
+now.Copy().AddHours(1).Season() // 夏
 ```
 
 ###### 翻訳リソースの一部を書き換える(残りはまだ指定された `locale` ファイルの内容によって翻訳されます)
@@ -1515,20 +1512,17 @@ resources := map[string]string {
 }
 lang.SetLocale("en").SetResources(resources)
 
-c := carbon.SetLanguage(lang)
-if c.Error != nil {
-  // エラー処理
-  log.Fatal(c.Error)
-}
+carbon.SetTestNow(carbon.Parse("2020-08-05 13:14:15"))
+now := carbon.Now().SetLanguage(lang)
 
-c.Now().AddYears(1).DiffForHumans() // 1 year from now
-c.Now().AddHours(1).DiffForHumans() // 1h from now
-c.Now().ToMonthString() // August
-c.Now().ToShortMonthString() // Aug
-c.Now().ToWeekString() // Tuesday
-c.Now().ToShortWeekString() // Tue
-c.Now().Constellation() // Leo
-c.Now().Season() // Summer
+now.Copy().AddYears(1).DiffForHumans() // 1 year from now
+now.Copy().AddHours(1).DiffForHumans() // 1h from now
+now.Copy().ToMonthString() // August
+now.Copy().ToShortMonthString() // Aug
+now.Copy().ToWeekString() // Tuesday
+now.Copy().ToShortWeekString() // Tue
+now.Copy().Constellation() // Leo
+now.Copy().Season() // Summer
 ```
 
 ###### すべての翻訳リソースを書き換える
@@ -1557,27 +1551,29 @@ resources := map[string]string {
 }
 lang.SetResources(resources)
 
-c := carbon.SetLanguage(lang)
-c.Now().AddYears(1).DiffForHumans() // in 1 yr
-c.Now().AddHours(1).DiffForHumans() // in 1h
-c.Now().ToMonthString() // august
-c.Now().ToShortMonthString() // aug
-c.Now().ToWeekString() // tuesday
-c.Now().ToShortWeekString() // tue
-c.Now().Constellation() // leo
-c.Now().Season() // summer
+carbon.SetTestNow(carbon.Parse("2020-08-05 13:14:15"))
+now := carbon.Now().SetLanguage(lang)
+
+now.Copy().AddYears(1).DiffForHumans() // in 1 yr
+now.Copy().AddHours(1).DiffForHumans() // in 1h
+now.Copy().ToMonthString() // august
+now.Copy().ToShortMonthString() // aug
+now.Copy().ToWeekString() // tuesday
+now.Copy().ToShortWeekString() // tue
+now.Copy().Constellation() // leo
+now.Copy().Season() // summer
 ```
 
 ##### エラー処理
 
 ```go
-c := carbon.SetTimezone("xxx").Parse("2020-08-05")
+c := carbon.Parse("2020-08-05").SetTimezone("xxx")
 if c.HasError() {
   // エラー処理...
   log.Fatal(c.Error)
 }
 // 出力
-invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for all valid timezones
+timezone "xxx" is invalid, please see the file "$GOROOT/lib/time/zoneinfo.zip" for all valid timezones
 ```
 
 #### 付録
