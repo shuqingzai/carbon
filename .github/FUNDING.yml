@@ -2,12 +2,12 @@
 
 github: kuafuRace
 patreon: # Replace with a single Patreon username
-open_collective: carbon
-ko_fi: carbon
+open_collective: go-carbon
+ko_fi: #go-carbon
 tidelift: # Replace with a single Tidelift platform-name/package-name e.g., npm/babel
-community_bridge: carbon
-liberapay: kuafuRace
-issuehunt: kuafuRace
+community_bridge: #go-carbon
+liberapay: #go-carbon
+issuehunt: #go-carbon
 otechie: # Replace with a single Otechie username
 lfx_crowdfunding: # Replace with a single LFX Crowdfunding project-name e.g., cloud-foundry
-custom: ['https://www.gouguoyin.com/zanzhu.html']
+custom: ['https://opencollective.com/go-carbon']
