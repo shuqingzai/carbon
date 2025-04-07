@@ -27,6 +27,7 @@ type Carbon struct {
 // 返回 Carbon 实例
 func NewCarbon(time ...time.Time) *Carbon {
 	c := &Carbon{lang: NewLanguage()}
+	c.lang = c.lang.SetLocale(DefaultLocale)
 	c.layout = DefaultLayout
 	c.weekStartsAt = weekdays[DefaultWeekStartsAt]
 	if len(time) > 0 {
@@ -51,6 +52,7 @@ func (c *Carbon) Copy() *Carbon {
 
 	newCarbon.lang.dir = c.lang.dir
 	newCarbon.lang.locale = c.lang.locale
+	newCarbon.lang.resources = c.lang.resources
 	newCarbon.lang.Error = c.lang.Error
 
 	return newCarbon
