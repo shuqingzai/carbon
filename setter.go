@@ -40,7 +40,6 @@ func SetTimezone(name string) *Carbon {
 func SetLocation(loc *time.Location) *Carbon {
 	c := NewCarbon().SetLocation(loc)
 	if !c.HasError() {
-		time.Local = loc
 		DefaultTimezone = loc.String()
 	}
 	return c
@@ -127,7 +126,7 @@ func (c *Carbon) SetLocale(locale string) *Carbon {
 	if c.IsInvalid() {
 		return c
 	}
-	c.lang.SetLocale(locale)
+	c.lang = NewLanguage().SetLocale(locale)
 	c.Error = c.lang.Error
 	return c
 }

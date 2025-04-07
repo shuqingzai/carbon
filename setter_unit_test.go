@@ -373,9 +373,11 @@ func TestCarbon_SetLocale(t *testing.T) {
 
 	t.Run("invalid locale", func(t *testing.T) {
 		assert.True(t, Now().SetLocale("").HasError())
+		assert.True(t, Now().SetLocale("0").HasError())
 		assert.True(t, Now().SetLocale("xxx").HasError())
 
 		assert.Empty(t, Now().SetLocale("").ToString())
+		assert.Empty(t, Now().SetLocale("0").ToString())
 		assert.Empty(t, Now().SetLocale("xxx").ToString())
 	})
 
