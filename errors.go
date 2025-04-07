@@ -35,7 +35,7 @@ var nilLanguageError = func() error {
 }
 
 var (
-	// returns a empty locale error
+	// returns an empty locale error.
 	// 空的区域错误
 	emptyLocaleError = func() error {
 		return fmt.Errorf("locale cannot be empty")
@@ -48,7 +48,7 @@ var (
 )
 
 var (
-	// returns a empty resources error.
+	// returns an empty resources error.
 	// 空的资源错误
 	emptyResourcesError = func() error {
 		return fmt.Errorf("resources cannot be empty")
@@ -61,7 +61,7 @@ var (
 )
 
 var (
-	// returns a empty timezone error.
+	// returns an empty timezone error.
 	// 空的时区错误
 	emptyTimezoneError = func() error {
 		return fmt.Errorf("timezone cannot be empty")
