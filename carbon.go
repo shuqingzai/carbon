@@ -26,8 +26,8 @@ type Carbon struct {
 // NewCarbon returns a new Carbon instance.
 // 返回 Carbon 实例
 func NewCarbon(time ...time.Time) *Carbon {
-	c := &Carbon{lang: NewLanguage()}
-	c.lang = c.lang.SetLocale(DefaultLocale)
+	c := new(Carbon)
+	c.lang = NewLanguage().SetLocale(DefaultLocale)
 	c.layout = DefaultLayout
 	c.weekStartsAt = weekdays[DefaultWeekStartsAt]
 	if len(time) > 0 {
