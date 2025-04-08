@@ -40,8 +40,8 @@ var (
 	ErrEmptyLocale = func() error {
 		return fmt.Errorf("locale cannot be empty")
 	}
-	// ErrNotExistLocale not exist locale file error.
 
+	// ErrNotExistLocale not exist locale file error.
 	// 不存在语言环境文件错误
 	ErrNotExistLocale = func(locale string) error {
 		return fmt.Errorf("locale file %q doesn't exist", locale)
