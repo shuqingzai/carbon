@@ -43,6 +43,12 @@ func TestCarbon_Tomorrow(t *testing.T) {
 	t.Run("with timezone", func(t *testing.T) {
 		assert.Equal(t, time.Now().Add(time.Hour*24).In(time.UTC).Format(DateLayout), Tomorrow(UTC).Layout(DateLayout))
 	})
+
+	t.Run("frozen time", func(t *testing.T) {
+		SetTestNow(Parse("2020-08-05"))
+		assert.Equal(t, "2020-08-06", Tomorrow(UTC).Layout(DateLayout))
+		CleanTestNow()
+	})
 }
 
 func TestCarbon_Yesterday(t *testing.T) {
@@ -58,6 +64,12 @@ func TestCarbon_Yesterday(t *testing.T) {
 
 	t.Run("with timezone", func(t *testing.T) {
 		assert.Equal(t, time.Now().Add(time.Hour*-24).In(time.UTC).Format(DateLayout), Yesterday(UTC).Layout(DateLayout))
+	})
+
+	t.Run("frozen time", func(t *testing.T) {
+		SetTestNow(Parse("2020-08-05"))
+		assert.Equal(t, "2020-08-04", Yesterday(UTC).Layout(DateLayout))
+		CleanTestNow()
 	})
 }
 

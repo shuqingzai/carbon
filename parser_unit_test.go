@@ -14,15 +14,20 @@ func TestParse(t *testing.T) {
 
 	t.Run("invalid timezone", func(t *testing.T) {
 		assert.True(t, Parse("2020-08-05", "").HasError())
+		assert.True(t, Parse("2020-08-05", "0").HasError())
 		assert.True(t, Parse("2020-08-05", "xxx").HasError())
 
 		assert.Empty(t, Parse("2020-08-05", "").ToString())
+		assert.Empty(t, Parse("2020-08-05", "0").ToString())
 		assert.Empty(t, Parse("2020-08-05", "xxx").ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
-		assert.Error(t, Parse("0").Error)
-		assert.Error(t, Parse("xxx").Error)
+		assert.True(t, Parse("0").HasError())
+		assert.True(t, Parse("xxx").HasError())
+
+		assert.Empty(t, Parse("0").ToString())
+		assert.Empty(t, Parse("xxx").ToString())
 	})
 
 	t.Run("without timezone", func(t *testing.T) {
@@ -90,20 +95,23 @@ func TestParseByFormat(t *testing.T) {
 	})
 
 	t.Run("invalid timestamp", func(t *testing.T) {
-		assert.True(t, ParseByFormat("2020-08-05", "S").HasError())
-		assert.True(t, ParseByFormat("2020-08-05", "U").HasError())
-		assert.True(t, ParseByFormat("2020-08-05", "V").HasError())
-		assert.True(t, ParseByFormat("2020-08-05", "X").HasError())
+		assert.True(t, ParseByFormat("2020-08-05", TimestampFormat).HasError())
+		assert.True(t, ParseByFormat("2020-08-05", TimestampMilliFormat).HasError())
+		assert.True(t, ParseByFormat("2020-08-05", TimestampMicroFormat).HasError())
+		assert.True(t, ParseByFormat("2020-08-05", TimestampNanoFormat).HasError())
 
-		assert.Empty(t, ParseByFormat("2020-08-05", "S").ToString())
-		assert.Empty(t, ParseByFormat("2020-08-05", "U").ToString())
-		assert.Empty(t, ParseByFormat("2020-08-05", "V").ToString())
-		assert.Empty(t, ParseByFormat("2020-08-05", "X").ToString())
+		assert.Empty(t, ParseByFormat("2020-08-05", TimestampFormat).ToString())
+		assert.Empty(t, ParseByFormat("2020-08-05", TimestampMilliFormat).ToString())
+		assert.Empty(t, ParseByFormat("2020-08-05", TimestampMicroFormat).ToString())
+		assert.Empty(t, ParseByFormat("2020-08-05", TimestampNanoFormat).ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
-		assert.Error(t, ParseByFormat("0", DateFormat).Error)
-		assert.Error(t, ParseByFormat("xxx", DateFormat, PRC).Error)
+		assert.True(t, ParseByFormat("0", DateFormat).HasError())
+		assert.True(t, ParseByFormat("xxx", DateFormat, PRC).HasError())
+
+		assert.Empty(t, ParseByFormat("0", DateFormat).ToString())
+		assert.Empty(t, ParseByFormat("xxx", DateFormat, PRC).ToString())
 	})
 
 	t.Run("without timezone", func(t *testing.T) {
@@ -167,8 +175,11 @@ func TestParseByLayout(t *testing.T) {
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
-		assert.Error(t, ParseByLayout("0", DateLayout).Error)
-		assert.Error(t, ParseByLayout("xxx", DateLayout, PRC).Error)
+		assert.True(t, ParseByLayout("0", DateFormat).HasError())
+		assert.True(t, ParseByLayout("xxx", DateFormat, PRC).HasError())
+
+		assert.Empty(t, ParseByLayout("0", DateFormat).ToString())
+		assert.Empty(t, ParseByLayout("xxx", DateFormat, PRC).ToString())
 	})
 
 	t.Run("without timezone", func(t *testing.T) {
@@ -212,8 +223,11 @@ func TestParseWithLayouts(t *testing.T) {
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
-		assert.Error(t, ParseWithLayouts("0", []string{DateTimeLayout}).Error)
-		assert.Error(t, ParseWithLayouts("xxx", []string{DateTimeLayout}).Error)
+		assert.True(t, ParseWithLayouts("0", []string{DateTimeLayout}).HasError())
+		assert.True(t, ParseWithLayouts("xxx", []string{DateTimeLayout}).HasError())
+
+		assert.Empty(t, ParseWithLayouts("0", []string{DateTimeLayout}).ToString())
+		assert.Empty(t, ParseWithLayouts("xxx", []string{DateTimeLayout}).ToString())
 	})
 
 	t.Run("without timezone", func(t *testing.T) {
@@ -249,8 +263,11 @@ func TestParseWithFormats(t *testing.T) {
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
-		assert.Error(t, ParseWithFormats("0", []string{DateFormat}).Error)
-		assert.Error(t, ParseWithFormats("xxx", []string{DateFormat}).Error)
+		assert.True(t, ParseWithFormats("0", []string{DateTimeLayout}).HasError())
+		assert.True(t, ParseWithFormats("xxx", []string{DateTimeLayout}).HasError())
+
+		assert.Empty(t, ParseWithFormats("0", []string{DateTimeLayout}).ToString())
+		assert.Empty(t, ParseWithFormats("xxx", []string{DateTimeLayout}).ToString())
 	})
 
 	t.Run("without timezone", func(t *testing.T) {
