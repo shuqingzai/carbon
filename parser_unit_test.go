@@ -390,7 +390,7 @@ func TestFormat2Layout(t *testing.T) {
 		assert.Equal(t, c.Layout(DateTimeMilliLayout, PRC), c.Format(DateTimeMilliFormat, PRC))
 		assert.Equal(t, c.Layout(DateTimeMicroLayout, PRC), c.Format(DateTimeMicroFormat, PRC))
 		assert.Equal(t, c.Layout(DateTimeNanoLayout, PRC), c.Format(DateTimeNanoFormat, PRC))
-		assert.Equal(t, c.Layout(ShortDateTimeLayout, PRC), c.Format(ShortDateTimeFormat))
+		assert.Equal(t, c.Layout(ShortDateTimeLayout, PRC), c.Format(ShortDateTimeFormat, PRC))
 		assert.Equal(t, c.Layout(ShortDateTimeMilliLayout, PRC), c.Format(ShortDateTimeMilliFormat, PRC))
 		assert.Equal(t, c.Layout(ShortDateTimeMicroLayout, PRC), c.Format(ShortDateTimeMicroFormat, PRC))
 		assert.Equal(t, c.Layout(ShortDateTimeNanoLayout, PRC), c.Format(ShortDateTimeNanoFormat, PRC))
@@ -404,7 +404,7 @@ func TestFormat2Layout(t *testing.T) {
 		assert.Equal(t, c.Layout(ShortDateMicroLayout, PRC), c.Format(ShortDateMicroFormat, PRC))
 		assert.Equal(t, c.Layout(ShortDateNanoLayout, PRC), c.Format(ShortDateNanoFormat, PRC))
 
-		assert.Equal(t, c.Layout(TimeLayout, PRC), c.Format(TimeFormat), PRC)
+		assert.Equal(t, c.Layout(TimeLayout, PRC), c.Format(TimeFormat, PRC))
 		assert.Equal(t, c.Layout(TimeMilliLayout, PRC), c.Format(TimeMilliFormat, PRC))
 		assert.Equal(t, c.Layout(TimeMicroLayout, PRC), c.Format(TimeMicroFormat, PRC))
 		assert.Equal(t, c.Layout(TimeNanoLayout, PRC), c.Format(TimeNanoFormat, PRC))
