@@ -33,7 +33,7 @@ func Parse(value string, timezone ...string) *Carbon {
 			return c
 		}
 	}
-	c.Error = ErrUnsupportedParse(value)
+	c.Error = ErrFailedParse(value)
 	return c
 }
 
@@ -137,7 +137,7 @@ func ParseWithLayouts(value string, layouts []string, timezone ...string) *Carbo
 			return c
 		}
 	}
-	c.Error = ErrUnsupportedParse(value)
+	c.Error = ErrFailedParse(value)
 	return c
 }
 

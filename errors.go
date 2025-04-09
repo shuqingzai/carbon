@@ -5,22 +5,22 @@ import (
 )
 
 var (
-	// ErrUnsupportedParse unsupported parse error.
-	// 不支持的解析错误
-	ErrUnsupportedParse = func(value any) error {
-		return fmt.Errorf("unsupported parse %v as carbon", value)
+	// ErrFailedParse failed to parse error.
+	// 失败的解析错误
+	ErrFailedParse = func(value any) error {
+		return fmt.Errorf("failed to parse %v as carbon", value)
 	}
 
-	// ErrUnsupportedScan unsupported scan error.
-	// 不支持的扫描错误
-	ErrUnsupportedScan = func(value any) error {
-		return fmt.Errorf("unsupported scan %v as carbon", value)
+	// ErrFailedScan failed to scan error.
+	// 失败的扫描错误
+	ErrFailedScan = func(value any) error {
+		return fmt.Errorf("failed to scan %v as carbon", value)
 	}
 
 	// ErrInvalidTimestamp invalid timestamp error.
 	// 无效的时间戳错误
 	ErrInvalidTimestamp = func(value string) error {
-		return fmt.Errorf("invalid timestamp %s", value)
+		return fmt.Errorf("invalid timestamp %v", value)
 	}
 
 	// ErrNilLocation nil location error.
@@ -36,15 +36,15 @@ var (
 	}
 
 	// ErrEmptyLocale empty locale error.
-	// 空的区域错误
+	// 空的语言环境错误
 	ErrEmptyLocale = func() error {
 		return fmt.Errorf("locale cannot be empty")
 	}
 
-	// ErrNotExistLocale not exist locale file error.
-	// 不存在语言环境文件错误
+	// ErrNotExistLocale not exist locale error.
+	// 不存在的语言环境错误
 	ErrNotExistLocale = func(locale string) error {
-		return fmt.Errorf("locale file %q doesn't exist", locale)
+		return fmt.Errorf("locale %q doesn't exist", locale)
 	}
 
 	// ErrEmptyResources empty resources error.

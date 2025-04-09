@@ -94,7 +94,7 @@ func (t *LayoutType[T]) Scan(src any) error {
 	case int64:
 		c = CreateFromTimestamp(v, DefaultTimezone)
 	default:
-		return ErrUnsupportedScan(v)
+		return ErrFailedScan(v)
 	}
 	*t = NewLayoutType[T](c)
 	return t.Error
@@ -173,7 +173,7 @@ func (t *FormatType[T]) Scan(src any) error {
 	case int64:
 		c = CreateFromTimestamp(v, DefaultTimezone)
 	default:
-		return ErrUnsupportedScan(v)
+		return ErrFailedScan(v)
 	}
 	*t = NewFormatType[T](c)
 	return t.Error
@@ -261,7 +261,7 @@ func (t *TimestampType[T]) Scan(src any) (err error) {
 		*t = NewTimestampType[T](c)
 		return t.Error
 	default:
-		return ErrUnsupportedScan(src)
+		return ErrFailedScan(src)
 	}
 	switch t.getPrecision() {
 	case PrecisionSecond:
