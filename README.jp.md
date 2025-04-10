@@ -1300,25 +1300,25 @@ carbon.Parse("2020-08-05 13:14:15").IsWinter() // false
 
 ```go
 type User struct {
-	Date      carbon.LayoutType[carbon.Date]      `json:"date"`
-	DateMilli carbon.LayoutType[carbon.DateMilli] `json:"date_milli"`
-	DateMicro carbon.LayoutType[carbon.DateMicro] `json:"date_micro"`
-	DateNano  carbon.LayoutType[carbon.DateNano]  `json:"date_nano"`
-	
-	Time      carbon.LayoutType[carbon.Time]      `json:"time"`
-	TimeMilli carbon.LayoutType[carbon.TimeMilli] `json:"time_milli"`
-	TimeMicro carbon.LayoutType[carbon.TimeMicro] `json:"time_micro"`
-	TimeNano  carbon.LayoutType[carbon.TimeNano]  `json:"time_nano"`
-	
-	DateTime      carbon.FormatType[carbon.DateTime]      `json:"date_time"`
-	DateTimeMilli carbon.FormatType[carbon.DateTimeMilli] `json:"date_time_milli"`
-	DateTimeMicro carbon.FormatType[carbon.DateTimeMicro] `json:"date_time_micro"`
-	DateTimeNano  carbon.FormatType[carbon.DateTimeNano]  `json:"date_time_nano"`
-	
-	Timestamp      carbon.TimestampType[carbon.Timestamp]      `json:"timestamp"`
-	TimestampMilli carbon.TimestampType[carbon.TimestampMilli] `json:"timestamp_milli"`
-	TimestampMicro carbon.TimestampType[carbon.TimestampMicro] `json:"timestamp_micro"`
-	TimestampNano  carbon.TimestampType[carbon.TimestampNano]  `json:"timestamp_nano"`
+  Date      carbon.LayoutType[carbon.Date]      `json:"date"`
+  DateMilli carbon.LayoutType[carbon.DateMilli] `json:"date_milli"`
+  DateMicro carbon.LayoutType[carbon.DateMicro] `json:"date_micro"`
+  DateNano  carbon.LayoutType[carbon.DateNano]  `json:"date_nano"`
+  
+  Time      carbon.LayoutType[carbon.Time]      `json:"time"`
+  TimeMilli carbon.LayoutType[carbon.TimeMilli] `json:"time_milli"`
+  TimeMicro carbon.LayoutType[carbon.TimeMicro] `json:"time_micro"`
+  TimeNano  carbon.LayoutType[carbon.TimeNano]  `json:"time_nano"`
+  
+  DateTime      carbon.FormatType[carbon.DateTime]      `json:"date_time"`
+  DateTimeMilli carbon.FormatType[carbon.DateTimeMilli] `json:"date_time_milli"`
+  DateTimeMicro carbon.FormatType[carbon.DateTimeMicro] `json:"date_time_micro"`
+  DateTimeNano  carbon.FormatType[carbon.DateTimeNano]  `json:"date_time_nano"`
+  
+  Timestamp      carbon.TimestampType[carbon.Timestamp]      `json:"timestamp"`
+  TimestampMilli carbon.TimestampType[carbon.TimestampMilli] `json:"timestamp_milli"`
+  TimestampMicro carbon.TimestampType[carbon.TimestampMicro] `json:"timestamp_micro"`
+  TimestampNano  carbon.TimestampType[carbon.TimestampNano]  `json:"timestamp_nano"`
 }
 
 var user User
@@ -1353,22 +1353,22 @@ if err != nil {
 fmt.Printf("%s\n", data)
 // 出力
 {
-	"date": "2020-08-05",
-	"date_milli": "2020-08-05.999",
-	"date_micro": "2020-08-05.999999",
-	"date_nano": "2020-08-05.999999999",
-	"time": "13:14:15",
-	"time_milli": "13:14:15.999",
-	"time_micro": "13:14:15.999999",
-	"time_nano": "13:14:15.999999999",
-	"date_time": "2020-08-05 13:14:15",
-	"date_time_milli": "2020-08-05 13:14:15.999",
-	"date_time_micro": "2020-08-05 13:14:15.999999",
-	"date_time_nano": "2020-08-05 13:14:15.999999999",
-	"timestamp": 1596633255,
-	"timestamp_milli": 1596633255999,
-	"timestamp_micro": 1596633255999999,
-	"timestamp_nano": 1596633255999999999
+  "date": "2020-08-05",
+  "date_milli": "2020-08-05.999",
+  "date_micro": "2020-08-05.999999",
+  "date_nano": "2020-08-05.999999999",
+  "time": "13:14:15",
+  "time_milli": "13:14:15.999",
+  "time_micro": "13:14:15.999999",
+  "time_nano": "13:14:15.999999999",
+  "date_time": "2020-08-05 13:14:15",
+  "date_time_milli": "2020-08-05 13:14:15.999",
+  "date_time_micro": "2020-08-05 13:14:15.999999",
+  "date_time_nano": "2020-08-05 13:14:15.999999999",
+  "timestamp": 1596633255,
+  "timestamp_milli": 1596633255999,
+  "timestamp_micro": 1596633255999999,
+  "timestamp_nano": 1596633255999999999
 }
 
 var person User
@@ -1393,12 +1393,12 @@ func (t CustomerLayout) SetLayout() string {
 
 type ISO8601Format string
 func (t CustomerFormat) SetFormat() string {
-    return carbon.ISO8601Format
+  return carbon.ISO8601Format
 }
 
 type User struct {
-    Customer1 carbon.LayoutType[RFC3339Layout] `json:"customer1"`
-    Customer2 carbon.FormatType[ISO8601Format] `json:"customer2"`
+  Customer1 carbon.LayoutType[RFC3339Layout] `json:"customer1"`
+  Customer2 carbon.FormatType[ISO8601Format] `json:"customer2"`
 }
 
 var user User
