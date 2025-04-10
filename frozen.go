@@ -2,6 +2,8 @@ package carbon
 
 import "sync"
 
+// TestNow defines a TestNow struct.
+// 定义 TestNow 结构体
 type TestNow struct {
 	isFrozen  bool
 	frozenNow *Carbon
@@ -12,8 +14,8 @@ var testNow = &TestNow{
 	rw: new(sync.RWMutex),
 }
 
-// SetTestNow sets a test Carbon instance (real or mock) to be returned when a "now" instance is created.
-// 设置当前测试时间
+// SetTestNow sets a test Carbon instance for now, remember to clear after used.
+// 设置当前测试时间，使用完别忘清除
 func SetTestNow(carbon *Carbon) {
 	testNow.rw.Lock()
 	defer testNow.rw.Unlock()
@@ -22,7 +24,7 @@ func SetTestNow(carbon *Carbon) {
 	testNow.frozenNow = carbon
 }
 
-// CleanTestNow clears a test Carbon instance (real or mock) to be returned when a "now" instance is created.
+// CleanTestNow clears a test Carbon instance for now.
 // 清除当前测试时间
 func CleanTestNow() {
 	testNow.rw.Lock()
@@ -31,7 +33,7 @@ func CleanTestNow() {
 	testNow.isFrozen = false
 }
 
-// IsTestNow report whether is testing time.
+// IsTestNow reports whether is testing time.
 // 是否是测试时间
 func IsTestNow() bool {
 	testNow.rw.Lock()
