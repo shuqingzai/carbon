@@ -116,8 +116,6 @@ carbon.Yesterday().ToDateTimeString() // 2020-08-04 13:14:15
 carbon.Yesterday().ToDateString() // 2020-08-04
 // 昨日の時間
 carbon.Yesterday().ToTimeString() // 13:14:15
-// 日付指定の昨日
-carbon.Parse("2021-01-28 13:14:15").Yesterday().ToDateTimeString() // 2021-01-27 13:14:15
 // タイムゾーン指定の昨日
 carbon.Yesterday(carbon.NewYork).ToDateTimeString() // 2020-08-04 14:14:15
 // 昨日の秒タイムスタンプ
@@ -138,8 +136,6 @@ carbon.Tomorrow().ToDateTimeString() // 2020-08-06 13:14:15
 carbon.Tomorrow().ToDateString() // 2020-08-06
 // 明日の時間
 carbon.Tomorrow().ToTimeString() // 13:14:15
-// 日付指定の明日
-carbon.Parse("2021-01-28 13:14:15").Tomorrow().ToDateTimeString() // 2021-01-29 13:14:15
 // タイムゾーン指定の明日
 carbon.Tomorrow(carbon.NewYork).ToDateTimeString() // 2020-08-06 14:14:15
 // 明日の秒タイムスタンプ

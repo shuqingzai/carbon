@@ -98,8 +98,6 @@ carbon.Now().ToDateTimeString() // 2020-08-05 13:14:15
 carbon.Now().ToDateString() // 2020-08-05
 // 今天时间
 carbon.Now().ToTimeString() // 13:14:15
-// 指定时区的今天此刻
-carbon.Now(carbon.NewYork).ToDateTimeString() // 2020-08-05 14:14:15
 // 今天秒级时间戳
 carbon.Now().Timestamp() // 1596604455
 // 今天毫秒级时间戳
@@ -118,8 +116,6 @@ carbon.Yesterday().ToDateTimeString() // 2020-08-04 13:14:15
 carbon.Yesterday().ToDateString() // 2020-08-04
 // 昨天时间
 carbon.Yesterday().ToTimeString() // 13:14:15
-// 指定日期的昨天此刻
-carbon.Parse("2021-01-28 13:14:15").Yesterday().ToDateTimeString() // 2021-01-27 13:14:15
 // 指定时区的昨天此刻
 carbon.Yesterday(carbon.NewYork).ToDateTimeString() // 2020-08-04 14:14:15
 // 昨天秒级时间戳
@@ -140,8 +136,6 @@ carbon.Tomorrow().ToDateTimeString() // 2020-08-06 13:14:15
 carbon.Tomorrow().ToDateString() // 2020-08-06
 // 明天时间
 carbon.Tomorrow().ToTimeString() // 13:14:15
-// 指定日期的明天此刻
-carbon.Parse("2021-01-28 13:14:15").Tomorrow().ToDateTimeString() // 2021-01-29 13:14:15
 // 指定时区的明天此刻
 carbon.Tomorrow(carbon.NewYork).ToDateTimeString() // 2020-08-06 14:14:15
 // 明天秒级时间戳
