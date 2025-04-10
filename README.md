@@ -244,7 +244,7 @@ carbon.Parse("2022-03-08T03:01:14-07:00").ToString() // 2022-03-08 10:01:14 +000
 carbon.Parse("2022-03-08T10:01:14Z").ToString() // 2022-03-08 10:01:14 +0000 UTC
 ```
 
-##### Parse a time string as a `Carbon` instance by  a confirmed layout
+##### Parse a time string as a `Carbon` instance by a confirmed layout
 
 ```go
 carbon.ParseByLayout("2020|08|05 13|14|15", "2006|01|02 15|04|05").ToDateTimeString() // 2020-08-05 13:14:15
