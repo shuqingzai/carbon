@@ -6,24 +6,6 @@ import (
 	"github.com/dromara/carbon/v2"
 )
 
-func ExampleCarbon_Lunar() {
-	fmt.Println(carbon.Parse("2023-03-02", carbon.PRC).Lunar().String())
-	fmt.Println(carbon.Parse("2023-04-01", carbon.PRC).Lunar().String())
-
-	// Output:
-	// 2023-02-11
-	// 2023-02-11
-}
-
-func ExampleCreateFromLunar() {
-	fmt.Println(carbon.CreateFromLunar(2023, 2, 11, false).ToString(carbon.PRC))
-	fmt.Println(carbon.CreateFromLunar(2023, 2, 11, true).ToString(carbon.PRC))
-
-	// Output:
-	// 2023-03-02 00:00:00 +0800 CST
-	// 2023-04-01 00:00:00 +0800 CST
-}
-
 func ExampleCarbon_Julian() {
 	fmt.Println("JD(default precision 6):", carbon.Parse("2024-01-23 13:14:15").Julian().JD())
 	fmt.Println("MJD(default precision 6):", carbon.Parse("2024-01-23 13:14:15").Julian().MJD())
@@ -45,6 +27,24 @@ func ExampleCreateFromJulian() {
 	// Output:
 	// 2024-01-23 13:14:15 +0000 UTC
 	// 2024-01-23 13:14:15 +0000 UTC
+}
+
+func ExampleCarbon_Lunar() {
+	fmt.Println(carbon.Parse("2023-03-02", carbon.PRC).Lunar().String())
+	fmt.Println(carbon.Parse("2023-04-01", carbon.PRC).Lunar().String())
+
+	// Output:
+	// 2023-02-11
+	// 2023-02-11
+}
+
+func ExampleCreateFromLunar() {
+	fmt.Println(carbon.CreateFromLunar(2023, 2, 11, false).ToString(carbon.PRC))
+	fmt.Println(carbon.CreateFromLunar(2023, 2, 11, true).ToString(carbon.PRC))
+
+	// Output:
+	// 2023-03-02 00:00:00 +0800 CST
+	// 2023-04-01 00:00:00 +0800 CST
 }
 
 func ExampleCarbon_Persian() {
