@@ -93,7 +93,7 @@ func (c *Carbon) IsLongYear() bool {
 		return false
 	}
 	_, w := time.Date(c.Year(), 12, 31, 0, 0, 0, 0, c.loc).ISOWeek()
-	return w == weeksPerLongYear
+	return w == WeeksPerLongYear
 }
 
 // IsJanuary reports whether is January.
