@@ -139,7 +139,7 @@ const (
 	MonthsPerYear      = 12     // 每年12月
 	MonthsPerQuarter   = 3      // 每季度3月
 	WeeksPerNormalYear = 52     // 每常规年52周
-	weeksPerLongYear   = 53     // 每长年53周
+	WeeksPerLongYear   = 53     // 每长年53周
 	WeeksPerMonth      = 4      // 每月4周
 	DaysPerLeapYear    = 366    // 每闰年366天
 	DaysPerNormalYear  = 365    // 每常规年365天
