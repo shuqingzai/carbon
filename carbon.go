@@ -18,6 +18,7 @@ type Carbon struct {
 	time         time.Time
 	layout       string
 	weekStartsAt time.Weekday
+	weekendDays  []time.Weekday
 	loc          *time.Location
 	lang         *Language
 	Error        error
