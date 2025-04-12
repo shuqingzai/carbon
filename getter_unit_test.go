@@ -1013,7 +1013,7 @@ func TestCarbon_WeekStartsAt(t *testing.T) {
 
 func TestCarbon_WeekEndsAt(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, DefaultWeekEndsAt, NewCarbon().WeekEndsAt())
+		assert.Equal(t, Sunday, NewCarbon().WeekEndsAt())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
