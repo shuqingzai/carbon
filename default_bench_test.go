@@ -11,7 +11,10 @@ func BenchmarkSetDefault(b *testing.B) {
 		Layout:       DateTimeLayout,
 		Timezone:     PRC,
 		Locale:       "zh-CN",
-		WeekStartsAt: Sunday,
+		WeekStartsAt: Monday,
+		WeekendDays: []string{
+			Saturday, Sunday,
+		},
 	}
 
 	for n := 0; n < b.N; n++ {
