@@ -132,6 +132,7 @@ const (
 // number constants
 // 数字常量
 const (
+	EpochYear          = 1970   // UNIX 纪元年
 	YearsPerMillennium = 1000   // 每千年1000年
 	YearsPerCentury    = 100    // 每世纪100年
 	YearsPerDecade     = 10     // 每十年10年
