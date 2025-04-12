@@ -523,6 +523,15 @@ func ExampleCarbon_WeekStartsAt() {
 	// Monday
 }
 
+func ExampleCarbon_WeekEndsAt() {
+	fmt.Println(carbon.Now().SetWeekStartsAt(carbon.Sunday).WeekEndsAt())
+	fmt.Println(carbon.Now().SetWeekStartsAt(carbon.Monday).WeekEndsAt())
+
+	// Output:
+	// Saturday
+	// Sunday
+}
+
 func ExampleCarbon_CurrentLayout() {
 	fmt.Println(carbon.Parse("now").CurrentLayout())
 	fmt.Println(carbon.ParseByLayout("13:14:15", carbon.TimeLayout).CurrentLayout())

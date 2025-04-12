@@ -305,6 +305,13 @@ func BenchmarkCarbon_WeekStartsAt(b *testing.B) {
 	}
 }
 
+func BenchmarkCarbon_WeekEndsAt(b *testing.B) {
+	c := Now()
+	for n := 0; n < b.N; n++ {
+		c.WeekEndsAt()
+	}
+}
+
 func BenchmarkCarbon_CurrentLayout(b *testing.B) {
 	c := Now()
 	for n := 0; n < b.N; n++ {

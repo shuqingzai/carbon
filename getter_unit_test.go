@@ -1011,6 +1011,23 @@ func TestCarbon_WeekStartsAt(t *testing.T) {
 	})
 }
 
+func TestCarbon_WeekEndsAt(t *testing.T) {
+	t.Run("zero time", func(t *testing.T) {
+		assert.Equal(t, DefaultWeekEndsAt, NewCarbon().WeekEndsAt())
+	})
+
+	t.Run("invalid time", func(t *testing.T) {
+		assert.Empty(t, Parse("").WeekEndsAt())
+		assert.Empty(t, Parse("0").WeekEndsAt())
+		assert.Empty(t, Parse("xxx").WeekEndsAt())
+	})
+
+	t.Run("valid time", func(t *testing.T) {
+		assert.Equal(t, Saturday, Now().SetWeekStartsAt(Sunday).WeekEndsAt())
+		assert.Equal(t, Sunday, Now().SetWeekStartsAt(Monday).WeekEndsAt())
+	})
+}
+
 func TestCarbon_CurrentLayout(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, DefaultLayout, NewCarbon().CurrentLayout())

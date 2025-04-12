@@ -423,6 +423,15 @@ func (c *Carbon) WeekStartsAt() string {
 	return c.weekStartsAt.String()
 }
 
+// WeekEndsAt returns end day of the week.
+// 获取一周的结束日期
+func (c *Carbon) WeekEndsAt() string {
+	if c.IsInvalid() {
+		return ""
+	}
+	return time.Weekday((int(c.weekStartsAt) + DaysPerWeek - 1) % 7).String()
+}
+
 // CurrentLayout returns the layout used for parsing the time string.
 // 获取当前布局模板
 func (c *Carbon) CurrentLayout() string {
