@@ -722,7 +722,7 @@ func TestCarbon_Month(t *testing.T) {
 
 func TestCarbon_Week(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, 1, NewCarbon().Week())
+		assert.Equal(t, 0, NewCarbon().Week())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -732,10 +732,10 @@ func TestCarbon_Week(t *testing.T) {
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, 1, Parse("2020-08-03").Week())
-		assert.Equal(t, 2, Parse("2020-08-04").Week())
-		assert.Equal(t, 3, Parse("2020-08-05").Week())
-		assert.Zero(t, Parse("2020-08-09").Week())
+		assert.Equal(t, 0, Parse("2020-08-03").Week())
+		assert.Equal(t, 1, Parse("2020-08-04").Week())
+		assert.Equal(t, 2, Parse("2020-08-05").Week())
+		assert.Equal(t, 6, Parse("2020-08-09").Week())
 	})
 }
 

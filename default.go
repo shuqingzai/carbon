@@ -11,7 +11,7 @@ var (
 
 	// DefaultWeekStartsAt default week start date
 	// 默认一周开始日期
-	DefaultWeekStartsAt = Sunday
+	DefaultWeekStartsAt = Monday
 
 	// DefaultLocale default language locale
 	// 默认语言区域
