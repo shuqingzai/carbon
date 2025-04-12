@@ -16,7 +16,7 @@ func MaxValue() *Carbon {
 // MinValue returns a Carbon instance for the lowest supported date.
 // 返回 Carbon 的最小值
 func MinValue() *Carbon {
-	return NewCarbon(time.Date(-9998, time.January, 1, 0, 0, 0, 0, time.UTC))
+	return NewCarbon(time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC))
 }
 
 // MaxDuration returns the maximum duration value.
