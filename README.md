@@ -140,29 +140,29 @@ carbon.Tomorrow().ToDateString() // 2020-08-06
 carbon.Tomorrow().ToTimeString() // 13:14:15
 // Return datetime of tomorrow in a given timezone
 carbon.Tomorrow(carbon.NewYork).ToDateTimeString() // 2020-08-06 13:14:15
-// Return timestamp with second of tomorrow
+// Return timestamp with second precision of tomorrow
 carbon.Tomorrow().Timestamp() // 1596719655
-// Return timestamp with millisecond of tomorrow
+// Return timestamp with millisecond precision of tomorrow
 carbon.Tomorrow().TimestampMilli() // 1596719655999
-// Return timestamp with microsecond of tomorrow
+// Return timestamp with microsecond precision of tomorrow
 carbon.Tomorrow().TimestampMicro() // 1596719655999999
-// Return timestamp with nanosecond of tomorrow
+// Return timestamp with nanosecond precision of tomorrow
 carbon.Tomorrow().TimestampNano() // 1596719655999999999
 ```
 
 ##### Create a `Carbon` instance
 
 ```go
-// Create a Carbon instance from a given timestamp with second
+// Create a Carbon instance from a given timestamp with second precision
 carbon.CreateFromTimestamp(-1).ToString() // 1969-12-31 23:59:59 +0000 UTC
 carbon.CreateFromTimestamp(0).ToString() // 1970-01-01 00:00:00 +0000 UTC
 carbon.CreateFromTimestamp(1).ToString() // 1970-01-01 00:00:01 +0000 UTC
 carbon.CreateFromTimestamp(1596633255).ToString() // 2020-08-05 13:14:15 +0000 UTC
-// Create a Carbon instance from a given timestamp with millisecond
+// Create a Carbon instance from a given timestamp with millisecond precision
 carbon.CreateFromTimestampMilli(1596633255999999).ToString() // 2020-08-05 13:14:15.999 +0000 UTC
-// Create a Carbon instance from a given timestamp with microsecond
+// Create a Carbon instance from a given timestamp with microsecond precision
 carbon.CreateFromTimestampMicro(1596633255999999).ToString() // 2020-08-05 13:14:15.999999 +0000 UTC
-// Create a Carbon instance from a given timestamp with nanosecond
+// Create a Carbon instance from a given timestamp with nanosecond precision
 carbon.CreateFromTimestampNano(1596633255999999999).ToString() // 2020-08-05 13:14:15.999999999 +0000 UTC
 
 // Create a Carbon instance from a given date and time
@@ -1054,13 +1054,13 @@ carbon.Parse("2020-08-05 13:14:15.999").Microsecond() // 999000
 // Get current nanosecond
 carbon.Parse("2020-08-05 13:14:15.999").Nanosecond() // 999000000
 
-// Get timestamp with second
+// Get timestamp with second precision
 carbon.Parse("2020-08-05 13:14:15").Timestamp() // 1596604455
-// Get timestamp with millisecond
+// Get timestamp with millisecond precision
 carbon.Parse("2020-08-05 13:14:15").TimestampMilli() // 1596604455000
-// Get timestamp with microsecond
+// Get timestamp with microsecond precision
 carbon.Parse("2020-08-05 13:14:15").TimestampMicro() // 1596604455000000
-// Get timestamp with nanosecond
+// Get timestamp with nanosecond precision
 carbon.Parse("2020-08-05 13:14:15").TimestampNano() // 1596604455000000000
 
 // Get timezone location

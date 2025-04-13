@@ -155,16 +155,16 @@ carbon.Tomorrow().TimestampNano() // 1596690855999999999
 ##### 创建 `Carbon` 实例
 
 ```go
-// 从秒级时间戳创建 Carbon 实例
+// 从秒精度时间戳创建 Carbon 实例
 carbon.CreateFromTimestamp(-1).ToString() // 1970-01-01 07:59:59 +0800 CST
 carbon.CreateFromTimestamp(0).ToString() // 1970-01-01 08:00:00 +0800 CST
 carbon.CreateFromTimestamp(1).ToString() // 1970-01-01 08:00:01 +0800 CST
 carbon.CreateFromTimestamp(1596604455).ToString() // 2020-08-05 13:14:15 +0800 CST
-// 从毫秒级时间戳创建 Carbon 实例
+// 从毫秒精度时间戳创建 Carbon 实例
 carbon.CreateFromTimestampMilli(1596604455999).ToString() // 2020-08-05 13:14:15.999 +0800 CST
-// 从微秒级时间戳创建 Carbon 实例
+// 从微秒精度时间戳创建 Carbon 实例
 carbon.CreateFromTimestampMicro(1596604455999999).ToString() // 2020-08-05 13:14:15.999999 +0800 CST
-// 从纳秒级时间戳创建 Carbon 实例
+// 从纳秒精度时间戳创建 Carbon 实例
 carbon.CreateFromTimestampNano(1596604455999999999).ToString() // 2020-08-05 13:14:15.999999999 +0800 CST
 
 // 从年、月、日、时、分、秒创建 Carbon 实例
@@ -1062,13 +1062,13 @@ carbon.Parse("2020-08-05 13:14:15.999").Microsecond() // 999000
 // 获取当前纳秒
 carbon.Parse("2020-08-05 13:14:15.999").Nanosecond() // 999000000
 
-// 获取秒级时间戳
+// 获取秒精度时间戳
 carbon.Parse("2020-08-05 13:14:15").Timestamp() // 1596604455
-// 获取毫秒级时间戳
+// 获取毫秒精度时间戳
 carbon.Parse("2020-08-05 13:14:15").TimestampMilli() // 1596604455000
-// 获取微秒级时间戳
+// 获取微秒精度时间戳
 carbon.Parse("2020-08-05 13:14:15").TimestampMicro() // 1596604455000000
-// 获取纳秒级时间戳
+// 获取纳秒精度时间戳
 carbon.Parse("2020-08-05 13:14:15").TimestampNano() // 1596604455000000000
 
 // 获取时区位置
