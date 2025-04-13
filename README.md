@@ -48,7 +48,7 @@ go mod edit -replace github.com/golang-module/carbon/v2=github.com/dromara/carbo
 
 #### Usage and example
 
-> Default timezone is UTC, language locale is en(English), assuming the current time is 2020-08-05 13:14:15.999999999 +0000 UTC
+> Default timezone is UTC, language locale is en(English), start day of the week is Sunday,assuming the current time is 2020-08-05 13:14:15.999999999 +0000 UTC
 
 ##### Set globally default
 
@@ -56,7 +56,7 @@ go mod edit -replace github.com/golang-module/carbon/v2=github.com/dromara/carbo
 carbon.SetLayout(carbon.DateTimeLayout)
 carbon.SetTimezone(carbon.UTC)
 carbon.SetLocale("en")
-carbon.SetWeekStartsAt(carbon.Sunday)
+carbon.SetWeekStartsAt(carbon.Monday)
 carbon.SetWeekendDays([]carbon.Weekday{carbon.Saturday, carbon.Sunday,})
 
 or
