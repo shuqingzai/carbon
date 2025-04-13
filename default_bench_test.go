@@ -12,7 +12,7 @@ func BenchmarkSetDefault(b *testing.B) {
 		Timezone:     PRC,
 		Locale:       "zh-CN",
 		WeekStartsAt: Monday,
-		WeekendDays: []string{
+		WeekendDays: []Weekday{
 			Saturday, Sunday,
 		},
 	}

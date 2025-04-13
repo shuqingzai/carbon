@@ -16,7 +16,7 @@ func TestSetDefault(t *testing.T) {
 		Timezone:     carbon.PRC,
 		Locale:       "zh-CN",
 		WeekStartsAt: carbon.Monday,
-		WeekendDays: []string{
+		WeekendDays: []carbon.Weekday{
 			carbon.Saturday, carbon.Sunday,
 		},
 	})
@@ -25,7 +25,7 @@ func TestSetDefault(t *testing.T) {
 	assert.Equal(t, carbon.PRC, carbon.DefaultTimezone)
 	assert.Equal(t, "zh-CN", carbon.DefaultLocale)
 	assert.Equal(t, carbon.Monday, carbon.DefaultWeekStartsAt)
-	assert.Equal(t, []string{
+	assert.Equal(t, []carbon.Weekday{
 		carbon.Saturday, carbon.Sunday,
 	}, carbon.DefaultWeekendDays)
 }

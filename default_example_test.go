@@ -14,7 +14,7 @@ func ExampleSetDefault() {
 		Timezone:     carbon.PRC,
 		Locale:       "zh-CN",
 		WeekStartsAt: carbon.Monday,
-		WeekendDays: []string{
+		WeekendDays: []carbon.Weekday{
 			carbon.Saturday, carbon.Sunday,
 		},
 	})
