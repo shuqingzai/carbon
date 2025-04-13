@@ -19,8 +19,8 @@ type Location = time.Location
 // Carbon defines a Carbon struct.
 // 定义 Carbon 结构体
 type Carbon struct {
-	time         StdTime
 	layout       string
+	time         StdTime
 	weekStartsAt Weekday
 	weekendDays  []Weekday
 	loc          *Location

@@ -48,7 +48,7 @@ go mod edit -replace github.com/golang-module/carbon/v2=github.com/dromara/carbo
 
 #### Usage and example
 
-> Default timezone is UTC, language locale is English, start day of the week is Sunday. assuming the current time is 2020-08-05 13:14:15.999999999 +0000 UTC
+> Default timezone is `UTC`, language locale is `English`, start day of the week is `Monday`. assuming the current time is `2020-08-05 13:14:15.999999999 +0000 UTC`
 
 ##### Set globally default
 
@@ -65,7 +65,7 @@ carbon.SetDefault(carbon.Default{
   Layout: carbon.DateTimeLayout,
   Timezone: carbon.UTC,
   Locale: "en",
-  WeekStartsAt: carbon.Sunday,
+  WeekStartsAt: carbon.Monday,
   WeekendDays: []carbon.Weekday{carbon.Saturday, carbon.Sunday,},
 })
 ```
@@ -637,7 +637,7 @@ carbon.MinDuration().Seconds() // -9.223372036854776e+09
 ##### Comparison
 
 ```go
-// Whether has error
+// Whether it has error
 carbon.Parse("0001-01-01 00:00:00 +0000 UTC").HasError() // false
 carbon.NewCarbon().HasError() // false
 carbon.Parse("").HasError() // false
@@ -645,7 +645,7 @@ carbon.Parse("0").HasError() // true
 carbon.Parse("xxx").HasError() // true
 carbon.Parse("2020-08-05").IsNil() // false
 
-// Whether is nil time
+// Whether is a nil time
 carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsNil() // false
 carbon.NewCarbon().IsNil() // false
 carbon.Parse("").IsNil() // true
@@ -653,7 +653,7 @@ carbon.Parse("0").IsNil() // false
 carbon.Parse("xxx").IsNil() // false
 carbon.NewCarbon().IsNil() // false
 
-// Whether is zero time(0001-01-01 00:00:00 +0000 UTC)
+// Whether is a zero time(0001-01-01 00:00:00 +0000 UTC)
 carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsZero() // true
 carbon.NewCarbon().IsZero() // true
 carbon.Parse("").IsZero() // false
@@ -666,7 +666,7 @@ carbon.Parse("2020-08-05 00:00:00").IsZero() // false
 carbon.Parse("2020-08-05").IsZero() // false
 carbon.Parse("2020-08-05").SetTimezone("xxx").IsZero() // false
 
-// Whether is unix epoch time(1970-01-01 00:00:00 +0000 UTC).
+// Whether is a unix epoch time(1970-01-01 00:00:00 +0000 UTC).
 carbon.Parse("1970-01-01 00:00:00 +0000 UTC").IsEpoch() // true
 carbon.CreateFromTimestamp(0).IsEpoch() // true
 carbon.NewCarbon().IsEpoch() // false
@@ -680,7 +680,7 @@ carbon.Parse("2020-08-05 00:00:00").IsEpoch() // false
 carbon.Parse("2020-08-05").IsEpoch() // false
 carbon.Parse("2020-08-05").SetTimezone("xxx").IsEpoch() // false
 
-// Whether is valid time
+// Whether is a valid time
 carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsValid() // true
 carbon.NewCarbon().IsValid() // true
 carbon.Parse("").IsValid() // false
@@ -693,7 +693,7 @@ carbon.Parse("2020-08-05 00:00:00").IsValid() // true
 carbon.Parse("2020-08-05").IsValid() // true
 carbon.Parse("2020-08-05").SetTimezone("xxx").IsValid() // false
 
-// Whether is invalid time
+// Whether is an invalid time
 carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsInvalid() // false
 carbon.NewCarbon().IsInvalid() // false
 carbon.Parse("").IsInvalid() // true
@@ -706,7 +706,7 @@ carbon.Parse("2020-08-05 00:00:00").IsInvalid() // false
 carbon.Parse("2020-08-05").IsInvalid() // false
 carbon.Parse("2020-08-05").SetTimezone("xxx").IsInvalid() // true
 
-// Whether is daylight saving time
+// Whether is a daylight saving time
 carbon.Parse("").IsDST() // false
 carbon.Parse("0").IsDST() // false
 carbon.Parse("xxx").IsDST() // false
@@ -716,22 +716,22 @@ carbon.Parse("00:00:00").IsDST() // false
 carbon.Parse("2023-01-01", "Australia/Brisbane").IsDST() // false
 carbon.Parse("2023-01-01", "Australia/Sydney").IsDST() // true
 
-// Whether is before noon
+// Whether is a forenoon time
 carbon.Parse("2020-08-05 00:00:00").IsAM() // true
 carbon.Parse("2020-08-05 08:00:00").IsAM() // true
 carbon.Parse("2020-08-05 12:00:00").IsAM() // false
 carbon.Parse("2020-08-05 13:00:00").IsAM() // false
-// Whether is after noon
+// Whether is an afternoon time 
 carbon.Parse("2020-08-05 00:00:00").IsPM() // false
 carbon.Parse("2020-08-05 08:00:00").IsPM() // false
 carbon.Parse("2020-08-05 12:00:00").IsPM() // true
 carbon.Parse("2020-08-05 13:00:00").IsPM() // true
 
-// Whether is now time
+// Whether is a now time
 carbon.Now().IsNow() // true
-// Whether is future time
+// Whether is a future time
 carbon.Tomorrow().IsFuture() // true
-// Whether is pass time
+// Whether is a pass time
 carbon.Yesterday().IsPast() // true
 
 // Whether is a leap year
@@ -796,31 +796,31 @@ carbon.Parse("2020-08-06 13:14:15").IsTomorrow() // true
 carbon.Parse("2020-08-06 00:00:00").IsTomorrow() // true
 carbon.Parse("2020-08-06").IsTomorrow() // true
 
-// Whether is same century
+// Whether is the same century
 carbon.Parse("2020-08-05 13:14:15").IsSameCentury(carbon.Parse("3020-08-05 13:14:15")) // false
 carbon.Parse("2020-08-05 13:14:15").IsSameCentury(carbon.Parse("2099-08-05 13:14:15")) // true
-// Whether is same decade
+// Whether is the same decade
 carbon.Parse("2020-08-05 13:14:15").IsSameDecade(carbon.Parse("2030-08-05 13:14:15")) // false
 carbon.Parse("2020-08-05 13:14:15").IsSameDecade(carbon.Parse("2120-08-05 13:14:15")) // true
-// Whether is same year
+// Whether is the same year
 carbon.Parse("2020-08-05 00:00:00").IsSameYear(carbon.Parse("2021-08-05 13:14:15")) // false
 carbon.Parse("2020-01-01 00:00:00").IsSameYear(carbon.Parse("2020-12-31 13:14:15")) // true
-// Whether is same quarter
+// Whether is the same quarter
 carbon.Parse("2020-08-05 00:00:00").IsSameQuarter(carbon.Parse("2020-09-05 13:14:15")) // false
 carbon.Parse("2020-01-01 00:00:00").IsSameQuarter(carbon.Parse("2021-01-31 13:14:15")) // true
-// Whether is same month
+// Whether is the same month
 carbon.Parse("2020-01-01 00:00:00").IsSameMonth(carbon.Parse("2021-01-31 13:14:15")) // false
 carbon.Parse("2020-01-01 00:00:00").IsSameMonth(carbon.Parse("2020-01-31 13:14:15")) // true
-// Whether is same day
+// Whether is the same day
 carbon.Parse("2020-08-05 13:14:15").IsSameDay(carbon.Parse("2021-08-05 13:14:15")) // false
 carbon.Parse("2020-08-05 00:00:00").IsSameDay(carbon.Parse("2020-08-05 13:14:15")) // true
-// Whether is same hour
+// Whether is the same hour
 carbon.Parse("2020-08-05 13:14:15").IsSameHour(carbon.Parse("2021-08-05 13:14:15")) // false
 carbon.Parse("2020-08-05 13:00:00").IsSameHour(carbon.Parse("2020-08-05 13:14:15")) // true
-// Whether is same minute
+// Whether is the same minute
 carbon.Parse("2020-08-05 13:14:15").IsSameMinute(carbon.Parse("2021-08-05 13:14:15")) // false
 carbon.Parse("2020-08-05 13:14:00").IsSameMinute(carbon.Parse("2020-08-05 13:14:15")) // true
-// Whether is same second
+// Whether is the same second
 carbon.Parse("2020-08-05 13:14:15").IsSameSecond(carbon.Parse("2021-08-05 13:14:15")) // false
 carbon.Parse("2020-08-05 13:14:15").IsSameSecond(carbon.Parse("2020-08-05 13:14:15")) // true
 
@@ -1322,7 +1322,7 @@ carbon.Parse("2020-08-05 13:14:15").IsWinter() // false
 
 ##### JSON
 
-###### Built-in type
+###### Builtin type
 
 ```go
 type User struct {
@@ -1682,7 +1682,7 @@ COPY ./zoneinfo.zip /usr/local/go /lib/time/zoneinfo.zip
 * [iamkun/dayjs](https://github.com/iamkun/dayjs)
 
 #### Contributors
-Thanks to all of the following who contributed to `Carbon`:
+Thanks to all the following who contributed to `Carbon`:
 
 <a href="https://github.com/dromara/carbon/graphs/contributors"><img src="https://contrib.rocks/image?repo=dromara/carbon&max=100&columns=16" /></a>
 
