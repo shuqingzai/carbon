@@ -201,6 +201,7 @@ func TestCarbon_StartOfWeek(t *testing.T) {
 		assert.Equal(t, "2019-12-30 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfWeek().ToString())
 		assert.Equal(t, "2020-08-10 00:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfWeek().ToString())
 		assert.Equal(t, "2020-12-28 00:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfWeek().ToString())
+		assert.Equal(t, "2025-04-07 00:00:00 +0000 UTC", Parse("2025-04-07 00:00:00").StartOfWeek().ToString())
 	})
 }
 
@@ -219,6 +220,7 @@ func TestCarbon_EndOfWeek(t *testing.T) {
 		assert.Equal(t, "2020-01-05 23:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfWeek().ToString())
 		assert.Equal(t, "2020-08-16 23:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfWeek().ToString())
 		assert.Equal(t, "2021-01-03 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfWeek().ToString())
+		assert.Equal(t, "2025-04-13 23:59:59.999999999 +0000 UTC", Parse("2025-04-13 00:00:00").EndOfWeek().ToString())
 	})
 }
 
