@@ -38,7 +38,7 @@ func ExampleCarbon_Copy() {
 	oldCarbon := carbon.Parse("2020-08-05")
 	newCarbon := oldCarbon.Copy()
 
-	oldCarbon = oldCarbon.AddDay().SetLayout(carbon.DateTimeLayout).SetLocale("zh-CN").SetWeekStartsAt(carbon.Monday)
+	oldCarbon = oldCarbon.AddDay().SetLayout(carbon.DateTimeLayout).SetLocale("zh-CN").SetWeekStartsAt(carbon.Sunday)
 
 	fmt.Printf("old time: %s\n", oldCarbon.ToString())
 	fmt.Printf("new time: %s\n", newCarbon.ToString())
@@ -59,6 +59,6 @@ func ExampleCarbon_Copy() {
 	// new layout: 2006-01-02
 	// old locale: zh-CN
 	// new locale: en
-	// old week starts at: Monday
-	// new week starts at: Sunday
+	// old week starts at: Sunday
+	// new week starts at: Monday
 }
