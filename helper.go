@@ -31,14 +31,14 @@ var formatMap = map[byte]string{
 	'R': "Z07:00",  // Zone:   ISO8601 colon timezone. Eg: Z, +02:00.
 	'Z': "MST",     // Zone:   Zone name. Eg: UTC, EST, MDT ...
 
-	'u': "999",       // Millisecond. Eg: 999.
-	'v': "999999",    // Microsecond. Eg: 999999.
-	'x': "999999999", // Nanosecond. Eg: 999999999.
+	'u': "999",       // Second: Millisecond. Eg: 999.
+	'v': "999999",    // Second: Microsecond. Eg: 999999.
+	'x': "999999999", // Second: Nanosecond. Eg: 999999999.
 
-	'S': TimestampLayout,      // Timestamp with second. Eg: 1699677240.
-	'U': TimestampMilliLayout, // Timestamp with millisecond. Eg: 1596604455666.
-	'V': TimestampMicroLayout, // Timestamp with microsecond. Eg: 1596604455666666.
-	'X': TimestampNanoLayout,  // Timestamp with nanosecond. Eg: 1596604455666666666.
+	'S': TimestampLayout,      // Timestamp: Timestamp with second precision. Eg: 1699677240.
+	'U': TimestampMilliLayout, // Timestamp: Timestamp with millisecond precision. Eg: 1596604455666.
+	'V': TimestampMicroLayout, // Timestamp: Timestamp with microsecond precision. Eg: 1596604455666666.
+	'X': TimestampNanoLayout,  // Timestamp: Timestamp with nanosecond precision. Eg: 1596604455666666666.
 }
 
 // default layouts
