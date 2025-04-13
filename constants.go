@@ -111,13 +111,13 @@ const (
 // week constants
 // 星期常量
 const (
-	Monday    = "Monday"    // 周一
-	Tuesday   = "Tuesday"   // 周二
-	Wednesday = "Wednesday" // 周三
-	Thursday  = "Thursday"  // 周四
-	Friday    = "Friday"    // 周五
-	Saturday  = "Saturday"  // 周六
-	Sunday    = "Sunday"    // 周日
+	Monday    = time.Monday    // 周一
+	Tuesday   = time.Tuesday   // 周二
+	Wednesday = time.Wednesday // 周三
+	Thursday  = time.Thursday  // 周四
+	Friday    = time.Friday    // 周五
+	Saturday  = time.Saturday  // 周六
+	Sunday    = time.Sunday    // 周日
 )
 
 // season constants
