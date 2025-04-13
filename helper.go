@@ -5,18 +5,6 @@ import (
 	"time"
 )
 
-// week days
-// 工作日
-var weekdays = map[string]time.Weekday{
-	Monday:    time.Monday,
-	Tuesday:   time.Tuesday,
-	Wednesday: time.Wednesday,
-	Thursday:  time.Thursday,
-	Friday:    time.Friday,
-	Saturday:  time.Saturday,
-	Sunday:    time.Sunday,
-}
-
 // format map
 // 格式符号映射表
 var formatMap = map[byte]string{
@@ -139,18 +127,6 @@ func parseByDuration(duration string) (time.Duration, error) {
 		err = ErrInvalidDuration(duration)
 	}
 	return td, err
-}
-
-// gets start time.Weekday of the week.
-// 获取一周开始日期
-func getWeekStartDay(weekStartDay string) time.Weekday {
-	return weekdays[weekStartDay]
-}
-
-// gets end time.Weekday of the week.
-// 获取一周结束日期
-func getWeekEndDay(weekStartDay string) time.Weekday {
-	return time.Weekday((int(getWeekStartDay(weekStartDay)) + DaysPerWeek - 1) % 7)
 }
 
 // gets absolute value.
