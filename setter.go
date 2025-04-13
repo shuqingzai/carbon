@@ -57,10 +57,10 @@ func SetLocale(locale string) *Carbon {
 
 // SetWeekStartsAt sets globally default start day of the week.
 // 设置全局默认周起始日期
-func SetWeekStartsAt(day Weekday) *Carbon {
-	c := NewCarbon().SetWeekStartsAt(day)
+func SetWeekStartsAt(weekday Weekday) *Carbon {
+	c := NewCarbon().SetWeekStartsAt(weekday)
 	if !c.HasError() {
-		DefaultWeekStartsAt = day
+		DefaultWeekStartsAt = weekday
 	}
 	return c
 }
