@@ -25,6 +25,13 @@ func BenchmarkCarbon_IsZero(b *testing.B) {
 	}
 }
 
+func BenchmarkCarbon_IsEpoch(b *testing.B) {
+	c := Now()
+	for n := 0; n < b.N; n++ {
+		c.IsEpoch()
+	}
+}
+
 func BenchmarkCarbon_IsValid(b *testing.B) {
 	c := Now()
 	for n := 0; n < b.N; n++ {

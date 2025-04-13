@@ -48,6 +48,21 @@ func ExampleCarbon_IsZero() {
 	// false
 }
 
+func ExampleCarbon_IsEpoch() {
+	fmt.Println(carbon.NewCarbon().IsEpoch())
+	fmt.Println(carbon.CreateFromDateTimeNano(1970, 1, 1, 0, 0, 0, 0, carbon.UTC).IsEpoch())
+
+	fmt.Println(carbon.Parse("").IsEpoch())
+	fmt.Println(carbon.Parse("xxx").IsEpoch())
+	fmt.Println(carbon.Now().IsEpoch())
+
+	// Output:
+	// false
+	// true
+	// false
+	// false
+	// false
+}
 func ExampleCarbon_IsValid() {
 	fmt.Println(carbon.NewCarbon().IsValid())
 	fmt.Println(carbon.Now().IsValid())

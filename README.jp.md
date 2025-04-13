@@ -624,9 +624,9 @@ carbon.Max(yesterday, today, tomorrow) // tomorrow
 carbon.Min(yesterday, today, tomorrow) // yesterday
 
 // Carbonの最大値を戻す
-carbon.MaxCarbon().ToString() // 9999-12-31 23:59:59.999999999 +0900 JST
+carbon.MaxValue().ToString() // 9999-12-31 23:59:59.999999999 +0000 UTC
 // Carbonの最小値を戻す
-carbon.MinCarbon().ToString() // -9998-01-01 00:00:00 +0900 JST
+carbon.MinValue().ToString() // 0001-01-01 00:00:00 +0000 UTC
 
 // 期間の最大値を返します
 carbon.MaxDuration().Seconds() // 9.223372036854776e+09
@@ -665,6 +665,19 @@ carbon.Parse("00:00:00").IsZero() // false
 carbon.Parse("2020-08-05 00:00:00").IsZero() // false
 carbon.Parse("2020-08-05").IsZero() // false
 carbon.Parse("2020-08-05").SetTimezone("xxx").IsZero() // false
+
+// UNIX 紀元時間かどうか（1970-01-01 00:00:00 +0000 UTC）
+carbon.Parse("1970-01-01 00:00:00 +0000 UTC").IsEpoch() // true
+carbon.NewCarbon().IsEpoch() // false
+carbon.Parse("").IsEpoch() // false
+carbon.Parse("0").IsEpoch() // false
+carbon.Parse("xxx").IsEpoch() // false
+carbon.Parse("0000-00-00 00:00:00").IsEpoch() // false
+carbon.Parse("0000-00-00").IsEpoch() // false
+carbon.Parse("00:00:00").IsEpoch() // false
+carbon.Parse("2020-08-05 00:00:00").IsEpoch() // false
+carbon.Parse("2020-08-05").IsEpoch() // false
+carbon.Parse("2020-08-05").SetTimezone("xxx").IsEpoch() // false
 
 // 有効な時間かどうか
 carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsValid() // true
