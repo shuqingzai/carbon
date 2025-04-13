@@ -19,13 +19,13 @@ func BenchmarkSetFormat(b *testing.B) {
 
 func BenchmarkSetWeekStartsAt(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		SetWeekStartsAt(Sunday)
+		SetWeekStartsAt(Monday)
 	}
 }
 
 func BenchmarkSetTimezone(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		SetTimezone(Sunday)
+		SetTimezone(UTC)
 	}
 }
 
