@@ -643,7 +643,8 @@ carbon.NewCarbon().HasError() // false
 carbon.Parse("").HasError() // false
 carbon.Parse("0").HasError() // true
 carbon.Parse("xxx").HasError() // true
-carbon.Parse("2020-08-05").IsNil() // false
+carbon.Parse("2020-08-05").HasError() // false
+carbon.CreateFromTimestamp(0).HasError() // false
 
 // nil 時間かどうか
 carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsNil() // false
@@ -652,13 +653,15 @@ carbon.Parse("").IsNil() // true
 carbon.Parse("0").IsNil() // false
 carbon.Parse("xxx").IsNil() // false
 carbon.NewCarbon().IsNil() // false
+carbon.CreateFromTimestamp(0).IsNil() // false
 
 // ゼロ値の時間かどうか(0001-01-01 00:00:00 +0000 UTC)
 carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsZero() // true
 carbon.NewCarbon().IsZero() // true
+carbon.CreateFromTimestamp(0).IsZero() // false
 carbon.Parse("").IsZero() // false
-carbon.Parse("0").IsZero() // false
 carbon.Parse("xxx").IsZero() // false
+carbon.Parse("0").IsZero() // false
 carbon.Parse("0000-00-00 00:00:00").IsZero() // false
 carbon.Parse("0000-00-00").IsZero() // false
 carbon.Parse("00:00:00").IsZero() // false
@@ -669,6 +672,7 @@ carbon.Parse("2020-08-05").SetTimezone("xxx").IsZero() // false
 // UNIX 紀元時間かどうか（1970-01-01 00:00:00 +0000 UTC）
 carbon.Parse("1970-01-01 00:00:00 +0000 UTC").IsEpoch() // true
 carbon.CreateFromTimestamp(0).IsEpoch() // true
+carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsEpoch() // false
 carbon.NewCarbon().IsEpoch() // false
 carbon.Parse("").IsEpoch() // false
 carbon.Parse("0").IsEpoch() // false
@@ -681,7 +685,8 @@ carbon.Parse("2020-08-05").IsEpoch() // false
 carbon.Parse("2020-08-05").SetTimezone("xxx").IsEpoch() // false
 
 // 有効な時間かどうか
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsValid() // true
+carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsValid()
+carbon.CreateFromTimestamp(0).IsValid() // true
 carbon.NewCarbon().IsValid() // true
 carbon.Parse("").IsValid() // false
 carbon.Parse("0").IsValid() // false
@@ -695,6 +700,7 @@ carbon.Parse("2020-08-05").SetTimezone("xxx").IsValid() // false
 
 // 無効な時間かどうか
 carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsInvalid() // false
+carbon.CreateFromTimestamp(0).IsInvalid() // false
 carbon.NewCarbon().IsInvalid() // false
 carbon.Parse("").IsInvalid() // true
 carbon.Parse("0").IsInvalid() // true

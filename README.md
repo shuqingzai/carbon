@@ -48,7 +48,7 @@ go mod edit -replace github.com/golang-module/carbon/v2=github.com/dromara/carbo
 
 #### Usage and example
 
-> Default timezone is `UTC`, language locale is `English`, start day of the week is `Monday`. assuming the current time is `2020-08-05 13:14:15.999999999 +0000 UTC`
+> Default timezone is `UTC`, language locale is `English`, start day of the week is `Monday`. Assuming the current time is `2020-08-05 13:14:15.999999999 +0000 UTC`
 
 ##### Set globally default
 
@@ -643,7 +643,8 @@ carbon.NewCarbon().HasError() // false
 carbon.Parse("").HasError() // false
 carbon.Parse("0").HasError() // true
 carbon.Parse("xxx").HasError() // true
-carbon.Parse("2020-08-05").IsNil() // false
+carbon.Parse("2020-08-05").HasError() // false
+carbon.CreateFromTimestamp(0).HasError() // false
 
 // Whether is a nil time
 carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsNil() // false
@@ -652,10 +653,12 @@ carbon.Parse("").IsNil() // true
 carbon.Parse("0").IsNil() // false
 carbon.Parse("xxx").IsNil() // false
 carbon.NewCarbon().IsNil() // false
+carbon.CreateFromTimestamp(0).IsNil() // false
 
 // Whether is a zero time(0001-01-01 00:00:00 +0000 UTC)
 carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsZero() // true
 carbon.NewCarbon().IsZero() // true
+carbon.CreateFromTimestamp(0).IsZero() // false
 carbon.Parse("").IsZero() // false
 carbon.Parse("xxx").IsZero() // false
 carbon.Parse("0").IsZero() // false
@@ -669,6 +672,7 @@ carbon.Parse("2020-08-05").SetTimezone("xxx").IsZero() // false
 // Whether is a unix epoch time(1970-01-01 00:00:00 +0000 UTC).
 carbon.Parse("1970-01-01 00:00:00 +0000 UTC").IsEpoch() // true
 carbon.CreateFromTimestamp(0).IsEpoch() // true
+carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsEpoch() // false
 carbon.NewCarbon().IsEpoch() // false
 carbon.Parse("").IsEpoch() // false
 carbon.Parse("0").IsEpoch() // false
@@ -681,7 +685,8 @@ carbon.Parse("2020-08-05").IsEpoch() // false
 carbon.Parse("2020-08-05").SetTimezone("xxx").IsEpoch() // false
 
 // Whether is a valid time
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsValid() // true
+carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsValid()
+carbon.CreateFromTimestamp(0).IsValid() // true
 carbon.NewCarbon().IsValid() // true
 carbon.Parse("").IsValid() // false
 carbon.Parse("0").IsValid() // false
@@ -695,6 +700,7 @@ carbon.Parse("2020-08-05").SetTimezone("xxx").IsValid() // false
 
 // Whether is an invalid time
 carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsInvalid() // false
+carbon.CreateFromTimestamp(0).IsInvalid() // false
 carbon.NewCarbon().IsInvalid() // false
 carbon.Parse("").IsInvalid() // true
 carbon.Parse("0").IsInvalid() // true
