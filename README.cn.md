@@ -102,13 +102,13 @@ carbon.Now().ToDateString() // 2020-08-05
 carbon.Now().ToTimeString() // 13:14:15
 // 指定时区的今天此刻
 carbon.Now(carbon.NewYork).ToDateTimeString() // 2020-08-05 14:14:15
-// 今天秒级时间戳
+// 今天秒精度时间戳
 carbon.Now().Timestamp() // 1596604455
-// 今天毫秒级时间戳
+// 今天毫秒精度时间戳
 carbon.Now().TimestampMilli() // 1596604455999
-// 今天微秒级时间戳
+// 今天微秒精度时间戳
 carbon.Now().TimestampMicro() // 1596604455999999
-// 今天纳秒级时间戳
+// 今天纳秒精度时间戳
 carbon.Now().TimestampNano() // 1596604455999999999
 
 // 昨天此刻
@@ -122,13 +122,13 @@ carbon.Yesterday().ToDateString() // 2020-08-04
 carbon.Yesterday().ToTimeString() // 13:14:15
 // 指定时区的昨天此刻
 carbon.Yesterday(carbon.NewYork).ToDateTimeString() // 2020-08-04 14:14:15
-// 昨天秒级时间戳
+// 昨天秒精度时间戳
 carbon.Yesterday().Timestamp() // 1596518055
-// 昨天毫秒级时间戳
+// 昨天毫秒精度时间戳
 carbon.Yesterday().TimestampMilli() // 1596518055999
-// 昨天微秒级时间戳
+// 昨天微秒精度时间戳
 carbon.Yesterday().TimestampMicro() // 1596518055999999
-// 昨天纳秒级时间戳
+// 昨天纳秒精度时间戳
 carbon.Yesterday().TimestampNano() // 1596518055999999999
 
 // 明天此刻
@@ -142,13 +142,13 @@ carbon.Tomorrow().ToDateString() // 2020-08-06
 carbon.Tomorrow().ToTimeString() // 13:14:15
 // 指定时区的明天此刻
 carbon.Tomorrow(carbon.NewYork).ToDateTimeString() // 2020-08-06 14:14:15
-// 明天秒级时间戳
+// 明天秒精度时间戳
 carbon.Tomorrow().Timestamp() // 1596690855
-// 明天毫秒级时间戳
+// 明天毫秒精度时间戳
 carbon.Tomorrow().TimestampMilli() //1596690855999
-// 明天微秒级时间戳
+// 明天微秒精度时间戳
 carbon.Tomorrow().TimestampMicro() // 1596690855999999
-// 明天纳秒级时间戳
+// 明天纳秒精度时间戳
 carbon.Tomorrow().TimestampNano() // 1596690855999999999
 ```
 
@@ -632,7 +632,7 @@ carbon.Min(yesterday, today, tomorrow) // yesterday
 // 返回 Carbon 的最大值
 carbon.MaxValue().ToString() // 9999-12-31 23:59:59.999999999 +0000 UTC
 // 返回 Carbon 的最小值
-carbon.MinValue().ToString() // -9998-01-01 00:00:00 +0000 UTC
+carbon.MinValue().ToString() // 0001-01-01 00:00:00 +0000 UTC
 
 // 返回 Duration 的最大值
 carbon.MaxDuration().Seconds() // 9.223372036854776e+09

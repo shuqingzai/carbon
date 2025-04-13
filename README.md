@@ -100,13 +100,13 @@ carbon.Now().ToDateString() // 2020-08-05
 carbon.Now().ToTimeString() // 13:14:15
 // Return datetime of today in a given timezone
 carbon.Now(carbon.NewYork).ToDateTimeString() // 2020-08-05 13:14:15
-// Return timestamp with second of today
+// Return timestamp with second precision of today
 carbon.Now().Timestamp() // 1596604455
-// Return timestamp with millisecond of today
+// Return timestamp with millisecond precision of today
 carbon.Now().TimestampMilli() // 1596604455999
-// Return timestamp with microsecond of today
+// Return timestamp with microsecond precision of today
 carbon.Now().TimestampMicro() // 1596604455999999
-// Return timestamp with nanosecond of today
+// Return timestamp with nanosecond precision of today
 carbon.Now().TimestampNano() // 1596604455999999999
 
 // Return datetime of yesterday
@@ -120,13 +120,13 @@ carbon.Yesterday().ToDateString() // 2020-08-04
 carbon.Yesterday().ToTimeString() // 13:14:15
 // Return datetime of yesterday in a given timezone
 carbon.Yesterday(carbon.NewYork).ToDateTimeString() // 2020-08-04 13:14:15
-// Return timestamp with second of yesterday
+// Return timestamp with second precision of yesterday
 carbon.Yesterday().Timestamp() // 1596546855
-// Return timestamp with millisecond of yesterday
+// Return timestamp with millisecond precision of yesterday
 carbon.Yesterday().TimestampMilli() // 1596546855999
-// Return timestamp with microsecond of yesterday
+// Return timestamp with microsecond precision of yesterday
 carbon.Yesterday().TimestampMicro() // 1596546855999999
-// Return timestamp with nanosecond of yesterday
+// Return timestamp with nanosecond precision of yesterday
 carbon.Yesterday().TimestampNano() // 1596546855999999999
 
 // Return datetime of tomorrow
@@ -626,7 +626,7 @@ carbon.Min(yesterday, today, tomorrow) // yesterday
 // Return a Carbon instance for the greatest supported date
 carbon.MaxValue().ToString() // 9999-12-31 23:59:59.999999999 +0000 UTC
 // Return a Carbon instance for the lowest supported date
-carbon.MinValue().ToString() // -9998-01-01 00:00:00 +0000 UTC
+carbon.MinValue().ToString() // 0001-01-01 00:00:00 +0000 UTC
 
 // Return the maximum duration
 carbon.MaxDuration().Seconds() // 9.223372036854776e+09
