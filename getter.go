@@ -61,17 +61,13 @@ func (c *Carbon) DayOfMonth() int {
 	return c.StdTime().Day()
 }
 
-// DayOfWeek gets day of week like 6.
+// DayOfWeek gets day of week like 6, start from 1.
 // 获取本周的第几天
 func (c *Carbon) DayOfWeek() int {
 	if c.IsInvalid() {
 		return 0
 	}
-	day := int(c.StdTime().Weekday())
-	if day == 0 {
-		return DaysPerWeek
-	}
-	return day
+	return (int(c.StdTime().Weekday())+DaysPerWeek-int(c.weekStartsAt))%DaysPerWeek + 1
 }
 
 // WeekOfYear gets week of year like 1, see https://en.wikipedia.org/wiki/ISO_8601#Week_dates.
@@ -277,7 +273,7 @@ func (c *Carbon) Week() int {
 	if c.IsInvalid() {
 		return -1
 	}
-	return (c.DayOfWeek() + DaysPerWeek - int(c.weekStartsAt)) % DaysPerWeek
+	return c.DayOfWeek() - 1
 }
 
 // Day gets current day like 5.
@@ -416,20 +412,20 @@ func (c *Carbon) Locale() string {
 
 // WeekStartsAt returns start day of the week.
 // 获取一周的开始日期
-func (c *Carbon) WeekStartsAt() string {
+func (c *Carbon) WeekStartsAt() Weekday {
 	if c.IsInvalid() {
-		return ""
+		return 0
 	}
-	return c.weekStartsAt.String()
+	return c.weekStartsAt
 }
 
 // WeekEndsAt returns end day of the week.
 // 获取一周的结束日期
-func (c *Carbon) WeekEndsAt() string {
+func (c *Carbon) WeekEndsAt() Weekday {
 	if c.IsInvalid() {
-		return ""
+		return 0
 	}
-	return getWeekEndDay(c.WeekStartsAt()).String()
+	return time.Weekday((int(c.weekStartsAt) + DaysPerWeek - 1) % 7)
 }
 
 // CurrentLayout returns the layout used for parsing the time string.

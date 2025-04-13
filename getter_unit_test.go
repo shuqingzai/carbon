@@ -137,6 +137,7 @@ func TestCarbon_DayOfWeek(t *testing.T) {
 		assert.Equal(t, 1, Parse("2020-08-03").DayOfWeek())
 		assert.Equal(t, 2, Parse("2020-08-04").DayOfWeek())
 		assert.Equal(t, 3, Parse("2020-08-05").DayOfWeek())
+		assert.Equal(t, 7, Parse("2020-08-09").DayOfWeek())
 	})
 }
 

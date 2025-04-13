@@ -381,10 +381,10 @@ func ExampleCarbon_Week() {
 	fmt.Println(carbon.Parse("2020-08-09").Week())
 
 	// Output:
+	// 0
 	// 1
 	// 2
-	// 3
-	// 0
+	// 6
 }
 
 func ExampleCarbon_Day() {
