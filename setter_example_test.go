@@ -120,6 +120,30 @@ func ExampleSetWeekStartsAt() {
 	// Monday
 }
 
+func ExampleSetWeekendDays() {
+	defer carbon.SetWeekendDays([]carbon.Weekday{
+		carbon.Saturday, carbon.Sunday,
+	})
+
+	carbon.SetWeekendDays([]carbon.Weekday{
+		carbon.Saturday,
+	})
+	fmt.Println(carbon.Parse("2025-04-12").IsWeekend())
+	fmt.Println(carbon.Parse("2025-04-13").IsWeekend())
+
+	carbon.SetWeekendDays([]carbon.Weekday{
+		carbon.Sunday,
+	})
+	fmt.Println(carbon.Parse("2025-04-12").IsWeekend())
+	fmt.Println(carbon.Parse("2025-04-13").IsWeekend())
+
+	// Output:
+	// true
+	// false
+	// false
+	// true
+}
+
 func ExampleCarbon_SetLayout() {
 	c := carbon.Parse("2020-08-05 13:14:15.999999 +0000 UTC")
 
