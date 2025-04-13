@@ -56,16 +56,18 @@ go mod edit -replace github.com/golang-module/carbon/v2=github.com/dromara/carbo
 ```go
 carbon.SetLayout(carbon.DateTimeLayout)
 carbon.SetTimezone(carbon.Japan)
-carbon.SetWeekStartsAt(carbon.Sunday)
 carbon.SetLocale("jp")
+carbon.SetWeekStartsAt(carbon.Sunday)
+carbon.SetWeekendDays([]carbon.Weekday{carbon.Saturday, carbon.Sunday,})
 
 または
 
 carbon.SetDefault(carbon.Default{
-  Layout: carbon.DateTimeLayout,
-  Timezone: carbon.Japan,
-  WeekStartsAt: carbon.Sunday,
-  Locale: "jp", 
+	Layout: carbon.DateTimeLayout,
+	Timezone: carbon.Japan,
+	Locale: "jp",
+	WeekStartsAt: carbon.Sunday,
+	WeekendDays: []carbon.Weekday{carbon.Saturday, carbon.Sunday,},
 })
 ```
 
@@ -937,6 +939,14 @@ carbon.Parse("2020-01-31").SetMonthNoOverflow(2).ToDateString() // 2020-02-29
 carbon.Parse("2020-08-02").SetWeekStartsAt(carbon.Sunday).Week() // 0
 carbon.Parse("2020-08-02").SetWeekStartsAt(carbon.Monday).Week() // 6
 
+// 週の週末日付の設定
+wd := []carbon.Weekday{
+	carbon.Saturday, carbon.Sunday,
+}
+carbon.Parse("2025-04-11").SetWeekendDays(wd).IsWeekend() // false
+carbon.Parse("2025-04-12").SetWeekendDays(wd).IsWeekend() // true
+carbon.Parse("2025-04-13").SetWeekendDays(wd).IsWeekend() // true
+
 // 日数を設定する
 carbon.Parse("2019-08-05").SetDay(31).ToDateString() // 2020-08-31
 carbon.Parse("2020-02-01").SetDay(31).ToDateString() // 2020-03-02
@@ -1084,6 +1094,10 @@ carbon.Now().SetLocale("jp").Season() // 夏
 // 週の開始日の取得
 carbon.SetWeekStartsAt(carbon.Sunday).WeekStartsAt() // Sunday
 carbon.SetWeekStartsAt(carbon.Monday).WeekStartsAt() // Monday
+
+// 週の終了日の取得
+carbon.SetWeekStartsAt(carbon.Sunday).WeekEndsAt() // Saturday
+carbon.SetWeekStartsAt(carbon.Monday).WeekEndsAt() // Sunday
 
 // 現在のレイアウトテンプレートの取得
 carbon.Parse("now").CurrentLayout() // "2006-01-02 15:04:05"

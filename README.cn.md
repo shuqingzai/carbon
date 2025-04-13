@@ -57,16 +57,18 @@ go mod edit -replace github.com/golang-module/carbon/v2 = github.com/dromara/car
 ```go
 carbon.SetLayout(carbon.DateTimeLayout)
 carbon.SetTimezone(carbon.PRC)
-carbon.SetWeekStartsAt(carbon.Sunday)
 carbon.SetLocale("zh-CN")
+carbon.SetWeekStartsAt(carbon.Sunday)
+carbon.SetWeekendDays([]carbon.Weekday{carbon.Saturday, carbon.Sunday,})
 
 或
 
 carbon.SetDefault(carbon.Default{
-  Layout: carbon.DateTimeLayout,
-  Timezone: carbon.PRC,
-  WeekStartsAt: carbon.Sunday,
-  Locale: "zh-CN",
+	Layout: carbon.DateTimeLayout,
+	Timezone: carbon.PRC,
+	Locale: "zh-CN",
+	WeekStartsAt: carbon.Sunday,
+	WeekendDays: []carbon.Weekday{carbon.Saturday, carbon.Sunday,},
 })
 ```
 
@@ -940,8 +942,16 @@ carbon.Parse("2020-01-31").SetMonth(2).ToDateString() // 2020-03-02
 carbon.Parse("2020-01-31").SetMonthNoOverflow(2).ToDateString() // 2020-02-29
 
 // 设置一周的开始日期
-carbon.Parse("2020-08-02").SetWeekStartsAt(carbon.Monday).Week() // 6
 carbon.Parse("2020-08-02").SetWeekStartsAt(carbon.Sunday).Week() // 0
+carbon.Parse("2020-08-02").SetWeekStartsAt(carbon.Monday).Week() // 6
+
+// 设置一周的周末日期
+wd := []carbon.Weekday{
+	carbon.Saturday, carbon.Sunday,
+}
+carbon.Parse("2025-04-11").SetWeekendDays(wd).IsWeekend() // false
+carbon.Parse("2025-04-12").SetWeekendDays(wd).IsWeekend() // true
+carbon.Parse("2025-04-13").SetWeekendDays(wd).IsWeekend() // true
 
 // 设置日期
 carbon.Parse("2019-08-05").SetDay(31).ToDateString() // 2020-08-31
@@ -1090,6 +1100,10 @@ carbon.Now().SetLocale("zh-CN").Season() // 夏季
 // 获取一周的开始日期
 carbon.SetWeekStartsAt(carbon.Sunday).WeekStartsAt() // Sunday
 carbon.SetWeekStartsAt(carbon.Monday).WeekStartsAt() // Monday
+
+// 获取一周的结束日期
+carbon.SetWeekStartsAt(carbon.Sunday).WeekEndsAt() // Saturday
+carbon.SetWeekStartsAt(carbon.Monday).WeekEndsAt() // Sunday
 
 // 获取当前布局模板
 carbon.Parse("now").CurrentLayout() // "2006-01-02 15:04:05"
