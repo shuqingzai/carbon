@@ -6,36 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCarbon_Lunar(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Empty(t, NewCarbon().Lunar().String())
-	})
-
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").Lunar().String())
-		assert.Empty(t, Parse("0").Lunar().String())
-		assert.Empty(t, Parse("xxx").Lunar().String())
-	})
-
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2023-12-08", Parse("2024-01-18", PRC).Lunar().String())
-		assert.Equal(t, "2023-12-11", Parse("2024-01-21", PRC).Lunar().String())
-		assert.Equal(t, "2023-12-14", Parse("2024-01-24", PRC).Lunar().String())
-	})
-}
-
-func TestCreateFromLunar(t *testing.T) {
-	t.Run("invalid lunar", func(t *testing.T) {
-		assert.Empty(t, CreateFromLunar(2200, 12, 14, false).ToString())
-	})
-
-	t.Run("valid lunar", func(t *testing.T) {
-		assert.Equal(t, "2024-01-21 00:00:00 +0800 CST", CreateFromLunar(2023, 12, 11, false).ToString(PRC))
-		assert.Equal(t, "2024-01-18 00:00:00 +0800 CST", CreateFromLunar(2023, 12, 8, false).ToString(PRC))
-		assert.Equal(t, "2024-01-24 00:00:00 +0800 CST", CreateFromLunar(2023, 12, 14, false).ToString(PRC))
-	})
-}
-
 func TestCarbon_Julian(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, 1.7214235e+06, NewCarbon().Julian().JD())
@@ -81,6 +51,36 @@ func TestCreateFromJulian(t *testing.T) {
 
 		assert.Equal(t, "2024-01-23 13:14:15 +0000 UTC", CreateFromJulian(2460333.0515625).ToString())
 		assert.Equal(t, "2024-01-23 13:14:15 +0000 UTC", CreateFromJulian(60332.5515625).ToString())
+	})
+}
+
+func TestCarbon_Lunar(t *testing.T) {
+	t.Run("zero time", func(t *testing.T) {
+		assert.Empty(t, NewCarbon().Lunar().String())
+	})
+
+	t.Run("invalid time", func(t *testing.T) {
+		assert.Empty(t, Parse("").Lunar().String())
+		assert.Empty(t, Parse("0").Lunar().String())
+		assert.Empty(t, Parse("xxx").Lunar().String())
+	})
+
+	t.Run("valid time", func(t *testing.T) {
+		assert.Equal(t, "2023-12-08", Parse("2024-01-18", PRC).Lunar().String())
+		assert.Equal(t, "2023-12-11", Parse("2024-01-21", PRC).Lunar().String())
+		assert.Equal(t, "2023-12-14", Parse("2024-01-24", PRC).Lunar().String())
+	})
+}
+
+func TestCreateFromLunar(t *testing.T) {
+	t.Run("invalid lunar", func(t *testing.T) {
+		assert.Empty(t, CreateFromLunar(2200, 12, 14, false).ToString())
+	})
+
+	t.Run("valid lunar", func(t *testing.T) {
+		assert.Equal(t, "2024-01-21 00:00:00 +0800 CST", CreateFromLunar(2023, 12, 11, false).ToString(PRC))
+		assert.Equal(t, "2024-01-18 00:00:00 +0800 CST", CreateFromLunar(2023, 12, 8, false).ToString(PRC))
+		assert.Equal(t, "2024-01-24 00:00:00 +0800 CST", CreateFromLunar(2023, 12, 14, false).ToString(PRC))
 	})
 }
 

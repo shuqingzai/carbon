@@ -5,18 +5,6 @@ import (
 	"time"
 )
 
-// week days
-// 工作日
-var weekdays = map[string]time.Weekday{
-	Monday:    time.Monday,
-	Tuesday:   time.Tuesday,
-	Wednesday: time.Wednesday,
-	Thursday:  time.Thursday,
-	Friday:    time.Friday,
-	Saturday:  time.Saturday,
-	Sunday:    time.Sunday,
-}
-
 // format map
 // 格式符号映射表
 var formatMap = map[byte]string{
@@ -43,14 +31,14 @@ var formatMap = map[byte]string{
 	'R': "Z07:00",  // Zone:   ISO8601 colon timezone. Eg: Z, +02:00.
 	'Z': "MST",     // Zone:   Zone name. Eg: UTC, EST, MDT ...
 
-	'u': "999",       // Millisecond. Eg: 999.
-	'v': "999999",    // Microsecond. Eg: 999999.
-	'x': "999999999", // Nanosecond. Eg: 999999999.
+	'u': "999",       // Second: Millisecond. Eg: 999.
+	'v': "999999",    // Second: Microsecond. Eg: 999999.
+	'x': "999999999", // Second: Nanosecond. Eg: 999999999.
 
-	'S': TimestampLayout,      // Timestamp with second. Eg: 1699677240.
-	'U': TimestampMilliLayout, // Timestamp with millisecond. Eg: 1596604455666.
-	'V': TimestampMicroLayout, // Timestamp with microsecond. Eg: 1596604455666666.
-	'X': TimestampNanoLayout,  // Timestamp with nanosecond. Eg: 1596604455666666666.
+	'S': TimestampLayout,      // Timestamp: Timestamp with second precision. Eg: 1699677240.
+	'U': TimestampMilliLayout, // Timestamp: Timestamp with millisecond precision. Eg: 1596604455666.
+	'V': TimestampMicroLayout, // Timestamp: Timestamp with microsecond precision. Eg: 1596604455666666.
+	'X': TimestampNanoLayout,  // Timestamp: Timestamp with nanosecond precision. Eg: 1596604455666666666.
 }
 
 // default layouts
@@ -119,11 +107,11 @@ func format2layout(format string) string {
 // 通过时区获取 Location 实例
 func getLocationByTimezone(timezone string) (*time.Location, error) {
 	if timezone == "" {
-		return nil, emptyTimezoneError()
+		return nil, ErrEmptyTimezone()
 	}
 	loc, err := time.LoadLocation(timezone)
 	if err != nil {
-		err = invalidTimezoneError(timezone)
+		err = ErrInvalidTimezone(timezone)
 	}
 	return loc, err
 }
@@ -132,11 +120,11 @@ func getLocationByTimezone(timezone string) (*time.Location, error) {
 // 通过时长解析
 func parseByDuration(duration string) (time.Duration, error) {
 	if duration == "" {
-		return 0, emptyDurationError()
+		return 0, ErrEmptyDuration()
 	}
 	td, err := time.ParseDuration(duration)
 	if err != nil {
-		err = invalidDurationError(duration)
+		err = ErrInvalidDuration(duration)
 	}
 	return td, err
 }

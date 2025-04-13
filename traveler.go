@@ -15,7 +15,7 @@ func Now(timezone ...string) *Carbon {
 		return c
 	}
 	if IsTestNow() {
-		return testNow.frozenNow
+		return frozenNow.testNow
 	}
 	c.time = time.Now().In(c.loc)
 	return c

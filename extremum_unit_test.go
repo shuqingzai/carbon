@@ -13,7 +13,7 @@ func TestMaxValue(t *testing.T) {
 }
 
 func TestMinValue(t *testing.T) {
-	assert.Equal(t, "-9998-01-01 00:00:00 +0000 UTC", MinValue().ToString())
+	assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", MinValue().ToString())
 	assert.Equal(t, "January", MinValue().ToMonthString())
 	assert.Equal(t, "一月", MinValue().SetLocale("zh-CN").ToMonthString())
 }

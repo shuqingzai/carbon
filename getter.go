@@ -61,17 +61,13 @@ func (c *Carbon) DayOfMonth() int {
 	return c.StdTime().Day()
 }
 
-// DayOfWeek gets day of week like 6.
+// DayOfWeek gets day of week like 6, start from 1.
 // 获取本周的第几天
 func (c *Carbon) DayOfWeek() int {
 	if c.IsInvalid() {
 		return 0
 	}
-	day := int(c.StdTime().Weekday())
-	if day == 0 {
-		return DaysPerWeek
-	}
-	return day
+	return (int(c.StdTime().Weekday())+DaysPerWeek-int(c.weekStartsAt))%DaysPerWeek + 1
 }
 
 // WeekOfYear gets week of year like 1, see https://en.wikipedia.org/wiki/ISO_8601#Week_dates.
@@ -277,7 +273,7 @@ func (c *Carbon) Week() int {
 	if c.IsInvalid() {
 		return -1
 	}
-	return (c.DayOfWeek() + DaysPerWeek - int(c.weekStartsAt)) % DaysPerWeek
+	return c.DayOfWeek() - 1
 }
 
 // Day gets current day like 5.
@@ -340,8 +336,8 @@ func (c *Carbon) Nanosecond() int {
 	return c.StdTime().Nanosecond()
 }
 
-// Timestamp gets timestamp with second like 1596604455.
-// 输出秒级时间戳
+// Timestamp gets timestamp with second precision like 1596604455.
+// 输出秒精度时间戳
 func (c *Carbon) Timestamp() int64 {
 	if c.IsInvalid() {
 		return 0
@@ -349,8 +345,8 @@ func (c *Carbon) Timestamp() int64 {
 	return c.StdTime().Unix()
 }
 
-// TimestampMilli gets timestamp with millisecond like 1596604455000.
-// 获取毫秒级时间戳
+// TimestampMilli gets timestamp with millisecond precision like 1596604455000.
+// 获取毫秒精度时间戳
 func (c *Carbon) TimestampMilli() int64 {
 	if c.IsInvalid() {
 		return 0
@@ -358,8 +354,8 @@ func (c *Carbon) TimestampMilli() int64 {
 	return c.StdTime().UnixMilli()
 }
 
-// TimestampMicro gets timestamp with microsecond like 1596604455000000.
-// 获取微秒级时间戳
+// TimestampMicro gets timestamp with microsecond precision like 1596604455000000.
+// 获取微秒精度时间戳
 func (c *Carbon) TimestampMicro() int64 {
 	if c.IsInvalid() {
 		return 0
@@ -367,8 +363,8 @@ func (c *Carbon) TimestampMicro() int64 {
 	return c.StdTime().UnixMicro()
 }
 
-// TimestampNano gets timestamp with nanosecond like 1596604455000000000.
-// 获取纳秒级时间戳
+// TimestampNano gets timestamp with nanosecond precision like 1596604455000000000.
+// 获取纳秒精度时间戳
 func (c *Carbon) TimestampNano() int64 {
 	if c.IsInvalid() {
 		return 0
@@ -416,11 +412,20 @@ func (c *Carbon) Locale() string {
 
 // WeekStartsAt returns start day of the week.
 // 获取一周的开始日期
-func (c *Carbon) WeekStartsAt() string {
+func (c *Carbon) WeekStartsAt() Weekday {
 	if c.IsInvalid() {
-		return ""
+		return 0
 	}
-	return c.weekStartsAt.String()
+	return c.weekStartsAt
+}
+
+// WeekEndsAt returns end day of the week.
+// 获取一周的结束日期
+func (c *Carbon) WeekEndsAt() Weekday {
+	if c.IsInvalid() {
+		return 0
+	}
+	return time.Weekday((int(c.weekStartsAt) + DaysPerWeek - 1) % 7)
 }
 
 // CurrentLayout returns the layout used for parsing the time string.

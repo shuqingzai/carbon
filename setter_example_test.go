@@ -18,21 +18,6 @@ func ExampleSetLayout() {
 	// current layout: 15:04:05
 }
 
-func ExampleCarbon_SetLayout() {
-	c := carbon.Parse("2020-08-05 13:14:15.999999 +0000 UTC")
-
-	fmt.Println("date layout:", c.SetLayout(carbon.DateLayout))
-	fmt.Println("time layout:", c.SetLayout(carbon.TimeLayout))
-	fmt.Println("datetime layout:", c.SetLayout(carbon.DateTimeLayout))
-	fmt.Println("timestamp layout:", c.SetLayout(carbon.TimestampLayout))
-
-	// Output:
-	// date layout: 2020-08-05
-	// time layout: 13:14:15
-	// datetime layout: 2020-08-05 13:14:15
-	// timestamp layout: 1596633255
-}
-
 func ExampleSetFormat() {
 	defer carbon.SetFormat(carbon.DateTimeFormat)
 
@@ -42,41 +27,6 @@ func ExampleSetFormat() {
 	// Output:
 	// current layout: 2006-01-02 15:04:05
 	// current layout: 15:04:05
-}
-
-func ExampleCarbon_SetFormat() {
-	c := carbon.Parse("2020-08-05 13:14:15.999999 +0000 UTC")
-
-	fmt.Println("date format:", c.SetFormat(carbon.DateFormat))
-	fmt.Println("time format:", c.SetFormat(carbon.TimeFormat))
-	fmt.Println("datetime format:", c.SetFormat(carbon.DateTimeFormat))
-	fmt.Println("timestamp format:", c.SetFormat(carbon.TimestampFormat))
-
-	// Output:
-	// date format: 2020-08-05
-	// time format: 13:14:15
-	// datetime format: 2020-08-05 13:14:15
-	// timestamp format: 1596633255
-}
-
-func ExampleSetWeekStartsAt() {
-	defer carbon.SetWeekStartsAt(carbon.Sunday)
-
-	fmt.Println(carbon.SetWeekStartsAt(carbon.Sunday).WeekStartsAt())
-	fmt.Println(carbon.SetWeekStartsAt(carbon.Monday).WeekStartsAt())
-
-	// Output:
-	// Sunday
-	// Monday
-}
-
-func ExampleCarbon_SetWeekStartsAt() {
-	fmt.Println("week starts at:", carbon.Now().SetWeekStartsAt(carbon.Sunday).WeekStartsAt())
-	fmt.Println("week starts at:", carbon.Now().SetWeekStartsAt(carbon.Monday).WeekStartsAt())
-
-	// Output:
-	// week starts at: Sunday
-	// week starts at: Monday
 }
 
 func ExampleSetTimezone() {
@@ -104,31 +54,6 @@ func ExampleSetTimezone() {
 	// Japan zone location: Japan
 	// Japan zone name: LMT
 	// Japan zone offset: 33539
-}
-
-func ExampleCarbon_SetTimezone() {
-	fmt.Println("UTC zone location:", carbon.Now().SetTimezone(carbon.UTC).Timezone())
-	fmt.Println("UTC zone name:", carbon.Now().SetTimezone(carbon.UTC).ZoneName())
-	fmt.Println("UTC zone offset:", carbon.Now().SetTimezone(carbon.UTC).ZoneOffset())
-
-	fmt.Println("PRC zone location:", carbon.Now().SetTimezone(carbon.PRC).Timezone())
-	fmt.Println("PRC zone name:", carbon.Now().SetTimezone(carbon.PRC).ZoneName())
-	fmt.Println("PRC zone offset:", carbon.Now().SetTimezone(carbon.PRC).ZoneOffset())
-
-	fmt.Println("Japan zone location:", carbon.Now().SetTimezone(carbon.Japan).Timezone())
-	fmt.Println("Japan zone name:", carbon.Now().SetTimezone(carbon.Japan).ZoneName())
-	fmt.Println("Japan zone offset:", carbon.Now().SetTimezone(carbon.Japan).ZoneOffset())
-
-	// Output:
-	// UTC zone location: UTC
-	// UTC zone name: UTC
-	// UTC zone offset: 0
-	// PRC zone location: PRC
-	// PRC zone name: CST
-	// PRC zone offset: 28800
-	// Japan zone location: Japan
-	// Japan zone name: JST
-	// Japan zone offset: 32400
 }
 
 func ExampleSetLocation() {
@@ -161,25 +86,6 @@ func ExampleSetLocation() {
 	// Japan zone offset: 33539
 }
 
-func ExampleCarbon_SetLocation() {
-	defer carbon.SetLocation(time.UTC)
-
-	c := carbon.Parse("2020-08-05")
-
-	loc, _ := time.LoadLocation(carbon.PRC)
-	c.SetLocation(loc)
-	fmt.Println("default location:", carbon.DefaultTimezone)
-	fmt.Println("zone location:", c.Timezone())
-	fmt.Println("zone name:", c.ZoneName())
-	fmt.Println("zone offset:", c.ZoneOffset())
-
-	// Output:
-	// default location: UTC
-	// zone location: PRC
-	// zone name: CST
-	// zone offset: 28800
-}
-
 func ExampleSetLocale() {
 	defer carbon.SetLocale("en")
 
@@ -203,6 +109,115 @@ func ExampleSetLocale() {
 	// 周三
 }
 
+func ExampleSetWeekStartsAt() {
+	defer carbon.SetWeekStartsAt(carbon.Monday)
+
+	fmt.Println(carbon.SetWeekStartsAt(carbon.Sunday).WeekStartsAt())
+	fmt.Println(carbon.SetWeekStartsAt(carbon.Monday).WeekStartsAt())
+
+	// Output:
+	// Sunday
+	// Monday
+}
+
+func ExampleSetWeekendDays() {
+	defer carbon.SetWeekendDays([]carbon.Weekday{
+		carbon.Saturday, carbon.Sunday,
+	})
+
+	carbon.SetWeekendDays([]carbon.Weekday{
+		carbon.Saturday,
+	})
+	fmt.Println(carbon.Parse("2025-04-12").IsWeekend())
+	fmt.Println(carbon.Parse("2025-04-13").IsWeekend())
+
+	carbon.SetWeekendDays([]carbon.Weekday{
+		carbon.Sunday,
+	})
+	fmt.Println(carbon.Parse("2025-04-12").IsWeekend())
+	fmt.Println(carbon.Parse("2025-04-13").IsWeekend())
+
+	// Output:
+	// true
+	// false
+	// false
+	// true
+}
+
+func ExampleCarbon_SetLayout() {
+	c := carbon.Parse("2020-08-05 13:14:15.999999 +0000 UTC")
+
+	fmt.Println("date layout:", c.SetLayout(carbon.DateLayout))
+	fmt.Println("time layout:", c.SetLayout(carbon.TimeLayout))
+	fmt.Println("datetime layout:", c.SetLayout(carbon.DateTimeLayout))
+	fmt.Println("timestamp layout:", c.SetLayout(carbon.TimestampLayout))
+
+	// Output:
+	// date layout: 2020-08-05
+	// time layout: 13:14:15
+	// datetime layout: 2020-08-05 13:14:15
+	// timestamp layout: 1596633255
+}
+
+func ExampleCarbon_SetFormat() {
+	c := carbon.Parse("2020-08-05 13:14:15.999999 +0000 UTC")
+
+	fmt.Println("date format:", c.SetFormat(carbon.DateFormat))
+	fmt.Println("time format:", c.SetFormat(carbon.TimeFormat))
+	fmt.Println("datetime format:", c.SetFormat(carbon.DateTimeFormat))
+	fmt.Println("timestamp format:", c.SetFormat(carbon.TimestampFormat))
+
+	// Output:
+	// date format: 2020-08-05
+	// time format: 13:14:15
+	// datetime format: 2020-08-05 13:14:15
+	// timestamp format: 1596633255
+}
+
+func ExampleCarbon_SetTimezone() {
+	fmt.Println("UTC zone location:", carbon.Now().SetTimezone(carbon.UTC).Timezone())
+	fmt.Println("UTC zone name:", carbon.Now().SetTimezone(carbon.UTC).ZoneName())
+	fmt.Println("UTC zone offset:", carbon.Now().SetTimezone(carbon.UTC).ZoneOffset())
+
+	fmt.Println("PRC zone location:", carbon.Now().SetTimezone(carbon.PRC).Timezone())
+	fmt.Println("PRC zone name:", carbon.Now().SetTimezone(carbon.PRC).ZoneName())
+	fmt.Println("PRC zone offset:", carbon.Now().SetTimezone(carbon.PRC).ZoneOffset())
+
+	fmt.Println("Japan zone location:", carbon.Now().SetTimezone(carbon.Japan).Timezone())
+	fmt.Println("Japan zone name:", carbon.Now().SetTimezone(carbon.Japan).ZoneName())
+	fmt.Println("Japan zone offset:", carbon.Now().SetTimezone(carbon.Japan).ZoneOffset())
+
+	// Output:
+	// UTC zone location: UTC
+	// UTC zone name: UTC
+	// UTC zone offset: 0
+	// PRC zone location: PRC
+	// PRC zone name: CST
+	// PRC zone offset: 28800
+	// Japan zone location: Japan
+	// Japan zone name: JST
+	// Japan zone offset: 32400
+}
+
+func ExampleCarbon_SetLocation() {
+	defer carbon.SetLocation(time.UTC)
+
+	c := carbon.Parse("2020-08-05")
+
+	loc, _ := time.LoadLocation(carbon.PRC)
+	c.SetLocation(loc)
+	fmt.Println("default location:", carbon.DefaultTimezone)
+	fmt.Println("zone location:", c.Timezone())
+	fmt.Println("zone name:", c.ZoneName())
+	fmt.Println("zone offset:", c.ZoneOffset())
+
+	// Output:
+	// default location: UTC
+	// zone location: PRC
+	// zone name: CST
+	// zone offset: 28800
+}
+
 func ExampleCarbon_SetLocale() {
 	c := carbon.Parse("2020-08-05").SetLocale("zh-CN")
 
@@ -220,6 +235,35 @@ func ExampleCarbon_SetLocale() {
 	// 8月
 	// 星期三
 	// 周三
+}
+
+func ExampleCarbon_SetWeekStartsAt() {
+	fmt.Println("week starts at:", carbon.Now().SetWeekStartsAt(carbon.Sunday).WeekStartsAt())
+	fmt.Println("week starts at:", carbon.Now().SetWeekStartsAt(carbon.Monday).WeekStartsAt())
+
+	// Output:
+	// week starts at: Sunday
+	// week starts at: Monday
+}
+
+func ExampleCarbon_SetWeekendDays() {
+	wd1 := []carbon.Weekday{
+		carbon.Saturday,
+	}
+	fmt.Println(carbon.Parse("2025-04-12").SetWeekendDays(wd1).IsWeekend())
+	fmt.Println(carbon.Parse("2025-04-13").SetWeekendDays(wd1).IsWeekend())
+
+	wd2 := []carbon.Weekday{
+		carbon.Sunday,
+	}
+	fmt.Println(carbon.Parse("2025-04-12").SetWeekendDays(wd2).IsWeekend())
+	fmt.Println(carbon.Parse("2025-04-13").SetWeekendDays(wd2).IsWeekend())
+
+	// Output:
+	// true
+	// false
+	// false
+	// true
 }
 
 func ExampleCarbon_SetLanguage() {

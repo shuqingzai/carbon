@@ -63,36 +63,6 @@ func TestSetFormat(t *testing.T) {
 	})
 }
 
-func TestSetWeekStartsAt(t *testing.T) {
-	defer SetWeekStartsAt(Sunday)
-
-	t.Run("zero time", func(t *testing.T) {
-		SetWeekStartsAt(Sunday)
-		assert.Equal(t, Sunday, DefaultWeekStartsAt)
-		assert.Equal(t, Sunday, NewCarbon().WeekStartsAt())
-		assert.Equal(t, "0000-12-31 00:00:00 +0000 UTC", NewCarbon().StartOfWeek().ToString())
-
-		SetWeekStartsAt(Monday)
-		assert.Equal(t, Monday, DefaultWeekStartsAt)
-		assert.Equal(t, Monday, NewCarbon().WeekStartsAt())
-		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfWeek().ToString())
-	})
-
-	t.Run("valid time", func(t *testing.T) {
-		SetWeekStartsAt(Monday)
-		c1 := Parse("2020-08-05")
-		assert.Equal(t, Monday, DefaultWeekStartsAt)
-		assert.Equal(t, Monday, c1.WeekStartsAt())
-		assert.Equal(t, "2020-08-03 00:00:00 +0000 UTC", c1.StartOfWeek().ToString())
-
-		SetWeekStartsAt(Sunday)
-		c2 := Parse("2020-08-05")
-		assert.Equal(t, Sunday, DefaultWeekStartsAt)
-		assert.Equal(t, Sunday, c2.WeekStartsAt())
-		assert.Equal(t, "2020-08-02 00:00:00 +0000 UTC", c2.StartOfWeek().ToString())
-	})
-}
-
 func TestSetTimezone(t *testing.T) {
 	defer SetTimezone(UTC)
 
@@ -257,6 +227,64 @@ func TestSetLocale(t *testing.T) {
 	})
 }
 
+func TestSetWeekStartsAt(t *testing.T) {
+	defer SetWeekStartsAt(Monday)
+
+	t.Run("zero time", func(t *testing.T) {
+		SetWeekStartsAt(Sunday)
+		assert.Equal(t, Sunday, DefaultWeekStartsAt)
+		assert.Equal(t, Sunday, NewCarbon().WeekStartsAt())
+		assert.Equal(t, "0000-12-31 00:00:00 +0000 UTC", NewCarbon().StartOfWeek().ToString())
+
+		SetWeekStartsAt(Monday)
+		assert.Equal(t, Monday, DefaultWeekStartsAt)
+		assert.Equal(t, Monday, NewCarbon().WeekStartsAt())
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfWeek().ToString())
+	})
+
+	t.Run("valid time", func(t *testing.T) {
+		SetWeekStartsAt(Monday)
+		c1 := Parse("2020-08-05")
+		assert.Equal(t, Monday, DefaultWeekStartsAt)
+		assert.Equal(t, Monday, c1.WeekStartsAt())
+		assert.Equal(t, "2020-08-03 00:00:00 +0000 UTC", c1.StartOfWeek().ToString())
+
+		SetWeekStartsAt(Sunday)
+		c2 := Parse("2020-08-05")
+		assert.Equal(t, Sunday, DefaultWeekStartsAt)
+		assert.Equal(t, Sunday, c2.WeekStartsAt())
+		assert.Equal(t, "2020-08-02 00:00:00 +0000 UTC", c2.StartOfWeek().ToString())
+	})
+}
+
+func TestSetWeekendDays(t *testing.T) {
+	defer SetWeekendDays([]Weekday{
+		Saturday, Sunday,
+	})
+
+	t.Run("zero time", func(t *testing.T) {
+		SetWeekendDays([]Weekday{
+			Saturday, Sunday,
+		})
+		assert.True(t, NewCarbon().IsWeekday())
+		assert.False(t, NewCarbon().IsWeekend())
+	})
+
+	t.Run("valid time", func(t *testing.T) {
+		SetWeekendDays([]Weekday{
+			Saturday,
+		})
+		assert.True(t, Parse("2025-04-12").IsWeekend())
+		assert.False(t, Parse("2025-04-13").IsWeekend())
+
+		SetWeekendDays([]Weekday{
+			Sunday,
+		})
+		assert.False(t, Parse("2025-04-12").IsWeekend())
+		assert.True(t, Parse("2025-04-13").IsWeekend())
+	})
+}
+
 func TestCarbon_SetLayout(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		c := NewCarbon().SetLayout(DateLayout)
@@ -313,41 +341,6 @@ func TestCarbon_SetFormat(t *testing.T) {
 		assert.Equal(t, "1596633255999", now.SetFormat(TimestampMilliFormat).String())
 		assert.Equal(t, "1596633255999999", now.SetFormat(TimestampMicroFormat).String())
 		assert.Equal(t, "1596633255999999000", now.SetFormat(TimestampNanoFormat).String())
-	})
-}
-
-func TestCarbon_SetWeekStartsAt(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		c1 := NewCarbon().SetWeekStartsAt(Sunday)
-		assert.Equal(t, "0000-12-31 00:00:00 +0000 UTC", c1.StartOfWeek().ToString())
-
-		c2 := NewCarbon().SetWeekStartsAt(Monday)
-		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", c2.StartOfWeek().ToString())
-	})
-
-	t.Run("invalid day", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05").SetWeekStartsAt("").HasError())
-		assert.True(t, Parse("2020-08-05").SetWeekStartsAt("0").HasError())
-		assert.True(t, Parse("2020-08-05").SetWeekStartsAt("xxx").HasError())
-
-		assert.Empty(t, Parse("2020-08-05").SetWeekStartsAt("").ToString())
-		assert.Empty(t, Parse("2020-08-05").SetWeekStartsAt("0").ToString())
-		assert.Empty(t, Parse("2020-08-05").SetWeekStartsAt("xxx").ToString())
-	})
-
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").SetWeekStartsAt(Sunday).ToString())
-		assert.Empty(t, Parse("xxx").SetWeekStartsAt(Sunday).ToString())
-	})
-
-	t.Run("valid time", func(t *testing.T) {
-		c1 := Parse("2020-08-05").SetWeekStartsAt(Monday)
-		assert.Equal(t, Monday, c1.WeekStartsAt())
-		assert.Equal(t, "2020-08-03 00:00:00 +0000 UTC", c1.StartOfWeek().ToString())
-
-		c2 := Parse("2020-08-05").SetWeekStartsAt(Sunday)
-		assert.Equal(t, Sunday, c2.WeekStartsAt())
-		assert.Equal(t, "2020-08-02 00:00:00 +0000 UTC", c2.StartOfWeek().ToString())
 	})
 }
 
@@ -574,6 +567,62 @@ func TestCarbon_SetLocation(t *testing.T) {
 	})
 }
 
+func TestCarbon_SetWeekStartsAt(t *testing.T) {
+	t.Run("zero time", func(t *testing.T) {
+		c1 := NewCarbon().SetWeekStartsAt(Sunday)
+		assert.Equal(t, "0000-12-31 00:00:00 +0000 UTC", c1.StartOfWeek().ToString())
+
+		c2 := NewCarbon().SetWeekStartsAt(Monday)
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", c2.StartOfWeek().ToString())
+	})
+
+	t.Run("invalid time", func(t *testing.T) {
+		assert.Empty(t, Parse("").SetWeekStartsAt(Sunday).ToString())
+		assert.Empty(t, Parse("xxx").SetWeekStartsAt(Sunday).ToString())
+	})
+
+	t.Run("valid time", func(t *testing.T) {
+		c1 := Parse("2020-08-05").SetWeekStartsAt(Monday)
+		assert.Equal(t, Monday, c1.WeekStartsAt())
+		assert.Equal(t, "2020-08-03 00:00:00 +0000 UTC", c1.StartOfWeek().ToString())
+
+		c2 := Parse("2020-08-05").SetWeekStartsAt(Sunday)
+		assert.Equal(t, Sunday, c2.WeekStartsAt())
+		assert.Equal(t, "2020-08-02 00:00:00 +0000 UTC", c2.StartOfWeek().ToString())
+	})
+}
+
+func TestCarbon_SetWeekendDays(t *testing.T) {
+	t.Run("zero time", func(t *testing.T) {
+		wd := []Weekday{
+			Saturday, Sunday,
+		}
+		assert.True(t, NewCarbon().SetWeekendDays(wd).IsWeekday())
+		assert.False(t, NewCarbon().SetWeekendDays(wd).IsWeekend())
+	})
+
+	t.Run("invalid time", func(t *testing.T) {
+		wd := []Weekday{
+			Saturday, Sunday,
+		}
+		assert.Empty(t, Parse("").SetWeekendDays(wd).ToString())
+		assert.Empty(t, Parse("xxx").SetWeekendDays(wd).ToString())
+	})
+
+	t.Run("valid time", func(t *testing.T) {
+		wd1 := []Weekday{
+			Saturday,
+		}
+		assert.True(t, Parse("2025-04-12").SetWeekendDays(wd1).IsWeekend())
+		assert.False(t, Parse("2025-04-13").SetWeekendDays(wd1).IsWeekend())
+
+		wd2 := []Weekday{
+			Sunday,
+		}
+		assert.False(t, Parse("2025-04-12").SetWeekendDays(wd2).IsWeekend())
+		assert.True(t, Parse("2025-04-13").SetWeekendDays(wd2).IsWeekend())
+	})
+}
 func TestCarbon_SetLanguage(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		lang := NewLanguage()

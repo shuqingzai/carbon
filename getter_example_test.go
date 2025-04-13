@@ -381,10 +381,10 @@ func ExampleCarbon_Week() {
 	fmt.Println(carbon.Parse("2020-08-09").Week())
 
 	// Output:
+	// 0
 	// 1
 	// 2
-	// 3
-	// 0
+	// 6
 }
 
 func ExampleCarbon_Day() {
@@ -521,6 +521,15 @@ func ExampleCarbon_WeekStartsAt() {
 	// Output:
 	// Sunday
 	// Monday
+}
+
+func ExampleCarbon_WeekEndsAt() {
+	fmt.Println(carbon.Now().SetWeekStartsAt(carbon.Sunday).WeekEndsAt())
+	fmt.Println(carbon.Now().SetWeekStartsAt(carbon.Monday).WeekEndsAt())
+
+	// Output:
+	// Saturday
+	// Sunday
 }
 
 func ExampleCarbon_CurrentLayout() {

@@ -50,23 +50,25 @@ go mod edit -replace github.com/golang-module/carbon/v2 = github.com/dromara/car
 
 #### 用法示例
 
-> 假设当前时间为 2020-08-05 13:14:15.999999999 +0800 CST
+> 默认时区 UTC, 语言环境 en(英语)，假设当前时间为 2020-08-05 13:14:15.999999999 +0800 CST
 
 ##### 设置全局默认值
 
 ```go
 carbon.SetLayout(carbon.DateTimeLayout)
 carbon.SetTimezone(carbon.PRC)
-carbon.SetWeekStartsAt(carbon.Sunday)
 carbon.SetLocale("zh-CN")
+carbon.SetWeekStartsAt(carbon.Sunday)
+carbon.SetWeekendDays([]carbon.Weekday{carbon.Saturday, carbon.Sunday,})
 
 或
 
 carbon.SetDefault(carbon.Default{
   Layout: carbon.DateTimeLayout,
   Timezone: carbon.PRC,
-  WeekStartsAt: carbon.Sunday,
   Locale: "zh-CN",
+  WeekStartsAt: carbon.Sunday,
+  WeekendDays: []carbon.Weekday{carbon.Saturday, carbon.Sunday,},
 })
 ```
 
@@ -100,13 +102,13 @@ carbon.Now().ToDateString() // 2020-08-05
 carbon.Now().ToTimeString() // 13:14:15
 // 指定时区的今天此刻
 carbon.Now(carbon.NewYork).ToDateTimeString() // 2020-08-05 14:14:15
-// 今天秒级时间戳
+// 今天秒精度时间戳
 carbon.Now().Timestamp() // 1596604455
-// 今天毫秒级时间戳
+// 今天毫秒精度时间戳
 carbon.Now().TimestampMilli() // 1596604455999
-// 今天微秒级时间戳
+// 今天微秒精度时间戳
 carbon.Now().TimestampMicro() // 1596604455999999
-// 今天纳秒级时间戳
+// 今天纳秒精度时间戳
 carbon.Now().TimestampNano() // 1596604455999999999
 
 // 昨天此刻
@@ -120,13 +122,13 @@ carbon.Yesterday().ToDateString() // 2020-08-04
 carbon.Yesterday().ToTimeString() // 13:14:15
 // 指定时区的昨天此刻
 carbon.Yesterday(carbon.NewYork).ToDateTimeString() // 2020-08-04 14:14:15
-// 昨天秒级时间戳
+// 昨天秒精度时间戳
 carbon.Yesterday().Timestamp() // 1596518055
-// 昨天毫秒级时间戳
+// 昨天毫秒精度时间戳
 carbon.Yesterday().TimestampMilli() // 1596518055999
-// 昨天微秒级时间戳
+// 昨天微秒精度时间戳
 carbon.Yesterday().TimestampMicro() // 1596518055999999
-// 昨天纳秒级时间戳
+// 昨天纳秒精度时间戳
 carbon.Yesterday().TimestampNano() // 1596518055999999999
 
 // 明天此刻
@@ -140,29 +142,29 @@ carbon.Tomorrow().ToDateString() // 2020-08-06
 carbon.Tomorrow().ToTimeString() // 13:14:15
 // 指定时区的明天此刻
 carbon.Tomorrow(carbon.NewYork).ToDateTimeString() // 2020-08-06 14:14:15
-// 明天秒级时间戳
+// 明天秒精度时间戳
 carbon.Tomorrow().Timestamp() // 1596690855
-// 明天毫秒级时间戳
+// 明天毫秒精度时间戳
 carbon.Tomorrow().TimestampMilli() //1596690855999
-// 明天微秒级时间戳
+// 明天微秒精度时间戳
 carbon.Tomorrow().TimestampMicro() // 1596690855999999
-// 明天纳秒级时间戳
+// 明天纳秒精度时间戳
 carbon.Tomorrow().TimestampNano() // 1596690855999999999
 ```
 
 ##### 创建 `Carbon` 实例
 
 ```go
-// 从秒级时间戳创建 Carbon 实例
+// 从秒精度时间戳创建 Carbon 实例
 carbon.CreateFromTimestamp(-1).ToString() // 1970-01-01 07:59:59 +0800 CST
 carbon.CreateFromTimestamp(0).ToString() // 1970-01-01 08:00:00 +0800 CST
 carbon.CreateFromTimestamp(1).ToString() // 1970-01-01 08:00:01 +0800 CST
 carbon.CreateFromTimestamp(1596604455).ToString() // 2020-08-05 13:14:15 +0800 CST
-// 从毫秒级时间戳创建 Carbon 实例
+// 从毫秒精度时间戳创建 Carbon 实例
 carbon.CreateFromTimestampMilli(1596604455999).ToString() // 2020-08-05 13:14:15.999 +0800 CST
-// 从微秒级时间戳创建 Carbon 实例
+// 从微秒精度时间戳创建 Carbon 实例
 carbon.CreateFromTimestampMicro(1596604455999999).ToString() // 2020-08-05 13:14:15.999999 +0800 CST
-// 从纳秒级时间戳创建 Carbon 实例
+// 从纳秒精度时间戳创建 Carbon 实例
 carbon.CreateFromTimestampNano(1596604455999999999).ToString() // 2020-08-05 13:14:15.999999999 +0800 CST
 
 // 从年、月、日、时、分、秒创建 Carbon 实例
@@ -630,7 +632,7 @@ carbon.Min(yesterday, today, tomorrow) // yesterday
 // 返回 Carbon 的最大值
 carbon.MaxValue().ToString() // 9999-12-31 23:59:59.999999999 +0000 UTC
 // 返回 Carbon 的最小值
-carbon.MinValue().ToString() // -9998-01-01 00:00:00 +0000 UTC
+carbon.MinValue().ToString() // 0001-01-01 00:00:00 +0000 UTC
 
 // 返回 Duration 的最大值
 carbon.MaxDuration().Seconds() // 9.223372036854776e+09
@@ -669,6 +671,20 @@ carbon.Parse("00:00:00").IsZero() // false
 carbon.Parse("2020-08-05 00:00:00").IsZero() // false
 carbon.Parse("2020-08-05").IsZero() // false
 carbon.Parse("2020-08-05").SetTimezone("xxx").IsZero() // false
+
+// 是否是 UNIX 纪元时间(1970-01-01 00:00:00 +0000 UTC)
+carbon.Parse("1970-01-01 00:00:00 +0000 UTC").IsEpoch() // true
+carbon.CreateFromTimestamp(0).IsEpoch() // true
+carbon.NewCarbon().IsEpoch() // false
+carbon.Parse("").IsEpoch() // false
+carbon.Parse("0").IsEpoch() // false
+carbon.Parse("xxx").IsEpoch() // false
+carbon.Parse("0000-00-00 00:00:00").IsEpoch() // false
+carbon.Parse("0000-00-00").IsEpoch() // false
+carbon.Parse("00:00:00").IsEpoch() // false
+carbon.Parse("2020-08-05 00:00:00").IsEpoch() // false
+carbon.Parse("2020-08-05").IsEpoch() // false
+carbon.Parse("2020-08-05").SetTimezone("xxx").IsEpoch() // false
 
 // 是否是有效时间
 carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsValid() // true
@@ -940,8 +956,16 @@ carbon.Parse("2020-01-31").SetMonth(2).ToDateString() // 2020-03-02
 carbon.Parse("2020-01-31").SetMonthNoOverflow(2).ToDateString() // 2020-02-29
 
 // 设置一周的开始日期
-carbon.Parse("2020-08-02").SetWeekStartsAt(carbon.Monday).Week() // 6
 carbon.Parse("2020-08-02").SetWeekStartsAt(carbon.Sunday).Week() // 0
+carbon.Parse("2020-08-02").SetWeekStartsAt(carbon.Monday).Week() // 6
+
+// 设置一周的周末日期
+wd := []carbon.Weekday{
+	carbon.Saturday, carbon.Sunday,
+}
+carbon.Parse("2025-04-11").SetWeekendDays(wd).IsWeekend() // false
+carbon.Parse("2025-04-12").SetWeekendDays(wd).IsWeekend() // true
+carbon.Parse("2025-04-13").SetWeekendDays(wd).IsWeekend() // true
 
 // 设置日期
 carbon.Parse("2019-08-05").SetDay(31).ToDateString() // 2020-08-31
@@ -1052,13 +1076,13 @@ carbon.Parse("2020-08-05 13:14:15.999").Microsecond() // 999000
 // 获取当前纳秒
 carbon.Parse("2020-08-05 13:14:15.999").Nanosecond() // 999000000
 
-// 获取秒级时间戳
+// 获取秒精度时间戳
 carbon.Parse("2020-08-05 13:14:15").Timestamp() // 1596604455
-// 获取毫秒级时间戳
+// 获取毫秒精度时间戳
 carbon.Parse("2020-08-05 13:14:15").TimestampMilli() // 1596604455000
-// 获取微秒级时间戳
+// 获取微秒精度时间戳
 carbon.Parse("2020-08-05 13:14:15").TimestampMicro() // 1596604455000000
-// 获取纳秒级时间戳
+// 获取纳秒精度时间戳
 carbon.Parse("2020-08-05 13:14:15").TimestampNano() // 1596604455000000000
 
 // 获取时区位置
@@ -1090,6 +1114,10 @@ carbon.Now().SetLocale("zh-CN").Season() // 夏季
 // 获取一周的开始日期
 carbon.SetWeekStartsAt(carbon.Sunday).WeekStartsAt() // Sunday
 carbon.SetWeekStartsAt(carbon.Monday).WeekStartsAt() // Monday
+
+// 获取一周的结束日期
+carbon.SetWeekStartsAt(carbon.Sunday).WeekEndsAt() // Saturday
+carbon.SetWeekStartsAt(carbon.Monday).WeekEndsAt() // Sunday
 
 // 获取当前布局模板
 carbon.Parse("now").CurrentLayout() // "2006-01-02 15:04:05"

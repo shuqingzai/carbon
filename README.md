@@ -48,23 +48,25 @@ go mod edit -replace github.com/golang-module/carbon/v2=github.com/dromara/carbo
 
 #### Usage and example
 
-> Assuming the current time is 2020-08-05 13:14:15.999999999 +0000 UTC
+> Default timezone is UTC, language locale is en(English), assuming the current time is 2020-08-05 13:14:15.999999999 +0000 UTC
 
 ##### Set globally default
 
 ```go
 carbon.SetLayout(carbon.DateTimeLayout)
 carbon.SetTimezone(carbon.UTC)
-carbon.SetWeekStartsAt(carbon.Sunday)
 carbon.SetLocale("en")
+carbon.SetWeekStartsAt(carbon.Sunday)
+carbon.SetWeekendDays([]carbon.Weekday{carbon.Saturday, carbon.Sunday,})
 
 or
 
 carbon.SetDefault(carbon.Default{
   Layout: carbon.DateTimeLayout,
   Timezone: carbon.UTC,
+  Locale: "en",
   WeekStartsAt: carbon.Sunday,
-  Locale: "en", 
+  WeekendDays: []carbon.Weekday{carbon.Saturday, carbon.Sunday,},
 })
 ```
 
@@ -98,13 +100,13 @@ carbon.Now().ToDateString() // 2020-08-05
 carbon.Now().ToTimeString() // 13:14:15
 // Return datetime of today in a given timezone
 carbon.Now(carbon.NewYork).ToDateTimeString() // 2020-08-05 13:14:15
-// Return timestamp with second of today
+// Return timestamp with second precision of today
 carbon.Now().Timestamp() // 1596604455
-// Return timestamp with millisecond of today
+// Return timestamp with millisecond precision of today
 carbon.Now().TimestampMilli() // 1596604455999
-// Return timestamp with microsecond of today
+// Return timestamp with microsecond precision of today
 carbon.Now().TimestampMicro() // 1596604455999999
-// Return timestamp with nanosecond of today
+// Return timestamp with nanosecond precision of today
 carbon.Now().TimestampNano() // 1596604455999999999
 
 // Return datetime of yesterday
@@ -118,13 +120,13 @@ carbon.Yesterday().ToDateString() // 2020-08-04
 carbon.Yesterday().ToTimeString() // 13:14:15
 // Return datetime of yesterday in a given timezone
 carbon.Yesterday(carbon.NewYork).ToDateTimeString() // 2020-08-04 13:14:15
-// Return timestamp with second of yesterday
+// Return timestamp with second precision of yesterday
 carbon.Yesterday().Timestamp() // 1596546855
-// Return timestamp with millisecond of yesterday
+// Return timestamp with millisecond precision of yesterday
 carbon.Yesterday().TimestampMilli() // 1596546855999
-// Return timestamp with microsecond of yesterday
+// Return timestamp with microsecond precision of yesterday
 carbon.Yesterday().TimestampMicro() // 1596546855999999
-// Return timestamp with nanosecond of yesterday
+// Return timestamp with nanosecond precision of yesterday
 carbon.Yesterday().TimestampNano() // 1596546855999999999
 
 // Return datetime of tomorrow
@@ -138,29 +140,29 @@ carbon.Tomorrow().ToDateString() // 2020-08-06
 carbon.Tomorrow().ToTimeString() // 13:14:15
 // Return datetime of tomorrow in a given timezone
 carbon.Tomorrow(carbon.NewYork).ToDateTimeString() // 2020-08-06 13:14:15
-// Return timestamp with second of tomorrow
+// Return timestamp with second precision of tomorrow
 carbon.Tomorrow().Timestamp() // 1596719655
-// Return timestamp with millisecond of tomorrow
+// Return timestamp with millisecond precision of tomorrow
 carbon.Tomorrow().TimestampMilli() // 1596719655999
-// Return timestamp with microsecond of tomorrow
+// Return timestamp with microsecond precision of tomorrow
 carbon.Tomorrow().TimestampMicro() // 1596719655999999
-// Return timestamp with nanosecond of tomorrow
+// Return timestamp with nanosecond precision of tomorrow
 carbon.Tomorrow().TimestampNano() // 1596719655999999999
 ```
 
 ##### Create a `Carbon` instance
 
 ```go
-// Create a Carbon instance from a given timestamp with second
+// Create a Carbon instance from a given timestamp with second precision
 carbon.CreateFromTimestamp(-1).ToString() // 1969-12-31 23:59:59 +0000 UTC
 carbon.CreateFromTimestamp(0).ToString() // 1970-01-01 00:00:00 +0000 UTC
 carbon.CreateFromTimestamp(1).ToString() // 1970-01-01 00:00:01 +0000 UTC
 carbon.CreateFromTimestamp(1596633255).ToString() // 2020-08-05 13:14:15 +0000 UTC
-// Create a Carbon instance from a given timestamp with millisecond
+// Create a Carbon instance from a given timestamp with millisecond precision
 carbon.CreateFromTimestampMilli(1596633255999999).ToString() // 2020-08-05 13:14:15.999 +0000 UTC
-// Create a Carbon instance from a given timestamp with microsecond
+// Create a Carbon instance from a given timestamp with microsecond precision
 carbon.CreateFromTimestampMicro(1596633255999999).ToString() // 2020-08-05 13:14:15.999999 +0000 UTC
-// Create a Carbon instance from a given timestamp with nanosecond
+// Create a Carbon instance from a given timestamp with nanosecond precision
 carbon.CreateFromTimestampNano(1596633255999999999).ToString() // 2020-08-05 13:14:15.999999999 +0000 UTC
 
 // Create a Carbon instance from a given date and time
@@ -244,7 +246,7 @@ carbon.Parse("2022-03-08T03:01:14-07:00").ToString() // 2022-03-08 10:01:14 +000
 carbon.Parse("2022-03-08T10:01:14Z").ToString() // 2022-03-08 10:01:14 +0000 UTC
 ```
 
-##### Parse a time string as a `Carbon` instance by  a confirmed layout
+##### Parse a time string as a `Carbon` instance by a confirmed layout
 
 ```go
 carbon.ParseByLayout("2020|08|05 13|14|15", "2006|01|02 15|04|05").ToDateTimeString() // 2020-08-05 13:14:15
@@ -624,7 +626,7 @@ carbon.Min(yesterday, today, tomorrow) // yesterday
 // Return a Carbon instance for the greatest supported date
 carbon.MaxValue().ToString() // 9999-12-31 23:59:59.999999999 +0000 UTC
 // Return a Carbon instance for the lowest supported date
-carbon.MinValue().ToString() // -9998-01-01 00:00:00 +0000 UTC
+carbon.MinValue().ToString() // 0001-01-01 00:00:00 +0000 UTC
 
 // Return the maximum duration
 carbon.MaxDuration().Seconds() // 9.223372036854776e+09
@@ -663,6 +665,20 @@ carbon.Parse("00:00:00").IsZero() // false
 carbon.Parse("2020-08-05 00:00:00").IsZero() // false
 carbon.Parse("2020-08-05").IsZero() // false
 carbon.Parse("2020-08-05").SetTimezone("xxx").IsZero() // false
+
+// Whether is unix epoch time(1970-01-01 00:00:00 +0000 UTC).
+carbon.Parse("1970-01-01 00:00:00 +0000 UTC").IsEpoch() // true
+carbon.CreateFromTimestamp(0).IsEpoch() // true
+carbon.NewCarbon().IsEpoch() // false
+carbon.Parse("").IsEpoch() // false
+carbon.Parse("0").IsEpoch() // false
+carbon.Parse("xxx").IsEpoch() // false
+carbon.Parse("0000-00-00 00:00:00").IsEpoch() // false
+carbon.Parse("0000-00-00").IsEpoch() // false
+carbon.Parse("00:00:00").IsEpoch() // false
+carbon.Parse("2020-08-05 00:00:00").IsEpoch() // false
+carbon.Parse("2020-08-05").IsEpoch() // false
+carbon.Parse("2020-08-05").SetTimezone("xxx").IsEpoch() // false
 
 // Whether is valid time
 carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsValid() // true
@@ -936,6 +952,14 @@ carbon.Parse("2020-01-31").SetMonthNoOverflow(2).ToDateString() // 2020-02-29
 carbon.Parse("2020-08-02").SetWeekStartsAt(carbon.Sunday).Week() // 0
 carbon.Parse("2020-08-02").SetWeekStartsAt(carbon.Monday).Week() // 6
 
+// Set weekend days of the week
+wd := []carbon.Weekday{
+	carbon.Saturday, carbon.Sunday,
+}
+carbon.Parse("2025-04-11").SetWeekendDays(wd).IsWeekend() // false
+carbon.Parse("2025-04-12").SetWeekendDays(wd).IsWeekend() // true
+carbon.Parse("2025-04-13").SetWeekendDays(wd).IsWeekend() // true
+
 // Set day
 carbon.Parse("2019-08-05").SetDay(31).ToDateString() // 2020-08-31
 carbon.Parse("2020-02-01").SetDay(31).ToDateString() // 2020-03-02
@@ -1044,13 +1068,13 @@ carbon.Parse("2020-08-05 13:14:15.999").Microsecond() // 999000
 // Get current nanosecond
 carbon.Parse("2020-08-05 13:14:15.999").Nanosecond() // 999000000
 
-// Get timestamp with second
+// Get timestamp with second precision
 carbon.Parse("2020-08-05 13:14:15").Timestamp() // 1596604455
-// Get timestamp with millisecond
+// Get timestamp with millisecond precision
 carbon.Parse("2020-08-05 13:14:15").TimestampMilli() // 1596604455000
-// Get timestamp with microsecond
+// Get timestamp with microsecond precision
 carbon.Parse("2020-08-05 13:14:15").TimestampMicro() // 1596604455000000
-// Get timestamp with nanosecond
+// Get timestamp with nanosecond precision
 carbon.Parse("2020-08-05 13:14:15").TimestampNano() // 1596604455000000000
 
 // Get timezone location
@@ -1082,6 +1106,10 @@ carbon.Now().SetLocale("zh-CN").Season() // 夏季
 // Get start day of the week
 carbon.SetWeekStartsAt(carbon.Sunday).WeekStartsAt() // Sunday
 carbon.SetWeekStartsAt(carbon.Monday).WeekStartsAt() // Monday
+
+// Get end day of the week
+carbon.SetWeekStartsAt(carbon.Sunday).WeekEndsAt() // Saturday
+carbon.SetWeekStartsAt(carbon.Monday).WeekEndsAt() // Sunday
 
 // Get current layout
 carbon.Parse("now").CurrentLayout() // "2006-01-02 15:04:05"

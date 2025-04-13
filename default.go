@@ -9,13 +9,19 @@ var (
 	// 默认时区
 	DefaultTimezone = UTC
 
-	// DefaultWeekStartsAt default week start date
-	// 默认一周开始日期
-	DefaultWeekStartsAt = Sunday
-
 	// DefaultLocale default language locale
 	// 默认语言区域
 	DefaultLocale = "en"
+
+	// DefaultWeekStartsAt default start date of the week
+	// 默认一周开始日期
+	DefaultWeekStartsAt = Monday
+
+	// DefaultWeekendDays default weekend days of the week
+	// 默认周末日期
+	DefaultWeekendDays = []Weekday{
+		Saturday, Sunday,
+	}
 )
 
 // Default defines a Default struct.
@@ -23,8 +29,9 @@ var (
 type Default struct {
 	Layout       string
 	Timezone     string
-	WeekStartsAt string
 	Locale       string
+	WeekStartsAt Weekday
+	WeekendDays  []Weekday
 }
 
 // SetDefault sets default.
@@ -36,11 +43,14 @@ func SetDefault(d Default) {
 	if d.Timezone != "" {
 		DefaultTimezone = d.Timezone
 	}
-	if d.WeekStartsAt != "" {
-		DefaultWeekStartsAt = d.WeekStartsAt
-	}
 	if d.Locale != "" {
 		DefaultLocale = d.Locale
+	}
+	if d.WeekStartsAt.String() != "" {
+		DefaultWeekStartsAt = d.WeekStartsAt
+	}
+	if len(d.WeekendDays) > 0 {
+		DefaultWeekendDays = d.WeekendDays
 	}
 }
 
@@ -49,6 +59,9 @@ func SetDefault(d Default) {
 func ResetDefault() {
 	DefaultLayout = DateTimeLayout
 	DefaultTimezone = UTC
-	DefaultWeekStartsAt = Sunday
 	DefaultLocale = "en"
+	DefaultWeekStartsAt = Monday
+	DefaultWeekendDays = []Weekday{
+		Saturday, Sunday,
+	}
 }
