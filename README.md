@@ -666,8 +666,9 @@ carbon.Parse("2020-08-05 00:00:00").IsZero() // false
 carbon.Parse("2020-08-05").IsZero() // false
 carbon.Parse("2020-08-05").SetTimezone("xxx").IsZero() // false
 
-// Whether is UNIX epoch time(1970-01-01 00:00:00 +0000 UTC).
+// Whether is unix epoch time(1970-01-01 00:00:00 +0000 UTC).
 carbon.Parse("1970-01-01 00:00:00 +0000 UTC").IsEpoch() // true
+carbon.CreateFromTimestamp(0).IsEpoch() // true
 carbon.NewCarbon().IsEpoch() // false
 carbon.Parse("").IsEpoch() // false
 carbon.Parse("0").IsEpoch() // false
