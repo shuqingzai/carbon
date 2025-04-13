@@ -81,9 +81,10 @@ carbon.Now().StdTime()
 
 または
 // time.Time を Carbon に変換
-carbon.CreateFromStdTime(time.Now())
+loc, _ := time.LoadLocation(carbon.PRC)
+carbon.CreateFromStdTime(time.Now().In(loc))
 // Carbon を time.Time に変換
-carbon.Now().StdTime()
+carbon.Now(carbon.PRC).StdTime()
 ```
 
 ##### 昨日、現在、明日
