@@ -77,18 +77,16 @@ const (
 // month constants
 // 月份常量
 const (
-	January   = "January"   // 一月
-	February  = "February"  // 二月
-	March     = "March"     // 三月
-	April     = "April"     // 四月
-	May       = "May"       // 五月
-	June      = "June"      // 六月
-	July      = "July"      // 七月
-	August    = "August"    // 八月
-	September = "September" // 九月
-	October   = "October"   // 十月
-	November  = "November"  // 十一月
-	December  = "December"  // 十二月
+	January  = time.January  // 一月
+	February = time.February // 二月
+	March    = time.March    // 三月
+	April    = time.April    // 四月
+	May      = time.May      // 五月
+	June     = time.June     // 六月
+	July     = time.July     // 七月
+	August   = time.August   // 八月
+	October  = time.October  // 十月
+	December = time.December // 十二月
 )
 
 // constellation constants

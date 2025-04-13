@@ -103,8 +103,8 @@ func TestCarbon_Copy(t *testing.T) {
 		oldCarbon := Parse("2020-08-05")
 		newCarbon := oldCarbon.Copy()
 
-		assert.Equal(t, August, oldCarbon.ToMonthString())
-		assert.Equal(t, August, newCarbon.ToMonthString())
+		assert.Equal(t, "August", oldCarbon.ToMonthString())
+		assert.Equal(t, "August", newCarbon.ToMonthString())
 
 		oldCarbon.SetLocale("zh-CN")
 		assert.Equal(t, "八月", oldCarbon.ToMonthString())
