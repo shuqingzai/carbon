@@ -67,7 +67,7 @@ carbon.SetDefault(carbon.Default{
   Layout: carbon.DateTimeLayout,
   Timezone: carbon.PRC,
   Locale: "zh-CN",
-  WeekStartsAt: carbon.Sunday,
+  WeekStartsAt: carbon.Monday,
   WeekendDays: []carbon.Weekday{carbon.Saturday, carbon.Sunday,},
 })
 ```
