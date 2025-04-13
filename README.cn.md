@@ -64,11 +64,11 @@ carbon.SetWeekendDays([]carbon.Weekday{carbon.Saturday, carbon.Sunday,})
 或
 
 carbon.SetDefault(carbon.Default{
-	Layout: carbon.DateTimeLayout,
-	Timezone: carbon.PRC,
-	Locale: "zh-CN",
-	WeekStartsAt: carbon.Sunday,
-	WeekendDays: []carbon.Weekday{carbon.Saturday, carbon.Sunday,},
+  Layout: carbon.DateTimeLayout,
+  Timezone: carbon.PRC,
+  Locale: "zh-CN",
+  WeekStartsAt: carbon.Sunday,
+  WeekendDays: []carbon.Weekday{carbon.Saturday, carbon.Sunday,},
 })
 ```
 
