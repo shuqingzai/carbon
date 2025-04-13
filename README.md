@@ -81,9 +81,10 @@ carbon.Now().StdTime()
 or
 
 // Convert standard Time.time to Carbon
-carbon.CreateFromStdTime(time.Now())
+loc, _ := time.LoadLocation(carbon.PRC)
+carbon.CreateFromStdTime(time.Now().In(loc))
 // Convert Carbon to standard Time.time
-carbon.Now().StdTime()
+carbon.Now(carbon.PRC).StdTime()
 ```
 
 ##### Yesterday, today and tomorrow
@@ -883,7 +884,7 @@ carbon.Parse("2020-08-05 13:14:15").BetweenIncludedBoth(carbon.Parse("2020-08-05
 carbon.Parse("2020-08-05 13:14:15").BetweenIncludedBoth(carbon.Parse("2020-08-04 13:14:15"), carbon.Parse("2020-08-05 13:14:15")) // true
 ```
 
-> For the definition of long year, please see https://en.wikipedia.org/wiki/ISO_8601#Week_dates
+> Refer to https://en.wikipedia.org/wiki/ISO_8601#Week_dates for the definition of long year
 
 ##### Setter
 
@@ -1269,7 +1270,7 @@ carbon.Parse("2020-08-05 13:14:15").Format("l jK \\o\\f F Y h:i:s A") // Wednesd
 carbon.Parse("2020-08-05 13:14:15").Format("\\I\\t \\i\\s Y-m-d H:i:s") // It is 2020-08-05 13:14:15
 ```
 
-> For more supported format signs, please see the <a href="#format-sign-table">Format sign table</a>
+> Refer to <a href="#format-sign-table">Format sign table</a> for more supported format signs
 
 ##### Constellation
 

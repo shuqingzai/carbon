@@ -83,9 +83,10 @@ carbon.Now().StdTime()
 或
 
 // 将标准 time.Time 转换成 Carbon
-carbon.CreateFromStdTime(time.Now())
+loc, _ := time.LoadLocation(carbon.PRC)
+carbon.CreateFromStdTime(time.Now().In(loc))
 // 将 Carbon 转换成标准 time.Time
-carbon.Now().StdTime()
+carbon.Now(carbon.PRC).StdTime()
 ```
 
 ##### 昨天、今天、明天
