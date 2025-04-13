@@ -29,9 +29,9 @@ var (
 type Default struct {
 	Layout       string
 	Timezone     string
+	Locale       string
 	WeekStartsAt Weekday
 	WeekendDays  []Weekday
-	Locale       string
 }
 
 // SetDefault sets default.

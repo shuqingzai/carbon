@@ -31,7 +31,7 @@ func MinDuration() time.Duration {
 	return minDuration
 }
 
-// Max returns the maximum Carbon instance from the given Carbon instance (second-precision).
+// Max returns the maximum Carbon instance from the given Carbon instance.
 // 返回最大的 Carbon 实例
 func Max(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	c = c1
@@ -49,7 +49,7 @@ func Max(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	return
 }
 
-// Min returns the minimum Carbon instance from the given Carbon instance (second-precision).
+// Min returns the minimum Carbon instance from the given Carbon instance.
 // 返回最小的 Carbon 实例
 func Min(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	c = c1

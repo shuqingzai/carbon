@@ -65,8 +65,8 @@ func SetWeekStartsAt(weekday Weekday) *Carbon {
 	return c
 }
 
-// SetWeekendDays sets weekend days of the week.
-// 设置一周周末日期
+// SetWeekendDays sets globally default weekend days of the week.
+// 设置全局默认一周周末日期
 func SetWeekendDays(weekDays []Weekday) *Carbon {
 	c := NewCarbon().SetWeekendDays(weekDays)
 	if !c.HasError() {
