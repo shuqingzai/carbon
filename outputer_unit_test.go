@@ -134,7 +134,7 @@ func TestCarbon_ToShortMonthString(t *testing.T) {
 
 func TestCarbon_ToWeekString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, Monday, NewCarbon().ToWeekString())
+		assert.Equal(t, "Monday", NewCarbon().ToWeekString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -154,13 +154,13 @@ func TestCarbon_ToWeekString(t *testing.T) {
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, Saturday, Parse("2020-08-01").ToWeekString())
-		assert.Equal(t, Sunday, Parse("2020-08-02").ToWeekString())
-		assert.Equal(t, Monday, Parse("2020-08-03").ToWeekString())
-		assert.Equal(t, Tuesday, Parse("2020-08-04").ToWeekString())
-		assert.Equal(t, Wednesday, Parse("2020-08-05").ToWeekString())
-		assert.Equal(t, Thursday, Parse("2020-08-06").ToWeekString())
-		assert.Equal(t, Friday, Parse("2020-08-07").ToWeekString(PRC))
+		assert.Equal(t, "Saturday", Parse("2020-08-01").ToWeekString())
+		assert.Equal(t, "Sunday", Parse("2020-08-02").ToWeekString())
+		assert.Equal(t, "Monday", Parse("2020-08-03").ToWeekString())
+		assert.Equal(t, "Tuesday", Parse("2020-08-04").ToWeekString())
+		assert.Equal(t, "Wednesday", Parse("2020-08-05").ToWeekString())
+		assert.Equal(t, "Thursday", Parse("2020-08-06").ToWeekString())
+		assert.Equal(t, "Friday", Parse("2020-08-07").ToWeekString(PRC))
 	})
 }
 
