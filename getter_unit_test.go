@@ -28,6 +28,13 @@ func TestCarbon_StdTime(t *testing.T) {
 		c := Parse("2020-08-05", PRC)
 		assert.Equal(t, "2020-08-05 00:00:00 +0800 CST", c.StdTime().String())
 	})
+
+	// https://github.com/dromara/carbon/issues/294
+	t.Run("issue294", func(t *testing.T) {
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", Parse("").StdTime().String())
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", Parse("0").StdTime().String())
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", Parse("xxx").StdTime().String())
+	})
 }
 
 func TestCarbon_DaysInYear(t *testing.T) {

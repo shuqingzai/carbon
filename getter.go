@@ -7,6 +7,9 @@ import (
 // StdTime gets standard time.Time.
 // 获取标准 time.Time
 func (c *Carbon) StdTime() time.Time {
+	if c.IsInvalid() {
+		return time.Time{}
+	}
 	if c.loc == nil {
 		return c.time
 	}
