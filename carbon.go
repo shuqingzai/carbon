@@ -15,6 +15,7 @@ import (
 type StdTime = time.Time
 type Weekday = time.Weekday
 type Location = time.Location
+type Duration = time.Duration
 
 // Carbon defines a Carbon struct.
 // 定义 Carbon 结构体

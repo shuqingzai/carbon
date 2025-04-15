@@ -1,9 +1,5 @@
 package carbon
 
-import (
-	"time"
-)
-
 // SetLayout sets globally default layout.
 // 设置全局默认布局模板
 func SetLayout(layout string) *Carbon {
@@ -37,7 +33,7 @@ func SetTimezone(name string) *Carbon {
 
 // SetLocation sets globally default location.
 // 设置全局默认位置
-func SetLocation(loc *time.Location) *Carbon {
+func SetLocation(loc *Location) *Carbon {
 	c := NewCarbon().SetLocation(loc)
 	if !c.HasError() {
 		DefaultTimezone = loc.String()
@@ -116,7 +112,7 @@ func (c *Carbon) SetTimezone(name string) *Carbon {
 
 // SetLocation sets location.
 // 设置位置
-func (c *Carbon) SetLocation(loc *time.Location) *Carbon {
+func (c *Carbon) SetLocation(loc *Location) *Carbon {
 	if loc == nil {
 		c.Error = ErrNilLocation()
 	}
