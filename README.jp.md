@@ -1474,7 +1474,7 @@ person: {Customer1:2020-08-05T13:14:15Z Customer2:2020-08-05T13:14:15+00:00}
 
 ##### i18n
 
-現在サポートされている言語
+現在サポートされている言語（翻訳順に並べる）
 
 * [简体中国語(zh-CN)](./lang/zh-CN.json "简体中国語")：[gouguoyin](https://github.com/gouguoyin "gouguoyin") に翻訳
 * [繁体中国語(zh-TW)](./lang/zh-TW.json "繁体中国語")：[gouguoyin](https://github.com/gouguoyin "gouguoyin") に翻訳

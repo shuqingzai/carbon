@@ -13,8 +13,8 @@
 
 一个轻量级、语义化、对开发者友好的 `golang` 时间处理库，不依赖于 `任何` 第三方库， `100%` 单元测试覆盖率，已被 [awesome-go](https://github.com/yinggaozhen/awesome-go-cn#日期和时间 "awesome-go-cn") 收录，并获得
 `gitee` 2024 年最有价值项目（`GVP`）和 `gitcode` 2024 年度开源摘星计划 (`G-Star`) 项目
-<img src="https://gitee.com/dromara/carbon/raw/master/gvp.jpg" wigth="100" alt="gvp"/>
-<img src="https://gitee.com/dromara/carbon/raw/master/gstar.jpg" wigth="100" alt="g-star"/>
+<img src="./gvp.jpg" wigth="100" alt="gvp"/>
+<img src="./gstar.jpg" wigth="100" alt="g-star"/>
 
 #### 仓库地址
 
@@ -1481,7 +1481,7 @@ person: {Customer1:2020-08-05T13:14:15Z Customer2:2020-08-05T13:14:15+00:00}
 
 ##### 国际化
 
-目前支持的语言有
+目前支持的语言有(按照翻译先后顺序排列)
 
 * [简体中文(zh-CN)](./lang/zh-CN.json "简体中文"): 由 [gouguoyin](https://github.com/gouguoyin "gouguoyin") 翻译
 * [繁体中文(zh-TW)](./lang/zh-TW.json "繁体中文"): 由 [gouguoyin](https://github.com/gouguoyin "gouguoyin") 翻译

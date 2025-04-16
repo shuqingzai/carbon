@@ -1471,7 +1471,7 @@ The following calendars are supported
 
 ##### i18n
 
-The following languages are supported
+The following languages are supported(according to the order of translation time)
 
 * [Simplified Chinese(zh-CN)](./lang/zh-CN.json "Simplified Chinese")：translated
   by [gouguoyin](https://github.com/gouguoyin "gouguoyin")
