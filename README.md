@@ -11,8 +11,7 @@ English | [简体中文](README.cn.md) | [日本語](README.jp.md)
 
 #### Introduction
 
-A simple, semantic and developer-friendly time package for `golang`, has been included
-by [awesome-go](https://github.com/avelino/awesome-go#date-and-time "awesome-go")
+A simple, semantic and developer-friendly time package for `golang`, `100%` unit test coverage, doesn't depend on `any` third-party library and has been included by [awesome-go](https://github.com/avelino/awesome-go#date-and-time "awesome-go")
 
 #### Repository
 
