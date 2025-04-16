@@ -47,7 +47,7 @@ func Yesterday(timezone ...string) *Carbon {
 	return Now(c.Timezone()).Copy().SubDay()
 }
 
-// AddDuration adds one duration.
+// AddDuration adds duration.
 // 按照时长增加时间,支持整数/浮点数和符号ns(纳秒)、us(微妙)、ms(毫秒)、s(秒)、m(分钟)、h(小时)的组合
 func (c *Carbon) AddDuration(duration string) *Carbon {
 	if c.IsInvalid() {
@@ -62,7 +62,7 @@ func (c *Carbon) AddDuration(duration string) *Carbon {
 	return c
 }
 
-// SubDuration subtracts one duration.
+// SubDuration subtracts duration.
 // 按照时长减少时间,支持整数/浮点数和符号ns(纳秒)、us(微妙)、ms(毫秒)、s(秒)、m(分钟)、h(小时)的组合
 func (c *Carbon) SubDuration(duration string) *Carbon {
 	return c.AddDuration("-" + duration)

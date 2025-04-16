@@ -174,7 +174,7 @@ func (l *Lunar) ToGregorian(timezone ...string) *calendar.Gregorian {
 	if l.isLeapMonth {
 		offset += days
 	}
-	// https://github.com/golang-module/carbon/issues/219
+	// https://github.com/dromara/carbon/issues/219
 	ts := int64(offset+l.day)*86400 - int64(2206512000)
 	g.Time = time.Unix(ts, 0).In(loc)
 	return g

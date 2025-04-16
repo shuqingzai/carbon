@@ -11,7 +11,7 @@
 
 #### イントロ
 
-軽量、セマンティック、開発者に優しい `golang` 時間処理ライブラリ
+軽量、セマンティック、開発者に優しい `golang` 時間処理ライブラリ, `いかなる`第三者ライブラリにも依存せず、` 100%`ユニットテストカバレッジ率は、[awesome-go](https://github.com/avelino/awesome-go#date-and-time "awesome-go") 収録
 
 Carbon は [awesome-go](https://github.com/avelino/awesome-go#date-and-time "awesome-go") に含まれています
 
