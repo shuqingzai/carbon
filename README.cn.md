@@ -1430,17 +1430,17 @@ person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 Da
 ```go
 type RFC3339Layout string
 func (t CustomerLayout) SetLayout() string {
-	return carbon.RFC3339Layout
+  return carbon.RFC3339Layout
 }
 
 type ISO8601Format string
 func (t CustomerFormat) SetFormat() string {
-	return carbon.ISO8601Format
+  return carbon.ISO8601Format
 }
 
 type User struct {
-	Customer1 carbon.LayoutType[RFC3339Layout] `json:"customer1"`
-	Customer2 carbon.FormatType[ISO8601Format] `json:"customer2"`
+  Customer1 carbon.LayoutType[RFC3339Layout] `json:"customer1"`
+  Customer2 carbon.FormatType[ISO8601Format] `json:"customer2"`
 }
 
 var user User
@@ -1452,8 +1452,8 @@ user.Customer2 = carbon.NewFormatType[ISO8601Format](c)
 
 data, err := json.Marshal(&user)
 if err != nil {
-	// 错误处理
-	log.Fatal(err)
+  // 错误处理 
+  //log.Fatal(err)
 }
 fmt.Printf("%s\n", data)
 // 输出
@@ -1462,8 +1462,8 @@ fmt.Printf("%s\n", data)
 var person User
 err := json.Unmarshal(data, &person)
 if err != nil {
-	// 错误处理
-	log.Fatal(err)
+  // 错误处理
+  log.Fatal(err)
 }
 
 fmt.Printf("person: %+v\n", person)
@@ -1663,7 +1663,7 @@ timezone "xxx" is invalid, please see the file "$GOROOT/lib/time/zoneinfo.zip" f
 #### 常见问题
 
 1、v2.5.x 和 v2.6.x 版本有什么区别？
-> v2.5.x 及以下版本是值传递， v2.6.x 及以上版本是指针传递，并且使用了泛型实现了 JSON 编码输出格式自定义。两个版本都会长期维护，但是强烈建议使用 v2.6.x 版本。
+> v2.5.x 及以下版本是值传递， v2.6.x 及以上版本是指针传递，并且使用了泛型实现了 JSON 编码输出格式自定义。两个版本都会长期维护，但是强烈建议使用 v2.6.x 及以上版本。
 
 2、window 系统部署时时区报错
 

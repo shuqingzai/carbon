@@ -1423,7 +1423,7 @@ person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 Da
 ```go
 type RFC3339Layout string
 func (t CustomerLayout) SetLayout() string {
-    return carbon.RFC3339Layout
+  return carbon.RFC3339Layout
 }
 
 type ISO8601Format string
@@ -1655,7 +1655,7 @@ timezone "xxx" is invalid, please see the file "$GOROOT/lib/time/zoneinfo.zip" f
 #### FAQ
 
 1、v2.5.x と v2.6.x のバージョンの違いは何ですか?
->  v2.5.x および以下のバージョンは値転送であり、v2.6.x 以上のバージョンはポインタ転送であり、汎用を使用して JSON 符号化出力フォーマットのカスタマイズを実現した。どちらのバージョンも長期的にメンテナンスされますが、v2.6.x バージョンを使用することを強くお勧めします。
+>  v2.5.x および以下のバージョンは値転送であり、v2.6.x 以上のバージョンはポインタ転送であり、汎用を使用して JSON 符号化出力フォーマットのカスタマイズを実現した。どちらのバージョンも長期的にメンテナンスされますが、v2.6.x+ バージョンを使用することを強くお勧めします。
 
 2、window 系统下部署二进制文件时区报错
 
