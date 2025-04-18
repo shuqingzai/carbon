@@ -962,7 +962,7 @@ carbon.Parse("2020-08-02").SetWeekStartsAt(carbon.Monday).Week() // 6
 
 // 週の週末日付の設定
 wd := []carbon.Weekday{
-	carbon.Saturday, carbon.Sunday,
+  carbon.Saturday, carbon.Sunday,
 }
 carbon.Parse("2025-04-11").SetWeekendDays(wd).IsWeekend() // false
 carbon.Parse("2025-04-12").SetWeekendDays(wd).IsWeekend() // true
