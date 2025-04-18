@@ -1,4 +1,4 @@
-package carbon_test
+package carbon
 
 import (
 	"encoding/json"
@@ -6,27 +6,25 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-
-	"github.com/dromara/carbon/v2"
 )
 
 func TestLayoutType_Scan(t *testing.T) {
-	c := carbon.NewLayoutType[carbon.DateTime](carbon.Now())
+	c := NewLayoutType[DateTime](Now())
 
 	t.Run("[]byte type", func(t *testing.T) {
-		assert.Nil(t, c.Scan([]byte(carbon.Now().ToDateString())))
+		assert.Nil(t, c.Scan([]byte(Now().ToDateString())))
 	})
 
 	t.Run("string type", func(t *testing.T) {
-		assert.Nil(t, c.Scan(carbon.Now().ToDateString()))
+		assert.Nil(t, c.Scan(Now().ToDateString()))
 	})
 
 	t.Run("int64 type", func(t *testing.T) {
-		assert.Nil(t, c.Scan(carbon.Now().Timestamp()))
+		assert.Nil(t, c.Scan(Now().Timestamp()))
 	})
 
 	t.Run("time type", func(t *testing.T) {
-		assert.Nil(t, c.Scan(carbon.Now().StdTime()))
+		assert.Nil(t, c.Scan(Now().StdTime()))
 	})
 
 	t.Run("unsupported type", func(t *testing.T) {
@@ -36,28 +34,28 @@ func TestLayoutType_Scan(t *testing.T) {
 
 func TestLayoutType_Value(t *testing.T) {
 	t.Run("nil time", func(t *testing.T) {
-		v, err := carbon.NewLayoutType[carbon.DateTime](nil).Value()
+		v, err := NewLayoutType[DateTime](nil).Value()
 		assert.Nil(t, v)
 		assert.Nil(t, err)
 	})
 
 	t.Run("zero time", func(t *testing.T) {
-		c := carbon.NewCarbon()
-		v, err := carbon.NewLayoutType[carbon.DateTime](c).Value()
+		c := NewCarbon()
+		v, err := NewLayoutType[DateTime](c).Value()
 		assert.Nil(t, v)
 		assert.Nil(t, err)
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
-		c := carbon.Parse("xxx")
-		v, err := carbon.NewLayoutType[carbon.DateTime](c).Value()
+		c := Parse("xxx")
+		v, err := NewLayoutType[DateTime](c).Value()
 		assert.Nil(t, v)
 		assert.Error(t, err)
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		c := carbon.Parse("2020-08-05")
-		v, err := carbon.NewLayoutType[carbon.DateTime](c).Value()
+		c := Parse("2020-08-05")
+		v, err := NewLayoutType[DateTime](c).Value()
 		assert.Equal(t, c.StdTime(), v)
 		assert.Nil(t, err)
 	})
@@ -65,39 +63,39 @@ func TestLayoutType_Value(t *testing.T) {
 
 func TestLayoutType_MarshalJSON(t *testing.T) {
 	type User struct {
-		Date      carbon.LayoutType[carbon.Date]      `json:"date"`
-		DateMilli carbon.LayoutType[carbon.DateMilli] `json:"date_milli"`
-		DateMicro carbon.LayoutType[carbon.DateMicro] `json:"date_micro"`
-		DateNano  carbon.LayoutType[carbon.DateNano]  `json:"date_nano"`
+		Date      LayoutType[Date]      `json:"date"`
+		DateMilli LayoutType[DateMilli] `json:"date_milli"`
+		DateMicro LayoutType[DateMicro] `json:"date_micro"`
+		DateNano  LayoutType[DateNano]  `json:"date_nano"`
 
-		Time      carbon.LayoutType[carbon.Time]      `json:"time"`
-		TimeMilli carbon.LayoutType[carbon.TimeMilli] `json:"time_milli"`
-		TimeMicro carbon.LayoutType[carbon.TimeMicro] `json:"time_micro"`
-		TimeNano  carbon.LayoutType[carbon.TimeNano]  `json:"time_nano"`
+		Time      LayoutType[Time]      `json:"time"`
+		TimeMilli LayoutType[TimeMilli] `json:"time_milli"`
+		TimeMicro LayoutType[TimeMicro] `json:"time_micro"`
+		TimeNano  LayoutType[TimeNano]  `json:"time_nano"`
 
-		DateTime      carbon.LayoutType[carbon.DateTime]      `json:"date_time"`
-		DateTimeMilli carbon.LayoutType[carbon.DateTimeMilli] `json:"date_time_milli"`
-		DateTimeMicro carbon.LayoutType[carbon.DateTimeMicro] `json:"date_time_micro"`
-		DateTimeNano  carbon.LayoutType[carbon.DateTimeNano]  `json:"date_time_nano"`
+		DateTime      LayoutType[DateTime]      `json:"date_time"`
+		DateTimeMilli LayoutType[DateTimeMilli] `json:"date_time_milli"`
+		DateTimeMicro LayoutType[DateTimeMicro] `json:"date_time_micro"`
+		DateTimeNano  LayoutType[DateTimeNano]  `json:"date_time_nano"`
 	}
 
 	t.Run("nil time", func(t *testing.T) {
 		var user User
 
-		user.Date = carbon.NewLayoutType[carbon.Date](nil)
-		user.DateMilli = carbon.NewLayoutType[carbon.DateMilli](nil)
-		user.DateMicro = carbon.NewLayoutType[carbon.DateMicro](nil)
-		user.DateNano = carbon.NewLayoutType[carbon.DateNano](nil)
+		user.Date = NewLayoutType[Date](nil)
+		user.DateMilli = NewLayoutType[DateMilli](nil)
+		user.DateMicro = NewLayoutType[DateMicro](nil)
+		user.DateNano = NewLayoutType[DateNano](nil)
 
-		user.Time = carbon.NewLayoutType[carbon.Time](nil)
-		user.TimeMilli = carbon.NewLayoutType[carbon.TimeMilli](nil)
-		user.TimeMicro = carbon.NewLayoutType[carbon.TimeMicro](nil)
-		user.TimeNano = carbon.NewLayoutType[carbon.TimeNano](nil)
+		user.Time = NewLayoutType[Time](nil)
+		user.TimeMilli = NewLayoutType[TimeMilli](nil)
+		user.TimeMicro = NewLayoutType[TimeMicro](nil)
+		user.TimeNano = NewLayoutType[TimeNano](nil)
 
-		user.DateTime = carbon.NewLayoutType[carbon.DateTime](nil)
-		user.DateTimeMilli = carbon.NewLayoutType[carbon.DateTimeMilli](nil)
-		user.DateTimeMicro = carbon.NewLayoutType[carbon.DateTimeMicro](nil)
-		user.DateTimeNano = carbon.NewLayoutType[carbon.DateTimeNano](nil)
+		user.DateTime = NewLayoutType[DateTime](nil)
+		user.DateTimeMilli = NewLayoutType[DateTimeMilli](nil)
+		user.DateTimeMicro = NewLayoutType[DateTimeMicro](nil)
+		user.DateTimeNano = NewLayoutType[DateTimeNano](nil)
 
 		data, err := json.Marshal(&user)
 		assert.NoError(t, err)
@@ -107,22 +105,22 @@ func TestLayoutType_MarshalJSON(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		var user User
 
-		c := carbon.NewCarbon()
+		c := NewCarbon()
 
-		user.Date = carbon.NewLayoutType[carbon.Date](c)
-		user.DateMilli = carbon.NewLayoutType[carbon.DateMilli](c)
-		user.DateMicro = carbon.NewLayoutType[carbon.DateMicro](c)
-		user.DateNano = carbon.NewLayoutType[carbon.DateNano](c)
+		user.Date = NewLayoutType[Date](c)
+		user.DateMilli = NewLayoutType[DateMilli](c)
+		user.DateMicro = NewLayoutType[DateMicro](c)
+		user.DateNano = NewLayoutType[DateNano](c)
 
-		user.Time = carbon.NewLayoutType[carbon.Time](c)
-		user.TimeMilli = carbon.NewLayoutType[carbon.TimeMilli](c)
-		user.TimeMicro = carbon.NewLayoutType[carbon.TimeMicro](c)
-		user.TimeNano = carbon.NewLayoutType[carbon.TimeNano](c)
+		user.Time = NewLayoutType[Time](c)
+		user.TimeMilli = NewLayoutType[TimeMilli](c)
+		user.TimeMicro = NewLayoutType[TimeMicro](c)
+		user.TimeNano = NewLayoutType[TimeNano](c)
 
-		user.DateTime = carbon.NewLayoutType[carbon.DateTime](c)
-		user.DateTimeMilli = carbon.NewLayoutType[carbon.DateTimeMilli](c)
-		user.DateTimeMicro = carbon.NewLayoutType[carbon.DateTimeMicro](c)
-		user.DateTimeNano = carbon.NewLayoutType[carbon.DateTimeNano](c)
+		user.DateTime = NewLayoutType[DateTime](c)
+		user.DateTimeMilli = NewLayoutType[DateTimeMilli](c)
+		user.DateTimeMicro = NewLayoutType[DateTimeMicro](c)
+		user.DateTimeNano = NewLayoutType[DateTimeNano](c)
 
 		data, err := json.Marshal(&user)
 		assert.NoError(t, err)
@@ -132,22 +130,22 @@ func TestLayoutType_MarshalJSON(t *testing.T) {
 	t.Run("invalid time", func(t *testing.T) {
 		var user User
 
-		c := carbon.Parse("xxx")
+		c := Parse("xxx")
 
-		user.Date = carbon.NewLayoutType[carbon.Date](c)
-		user.DateMilli = carbon.NewLayoutType[carbon.DateMilli](c)
-		user.DateMicro = carbon.NewLayoutType[carbon.DateMicro](c)
-		user.DateNano = carbon.NewLayoutType[carbon.DateNano](c)
+		user.Date = NewLayoutType[Date](c)
+		user.DateMilli = NewLayoutType[DateMilli](c)
+		user.DateMicro = NewLayoutType[DateMicro](c)
+		user.DateNano = NewLayoutType[DateNano](c)
 
-		user.Time = carbon.NewLayoutType[carbon.Time](c)
-		user.TimeMilli = carbon.NewLayoutType[carbon.TimeMilli](c)
-		user.TimeMicro = carbon.NewLayoutType[carbon.TimeMicro](c)
-		user.TimeNano = carbon.NewLayoutType[carbon.TimeNano](c)
+		user.Time = NewLayoutType[Time](c)
+		user.TimeMilli = NewLayoutType[TimeMilli](c)
+		user.TimeMicro = NewLayoutType[TimeMicro](c)
+		user.TimeNano = NewLayoutType[TimeNano](c)
 
-		user.DateTime = carbon.NewLayoutType[carbon.DateTime](c)
-		user.DateTimeMilli = carbon.NewLayoutType[carbon.DateTimeMilli](c)
-		user.DateTimeMicro = carbon.NewLayoutType[carbon.DateTimeMicro](c)
-		user.DateTimeNano = carbon.NewLayoutType[carbon.DateTimeNano](c)
+		user.DateTime = NewLayoutType[DateTime](c)
+		user.DateTimeMilli = NewLayoutType[DateTimeMilli](c)
+		user.DateTimeMicro = NewLayoutType[DateTimeMicro](c)
+		user.DateTimeNano = NewLayoutType[DateTimeNano](c)
 
 		data, err := json.Marshal(&user)
 		assert.Error(t, err)
@@ -157,22 +155,22 @@ func TestLayoutType_MarshalJSON(t *testing.T) {
 	t.Run("valid time", func(t *testing.T) {
 		var user User
 
-		c := carbon.Parse("2020-08-05 13:14:15.999999999")
+		c := Parse("2020-08-05 13:14:15.999999999")
 
-		user.Date = carbon.NewLayoutType[carbon.Date](c)
-		user.DateMilli = carbon.NewLayoutType[carbon.DateMilli](c)
-		user.DateMicro = carbon.NewLayoutType[carbon.DateMicro](c)
-		user.DateNano = carbon.NewLayoutType[carbon.DateNano](c)
+		user.Date = NewLayoutType[Date](c)
+		user.DateMilli = NewLayoutType[DateMilli](c)
+		user.DateMicro = NewLayoutType[DateMicro](c)
+		user.DateNano = NewLayoutType[DateNano](c)
 
-		user.Time = carbon.NewLayoutType[carbon.Time](c)
-		user.TimeMilli = carbon.NewLayoutType[carbon.TimeMilli](c)
-		user.TimeMicro = carbon.NewLayoutType[carbon.TimeMicro](c)
-		user.TimeNano = carbon.NewLayoutType[carbon.TimeNano](c)
+		user.Time = NewLayoutType[Time](c)
+		user.TimeMilli = NewLayoutType[TimeMilli](c)
+		user.TimeMicro = NewLayoutType[TimeMicro](c)
+		user.TimeNano = NewLayoutType[TimeNano](c)
 
-		user.DateTime = carbon.NewLayoutType[carbon.DateTime](c)
-		user.DateTimeMilli = carbon.NewLayoutType[carbon.DateTimeMilli](c)
-		user.DateTimeMicro = carbon.NewLayoutType[carbon.DateTimeMicro](c)
-		user.DateTimeNano = carbon.NewLayoutType[carbon.DateTimeNano](c)
+		user.DateTime = NewLayoutType[DateTime](c)
+		user.DateTimeMilli = NewLayoutType[DateTimeMilli](c)
+		user.DateTimeMicro = NewLayoutType[DateTimeMicro](c)
+		user.DateTimeNano = NewLayoutType[DateTimeNano](c)
 
 		data, err := json.Marshal(&user)
 		assert.NoError(t, err)
@@ -182,20 +180,20 @@ func TestLayoutType_MarshalJSON(t *testing.T) {
 
 func TestLayoutType_UnmarshalJSON(t *testing.T) {
 	type User struct {
-		Date      carbon.LayoutType[carbon.Date]      `json:"date"`
-		DateMilli carbon.LayoutType[carbon.DateMilli] `json:"date_milli"`
-		DateMicro carbon.LayoutType[carbon.DateMicro] `json:"date_micro"`
-		DateNano  carbon.LayoutType[carbon.DateNano]  `json:"date_nano"`
+		Date      LayoutType[Date]      `json:"date"`
+		DateMilli LayoutType[DateMilli] `json:"date_milli"`
+		DateMicro LayoutType[DateMicro] `json:"date_micro"`
+		DateNano  LayoutType[DateNano]  `json:"date_nano"`
 
-		Time      carbon.LayoutType[carbon.Time]      `json:"time"`
-		TimeMilli carbon.LayoutType[carbon.TimeMilli] `json:"time_milli"`
-		TimeMicro carbon.LayoutType[carbon.TimeMicro] `json:"time_micro"`
-		TimeNano  carbon.LayoutType[carbon.TimeNano]  `json:"time_nano"`
+		Time      LayoutType[Time]      `json:"time"`
+		TimeMilli LayoutType[TimeMilli] `json:"time_milli"`
+		TimeMicro LayoutType[TimeMicro] `json:"time_micro"`
+		TimeNano  LayoutType[TimeNano]  `json:"time_nano"`
 
-		DateTime      carbon.LayoutType[carbon.DateTime]      `json:"date_time"`
-		DateTimeMilli carbon.LayoutType[carbon.DateTimeMilli] `json:"date_time_milli"`
-		DateTimeMicro carbon.LayoutType[carbon.DateTimeMicro] `json:"date_time_micro"`
-		DateTimeNano  carbon.LayoutType[carbon.DateTimeNano]  `json:"date_time_nano"`
+		DateTime      LayoutType[DateTime]      `json:"date_time"`
+		DateTimeMilli LayoutType[DateTimeMilli] `json:"date_time_milli"`
+		DateTimeMicro LayoutType[DateTimeMicro] `json:"date_time_micro"`
+		DateTimeNano  LayoutType[DateTimeNano]  `json:"date_time_nano"`
 	}
 
 	t.Run("empty value", func(t *testing.T) {
@@ -288,42 +286,42 @@ func TestLayoutType_UnmarshalJSON(t *testing.T) {
 }
 
 func TestLayoutType_GormDataType(t *testing.T) {
-	c := carbon.Now()
+	c := Now()
 	dataType := "time"
 
-	assert.Equal(t, dataType, carbon.NewLayoutType[carbon.Date](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewLayoutType[carbon.DateMilli](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewLayoutType[carbon.DateMicro](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewLayoutType[carbon.DateNano](c).GormDataType())
+	assert.Equal(t, dataType, NewLayoutType[Date](c).GormDataType())
+	assert.Equal(t, dataType, NewLayoutType[DateMilli](c).GormDataType())
+	assert.Equal(t, dataType, NewLayoutType[DateMicro](c).GormDataType())
+	assert.Equal(t, dataType, NewLayoutType[DateNano](c).GormDataType())
 
-	assert.Equal(t, dataType, carbon.NewLayoutType[carbon.Time](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewLayoutType[carbon.TimeMilli](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewLayoutType[carbon.TimeMicro](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewLayoutType[carbon.TimeNano](c).GormDataType())
+	assert.Equal(t, dataType, NewLayoutType[Time](c).GormDataType())
+	assert.Equal(t, dataType, NewLayoutType[TimeMilli](c).GormDataType())
+	assert.Equal(t, dataType, NewLayoutType[TimeMicro](c).GormDataType())
+	assert.Equal(t, dataType, NewLayoutType[TimeNano](c).GormDataType())
 
-	assert.Equal(t, dataType, carbon.NewLayoutType[carbon.DateTime](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewLayoutType[carbon.DateTimeMilli](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewLayoutType[carbon.DateTimeMicro](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewLayoutType[carbon.DateTimeNano](c).GormDataType())
+	assert.Equal(t, dataType, NewLayoutType[DateTime](c).GormDataType())
+	assert.Equal(t, dataType, NewLayoutType[DateTimeMilli](c).GormDataType())
+	assert.Equal(t, dataType, NewLayoutType[DateTimeMicro](c).GormDataType())
+	assert.Equal(t, dataType, NewLayoutType[DateTimeNano](c).GormDataType())
 }
 
 func TestFormatType_Scan(t *testing.T) {
-	c := carbon.NewFormatType[carbon.DateTime](carbon.Now())
+	c := NewFormatType[DateTime](Now())
 
 	t.Run("[]byte type", func(t *testing.T) {
-		assert.Nil(t, c.Scan([]byte(carbon.Now().ToDateString())))
+		assert.Nil(t, c.Scan([]byte(Now().ToDateString())))
 	})
 
 	t.Run("string type", func(t *testing.T) {
-		assert.Nil(t, c.Scan(carbon.Now().ToDateString()))
+		assert.Nil(t, c.Scan(Now().ToDateString()))
 	})
 
 	t.Run("int64 type", func(t *testing.T) {
-		assert.Nil(t, c.Scan(carbon.Now().Timestamp()))
+		assert.Nil(t, c.Scan(Now().Timestamp()))
 	})
 
 	t.Run("time type", func(t *testing.T) {
-		assert.Nil(t, c.Scan(carbon.Now().StdTime()))
+		assert.Nil(t, c.Scan(Now().StdTime()))
 	})
 
 	t.Run("unsupported type", func(t *testing.T) {
@@ -333,28 +331,28 @@ func TestFormatType_Scan(t *testing.T) {
 
 func TestFormatType_Value(t *testing.T) {
 	t.Run("nil time", func(t *testing.T) {
-		v, err := carbon.NewFormatType[carbon.DateTime](nil).Value()
+		v, err := NewFormatType[DateTime](nil).Value()
 		assert.Nil(t, v)
 		assert.Nil(t, err)
 	})
 
 	t.Run("zero time", func(t *testing.T) {
-		c := carbon.NewCarbon()
-		v, err := carbon.NewFormatType[carbon.DateTime](c).Value()
+		c := NewCarbon()
+		v, err := NewFormatType[DateTime](c).Value()
 		assert.Nil(t, v)
 		assert.Nil(t, err)
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
-		c := carbon.Parse("xxx")
-		v, err := carbon.NewFormatType[carbon.DateTime](c).Value()
+		c := Parse("xxx")
+		v, err := NewFormatType[DateTime](c).Value()
 		assert.Nil(t, v)
 		assert.Error(t, err)
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		c := carbon.Parse("2020-08-05")
-		v, err := carbon.NewFormatType[carbon.DateTime](c).Value()
+		c := Parse("2020-08-05")
+		v, err := NewFormatType[DateTime](c).Value()
 		assert.Equal(t, c.StdTime(), v)
 		assert.Nil(t, err)
 	})
@@ -362,39 +360,39 @@ func TestFormatType_Value(t *testing.T) {
 
 func TestFormatType_MarshalJSON(t *testing.T) {
 	type User struct {
-		Date      carbon.FormatType[carbon.Date]      `json:"date"`
-		DateMilli carbon.FormatType[carbon.DateMilli] `json:"date_milli"`
-		DateMicro carbon.FormatType[carbon.DateMicro] `json:"date_micro"`
-		DateNano  carbon.FormatType[carbon.DateNano]  `json:"date_nano"`
+		Date      FormatType[Date]      `json:"date"`
+		DateMilli FormatType[DateMilli] `json:"date_milli"`
+		DateMicro FormatType[DateMicro] `json:"date_micro"`
+		DateNano  FormatType[DateNano]  `json:"date_nano"`
 
-		Time      carbon.FormatType[carbon.Time]      `json:"time"`
-		TimeMilli carbon.FormatType[carbon.TimeMilli] `json:"time_milli"`
-		TimeMicro carbon.FormatType[carbon.TimeMicro] `json:"time_micro"`
-		TimeNano  carbon.FormatType[carbon.TimeNano]  `json:"time_nano"`
+		Time      FormatType[Time]      `json:"time"`
+		TimeMilli FormatType[TimeMilli] `json:"time_milli"`
+		TimeMicro FormatType[TimeMicro] `json:"time_micro"`
+		TimeNano  FormatType[TimeNano]  `json:"time_nano"`
 
-		DateTime      carbon.FormatType[carbon.DateTime]      `json:"date_time"`
-		DateTimeMilli carbon.FormatType[carbon.DateTimeMilli] `json:"date_time_milli"`
-		DateTimeMicro carbon.FormatType[carbon.DateTimeMicro] `json:"date_time_micro"`
-		DateTimeNano  carbon.FormatType[carbon.DateTimeNano]  `json:"date_time_nano"`
+		DateTime      FormatType[DateTime]      `json:"date_time"`
+		DateTimeMilli FormatType[DateTimeMilli] `json:"date_time_milli"`
+		DateTimeMicro FormatType[DateTimeMicro] `json:"date_time_micro"`
+		DateTimeNano  FormatType[DateTimeNano]  `json:"date_time_nano"`
 	}
 
 	t.Run("nil time", func(t *testing.T) {
 		var user User
 
-		user.Date = carbon.NewFormatType[carbon.Date](nil)
-		user.DateMilli = carbon.NewFormatType[carbon.DateMilli](nil)
-		user.DateMicro = carbon.NewFormatType[carbon.DateMicro](nil)
-		user.DateNano = carbon.NewFormatType[carbon.DateNano](nil)
+		user.Date = NewFormatType[Date](nil)
+		user.DateMilli = NewFormatType[DateMilli](nil)
+		user.DateMicro = NewFormatType[DateMicro](nil)
+		user.DateNano = NewFormatType[DateNano](nil)
 
-		user.Time = carbon.NewFormatType[carbon.Time](nil)
-		user.TimeMilli = carbon.NewFormatType[carbon.TimeMilli](nil)
-		user.TimeMicro = carbon.NewFormatType[carbon.TimeMicro](nil)
-		user.TimeNano = carbon.NewFormatType[carbon.TimeNano](nil)
+		user.Time = NewFormatType[Time](nil)
+		user.TimeMilli = NewFormatType[TimeMilli](nil)
+		user.TimeMicro = NewFormatType[TimeMicro](nil)
+		user.TimeNano = NewFormatType[TimeNano](nil)
 
-		user.DateTime = carbon.NewFormatType[carbon.DateTime](nil)
-		user.DateTimeMilli = carbon.NewFormatType[carbon.DateTimeMilli](nil)
-		user.DateTimeMicro = carbon.NewFormatType[carbon.DateTimeMicro](nil)
-		user.DateTimeNano = carbon.NewFormatType[carbon.DateTimeNano](nil)
+		user.DateTime = NewFormatType[DateTime](nil)
+		user.DateTimeMilli = NewFormatType[DateTimeMilli](nil)
+		user.DateTimeMicro = NewFormatType[DateTimeMicro](nil)
+		user.DateTimeNano = NewFormatType[DateTimeNano](nil)
 
 		data, err := json.Marshal(&user)
 		assert.NoError(t, err)
@@ -404,22 +402,22 @@ func TestFormatType_MarshalJSON(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		var user User
 
-		c := carbon.NewCarbon()
+		c := NewCarbon()
 
-		user.Date = carbon.NewFormatType[carbon.Date](c)
-		user.DateMilli = carbon.NewFormatType[carbon.DateMilli](c)
-		user.DateMicro = carbon.NewFormatType[carbon.DateMicro](c)
-		user.DateNano = carbon.NewFormatType[carbon.DateNano](c)
+		user.Date = NewFormatType[Date](c)
+		user.DateMilli = NewFormatType[DateMilli](c)
+		user.DateMicro = NewFormatType[DateMicro](c)
+		user.DateNano = NewFormatType[DateNano](c)
 
-		user.Time = carbon.NewFormatType[carbon.Time](c)
-		user.TimeMilli = carbon.NewFormatType[carbon.TimeMilli](c)
-		user.TimeMicro = carbon.NewFormatType[carbon.TimeMicro](c)
-		user.TimeNano = carbon.NewFormatType[carbon.TimeNano](c)
+		user.Time = NewFormatType[Time](c)
+		user.TimeMilli = NewFormatType[TimeMilli](c)
+		user.TimeMicro = NewFormatType[TimeMicro](c)
+		user.TimeNano = NewFormatType[TimeNano](c)
 
-		user.DateTime = carbon.NewFormatType[carbon.DateTime](c)
-		user.DateTimeMilli = carbon.NewFormatType[carbon.DateTimeMilli](c)
-		user.DateTimeMicro = carbon.NewFormatType[carbon.DateTimeMicro](c)
-		user.DateTimeNano = carbon.NewFormatType[carbon.DateTimeNano](c)
+		user.DateTime = NewFormatType[DateTime](c)
+		user.DateTimeMilli = NewFormatType[DateTimeMilli](c)
+		user.DateTimeMicro = NewFormatType[DateTimeMicro](c)
+		user.DateTimeNano = NewFormatType[DateTimeNano](c)
 
 		data, err := json.Marshal(&user)
 		assert.NoError(t, err)
@@ -429,22 +427,22 @@ func TestFormatType_MarshalJSON(t *testing.T) {
 	t.Run("invalid time", func(t *testing.T) {
 		var user User
 
-		c := carbon.Parse("xxx")
+		c := Parse("xxx")
 
-		user.Date = carbon.NewFormatType[carbon.Date](c)
-		user.DateMilli = carbon.NewFormatType[carbon.DateMilli](c)
-		user.DateMicro = carbon.NewFormatType[carbon.DateMicro](c)
-		user.DateNano = carbon.NewFormatType[carbon.DateNano](c)
+		user.Date = NewFormatType[Date](c)
+		user.DateMilli = NewFormatType[DateMilli](c)
+		user.DateMicro = NewFormatType[DateMicro](c)
+		user.DateNano = NewFormatType[DateNano](c)
 
-		user.Time = carbon.NewFormatType[carbon.Time](c)
-		user.TimeMilli = carbon.NewFormatType[carbon.TimeMilli](c)
-		user.TimeMicro = carbon.NewFormatType[carbon.TimeMicro](c)
-		user.TimeNano = carbon.NewFormatType[carbon.TimeNano](c)
+		user.Time = NewFormatType[Time](c)
+		user.TimeMilli = NewFormatType[TimeMilli](c)
+		user.TimeMicro = NewFormatType[TimeMicro](c)
+		user.TimeNano = NewFormatType[TimeNano](c)
 
-		user.DateTime = carbon.NewFormatType[carbon.DateTime](c)
-		user.DateTimeMilli = carbon.NewFormatType[carbon.DateTimeMilli](c)
-		user.DateTimeMicro = carbon.NewFormatType[carbon.DateTimeMicro](c)
-		user.DateTimeNano = carbon.NewFormatType[carbon.DateTimeNano](c)
+		user.DateTime = NewFormatType[DateTime](c)
+		user.DateTimeMilli = NewFormatType[DateTimeMilli](c)
+		user.DateTimeMicro = NewFormatType[DateTimeMicro](c)
+		user.DateTimeNano = NewFormatType[DateTimeNano](c)
 
 		data, err := json.Marshal(&user)
 		assert.Error(t, err)
@@ -454,22 +452,22 @@ func TestFormatType_MarshalJSON(t *testing.T) {
 	t.Run("valid time", func(t *testing.T) {
 		var user User
 
-		c := carbon.Parse("2020-08-05 13:14:15.999999999")
+		c := Parse("2020-08-05 13:14:15.999999999")
 
-		user.Date = carbon.NewFormatType[carbon.Date](c)
-		user.DateMilli = carbon.NewFormatType[carbon.DateMilli](c)
-		user.DateMicro = carbon.NewFormatType[carbon.DateMicro](c)
-		user.DateNano = carbon.NewFormatType[carbon.DateNano](c)
+		user.Date = NewFormatType[Date](c)
+		user.DateMilli = NewFormatType[DateMilli](c)
+		user.DateMicro = NewFormatType[DateMicro](c)
+		user.DateNano = NewFormatType[DateNano](c)
 
-		user.Time = carbon.NewFormatType[carbon.Time](c)
-		user.TimeMilli = carbon.NewFormatType[carbon.TimeMilli](c)
-		user.TimeMicro = carbon.NewFormatType[carbon.TimeMicro](c)
-		user.TimeNano = carbon.NewFormatType[carbon.TimeNano](c)
+		user.Time = NewFormatType[Time](c)
+		user.TimeMilli = NewFormatType[TimeMilli](c)
+		user.TimeMicro = NewFormatType[TimeMicro](c)
+		user.TimeNano = NewFormatType[TimeNano](c)
 
-		user.DateTime = carbon.NewFormatType[carbon.DateTime](c)
-		user.DateTimeMilli = carbon.NewFormatType[carbon.DateTimeMilli](c)
-		user.DateTimeMicro = carbon.NewFormatType[carbon.DateTimeMicro](c)
-		user.DateTimeNano = carbon.NewFormatType[carbon.DateTimeNano](c)
+		user.DateTime = NewFormatType[DateTime](c)
+		user.DateTimeMilli = NewFormatType[DateTimeMilli](c)
+		user.DateTimeMicro = NewFormatType[DateTimeMicro](c)
+		user.DateTimeNano = NewFormatType[DateTimeNano](c)
 
 		data, err := json.Marshal(&user)
 		assert.NoError(t, err)
@@ -479,20 +477,20 @@ func TestFormatType_MarshalJSON(t *testing.T) {
 
 func TestFormatType_UnmarshalJSON(t *testing.T) {
 	type User struct {
-		Date      carbon.FormatType[carbon.Date]      `json:"date"`
-		DateMilli carbon.FormatType[carbon.DateMilli] `json:"date_milli"`
-		DateMicro carbon.FormatType[carbon.DateMicro] `json:"date_micro"`
-		DateNano  carbon.FormatType[carbon.DateNano]  `json:"date_nano"`
+		Date      FormatType[Date]      `json:"date"`
+		DateMilli FormatType[DateMilli] `json:"date_milli"`
+		DateMicro FormatType[DateMicro] `json:"date_micro"`
+		DateNano  FormatType[DateNano]  `json:"date_nano"`
 
-		Time      carbon.FormatType[carbon.Time]      `json:"time"`
-		TimeMilli carbon.FormatType[carbon.TimeMilli] `json:"time_milli"`
-		TimeMicro carbon.FormatType[carbon.TimeMicro] `json:"time_micro"`
-		TimeNano  carbon.FormatType[carbon.TimeNano]  `json:"time_nano"`
+		Time      FormatType[Time]      `json:"time"`
+		TimeMilli FormatType[TimeMilli] `json:"time_milli"`
+		TimeMicro FormatType[TimeMicro] `json:"time_micro"`
+		TimeNano  FormatType[TimeNano]  `json:"time_nano"`
 
-		DateTime      carbon.FormatType[carbon.DateTime]      `json:"date_time"`
-		DateTimeMilli carbon.FormatType[carbon.DateTimeMilli] `json:"date_time_milli"`
-		DateTimeMicro carbon.FormatType[carbon.DateTimeMicro] `json:"date_time_micro"`
-		DateTimeNano  carbon.FormatType[carbon.DateTimeNano]  `json:"date_time_nano"`
+		DateTime      FormatType[DateTime]      `json:"date_time"`
+		DateTimeMilli FormatType[DateTimeMilli] `json:"date_time_milli"`
+		DateTimeMicro FormatType[DateTimeMicro] `json:"date_time_micro"`
+		DateTimeNano  FormatType[DateTimeNano]  `json:"date_time_nano"`
 	}
 
 	t.Run("empty value", func(t *testing.T) {
@@ -585,182 +583,182 @@ func TestFormatType_UnmarshalJSON(t *testing.T) {
 }
 
 func TestFormatType_GormDataType(t *testing.T) {
-	c := carbon.Now()
+	c := Now()
 	dataType := "time"
 
-	assert.Equal(t, dataType, carbon.NewFormatType[carbon.Date](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewFormatType[carbon.DateMilli](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewFormatType[carbon.DateMicro](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewFormatType[carbon.DateNano](c).GormDataType())
+	assert.Equal(t, dataType, NewFormatType[Date](c).GormDataType())
+	assert.Equal(t, dataType, NewFormatType[DateMilli](c).GormDataType())
+	assert.Equal(t, dataType, NewFormatType[DateMicro](c).GormDataType())
+	assert.Equal(t, dataType, NewFormatType[DateNano](c).GormDataType())
 
-	assert.Equal(t, dataType, carbon.NewFormatType[carbon.Time](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewFormatType[carbon.TimeMilli](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewFormatType[carbon.TimeMicro](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewFormatType[carbon.TimeNano](c).GormDataType())
+	assert.Equal(t, dataType, NewFormatType[Time](c).GormDataType())
+	assert.Equal(t, dataType, NewFormatType[TimeMilli](c).GormDataType())
+	assert.Equal(t, dataType, NewFormatType[TimeMicro](c).GormDataType())
+	assert.Equal(t, dataType, NewFormatType[TimeNano](c).GormDataType())
 
-	assert.Equal(t, dataType, carbon.NewFormatType[carbon.DateTime](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewFormatType[carbon.DateTimeMilli](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewFormatType[carbon.DateTimeMicro](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewFormatType[carbon.DateTimeNano](c).GormDataType())
+	assert.Equal(t, dataType, NewFormatType[DateTime](c).GormDataType())
+	assert.Equal(t, dataType, NewFormatType[DateTimeMilli](c).GormDataType())
+	assert.Equal(t, dataType, NewFormatType[DateTimeMicro](c).GormDataType())
+	assert.Equal(t, dataType, NewFormatType[DateTimeNano](c).GormDataType())
 }
 
 func TestTimestampType_Scan(t *testing.T) {
 	t.Run("[]byte type", func(t *testing.T) {
-		ts1 := carbon.NewTimestampType[carbon.Timestamp](carbon.Now())
+		ts1 := NewTimestampType[Timestamp](Now())
 		assert.Error(t, ts1.Scan([]byte("xxx")))
 		assert.Nil(t, ts1.Scan([]byte(strconv.Itoa(int(ts1.Timestamp())))))
 
-		ts2 := carbon.NewTimestampType[carbon.TimestampMilli](carbon.Now())
+		ts2 := NewTimestampType[TimestampMilli](Now())
 		assert.Error(t, ts2.Scan([]byte("xxx")))
 		assert.Nil(t, ts2.Scan([]byte(strconv.Itoa(int(ts2.Timestamp())))))
 
-		ts3 := carbon.NewTimestampType[carbon.TimestampMicro](carbon.Now())
+		ts3 := NewTimestampType[TimestampMicro](Now())
 		assert.Error(t, ts3.Scan([]byte("xxx")))
 		assert.Nil(t, ts3.Scan([]byte(strconv.Itoa(int(ts3.Timestamp())))))
 
-		ts4 := carbon.NewTimestampType[carbon.TimestampNano](carbon.Now())
+		ts4 := NewTimestampType[TimestampNano](Now())
 		assert.Error(t, ts4.Scan([]byte("xxx")))
 		assert.Nil(t, ts4.Scan([]byte(strconv.Itoa(int(ts4.Timestamp())))))
 	})
 
 	t.Run("string type", func(t *testing.T) {
-		ts1 := carbon.NewTimestampType[carbon.Timestamp](carbon.Now())
+		ts1 := NewTimestampType[Timestamp](Now())
 		assert.Error(t, ts1.Scan("xxx"))
 		assert.Nil(t, ts1.Scan(strconv.Itoa(int(ts1.Timestamp()))))
 
-		ts2 := carbon.NewTimestampType[carbon.TimestampMilli](carbon.Now())
+		ts2 := NewTimestampType[TimestampMilli](Now())
 		assert.Error(t, ts2.Scan("xxx"))
 		assert.Nil(t, ts2.Scan(strconv.Itoa(int(ts2.Timestamp()))))
 
-		ts3 := carbon.NewTimestampType[carbon.TimestampMicro](carbon.Now())
+		ts3 := NewTimestampType[TimestampMicro](Now())
 		assert.Error(t, ts3.Scan("xxx"))
 		assert.Nil(t, ts3.Scan(strconv.Itoa(int(ts3.Timestamp()))))
 
-		ts4 := carbon.NewTimestampType[carbon.TimestampNano](carbon.Now())
+		ts4 := NewTimestampType[TimestampNano](Now())
 		assert.Error(t, ts4.Scan("xxx"))
 		assert.Nil(t, ts4.Scan(strconv.Itoa(int(ts4.Timestamp()))))
 	})
 
 	t.Run("int64 type", func(t *testing.T) {
-		ts1 := carbon.NewTimestampType[carbon.Timestamp](carbon.Now())
-		assert.Nil(t, ts1.Scan(carbon.Now().Timestamp()))
+		ts1 := NewTimestampType[Timestamp](Now())
+		assert.Nil(t, ts1.Scan(Now().Timestamp()))
 
-		ts2 := carbon.NewTimestampType[carbon.TimestampMilli](carbon.Now())
-		assert.Nil(t, ts2.Scan(carbon.Now().TimestampMilli()))
+		ts2 := NewTimestampType[TimestampMilli](Now())
+		assert.Nil(t, ts2.Scan(Now().TimestampMilli()))
 
-		ts3 := carbon.NewTimestampType[carbon.TimestampMicro](carbon.Now())
-		assert.Nil(t, ts3.Scan(carbon.Now().TimestampMicro()))
+		ts3 := NewTimestampType[TimestampMicro](Now())
+		assert.Nil(t, ts3.Scan(Now().TimestampMicro()))
 
-		ts4 := carbon.NewTimestampType[carbon.TimestampNano](carbon.Now())
-		assert.Nil(t, ts4.Scan(carbon.Now().TimestampNano()))
+		ts4 := NewTimestampType[TimestampNano](Now())
+		assert.Nil(t, ts4.Scan(Now().TimestampNano()))
 	})
 
 	t.Run("time type", func(t *testing.T) {
-		ts1 := carbon.NewTimestampType[carbon.Timestamp](carbon.Now())
-		assert.Nil(t, ts1.Scan(carbon.Now().StdTime()))
+		ts1 := NewTimestampType[Timestamp](Now())
+		assert.Nil(t, ts1.Scan(Now().StdTime()))
 
-		ts2 := carbon.NewTimestampType[carbon.TimestampMilli](carbon.Now())
-		assert.Nil(t, ts2.Scan(carbon.Now().StdTime()))
+		ts2 := NewTimestampType[TimestampMilli](Now())
+		assert.Nil(t, ts2.Scan(Now().StdTime()))
 
-		ts3 := carbon.NewTimestampType[carbon.TimestampMicro](carbon.Now())
-		assert.Nil(t, ts3.Scan(carbon.Now().StdTime()))
+		ts3 := NewTimestampType[TimestampMicro](Now())
+		assert.Nil(t, ts3.Scan(Now().StdTime()))
 
-		ts4 := carbon.NewTimestampType[carbon.TimestampNano](carbon.Now())
-		assert.Nil(t, ts4.Scan(carbon.Now().StdTime()))
+		ts4 := NewTimestampType[TimestampNano](Now())
+		assert.Nil(t, ts4.Scan(Now().StdTime()))
 	})
 
 	t.Run("unsupported type", func(t *testing.T) {
-		c := carbon.Now()
+		c := Now()
 
-		ts1 := carbon.NewTimestampType[carbon.Timestamp](c)
+		ts1 := NewTimestampType[Timestamp](c)
 		assert.Error(t, ts1.Scan(nil))
 
-		ts2 := carbon.NewTimestampType[carbon.TimestampMilli](c)
+		ts2 := NewTimestampType[TimestampMilli](c)
 		assert.Error(t, ts2.Scan(nil))
 
-		ts3 := carbon.NewTimestampType[carbon.TimestampMicro](c)
+		ts3 := NewTimestampType[TimestampMicro](c)
 		assert.Error(t, ts3.Scan(nil))
 
-		ts4 := carbon.NewTimestampType[carbon.TimestampNano](c)
+		ts4 := NewTimestampType[TimestampNano](c)
 		assert.Error(t, ts4.Scan(nil))
 	})
 }
 
 func TestTimestampType_Value(t *testing.T) {
 	t.Run("nil time", func(t *testing.T) {
-		v1, e1 := carbon.NewTimestampType[carbon.Timestamp](nil).Value()
+		v1, e1 := NewTimestampType[Timestamp](nil).Value()
 		assert.Nil(t, v1)
 		assert.Nil(t, e1)
 
-		v2, e2 := carbon.NewTimestampType[carbon.TimestampMilli](nil).Value()
+		v2, e2 := NewTimestampType[TimestampMilli](nil).Value()
 		assert.Nil(t, v2)
 		assert.Nil(t, e2)
 
-		v3, e3 := carbon.NewTimestampType[carbon.TimestampMicro](nil).Value()
+		v3, e3 := NewTimestampType[TimestampMicro](nil).Value()
 		assert.Nil(t, v3)
 		assert.Nil(t, e3)
 
-		v4, e4 := carbon.NewTimestampType[carbon.TimestampNano](nil).Value()
+		v4, e4 := NewTimestampType[TimestampNano](nil).Value()
 		assert.Nil(t, v4)
 		assert.Nil(t, e4)
 	})
 
 	t.Run("zero time", func(t *testing.T) {
-		c := carbon.NewCarbon()
+		c := NewCarbon()
 
-		v1, e1 := carbon.NewTimestampType[carbon.Timestamp](c).Value()
+		v1, e1 := NewTimestampType[Timestamp](c).Value()
 		assert.Nil(t, v1)
 		assert.Nil(t, e1)
 
-		v2, e2 := carbon.NewTimestampType[carbon.TimestampMilli](c).Value()
+		v2, e2 := NewTimestampType[TimestampMilli](c).Value()
 		assert.Nil(t, v2)
 		assert.Nil(t, e2)
 
-		v3, e3 := carbon.NewTimestampType[carbon.TimestampMicro](c).Value()
+		v3, e3 := NewTimestampType[TimestampMicro](c).Value()
 		assert.Nil(t, v3)
 		assert.Nil(t, e3)
 
-		v4, e4 := carbon.NewTimestampType[carbon.TimestampNano](c).Value()
+		v4, e4 := NewTimestampType[TimestampNano](c).Value()
 		assert.Nil(t, v4)
 		assert.Nil(t, e4)
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
-		c := carbon.Parse("xxx")
+		c := Parse("xxx")
 
-		v1, e1 := carbon.NewTimestampType[carbon.Timestamp](c).Value()
+		v1, e1 := NewTimestampType[Timestamp](c).Value()
 		assert.Nil(t, v1)
 		assert.Error(t, e1)
 
-		v2, e2 := carbon.NewTimestampType[carbon.TimestampMilli](c).Value()
+		v2, e2 := NewTimestampType[TimestampMilli](c).Value()
 		assert.Nil(t, v2)
 		assert.Error(t, e2)
 
-		v3, e3 := carbon.NewTimestampType[carbon.TimestampMicro](c).Value()
+		v3, e3 := NewTimestampType[TimestampMicro](c).Value()
 		assert.Nil(t, v3)
 		assert.Error(t, e3)
 
-		v4, e4 := carbon.NewTimestampType[carbon.TimestampNano](c).Value()
+		v4, e4 := NewTimestampType[TimestampNano](c).Value()
 		assert.Nil(t, v4)
 		assert.Error(t, e4)
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		c := carbon.Parse("2020-08-05")
+		c := Parse("2020-08-05")
 
-		v1, e1 := carbon.NewTimestampType[carbon.Timestamp](c).Value()
+		v1, e1 := NewTimestampType[Timestamp](c).Value()
 		assert.Equal(t, c.Timestamp(), v1)
 		assert.Nil(t, e1)
 
-		v2, e2 := carbon.NewTimestampType[carbon.TimestampMilli](c).Value()
+		v2, e2 := NewTimestampType[TimestampMilli](c).Value()
 		assert.Equal(t, c.TimestampMilli(), v2)
 		assert.Nil(t, e2)
 
-		v3, e3 := carbon.NewTimestampType[carbon.TimestampMicro](c).Value()
+		v3, e3 := NewTimestampType[TimestampMicro](c).Value()
 		assert.Equal(t, c.TimestampMicro(), v3)
 		assert.Nil(t, e3)
 
-		v4, e4 := carbon.NewTimestampType[carbon.TimestampNano](c).Value()
+		v4, e4 := NewTimestampType[TimestampNano](c).Value()
 		assert.Equal(t, c.TimestampNano(), v4)
 		assert.Nil(t, e4)
 	})
@@ -768,19 +766,19 @@ func TestTimestampType_Value(t *testing.T) {
 
 func TestTimestamp_MarshalJSON(t *testing.T) {
 	type User struct {
-		Timestamp      carbon.TimestampType[carbon.Timestamp]      `json:"timestamp"`
-		TimestampMilli carbon.TimestampType[carbon.TimestampMilli] `json:"timestamp_milli"`
-		TimestampMicro carbon.TimestampType[carbon.TimestampMicro] `json:"timestamp_micro"`
-		TimestampNano  carbon.TimestampType[carbon.TimestampNano]  `json:"timestamp_nano"`
+		Timestamp      TimestampType[Timestamp]      `json:"timestamp"`
+		TimestampMilli TimestampType[TimestampMilli] `json:"timestamp_milli"`
+		TimestampMicro TimestampType[TimestampMicro] `json:"timestamp_micro"`
+		TimestampNano  TimestampType[TimestampNano]  `json:"timestamp_nano"`
 	}
 
 	t.Run("nil time", func(t *testing.T) {
 		var user User
 
-		user.Timestamp = carbon.NewTimestampType[carbon.Timestamp](nil)
-		user.TimestampMilli = carbon.NewTimestampType[carbon.TimestampMilli](nil)
-		user.TimestampMicro = carbon.NewTimestampType[carbon.TimestampMicro](nil)
-		user.TimestampNano = carbon.NewTimestampType[carbon.TimestampNano](nil)
+		user.Timestamp = NewTimestampType[Timestamp](nil)
+		user.TimestampMilli = NewTimestampType[TimestampMilli](nil)
+		user.TimestampMicro = NewTimestampType[TimestampMicro](nil)
+		user.TimestampNano = NewTimestampType[TimestampNano](nil)
 
 		data, err := json.Marshal(&user)
 		assert.NoError(t, err)
@@ -790,12 +788,12 @@ func TestTimestamp_MarshalJSON(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		var user User
 
-		c := carbon.NewCarbon()
+		c := NewCarbon()
 
-		user.Timestamp = carbon.NewTimestampType[carbon.Timestamp](c)
-		user.TimestampMilli = carbon.NewTimestampType[carbon.TimestampMilli](c)
-		user.TimestampMicro = carbon.NewTimestampType[carbon.TimestampMicro](c)
-		user.TimestampNano = carbon.NewTimestampType[carbon.TimestampNano](c)
+		user.Timestamp = NewTimestampType[Timestamp](c)
+		user.TimestampMilli = NewTimestampType[TimestampMilli](c)
+		user.TimestampMicro = NewTimestampType[TimestampMicro](c)
+		user.TimestampNano = NewTimestampType[TimestampNano](c)
 
 		data, err := json.Marshal(&user)
 		assert.NoError(t, err)
@@ -805,12 +803,12 @@ func TestTimestamp_MarshalJSON(t *testing.T) {
 	t.Run("invalid time", func(t *testing.T) {
 		var user User
 
-		c := carbon.Parse("xxx")
+		c := Parse("xxx")
 
-		user.Timestamp = carbon.NewTimestampType[carbon.Timestamp](c)
-		user.TimestampMilli = carbon.NewTimestampType[carbon.TimestampMilli](c)
-		user.TimestampMicro = carbon.NewTimestampType[carbon.TimestampMicro](c)
-		user.TimestampNano = carbon.NewTimestampType[carbon.TimestampNano](c)
+		user.Timestamp = NewTimestampType[Timestamp](c)
+		user.TimestampMilli = NewTimestampType[TimestampMilli](c)
+		user.TimestampMicro = NewTimestampType[TimestampMicro](c)
+		user.TimestampNano = NewTimestampType[TimestampNano](c)
 
 		data, err := json.Marshal(&user)
 		assert.Error(t, err)
@@ -820,12 +818,12 @@ func TestTimestamp_MarshalJSON(t *testing.T) {
 	t.Run("valid time", func(t *testing.T) {
 		var user User
 
-		now := carbon.Parse("2020-08-05 13:14:15")
+		now := Parse("2020-08-05 13:14:15")
 
-		user.Timestamp = carbon.NewTimestampType[carbon.Timestamp](now)
-		user.TimestampMilli = carbon.NewTimestampType[carbon.TimestampMilli](now.AddDay())
-		user.TimestampMicro = carbon.NewTimestampType[carbon.TimestampMicro](now.SubDay())
-		user.TimestampNano = carbon.NewTimestampType[carbon.TimestampNano](now.EndOfDay())
+		user.Timestamp = NewTimestampType[Timestamp](now)
+		user.TimestampMilli = NewTimestampType[TimestampMilli](now.AddDay())
+		user.TimestampMicro = NewTimestampType[TimestampMicro](now.SubDay())
+		user.TimestampNano = NewTimestampType[TimestampNano](now.EndOfDay())
 
 		data, err := json.Marshal(&user)
 		assert.NoError(t, err)
@@ -835,10 +833,10 @@ func TestTimestamp_MarshalJSON(t *testing.T) {
 
 func TestTimestamp_UnmarshalJSON(t *testing.T) {
 	type User struct {
-		Timestamp      carbon.TimestampType[carbon.Timestamp]      `json:"timestamp"`
-		TimestampMilli carbon.TimestampType[carbon.TimestampMilli] `json:"timestamp_milli"`
-		TimestampMicro carbon.TimestampType[carbon.TimestampMicro] `json:"timestamp_micro"`
-		TimestampNano  carbon.TimestampType[carbon.TimestampNano]  `json:"timestamp_nano"`
+		Timestamp      TimestampType[Timestamp]      `json:"timestamp"`
+		TimestampMilli TimestampType[TimestampMilli] `json:"timestamp_milli"`
+		TimestampMicro TimestampType[TimestampMicro] `json:"timestamp_micro"`
+		TimestampNano  TimestampType[TimestampNano]  `json:"timestamp_nano"`
 	}
 
 	t.Run("empty value", func(t *testing.T) {
@@ -928,30 +926,30 @@ func TestTimestamp_UnmarshalJSON(t *testing.T) {
 }
 
 func TestTimestamp_GormDataType(t *testing.T) {
-	c := carbon.Now()
+	c := Now()
 	dataType := "time"
 
-	assert.Equal(t, dataType, carbon.NewTimestampType[carbon.Timestamp](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewTimestampType[carbon.TimestampMilli](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewTimestampType[carbon.TimestampMicro](c).GormDataType())
-	assert.Equal(t, dataType, carbon.NewTimestampType[carbon.TimestampNano](c).GormDataType())
+	assert.Equal(t, dataType, NewTimestampType[Timestamp](c).GormDataType())
+	assert.Equal(t, dataType, NewTimestampType[TimestampMilli](c).GormDataType())
+	assert.Equal(t, dataType, NewTimestampType[TimestampMicro](c).GormDataType())
+	assert.Equal(t, dataType, NewTimestampType[TimestampNano](c).GormDataType())
 }
 
-type RFC3339Layout string
+type RFC3339Type string
 
-func (t RFC3339Layout) SetLayout() string {
-	return carbon.RFC3339Layout
+func (t RFC3339Type) SetLayout() string {
+	return RFC3339Layout
 }
 
 func TestLayoutType_Customer(t *testing.T) {
 	type User struct {
-		Customer carbon.LayoutType[RFC3339Layout] `json:"customer"`
+		Customer LayoutType[RFC3339Type] `json:"customer"`
 	}
 
 	var user User
 
-	c := carbon.Parse("2020-08-05 13:14:15")
-	user.Customer = carbon.NewLayoutType[RFC3339Layout](c)
+	c := Parse("2020-08-05 13:14:15")
+	user.Customer = NewLayoutType[RFC3339Type](c)
 
 	data, err := json.Marshal(&user)
 	assert.NoError(t, err)
@@ -964,21 +962,21 @@ func TestLayoutType_Customer(t *testing.T) {
 	assert.Equal(t, "2020-08-05T13:14:15Z", person.Customer.String())
 }
 
-type ISO8601Format string
+type ISO8601Type string
 
-func (t ISO8601Format) SetFormat() string {
-	return carbon.ISO8601Format
+func (t ISO8601Type) SetFormat() string {
+	return ISO8601Format
 }
 
 func TestFormatType_Customer(t *testing.T) {
 	type User struct {
-		Customer carbon.FormatType[ISO8601Format] `json:"customer"`
+		Customer FormatType[ISO8601Type] `json:"customer"`
 	}
 
 	var user User
 
-	c := carbon.Parse("2020-08-05 13:14:15")
-	user.Customer = carbon.NewFormatType[ISO8601Format](c)
+	c := Parse("2020-08-05 13:14:15")
+	user.Customer = NewFormatType[ISO8601Type](c)
 
 	data, err := json.Marshal(&user)
 	assert.NoError(t, err)
