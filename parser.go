@@ -13,7 +13,7 @@ func Parse(value string, timezone ...string) *Carbon {
 		return nil
 	}
 	if len(timezone) > 0 {
-		c.loc, c.Error = getLocationByTimezone(timezone[0])
+		c.loc, c.Error = parseTimezone(timezone[0])
 	}
 	if c.HasError() {
 		return c
@@ -67,7 +67,7 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 		return c
 	}
 	if len(timezone) > 0 {
-		c.loc, c.Error = getLocationByTimezone(timezone[0])
+		c.loc, c.Error = parseTimezone(timezone[0])
 	}
 	if c.HasError() {
 		return c
@@ -122,7 +122,7 @@ func ParseWithLayouts(value string, layouts []string, timezone ...string) *Carbo
 		return nil
 	}
 	if len(timezone) > 0 {
-		c.loc, c.Error = getLocationByTimezone(timezone[0])
+		c.loc, c.Error = parseTimezone(timezone[0])
 	}
 	if c.HasError() {
 		return c
@@ -149,7 +149,7 @@ func ParseWithFormats(value string, formats []string, timezone ...string) *Carbo
 		return nil
 	}
 	if len(timezone) > 0 {
-		c.loc, c.Error = getLocationByTimezone(timezone[0])
+		c.loc, c.Error = parseTimezone(timezone[0])
 	}
 	if c.HasError() {
 		return c
