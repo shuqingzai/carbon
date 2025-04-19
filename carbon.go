@@ -31,7 +31,7 @@ type Carbon struct {
 
 // NewCarbon returns a new Carbon instance.
 // 返回 Carbon 实例
-func NewCarbon(time ...time.Time) *Carbon {
+func NewCarbon(time ...StdTime) *Carbon {
 	c := new(Carbon)
 	c.lang = NewLanguage().SetLocale(DefaultLocale)
 	c.layout = DefaultLayout
