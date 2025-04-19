@@ -103,9 +103,9 @@ func format2layout(format string) string {
 	return buffer.String()
 }
 
-// gets a Location instance by a timezone string.
-// 通过时区获取 Location 实例
-func getLocationByTimezone(timezone string) (*Location, error) {
+// parses a timezone string as a Location instance.
+// 解析时区
+func parseTimezone(timezone string) (*Location, error) {
 	if timezone == "" {
 		return nil, ErrEmptyTimezone()
 	}
@@ -116,9 +116,9 @@ func getLocationByTimezone(timezone string) (*Location, error) {
 	return loc, err
 }
 
-// parses as a Duration instance by a duration string.
-// 通过时长解析
-func parseByDuration(duration string) (Duration, error) {
+// parses a duration string as a Duration instance.
+// 解析时长
+func parseDuration(duration string) (Duration, error) {
 	if duration == "" {
 		return 0, ErrEmptyDuration()
 	}
