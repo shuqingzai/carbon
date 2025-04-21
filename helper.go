@@ -103,7 +103,8 @@ func format2layout(format string) string {
 	return buffer.String()
 }
 
-// 将 时区字符串 解析成 time.Location 对象
+// parses a timezone string as a time.Location instance.
+// 将 时区字符串 解析成 time.Location 实例
 func parseTimezone(timezone string) (*Location, error) {
 	if timezone == "" {
 		return nil, ErrEmptyTimezone()
@@ -116,7 +117,7 @@ func parseTimezone(timezone string) (*Location, error) {
 }
 
 // parses a duration string as a time.Duration instance.
-// 将 时长字符串 解析成 time.Duration 对象
+// 将 时长字符串 解析成 time.Duration 实例
 func parseDuration(duration string) (Duration, error) {
 	if duration == "" {
 		return 0, ErrEmptyDuration()
