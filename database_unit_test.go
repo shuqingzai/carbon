@@ -27,8 +27,15 @@ func TestLayoutType_Scan(t *testing.T) {
 		assert.Nil(t, c.Scan(Now().StdTime()))
 	})
 
+	t.Run("nil type", func(t *testing.T) {
+		assert.Nil(t, c.Scan(nil))
+	})
+
 	t.Run("unsupported type", func(t *testing.T) {
-		assert.Error(t, c.Scan(nil))
+		assert.Error(t, c.Scan(true))
+		assert.Error(t, c.Scan(func() {}))
+		assert.Error(t, c.Scan(float64(0)))
+		assert.Error(t, c.Scan(map[string]string{}))
 	})
 }
 
@@ -324,8 +331,15 @@ func TestFormatType_Scan(t *testing.T) {
 		assert.Nil(t, c.Scan(Now().StdTime()))
 	})
 
+	t.Run("nil type", func(t *testing.T) {
+		assert.Nil(t, c.Scan(nil))
+	})
+
 	t.Run("unsupported type", func(t *testing.T) {
-		assert.Error(t, c.Scan(nil))
+		assert.Error(t, c.Scan(true))
+		assert.Error(t, c.Scan(func() {}))
+		assert.Error(t, c.Scan(float64(0)))
+		assert.Error(t, c.Scan(map[string]string{}))
 	})
 }
 
@@ -667,20 +681,37 @@ func TestTimestampType_Scan(t *testing.T) {
 		assert.Nil(t, ts4.Scan(Now().StdTime()))
 	})
 
+	t.Run("nil type", func(t *testing.T) {
+		c := Now()
+
+		ts1 := NewTimestampType[Timestamp](c)
+		assert.Nil(t, ts1.Scan(nil))
+
+		ts2 := NewTimestampType[TimestampMilli](c)
+		assert.Nil(t, ts2.Scan(nil))
+
+		ts3 := NewTimestampType[TimestampMicro](c)
+		assert.Nil(t, ts3.Scan(nil))
+
+		ts4 := NewTimestampType[TimestampNano](c)
+		assert.Nil(t, ts4.Scan(nil))
+	})
+
 	t.Run("unsupported type", func(t *testing.T) {
 		c := Now()
 
 		ts1 := NewTimestampType[Timestamp](c)
-		assert.Error(t, ts1.Scan(nil))
+		assert.Error(t, ts1.Scan(func() {}))
 
 		ts2 := NewTimestampType[TimestampMilli](c)
-		assert.Error(t, ts2.Scan(nil))
+		assert.Error(t, ts2.Scan(struct {
+		}{}))
 
 		ts3 := NewTimestampType[TimestampMicro](c)
-		assert.Error(t, ts3.Scan(nil))
+		assert.Error(t, ts3.Scan(map[string]string{}))
 
 		ts4 := NewTimestampType[TimestampNano](c)
-		assert.Error(t, ts4.Scan(nil))
+		assert.Error(t, ts4.Scan(float64(0)))
 	})
 }
 

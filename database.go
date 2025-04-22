@@ -85,6 +85,8 @@ func NewTimestampType[T TimestampFactory](carbon *Carbon) TimestampType[T] {
 func (t *LayoutType[T]) Scan(src any) error {
 	c := NewCarbon()
 	switch v := src.(type) {
+	case nil:
+		return nil
 	case []byte:
 		c = Parse(string(v), DefaultTimezone)
 	case string:
@@ -164,6 +166,8 @@ func (t LayoutType[T]) getLayout() string {
 func (t *FormatType[T]) Scan(src any) error {
 	c := NewCarbon()
 	switch v := src.(type) {
+	case nil:
+		return nil
 	case []byte:
 		c = Parse(string(v), DefaultTimezone)
 	case string:
@@ -244,6 +248,8 @@ func (t *TimestampType[T]) Scan(src any) (err error) {
 	ts := int64(0)
 	c := NewCarbon()
 	switch v := src.(type) {
+	case nil:
+		return nil
 	case []byte:
 		ts, err = strconv.ParseInt(string(v), 10, 64)
 		if err != nil {
