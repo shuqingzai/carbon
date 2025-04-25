@@ -60,7 +60,7 @@ func (W3CType) Layout() string {
 func ExampleLayoutType_MarshalJSON() {
 	//type W3CType string
 	//
-	//func (W3CType) SetLayout() string {
+	//func (W3CType) Layout() string {
 	//	return carbon.W3cLayout
 	//}
 
@@ -96,7 +96,7 @@ func ExampleLayoutType_MarshalJSON() {
 func ExampleLayoutType_UnmarshalJSON() {
 	//type W3CType string
 	//
-	//func (W3CType) SetLayout() string {
+	//func (W3CType) Layout() string {
 	//	return carbon.W3cLayout
 	//}
 	type User struct {
@@ -154,7 +154,7 @@ func (RFC3339Type) Format() string {
 func ExampleFormatType_MarshalJSON() {
 	//type RFC3339Type string
 	//
-	//func (RFC3339Type) SetFormat() string {
+	//func (RFC3339Type) Format() string {
 	//	return carbon.RFC3339Format
 	//}
 	type User struct {
@@ -179,7 +179,7 @@ func ExampleFormatType_MarshalJSON() {
 func ExampleFormatType_UnmarshalJSON() {
 	//type RFC3339Type string
 	//
-	//func (RFC3339Type) SetFormat() string {
+	//func (RFC3339Type) Format() string {
 	//	return carbon.RFC3339Format
 	//}
 
