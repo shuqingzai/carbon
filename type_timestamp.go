@@ -3,7 +3,6 @@ package carbon
 import (
 	"bytes"
 	"database/sql/driver"
-	"fmt"
 	"strconv"
 	"time"
 )
@@ -105,13 +104,13 @@ func (t *timestampType[T]) Value() (driver.Value, error) {
 // MarshalJSON implements json.Marshal interface for TimestampType generic struct.
 // 实现 json.Marshaler 接口
 func (t *timestampType[T]) MarshalJSON() ([]byte, error) {
-	ts := int64(0)
 	if t.IsNil() || t.IsZero() {
-		return []byte(fmt.Sprintf(`%d`, ts)), nil
+		return []byte(`0`), nil
 	}
 	if t.HasError() {
-		return []byte(fmt.Sprintf(`%d`, ts)), t.Error
+		return []byte(`0`), t.Error
 	}
+	var ts int64
 	switch t.getPrecision() {
 	case precisionSecond:
 		ts = t.Timestamp()
@@ -122,13 +121,13 @@ func (t *timestampType[T]) MarshalJSON() ([]byte, error) {
 	case precisionNanosecond:
 		ts = t.TimestampNano()
 	}
-	return []byte(fmt.Sprintf(`%d`, ts)), nil
+	return []byte(strconv.FormatInt(ts, 10)), nil
 }
 
 // UnmarshalJSON implements json.Unmarshal interface for timestampType generic struct.
 // 实现 json.Unmarshaler 接口
-func (t *timestampType[T]) UnmarshalJSON(b []byte) error {
-	value := string(bytes.Trim(b, `"`))
+func (t *timestampType[T]) UnmarshalJSON(bs []byte) error {
+	value := string(bytes.Trim(bs, `"`))
 	if value == "" || value == "null" || value == "0" {
 		return nil
 	}
@@ -154,7 +153,7 @@ func (t *timestampType[T]) UnmarshalJSON(b []byte) error {
 // String implements Stringer interface for timestampType generic struct.
 // 实现 Stringer 接口
 func (t *timestampType[T]) String() string {
-	if t == nil || t.IsInvalid() || t.IsZero() {
+	if t.IsInvalid() || t.IsZero() {
 		return "0"
 	}
 	return strconv.FormatInt(t.Int64(), 10)
@@ -162,9 +161,8 @@ func (t *timestampType[T]) String() string {
 
 // Int64 returns the timestamp value.
 // 返回时间戳
-func (t *timestampType[T]) Int64() int64 {
-	ts := int64(0)
-	if t == nil || t.IsInvalid() || t.IsZero() {
+func (t *timestampType[T]) Int64() (ts int64) {
+	if t.IsInvalid() || t.IsZero() {
 		return ts
 	}
 	switch t.getPrecision() {
@@ -177,7 +175,7 @@ func (t *timestampType[T]) Int64() int64 {
 	case precisionNanosecond:
 		ts = t.TimestampNano()
 	}
-	return ts
+	return
 }
 
 // GormDataType sets gorm data type for timestampType generic struct.
