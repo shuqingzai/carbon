@@ -16,22 +16,22 @@ const (
 	precisionNanosecond  = 999999999
 )
 
-// defines a timestampFactory interface.
-// 定义 timestampFactory 接口
-type timestampFactory interface {
+// defines a timestampTyper interface.
+// 定义 timestampTyper 接口
+type timestampTyper interface {
 	~int64
 	precision() int64
 }
 
 // defines a timestampType generic struct.
 // 定义 timestampType 泛型结构体
-type timestampType[T timestampFactory] struct {
+type timestampType[T timestampTyper] struct {
 	*Carbon
 }
 
 // returns a new timestampType generic instance.
 // 返回 timestampType 泛型实例
-func newTimestampType[T timestampFactory](c *Carbon) *timestampType[T] {
+func newTimestampType[T timestampTyper](c *Carbon) *timestampType[T] {
 	return &timestampType[T]{
 		Carbon: c,
 	}
@@ -127,11 +127,11 @@ func (t *timestampType[T]) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON implements json.Unmarshal interface for timestampType generic struct.
 // 实现 json.Unmarshaler 接口
 func (t *timestampType[T]) UnmarshalJSON(bs []byte) error {
-	value := string(bytes.Trim(bs, `"`))
-	if value == "" || value == "null" || value == "0" {
+	v := string(bytes.Trim(bs, `"`))
+	if v == "" || v == "null" || v == "0" {
 		return nil
 	}
-	ts, err := parseTimestamp(value)
+	ts, err := parseTimestamp(v)
 	if err != nil {
 		return err
 	}
@@ -187,6 +187,6 @@ func (t *timestampType[T]) GormDataType() string {
 // getPrecision returns the set timestamp precision.
 // 返回设置的时间戳精度
 func (t *timestampType[T]) getPrecision() int64 {
-	var factory T
-	return factory.precision()
+	var typer T
+	return typer.precision()
 }
