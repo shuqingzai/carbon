@@ -6,22 +6,22 @@ import (
 	"time"
 )
 
-// FormatFactory defines a FormatFactory interface.
-// 定义 FormatFactory 接口
-type FormatFactory interface {
+// FormatTyper defines a FormatTyper interface.
+// 定义 FormatTyper 接口
+type FormatTyper interface {
 	~string
 	Format() string
 }
 
 // FormatType defines a FormatType generic struct.
 // 定义 FormatType 泛型结构体
-type FormatType[T FormatFactory] struct {
+type FormatType[T FormatTyper] struct {
 	*Carbon
 }
 
 // NewFormatType returns a new FormatType generic instance.
 // 返回 FormatType 泛型实例
-func NewFormatType[T FormatFactory](carbon *Carbon) *FormatType[T] {
+func NewFormatType[T FormatTyper](carbon *Carbon) *FormatType[T] {
 	return &FormatType[T]{
 		Carbon: carbon,
 	}
@@ -70,10 +70,10 @@ func (t *FormatType[T]) MarshalJSON() ([]byte, error) {
 	if t.HasError() {
 		return []byte(`""`), t.Error
 	}
-	value := t.Format(t.getFormat(), t.Timezone())
-	bs := make([]byte, 0, len(value)+2)
+	v := t.Format(t.getFormat(), t.Timezone())
+	bs := make([]byte, 0, len(v)+2)
 	bs = append(bs, '"')
-	bs = append(bs, value...)
+	bs = append(bs, v...)
 	bs = append(bs, '"')
 	return bs, nil
 }
@@ -81,11 +81,11 @@ func (t *FormatType[T]) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON implements json.Unmarshal interface for FormatType generic struct.
 // 实现 json.Unmarshaler 接口
 func (t *FormatType[T]) UnmarshalJSON(bs []byte) error {
-	value := string(bytes.Trim(bs, `"`))
-	if value == "" || value == "null" || value == "0" {
+	v := string(bytes.Trim(bs, `"`))
+	if v == "" || v == "null" || v == "0" {
 		return nil
 	}
-	*t = *NewFormatType[T](ParseByFormat(value, t.getFormat()))
+	*t = *NewFormatType[T](ParseByFormat(v, t.getFormat()))
 	return t.Error
 }
 
@@ -107,6 +107,6 @@ func (t *FormatType[T]) GormDataType() string {
 // getFormat returns the set format.
 // 返回设置的格式模板
 func (t *FormatType[T]) getFormat() string {
-	var factory T
-	return factory.Format()
+	var typer T
+	return typer.Format()
 }
