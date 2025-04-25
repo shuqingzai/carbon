@@ -1332,49 +1332,7 @@ carbon.Parse("2020-08-05 13:14:15").IsWinter() // false
 
 ##### JSON
 
-###### シーン1：すべての時間フィールドが同じフォーマットを出力する
-```go
-defer SetLayout(DateTimeLayout)
-carbon.SetLayout(carbon.DateLayout)
-
-type User struct {
-  CreatedAt carbon.Carbon `json:"created_at"`
-  UpdatedAt *carbon.Carbon `json:"updated_at"`
-}
-
-var user User
-
-c := carbon.Parse("2020-08-05 13:14:15.999999999")
-
-user.CreatedAt = *c
-user.UpdatedAt = c
-
-data, err := json.Marshal(&user)
-if err != nil {
-  // エラー処理...
-  log.Fatal(err)
-}
-fmt.Printf("%s", data)
-// 出力
-{
-  "created_at": "2020-08-05",
-  "updated_at": "2020-08-05"
-}
-
-var person User
-err := json.Unmarshal(data, &person)
-if err != nil {
-  // エラー処理...
-  log.Fatal(err)
-}
-
-fmt.Printf("person: %+v\n", person)
-// 出力
-person: {CreatedAt:2020-08-05 UpdatedAt:2020-08-05}
-```
-###### シーン2：異なる時間フィールドから異なるフォーマットを出力する
-
-組み込みフィールドタイプ
+###### 組み込みフィールドタイプ
 
 ```go
 type User struct {
@@ -1472,16 +1430,16 @@ fmt.Printf("person: %+v\n", person)
 person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 DateNano:2020-08-05.999999999 Time:13:14:15 TimeMilli:13:14:15.999 TimeMicro:13:14:15.999999 TimeNano:13:14:15.999999999 DateTime:2020-08-05 13:14:15 DateTimeMilli:2020-08-05 13:14:15.999 DateTimeMicro:2020-08-05 13:14:15.999999 DateTimeNano:2020-08-05 13:14:15.999999999 Timestamp:1596633255 TimestampMilli:1596633255999 TimestampMicro:1596633255999999 TimestampNano:1596633255999999999 CreatedAt:2020-08-05 13:14:15 UpdatedAt:2020-08-05 13:14:15 DeletedAt:1596633255}
 ```
 
-カスタムフィールドタイプ
+###### カスタムフィールドタイプ
 
 ```go
 type RFC3339Type string
-func (t RFC3339Type) SetLayout() string {
+func (t RFC3339Type) Layout() string {
   return carbon.RFC3339Layout
 }
 
 type ISO8601Type string
-func (t ISO8601Type) SetFormat() string {
+func (t ISO8601Type) Format() string {
   return carbon.ISO8601Format
 }
 
