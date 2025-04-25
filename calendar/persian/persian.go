@@ -71,10 +71,10 @@ func MinValue() *Persian {
 // FromStdTime creates a Persian instance from standard time.Time.
 // 从标准 time.Time 创建 Persian 实例
 func FromStdTime(t time.Time) *Persian {
+	p := new(Persian)
 	if t.IsZero() {
 		return nil
 	}
-	p := new(Persian)
 	// 获取公历儒略日计数
 	gjdn := int(julian.FromStdTime(time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())).JD(0))
 	pjdn := getPersianJdn(475, 1, 1)
@@ -98,10 +98,10 @@ func FromStdTime(t time.Time) *Persian {
 // ToGregorian converts Persian instance to Gregorian instance.
 // 将 Persian 实例转化为 Gregorian 实例
 func (p *Persian) ToGregorian(timezone ...string) *calendar.Gregorian {
-	if p == nil {
-		return nil
-	}
 	g := new(calendar.Gregorian)
+	if !p.IsValid() {
+		return g
+	}
 	loc := time.UTC
 	if len(timezone) > 0 {
 		loc, g.Error = time.LoadLocation(timezone[0])

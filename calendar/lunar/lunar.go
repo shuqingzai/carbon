@@ -104,10 +104,10 @@ func MinValue() *Lunar {
 // FromStdTime creates a Lunar instance from standard time.Time.
 // 从标准 time.Time 创建 Lunar 实例
 func FromStdTime(t time.Time) *Lunar {
+	l := new(Lunar)
 	if t.IsZero() {
 		return nil
 	}
-	l := new(Lunar)
 	daysInYear, daysInMonth, leapMonth := 365, 30, 0
 	maxYear, minYear := MaxValue().year, MinValue().year
 
@@ -155,10 +155,10 @@ func FromStdTime(t time.Time) *Lunar {
 // ToGregorian converts Lunar instance to Gregorian instance.
 // 将 Lunar 实例转化为 Gregorian 实例
 func (l *Lunar) ToGregorian(timezone ...string) *calendar.Gregorian {
-	if l == nil {
-		return nil
-	}
 	g := new(calendar.Gregorian)
+	if !l.IsValid() {
+		return g
+	}
 	loc := time.UTC
 	if len(timezone) > 0 {
 		loc, g.Error = time.LoadLocation(timezone[0])
