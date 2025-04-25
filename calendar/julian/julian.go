@@ -79,10 +79,10 @@ func FromStdTime(t time.Time) *Julian {
 // ToGregorian converts Julian instance to Gregorian instance.
 // 将 Lunar 实例转化为 Gregorian 实例
 func (j *Julian) ToGregorian(timezone ...string) *calendar.Gregorian {
-	g := new(calendar.Gregorian)
 	if j == nil {
 		return nil
 	}
+	g := new(calendar.Gregorian)
 	loc := time.UTC
 	if len(timezone) > 0 {
 		loc, g.Error = time.LoadLocation(timezone[0])
