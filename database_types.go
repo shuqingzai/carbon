@@ -4,9 +4,9 @@ package carbon
 // 定义 Timestamp 字段类型
 type Timestamp int64
 
-// SetPrecision implements TimestampFactory interface for Timestamp type.
+// PrecisionUnit implements TimestampFactory interface for Timestamp type.
 // 实现 TimestampFactory 接口
-func (t Timestamp) SetPrecision() int64 {
+func (t Timestamp) PrecisionUnit() int64 {
 	return PrecisionSecond
 }
 
@@ -14,9 +14,9 @@ func (t Timestamp) SetPrecision() int64 {
 // 定义 TimestampMilli 字段类型
 type TimestampMilli int64
 
-// SetPrecision implements TimestampFactory interface for TimestampMilli type.
+// PrecisionUnit implements TimestampFactory interface for TimestampMilli type.
 // 实现 TimestampFactory 接口
-func (t TimestampMilli) SetPrecision() int64 {
+func (t TimestampMilli) PrecisionUnit() int64 {
 	return PrecisionMillisecond
 }
 
@@ -24,9 +24,9 @@ func (t TimestampMilli) SetPrecision() int64 {
 // 定义 TimestampMicro 字段类型
 type TimestampMicro int64
 
-// SetPrecision implements TimestampFactory interface for TimestampMicro type.
+// PrecisionUnit implements TimestampFactory interface for TimestampMicro type.
 // 实现 TimestampFactory 接口
-func (t TimestampMicro) SetPrecision() int64 {
+func (t TimestampMicro) PrecisionUnit() int64 {
 	return PrecisionMicrosecond
 }
 
@@ -34,9 +34,9 @@ func (t TimestampMicro) SetPrecision() int64 {
 // 定义 TimestampNano 字段类型
 type TimestampNano int64
 
-// SetPrecision implements TimestampFactory interface for TimestampNano type.
+// PrecisionUnit implements TimestampFactory interface for TimestampNano type.
 // 实现 TimestampFactory 接口
-func (t TimestampNano) SetPrecision() int64 {
+func (t TimestampNano) PrecisionUnit() int64 {
 	return PrecisionNanosecond
 }
 
@@ -44,15 +44,15 @@ func (t TimestampNano) SetPrecision() int64 {
 // 定义 DateTime 字段类型
 type DateTime string
 
-// SetFormat implements FormatFactory interface for DateTime type.
+// FormatTemplate implements FormatFactory interface for DateTime type.
 // 实现 FormatFactory 接口
-func (t DateTime) SetFormat() string {
+func (t DateTime) FormatTemplate() string {
 	return DateTimeFormat
 }
 
-// SetLayout implements LayoutFactory interface for DateTime type.
+// LayoutTemplate implements LayoutFactory interface for DateTime type.
 // 实现 LayoutFactory 接口
-func (t DateTime) SetLayout() string {
+func (t DateTime) LayoutTemplate() string {
 	return DateTimeLayout
 }
 
@@ -60,15 +60,15 @@ func (t DateTime) SetLayout() string {
 // 定义 DateTimeMilli 字段类型
 type DateTimeMilli string
 
-// SetFormat implements FormatFactory interface for DateTimeMilli type.
+// FormatTemplate implements FormatFactory interface for DateTimeMilli type.
 // 实现 FormatFactory 接口
-func (t DateTimeMilli) SetFormat() string {
+func (t DateTimeMilli) FormatTemplate() string {
 	return DateTimeMilliFormat
 }
 
-// SetLayout implements LayoutFactory interface for DateTimeMilli type.
+// LayoutTemplate implements LayoutFactory interface for DateTimeMilli type.
 // 实现 LayoutFactory 接口
-func (t DateTimeMilli) SetLayout() string {
+func (t DateTimeMilli) LayoutTemplate() string {
 	return DateTimeMilliLayout
 }
 
@@ -76,15 +76,15 @@ func (t DateTimeMilli) SetLayout() string {
 // 定义 DateTimeMicro 字段类型
 type DateTimeMicro string
 
-// SetFormat implements FormatFactory interface for DateTimeMicro type.
+// FormatTemplate implements FormatFactory interface for DateTimeMicro type.
 // 实现 FormatFactory 接口
-func (t DateTimeMicro) SetFormat() string {
+func (t DateTimeMicro) FormatTemplate() string {
 	return DateTimeMicroFormat
 }
 
-// SetLayout implements LayoutFactory interface for DateTimeMicro type.
+// LayoutTemplate implements LayoutFactory interface for DateTimeMicro type.
 // 实现 LayoutFactory 接口
-func (t DateTimeMicro) SetLayout() string {
+func (t DateTimeMicro) LayoutTemplate() string {
 	return DateTimeMicroLayout
 }
 
@@ -92,15 +92,15 @@ func (t DateTimeMicro) SetLayout() string {
 // 定义 DateTimeNano 字段类型
 type DateTimeNano string
 
-// SetFormat implements FormatFactory interface for DateTimeNano type.
+// FormatTemplate implements FormatFactory interface for DateTimeNano type.
 // 实现 FormatFactory 接口
-func (t DateTimeNano) SetFormat() string {
+func (t DateTimeNano) FormatTemplate() string {
 	return DateTimeNanoFormat
 }
 
-// SetLayout implements LayoutFactory interface for DateTimeNano type.
+// LayoutTemplate implements LayoutFactory interface for DateTimeNano type.
 // 实现 LayoutFactory 接口
-func (t DateTimeNano) SetLayout() string {
+func (t DateTimeNano) LayoutTemplate() string {
 	return DateTimeNanoLayout
 }
 
@@ -108,15 +108,15 @@ func (t DateTimeNano) SetLayout() string {
 // 定义 Date 字段类型
 type Date string
 
-// SetFormat implements FormatFactory interface for Date type.
+// FormatTemplate implements FormatFactory interface for Date type.
 // 实现 FormatFactory 接口
-func (t Date) SetFormat() string {
+func (t Date) FormatTemplate() string {
 	return DateFormat
 }
 
-// SetLayout implements LayoutFactory interface for Date type.
+// LayoutTemplate implements LayoutFactory interface for Date type.
 // 实现 LayoutFactory 接口
-func (t Date) SetLayout() string {
+func (t Date) LayoutTemplate() string {
 	return DateLayout
 }
 
@@ -124,15 +124,15 @@ func (t Date) SetLayout() string {
 // 定义 DateMilli 字段类型
 type DateMilli string
 
-// SetFormat implements FormatFactory interface for DateMilli type.
+// FormatTemplate implements FormatFactory interface for DateMilli type.
 // 实现 FormatFactory 接口
-func (t DateMilli) SetFormat() string {
+func (t DateMilli) FormatTemplate() string {
 	return DateMilliFormat
 }
 
-// SetLayout implements LayoutFactory interface for DateMilli type.
+// LayoutTemplate implements LayoutFactory interface for DateMilli type.
 // 实现 LayoutFactory 接口
-func (t DateMilli) SetLayout() string {
+func (t DateMilli) LayoutTemplate() string {
 	return DateMilliLayout
 }
 
@@ -140,15 +140,15 @@ func (t DateMilli) SetLayout() string {
 // 定义 DateMicro 字段类型
 type DateMicro string
 
-// SetFormat implements FormatFactory interface for DateMicro type.
+// FormatTemplate implements FormatFactory interface for DateMicro type.
 // 实现 FormatFactory 接口
-func (t DateMicro) SetFormat() string {
+func (t DateMicro) FormatTemplate() string {
 	return DateMicroFormat
 }
 
-// SetLayout implements LayoutFactory interface for DateTimeMicro type.
+// LayoutTemplate implements LayoutFactory interface for DateTimeMicro type.
 // 实现 LayoutFactory 接口
-func (t DateMicro) SetLayout() string {
+func (t DateMicro) LayoutTemplate() string {
 	return DateMicroLayout
 }
 
@@ -156,15 +156,15 @@ func (t DateMicro) SetLayout() string {
 // 定义 DateNano 字段类型
 type DateNano string
 
-// SetFormat implements FormatFactory interface for DateNano type.
+// FormatTemplate implements FormatFactory interface for DateNano type.
 // 实现 FormatFactory 接口
-func (t DateNano) SetFormat() string {
+func (t DateNano) FormatTemplate() string {
 	return DateNanoFormat
 }
 
-// SetLayout implements LayoutFactory interface for DateNano type.
+// LayoutTemplate implements LayoutFactory interface for DateNano type.
 // 实现 LayoutFactory 接口
-func (t DateNano) SetLayout() string {
+func (t DateNano) LayoutTemplate() string {
 	return DateNanoLayout
 }
 
@@ -172,15 +172,15 @@ func (t DateNano) SetLayout() string {
 // 定义 Time 字段类型
 type Time string
 
-// SetFormat implements FormatFactory interface for Time type.
+// FormatTemplate implements FormatFactory interface for Time type.
 // 实现 FormatFactory 接口
-func (t Time) SetFormat() string {
+func (t Time) FormatTemplate() string {
 	return TimeFormat
 }
 
-// SetLayout implements LayoutFactory interface for Time type.
+// LayoutTemplate implements LayoutFactory interface for Time type.
 // 实现 LayoutFactory 接口
-func (t Time) SetLayout() string {
+func (t Time) LayoutTemplate() string {
 	return TimeLayout
 }
 
@@ -188,15 +188,15 @@ func (t Time) SetLayout() string {
 // 定义 TimeMilli 字段类型
 type TimeMilli string
 
-// SetFormat implements FormatFactory interface for TimeMilli type.
+// FormatTemplate implements FormatFactory interface for TimeMilli type.
 // 实现 FormatFactory 接口
-func (t TimeMilli) SetFormat() string {
+func (t TimeMilli) FormatTemplate() string {
 	return TimeMilliFormat
 }
 
-// SetLayout implements LayoutFactory interface for TimeMilli type.
+// LayoutTemplate implements LayoutFactory interface for TimeMilli type.
 // 实现 LayoutFactory 接口
-func (t TimeMilli) SetLayout() string {
+func (t TimeMilli) LayoutTemplate() string {
 	return TimeMilliLayout
 }
 
@@ -204,15 +204,15 @@ func (t TimeMilli) SetLayout() string {
 // 定义 TimeMicro 字段类型
 type TimeMicro string
 
-// SetFormat implements FormatFactory interface for TimeMicro type.
+// FormatTemplate implements FormatFactory interface for TimeMicro type.
 // 实现 FormatFactory 接口
-func (t TimeMicro) SetFormat() string {
+func (t TimeMicro) FormatTemplate() string {
 	return TimeMicroFormat
 }
 
-// SetLayout implements LayoutFactory interface for TimeMicro type.
+// LayoutTemplate implements LayoutFactory interface for TimeMicro type.
 // 实现 LayoutFactory 接口
-func (t TimeMicro) SetLayout() string {
+func (t TimeMicro) LayoutTemplate() string {
 	return TimeMicroLayout
 }
 
@@ -220,14 +220,14 @@ func (t TimeMicro) SetLayout() string {
 // 定义 TimeNano 字段类型
 type TimeNano string
 
-// SetFormat implements FormatFactory interface for TimeNano type.
+// FormatTemplate implements FormatFactory interface for TimeNano type.
 // 实现 FormatFactory 接口
-func (t TimeNano) SetFormat() string {
+func (t TimeNano) FormatTemplate() string {
 	return TimeNanoFormat
 }
 
-// SetLayout implements LayoutFactory interface for TimeNano type.
+// LayoutTemplate implements LayoutFactory interface for TimeNano type.
 // 实现 LayoutFactory 接口
-func (t TimeNano) SetLayout() string {
+func (t TimeNano) LayoutTemplate() string {
 	return TimeNanoLayout
 }

@@ -56,6 +56,7 @@ func BenchmarkLayoutType_MarshalJSON(b *testing.B) {
 	user.DateTimeMicro = NewLayoutType[DateTimeMicro](c)
 	user.DateTimeNano = NewLayoutType[DateTimeNano](c)
 
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		_, _ = json.Marshal(&user)
 	}

@@ -21,7 +21,7 @@ const (
 // 定义 LayoutFactory 接口
 type LayoutFactory interface {
 	~string
-	SetLayout() string
+	LayoutTemplate() string
 }
 
 // LayoutType defines a LayoutType generic struct
@@ -34,7 +34,7 @@ type LayoutType[T LayoutFactory] struct {
 // 定义 FormatFactory 接口
 type FormatFactory interface {
 	~string
-	SetFormat() string
+	FormatTemplate() string
 }
 
 // FormatType defines a FormatType generic struct.
@@ -47,7 +47,7 @@ type FormatType[T FormatFactory] struct {
 // 定义 TimestampFactory 接口
 type TimestampFactory interface {
 	~int64
-	SetPrecision() int64
+	PrecisionUnit() int64
 }
 
 // TimestampType defines a TimestampType generic struct.
@@ -83,7 +83,7 @@ func NewTimestampType[T TimestampFactory](carbon *Carbon) TimestampType[T] {
 // Scan implements driver.Scanner interface for LayoutType generic struct.
 // 实现 driver.Scanner 接口
 func (t *LayoutType[T]) Scan(src any) error {
-	c := NewCarbon()
+	var c *Carbon
 	switch v := src.(type) {
 	case []byte:
 		c = Parse(string(v), DefaultTimezone)
@@ -115,14 +115,20 @@ func (t LayoutType[T]) Value() (driver.Value, error) {
 // MarshalJSON implements json.Marshal interface for LayoutType generic struct.
 // 实现 json.Marshaler 接口
 func (t LayoutType[T]) MarshalJSON() ([]byte, error) {
-	emptyBytes := []byte(`""`)
 	if t.IsNil() || t.IsZero() {
-		return emptyBytes, nil
+		return []byte(`""`), nil
 	}
 	if t.HasError() {
-		return emptyBytes, t.Error
+		return []byte(`""`), t.Error
 	}
-	return []byte(fmt.Sprintf(`"%s"`, t.Layout(t.getLayout(), t.Timezone()))), nil
+
+	value := t.Layout(t.getLayout(), t.Timezone())
+	result := make([]byte, 0, len(value)+2)
+	result = append(result, '"')
+	result = append(result, value...)
+	result = append(result, '"')
+
+	return result, nil
 }
 
 // UnmarshalJSON implements json.Unmarshal interface for LayoutType generic struct.
@@ -156,13 +162,13 @@ func (t LayoutType[T]) GormDataType() string {
 // 返回设置的布局模板
 func (t LayoutType[T]) getLayout() string {
 	var factory T
-	return factory.SetLayout()
+	return factory.LayoutTemplate()
 }
 
 // Scan implements driver.Scanner interface for FormatType generic struct.
 // 实现 driver.Scanner 接口
 func (t *FormatType[T]) Scan(src any) error {
-	c := NewCarbon()
+	var c *Carbon
 	switch v := src.(type) {
 	case []byte:
 		c = Parse(string(v), DefaultTimezone)
@@ -194,14 +200,20 @@ func (t FormatType[T]) Value() (driver.Value, error) {
 // MarshalJSON implements json.Marshal interface for FormatType generic struct.
 // 实现 json.Marshaler 接口
 func (t FormatType[T]) MarshalJSON() ([]byte, error) {
-	emptyBytes := []byte(`""`)
 	if t.IsNil() || t.IsZero() {
-		return emptyBytes, nil
+		return []byte(`""`), nil
 	}
 	if t.HasError() {
-		return emptyBytes, t.Error
+		return []byte(`""`), t.Error
 	}
-	return []byte(fmt.Sprintf(`"%s"`, t.Format(t.getFormat(), t.Timezone()))), nil
+
+	value := t.Format(t.getFormat(), t.Timezone())
+	result := make([]byte, 0, len(value)+2)
+	result = append(result, '"')
+	result = append(result, value...)
+	result = append(result, '"')
+
+	return result, nil
 }
 
 // UnmarshalJSON implements json.Unmarshal interface for FormatType generic struct.
@@ -235,24 +247,24 @@ func (t FormatType[T]) GormDataType() string {
 // 返回设置的格式模板
 func (t FormatType[T]) getFormat() string {
 	var factory T
-	return factory.SetFormat()
+	return factory.FormatTemplate()
 }
 
 // Scan implements driver.Scanner interface for TimestampType generic struct.
 // 实现 driver.Scanner 接口
 func (t *TimestampType[T]) Scan(src any) (err error) {
-	ts := int64(0)
-	c := NewCarbon()
+	var (
+		ts int64
+		c  *Carbon
+	)
 	switch v := src.(type) {
 	case []byte:
-		ts, err = strconv.ParseInt(string(v), 10, 64)
-		if err != nil {
-			return ErrInvalidTimestamp(string(v))
+		if ts, err = strconv.ParseInt(string(v), 10, 64); err != nil {
+			return fmt.Errorf("%w: %w", ErrInvalidTimestamp(string(v)), err)
 		}
 	case string:
-		ts, err = strconv.ParseInt(v, 10, 64)
-		if err != nil {
-			return ErrInvalidTimestamp(v)
+		if ts, err = strconv.ParseInt(v, 10, 64); err != nil {
+			return fmt.Errorf("%w: %w", ErrInvalidTimestamp(v), err)
 		}
 	case int64:
 		ts = v
@@ -263,6 +275,7 @@ func (t *TimestampType[T]) Scan(src any) (err error) {
 	default:
 		return ErrFailedScan(src)
 	}
+
 	switch t.getPrecision() {
 	case PrecisionSecond:
 		c = CreateFromTimestamp(ts, DefaultTimezone)
@@ -286,7 +299,8 @@ func (t TimestampType[T]) Value() (driver.Value, error) {
 	if t.HasError() {
 		return nil, t.Error
 	}
-	v := int64(0)
+
+	var v int64
 	switch t.getPrecision() {
 	case PrecisionSecond:
 		v = t.Timestamp()
@@ -303,13 +317,14 @@ func (t TimestampType[T]) Value() (driver.Value, error) {
 // MarshalJSON implements json.Marshal interface for TimestampType generic struct.
 // 实现 json.Marshaler 接口
 func (t TimestampType[T]) MarshalJSON() ([]byte, error) {
-	ts := int64(0)
 	if t.IsNil() || t.IsZero() {
-		return []byte(fmt.Sprintf(`%d`, ts)), nil
+		return []byte(`0`), nil
 	}
 	if t.HasError() {
-		return []byte(fmt.Sprintf(`%d`, ts)), t.Error
+		return []byte(`0`), t.Error
 	}
+
+	var ts int64
 	switch t.getPrecision() {
 	case PrecisionSecond:
 		ts = t.Timestamp()
@@ -320,22 +335,24 @@ func (t TimestampType[T]) MarshalJSON() ([]byte, error) {
 	case PrecisionNanosecond:
 		ts = t.TimestampNano()
 	}
-	return []byte(fmt.Sprintf(`%d`, ts)), nil
+	return []byte(strconv.FormatInt(ts, 10)), nil
 }
 
 // UnmarshalJSON implements json.Unmarshal interface for TimestampType generic struct.
 // 实现 json.Unmarshaler 接口
 func (t *TimestampType[T]) UnmarshalJSON(b []byte) error {
 	value := string(bytes.Trim(b, `"`))
-	c := NewCarbon()
 	if value == "" || value == "null" || value == "0" {
 		t.Carbon = nil
 		return nil
 	}
+
 	ts, err := strconv.ParseInt(value, 10, 64)
 	if err != nil {
-		return ErrInvalidTimestamp(value)
+		return fmt.Errorf("%w: %w", ErrInvalidTimestamp(value), err)
 	}
+
+	var c *Carbon
 	switch t.getPrecision() {
 	case PrecisionSecond:
 		c = CreateFromTimestamp(ts, DefaultTimezone)
@@ -358,11 +375,11 @@ func (t TimestampType[T]) String() string {
 
 // Int64 returns the timestamp value.
 // 返回时间戳
-func (t TimestampType[T]) Int64() int64 {
-	ts := int64(0)
+func (t TimestampType[T]) Int64() (ts int64) {
 	if t.IsZero() || t.IsInvalid() {
-		return ts
+		return
 	}
+
 	switch t.getPrecision() {
 	case PrecisionSecond:
 		ts = t.Timestamp()
@@ -373,7 +390,7 @@ func (t TimestampType[T]) Int64() int64 {
 	case PrecisionNanosecond:
 		ts = t.TimestampNano()
 	}
-	return ts
+	return
 }
 
 // GormDataType sets gorm data type for TimestampType generic struct.
@@ -386,5 +403,5 @@ func (t TimestampType[T]) GormDataType() string {
 // 返回设置的时间戳精度
 func (t TimestampType[T]) getPrecision() int64 {
 	var factory T
-	return factory.SetPrecision()
+	return factory.PrecisionUnit()
 }

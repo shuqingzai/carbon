@@ -937,7 +937,7 @@ func TestTimestamp_GormDataType(t *testing.T) {
 
 type RFC3339Type string
 
-func (t RFC3339Type) SetLayout() string {
+func (t RFC3339Type) LayoutTemplate() string {
 	return RFC3339Layout
 }
 
@@ -964,7 +964,7 @@ func TestLayoutType_Customer(t *testing.T) {
 
 type ISO8601Type string
 
-func (t ISO8601Type) SetFormat() string {
+func (t ISO8601Type) FormatTemplate() string {
 	return ISO8601Format
 }
 

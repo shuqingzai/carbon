@@ -32,6 +32,32 @@ func NewLanguage() *Language {
 	}
 }
 
+// Copy returns a new copy of the current Language instance
+//
+// 复制 Language 实例
+func (lang *Language) Copy() *Language {
+	if lang == nil {
+		return nil
+	}
+
+	newLang := &Language{
+		dir:    lang.dir,
+		locale: lang.locale,
+		Error:  lang.Error,
+		rw:     new(sync.RWMutex),
+	}
+	if lang.resources == nil {
+		return newLang
+	}
+
+	newLang.resources = make(map[string]string)
+	for k, v := range lang.resources {
+		newLang.resources[k] = v
+	}
+
+	return newLang
+}
+
 // SetLocale sets language locale.
 // 设置区域
 func (lang *Language) SetLocale(locale string) *Language {

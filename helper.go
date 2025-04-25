@@ -2,6 +2,7 @@ package carbon
 
 import (
 	"bytes"
+	"fmt"
 	"time"
 )
 
@@ -85,22 +86,23 @@ var defaultLayouts = []string{
 // converts format to layout.
 // format 转 layout
 func format2layout(format string) string {
-	buffer := bytes.NewBuffer(nil)
+	buf := &bytes.Buffer{}
 	for i := 0; i < len(format); i++ {
 		if layout, ok := formatMap[format[i]]; ok {
-			buffer.WriteString(layout)
+			buf.WriteString(layout)
 		} else {
 			switch format[i] {
 			case '\\': // raw output, no parse
-				buffer.WriteByte(format[i+1])
+				buf.WriteByte(format[i+1])
 				i++
 				continue
 			default:
-				buffer.WriteByte(format[i])
+				buf.WriteByte(format[i])
 			}
 		}
 	}
-	return buffer.String()
+
+	return buf.String()
 }
 
 // parses a timezone string as a time.Location instance.
@@ -109,9 +111,10 @@ func parseTimezone(timezone string) (*Location, error) {
 	if timezone == "" {
 		return nil, ErrEmptyTimezone()
 	}
+
 	loc, err := time.LoadLocation(timezone)
 	if err != nil {
-		err = ErrInvalidTimezone(timezone)
+		err = fmt.Errorf("%w: %w", ErrInvalidTimezone(timezone), err)
 	}
 	return loc, err
 }
@@ -122,9 +125,10 @@ func parseDuration(duration string) (Duration, error) {
 	if duration == "" {
 		return 0, ErrEmptyDuration()
 	}
+
 	dur, err := time.ParseDuration(duration)
 	if err != nil {
-		err = ErrInvalidDuration(duration)
+		err = fmt.Errorf("%w: %w", ErrInvalidDuration(duration), err)
 	}
 	return dur, err
 }

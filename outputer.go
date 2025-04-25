@@ -809,39 +809,40 @@ func (c *Carbon) Format(format string, timezone ...string) string {
 	if c.IsInvalid() {
 		return ""
 	}
-	buffer := bytes.NewBuffer(nil)
+
+	buf := &bytes.Buffer{}
 	for i := 0; i < len(format); i++ {
 		if layout, ok := formatMap[format[i]]; ok {
 			switch format[i] {
 			case 'D': // short week, such as Mon
-				buffer.WriteString(c.ToShortWeekString())
+				buf.WriteString(c.ToShortWeekString())
 			case 'F': // month, such as January
-				buffer.WriteString(c.ToMonthString())
+				buf.WriteString(c.ToMonthString())
 			case 'M': // short month, such as Jan
-				buffer.WriteString(c.ToShortMonthString())
+				buf.WriteString(c.ToShortMonthString())
 			case 'S': // timestamp with second, such as 1596604455
-				buffer.WriteString(strconv.FormatInt(c.Timestamp(), 10))
+				buf.WriteString(strconv.FormatInt(c.Timestamp(), 10))
 			case 'U': // timestamp with millisecond, such as 1596604455000
-				buffer.WriteString(strconv.FormatInt(c.TimestampMilli(), 10))
+				buf.WriteString(strconv.FormatInt(c.TimestampMilli(), 10))
 			case 'V': // timestamp with microsecond, such as 1596604455000000
-				buffer.WriteString(strconv.FormatInt(c.TimestampMicro(), 10))
+				buf.WriteString(strconv.FormatInt(c.TimestampMicro(), 10))
 			case 'X': // timestamp with nanoseconds, such as 1596604455000000000
-				buffer.WriteString(strconv.FormatInt(c.TimestampNano(), 10))
+				buf.WriteString(strconv.FormatInt(c.TimestampNano(), 10))
 			default: // common symbols
-				buffer.WriteString(c.StdTime().Format(layout))
+				buf.WriteString(c.StdTime().Format(layout))
 			}
 		} else {
 			switch format[i] {
 			case '\\': // raw output, no parse
-				buffer.WriteByte(format[i+1])
+				buf.WriteByte(format[i+1])
 				i++
 				continue
 			case 'W': // week number of the year in ISO-8601 format, ranging from 01-52
 				week := fmt.Sprintf("%02d", c.WeekOfYear())
-				buffer.WriteString(week)
+				buf.WriteString(week)
 			case 'N': // day of the week as a number in ISO-8601 format, ranging from 01-7
 				week := fmt.Sprintf("%02d", c.DayOfWeek())
-				buffer.WriteString(week)
+				buf.WriteString(week)
 			case 'K': // abbreviated suffix for the day of the month, such as st, nd, rd, th
 				suffix := "th"
 				switch c.Day() {
@@ -852,31 +853,31 @@ func (c *Carbon) Format(format string, timezone ...string) string {
 				case 3, 23:
 					suffix = "rd"
 				}
-				buffer.WriteString(suffix)
+				buf.WriteString(suffix)
 			case 'L': // whether it is a leap year, if it is a leap year, it is 1, otherwise it is 0
 				if c.IsLeapYear() {
-					buffer.WriteString("1")
+					buf.WriteString("1")
 				} else {
-					buffer.WriteString("0")
+					buf.WriteString("0")
 				}
 			case 'G': // 24-hour format, no padding, ranging from 0-23
-				buffer.WriteString(strconv.Itoa(c.Hour()))
+				buf.WriteString(strconv.Itoa(c.Hour()))
 			case 'w': // day of the week represented by the number, ranging from 0-6
-				buffer.WriteString(strconv.Itoa(c.DayOfWeek() - 1))
+				buf.WriteString(strconv.Itoa(c.DayOfWeek() - 1))
 			case 't': // number of days in the month, ranging from 28-31
-				buffer.WriteString(strconv.Itoa(c.DaysInMonth()))
+				buf.WriteString(strconv.Itoa(c.DaysInMonth()))
 			case 'z': // current zone location, such as Asia/Tokyo
-				buffer.WriteString(c.Timezone())
+				buf.WriteString(c.Timezone())
 			case 'o': // current zone offset, such as 28800
-				buffer.WriteString(strconv.Itoa(c.ZoneOffset()))
+				buf.WriteString(strconv.Itoa(c.ZoneOffset()))
 			case 'q': // current quarter, ranging from 1-4
-				buffer.WriteString(strconv.Itoa(c.Quarter()))
+				buf.WriteString(strconv.Itoa(c.Quarter()))
 			case 'c': // current century, ranging from 0-99
-				buffer.WriteString(strconv.Itoa(c.Century()))
+				buf.WriteString(strconv.Itoa(c.Century()))
 			default:
-				buffer.WriteByte(format[i])
+				buf.WriteByte(format[i])
 			}
 		}
 	}
-	return buffer.String()
+	return buf.String()
 }
