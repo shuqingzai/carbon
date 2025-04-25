@@ -1340,54 +1340,105 @@ carbon.Parse("2020-08-05 13:14:15").IsWinter() // false
 
 ##### JSON
 
-###### 内置字段类型
-
+###### 场景一: 所有时间字段输出相同的格式
 ```go
+defer SetLayout(DateTimeLayout)
+carbon.SetLayout(carbon.DateLayout)
+
 type User struct {
-  Date      carbon.LayoutType[carbon.Date]      `json:"date"`
-  DateMilli carbon.LayoutType[carbon.DateMilli] `json:"date_milli"`
-  DateMicro carbon.LayoutType[carbon.DateMicro] `json:"date_micro"`
-  DateNano  carbon.LayoutType[carbon.DateNano]  `json:"date_nano"`
-  
-  Time      carbon.LayoutType[carbon.Time]      `json:"time"`
-  TimeMilli carbon.LayoutType[carbon.TimeMilli] `json:"time_milli"`
-  TimeMicro carbon.LayoutType[carbon.TimeMicro] `json:"time_micro"`
-  TimeNano  carbon.LayoutType[carbon.TimeNano]  `json:"time_nano"`
-  
-  DateTime      carbon.FormatType[carbon.DateTime]      `json:"date_time"`
-  DateTimeMilli carbon.FormatType[carbon.DateTimeMilli] `json:"date_time_milli"`
-  DateTimeMicro carbon.FormatType[carbon.DateTimeMicro] `json:"date_time_micro"`
-  DateTimeNano  carbon.FormatType[carbon.DateTimeNano]  `json:"date_time_nano"`
-  
-  Timestamp      carbon.TimestampType[carbon.Timestamp]      `json:"timestamp"`
-  TimestampMilli carbon.TimestampType[carbon.TimestampMilli] `json:"timestamp_milli"`
-  TimestampMicro carbon.TimestampType[carbon.TimestampMicro] `json:"timestamp_micro"`
-  TimestampNano  carbon.TimestampType[carbon.TimestampNano]  `json:"timestamp_nano"`
+  CreatedAt carbon.Carbon `json:"created_at"`
+  UpdatedAt *carbon.Carbon `json:"updated_at"`
 }
 
 var user User
 
 c := carbon.Parse("2020-08-05 13:14:15.999999999")
 
-user.Date      = carbon.NewLayoutType[carbon.Date](c)
-user.DateMilli = carbon.NewLayoutType[carbon.DateMilli](c)
-user.DateMicro = carbon.NewLayoutType[carbon.DateMicro](c)
-user.DateNano  = carbon.NewLayoutType[carbon.DateNano](c)
+user.CreatedAt = *c
+user.UpdatedAt = c
 
-user.Time      = carbon.NewLayoutType[carbon.Time](c)
-user.TimeMilli = carbon.NewLayoutType[carbon.TimeMilli](c)
-user.TimeMicro = carbon.NewLayoutType[carbon.TimeMicro](c)
-user.TimeNano  = carbon.NewLayoutType[carbon.TimeNano](c)
+data, err := json.Marshal(&user)
+if err != nil {
+  // 错误处理
+  log.Fatal(err)
+}
+fmt.Printf("%s", data)
+// 输出
+{
+  "created_at": "2020-08-05",
+  "updated_at": "2020-08-05"
+}
 
-user.DateTime      = carbon.NewFormatType[carbon.DateTime](c)
-user.DateTimeMilli = carbon.NewFormatType[carbon.DateTimeMilli](c)
-user.DateTimeMicro = carbon.NewFormatType[carbon.DateTimeMicro](c)
-user.DateTimeNano  = carbon.NewFormatType[carbon.DateTimeNano](c)
+var person User
+err := json.Unmarshal(data, &person)
+if err != nil {
+  // 错误处理
+  log.Fatal(err)
+}
 
-user.Timestamp      = carbon.NewTimestampType[carbon.Timestamp](c)
-user.TimestampMilli = carbon.NewTimestampType[carbon.TimestampMilli](c)
-user.TimestampMicro = carbon.NewTimestampType[carbon.TimestampMicro](c)
-user.TimestampNano  = carbon.NewTimestampType[carbon.TimestampNano](c)
+fmt.Printf("person: %+v\n", person)
+// 输出
+person: {CreatedAt:2020-08-05 UpdatedAt:2020-08-05}
+```
+
+###### 场景二: 不同时间字段输出不同的格式
+
+内置字段类型
+
+```go
+type User struct {
+  Date      carbon.Date      `json:"date"`
+  DateMilli carbon.DateMilli `json:"date_milli"`
+  DateMicro carbon.DateMicro `json:"date_micro"`
+  DateNano  carbon.DateNano  `json:"date_nano"`
+  
+  Time      carbon.Time      `json:"time"`
+  TimeMilli carbon.TimeMilli `json:"time_milli"`
+  TimeMicro carbon.TimeMicro `json:"time_micro"`
+  TimeNano  carbon.TimeNano  `json:"time_nano"`
+  
+  DateTime      carbon.DateTime      `json:"date_time"`
+  DateTimeMilli carbon.DateTimeMilli `json:"date_time_milli"`
+  DateTimeMicro carbon.DateTimeMicro `json:"date_time_micro"`
+  DateTimeNano  carbon.DateTimeNano  `json:"date_time_nano"`
+  
+  Timestamp      carbon.Timestamp      `json:"timestamp"`
+  TimestampMilli carbon.TimestampMilli `json:"timestamp_milli"`
+  TimestampMicro carbon.TimestampMicro `json:"timestamp_micro"`
+  TimestampNano  carbon.TimestampNano  `json:"timestamp_nano"`
+
+  CreatedAt *carbon.DateTime `json:"created_at"`
+  UpdatedAt *carbon.DateTime `json:"updated_at"`
+  DeletedAt *carbon.Timestamp `json:"deleted_at"`
+}
+
+var user User
+
+c := carbon.Parse("2020-08-05 13:14:15.999999999")
+
+user.Date      = *carbon.NewDate(c)
+user.DateMilli = *carbon.NewDateMilli(c)
+user.DateMicro = *carbon.NewDateMicro(c)
+user.DateNano  = *carbon.NewDateNano(c)
+
+user.Time      = *carbon.NewTime(c)
+user.TimeMilli = *carbon.NewTimeMilli(c)
+user.TimeMicro = *carbon.NewTimeMicro(c)
+user.TimeNano  = *carbon.NewTimeNano(c)
+
+user.DateTime      = *carbon.NewDateTime(c)
+user.DateTimeMilli = *carbon.NewDateTimeMilli(c)
+user.DateTimeMicro = *carbon.NewDateTimeMicro(c)
+user.DateTimeNano  = *carbon.NewDateTimeNano(c)
+
+user.Timestamp      = *carbon.NewTimestamp(c)
+user.TimestampMilli = *carbon.NewTimestampMilli(c)
+user.TimestampMicro = *carbon.NewTimestampMicro(c)
+user.TimestampNano  = *carbon.NewTimestampNano(c)
+
+user.CreatedAt = carbon.NewDateTime(c)
+user.UpdatedAt = carbon.NewDateTime(c)
+user.DeletedAt = carbon.NewTimestamp(c)
 
 data, err := json.Marshal(&user)
 if err != nil {
@@ -1412,7 +1463,10 @@ fmt.Printf("%s\n", data)
   "timestamp": 1596633255,
   "timestamp_milli": 1596633255999,
   "timestamp_micro": 1596633255999999,
-  "timestamp_nano": 1596633255999999999
+  "timestamp_nano": 1596633255999999999,
+  "created_at": "2020-08-05 13:14:15",
+  "updated_at": "2020-08-05 13:14:15",
+  "deleted_at": 1596633255
 }
 
 var person User
@@ -1424,33 +1478,33 @@ if err != nil {
 
 fmt.Printf("person: %+v\n", person)
 // 输出
-person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 DateNano:2020-08-05.999999999 Time:13:14:15 TimeMilli:13:14:15.999 TimeMicro:13:14:15.999999 TimeNano:13:14:15.999999999 DateTime:2020-08-05 13:14:15 DateTimeMilli:2020-08-05 13:14:15.999 DateTimeMicro:2020-08-05 13:14:15.999999 DateTimeNano:2020-08-05 13:14:15.999999999 Timestamp:1596633255 TimestampMilli:1596633255999 TimestampMicro:1596633255999999 TimestampNano:1596633255999999999}
+person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 DateNano:2020-08-05.999999999 Time:13:14:15 TimeMilli:13:14:15.999 TimeMicro:13:14:15.999999 TimeNano:13:14:15.999999999 DateTime:2020-08-05 13:14:15 DateTimeMilli:2020-08-05 13:14:15.999 DateTimeMicro:2020-08-05 13:14:15.999999 DateTimeNano:2020-08-05 13:14:15.999999999 Timestamp:1596633255 TimestampMilli:1596633255999 TimestampMicro:1596633255999999 TimestampNano:1596633255999999999 CreatedAt:2020-08-05 13:14:15 UpdatedAt:2020-08-05 13:14:15 DeletedAt:1596633255}
 ```
 
-###### 自定义字段类型
+自定义字段类型
 
 ```go
-type RFC3339Layout string
-func (t CustomerLayout) SetLayout() string {
+type RFC3339Type string
+func (t RFC3339Type) SetLayout() string {
   return carbon.RFC3339Layout
 }
 
-type ISO8601Format string
-func (t CustomerFormat) SetFormat() string {
+type ISO8601Type string
+func (t ISO8601Type) SetFormat() string {
   return carbon.ISO8601Format
 }
 
 type User struct {
-  Customer1 carbon.LayoutType[RFC3339Layout] `json:"customer1"`
-  Customer2 carbon.FormatType[ISO8601Format] `json:"customer2"`
+  Customer1 *carbon.LayoutType[RFC3339Type] `json:"customer1"`
+  Customer2 *carbon.FormatType[ISO8601Type] `json:"customer2"`
 }
 
 var user User
 
 c := carbon.Parse("2020-08-05 13:14:15")
 
-user.Customer1 = carbon.NewLayoutType[RFC3339Layout](c)
-user.Customer2 = carbon.NewFormatType[ISO8601Format](c)
+user.Customer1 = carbon.NewLayoutType[RFC3339Type](c)
+user.Customer2 = carbon.NewFormatType[ISO8601Type](c)
 
 data, err := json.Marshal(&user)
 if err != nil {
