@@ -49,19 +49,16 @@ func NewCarbon(time ...StdTime) *Carbon {
 // Copy returns a new copy of the current Carbon instance
 // 复制 Carbon 实例
 func (c *Carbon) Copy() *Carbon {
-	newCarbon := NewCarbon()
-
-	newCarbon.time = time.Date(c.Year(), time.Month(c.Month()), c.Day(), c.Hour(), c.Minute(), c.Second(), c.Nanosecond(), c.loc)
-	newCarbon.layout = c.layout
-	newCarbon.weekStartsAt = c.weekStartsAt
-	newCarbon.weekendDays = c.weekendDays
-	newCarbon.loc = c.loc
-	newCarbon.Error = c.Error
-
-	newCarbon.lang.dir = c.lang.dir
-	newCarbon.lang.locale = c.lang.locale
-	newCarbon.lang.resources = c.lang.resources
-	newCarbon.lang.Error = c.lang.Error
-
-	return newCarbon
+	if c == nil {
+		return nil
+	}
+	return &Carbon{
+		layout:       c.layout,
+		time:         time.Date(c.Year(), time.Month(c.Month()), c.Day(), c.Hour(), c.Minute(), c.Second(), c.Nanosecond(), c.loc),
+		weekStartsAt: c.weekStartsAt,
+		weekendDays:  c.weekendDays,
+		loc:          c.loc,
+		lang:         c.lang.Copy(),
+		Error:        c.Error,
+	}
 }

@@ -39,6 +39,19 @@ func TestNewCarbon(t *testing.T) {
 }
 
 func TestCarbon_Copy(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
+		oldCarbon := Now()
+		oldCarbon = nil
+		newCarbon := oldCarbon.Copy()
+
+		assert.Empty(t, oldCarbon.ToString())
+		assert.Empty(t, newCarbon.ToString())
+
+		oldCarbon = oldCarbon.AddDay()
+		assert.Empty(t, oldCarbon.ToString())
+		assert.Empty(t, newCarbon.ToString())
+	})
+
 	t.Run("copy time", func(t *testing.T) {
 		oldCarbon := Parse("2020-08-05")
 		newCarbon := oldCarbon.Copy()
