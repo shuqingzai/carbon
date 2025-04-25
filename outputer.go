@@ -800,7 +800,7 @@ func (c *Carbon) Format(format string, timezone ...string) string {
 	if c.IsInvalid() {
 		return ""
 	}
-	buffer := bytes.NewBuffer(nil)
+	buffer := &bytes.Buffer{}
 	for i := 0; i < len(format); i++ {
 		if layout, ok := formatMap[format[i]]; ok {
 			switch format[i] {
