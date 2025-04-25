@@ -3,7 +3,6 @@ package carbon
 import (
 	"bytes"
 	"database/sql/driver"
-	"fmt"
 	"time"
 )
 
@@ -42,20 +41,24 @@ func (c *Carbon) Value() (driver.Value, error) {
 // MarshalJSON implements json.Marshal interface for Carbon struct.
 // 实现 json.Marshaler 接口
 func (c *Carbon) MarshalJSON() ([]byte, error) {
-	emptyBytes := []byte(`""`)
 	if c.IsNil() || c.IsZero() {
-		return emptyBytes, nil
+		return []byte(`""`), nil
 	}
 	if c.HasError() {
-		return emptyBytes, c.Error
+		return []byte(`""`), c.Error
 	}
-	return []byte(fmt.Sprintf(`"%s"`, c.Layout(DefaultLayout, c.Timezone()))), nil
+	value := c.Layout(DefaultLayout, c.Timezone())
+	bs := make([]byte, 0, len(value)+2)
+	bs = append(bs, '"')
+	bs = append(bs, value...)
+	bs = append(bs, '"')
+	return bs, nil
 }
 
 // UnmarshalJSON implements json.Unmarshal interface for Carbon struct.
 // 实现 json.Unmarshaler 接口
-func (c *Carbon) UnmarshalJSON(b []byte) error {
-	value := string(bytes.Trim(b, `"`))
+func (c *Carbon) UnmarshalJSON(bs []byte) error {
+	value := string(bytes.Trim(bs, `"`))
 	if value == "" || value == "null" || value == "0" {
 		return nil
 	}
