@@ -7,6 +7,50 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestLanguage_Copy(t *testing.T) {
+	t.Run("nil language", func(t *testing.T) {
+		oldLang := NewLanguage()
+		oldLang = nil
+		newCarbon := oldLang.Copy()
+
+		assert.Nil(t, oldLang)
+		assert.Nil(t, newCarbon)
+	})
+
+	t.Run("nil resources", func(t *testing.T) {
+		oldLang := NewLanguage()
+		oldLang.resources = nil
+		newCarbon := oldLang.Copy()
+		assert.Equal(t, newCarbon.resources, oldLang.resources)
+	})
+
+	t.Run("copy dir", func(t *testing.T) {
+		oldLang := NewLanguage()
+		oldLang.dir = "lang/"
+		newCarbon := oldLang.Copy()
+		assert.Equal(t, oldLang.dir, newCarbon.dir)
+	})
+
+	t.Run("copy locale", func(t *testing.T) {
+		oldLang := NewLanguage()
+		oldLang.locale = "en"
+		newCarbon := oldLang.Copy()
+		assert.Equal(t, oldLang.locale, newCarbon.locale)
+	})
+
+	t.Run("copy resources", func(t *testing.T) {
+		resources := map[string]string{
+			"months":       "Ⅰ月|Ⅱ月|Ⅲ月|Ⅳ月|Ⅴ月|Ⅵ月|Ⅶ月|Ⅷ月|Ⅸ月|Ⅹ月|Ⅺ月|Ⅻ月",
+			"short_months": "Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ",
+		}
+
+		oldLang := NewLanguage()
+		oldLang.SetLocale("en").SetResources(resources)
+		newCarbon := oldLang.Copy()
+		assert.Equal(t, oldLang.resources, newCarbon.resources)
+	})
+}
+
 func TestLanguage_SetLocale(t *testing.T) {
 	t.Run("nil language", func(t *testing.T) {
 		lang := NewLanguage()

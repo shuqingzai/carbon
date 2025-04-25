@@ -4,6 +4,14 @@ import (
 	"testing"
 )
 
+func BenchmarkLanguage_Copy(b *testing.B) {
+	lang := NewLanguage()
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		lang.Copy()
+	}
+}
+
 func BenchmarkLanguage_SetLocale(b *testing.B) {
 	lang := NewLanguage()
 	b.ResetTimer()
