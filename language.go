@@ -45,7 +45,6 @@ func (lang *Language) Copy() *Language {
 		rw:     new(sync.RWMutex),
 	}
 	if lang.resources == nil {
-		println("lang")
 		return newLang
 	}
 	newLang.resources = make(map[string]string)
@@ -61,7 +60,6 @@ func (lang *Language) SetLocale(locale string) *Language {
 	if lang == nil || lang.Error != nil {
 		return lang
 	}
-
 	if locale == "" {
 		lang.Error = ErrEmptyLocale()
 		return lang
@@ -87,7 +85,6 @@ func (lang *Language) SetResources(resources map[string]string) *Language {
 	if lang == nil || lang.Error != nil {
 		return lang
 	}
-
 	if len(resources) == 0 {
 		lang.Error = ErrEmptyResources()
 		return lang
@@ -107,7 +104,6 @@ func (lang *Language) SetResources(resources map[string]string) *Language {
 	if len(lang.resources) == 0 {
 		lang.resources = resources
 	}
-
 	return lang
 }
 
