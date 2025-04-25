@@ -87,7 +87,7 @@ func (t *timestampType[T]) Value() (driver.Value, error) {
 	if t.HasError() {
 		return nil, t.Error
 	}
-	v := int64(0)
+	var v int64
 	switch t.getPrecision() {
 	case precisionSecond:
 		v = t.Timestamp()
