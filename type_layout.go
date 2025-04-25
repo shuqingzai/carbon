@@ -72,18 +72,17 @@ func (t *LayoutType[T]) MarshalJSON() ([]byte, error) {
 	}
 
 	value := t.Layout(t.getLayout(), t.Timezone())
-	result := make([]byte, 0, len(value)+2)
-	result = append(result, '"')
-	result = append(result, value...)
-	result = append(result, '"')
-
-	return result, nil
+	bs := make([]byte, 0, len(value)+2)
+	bs = append(bs, '"')
+	bs = append(bs, value...)
+	bs = append(bs, '"')
+	return bs, nil
 }
 
 // UnmarshalJSON implements json.Unmarshal interface for LayoutType generic struct.
 // 实现 json.Unmarshaler 接口
-func (t *LayoutType[T]) UnmarshalJSON(b []byte) error {
-	value := string(bytes.Trim(b, `"`))
+func (t *LayoutType[T]) UnmarshalJSON(bs []byte) error {
+	value := string(bytes.Trim(bs, `"`))
 	if value == "" || value == "null" || value == "0" {
 		return nil
 	}
