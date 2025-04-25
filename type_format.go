@@ -10,7 +10,7 @@ import (
 // 定义 FormatFactory 接口
 type FormatFactory interface {
 	~string
-	SetFormat() string
+	Format() string
 }
 
 // FormatType defines a FormatType generic struct.
@@ -108,5 +108,5 @@ func (t *FormatType[T]) GormDataType() string {
 // 返回设置的格式模板
 func (t *FormatType[T]) getFormat() string {
 	var factory T
-	return factory.SetFormat()
+	return factory.Format()
 }
