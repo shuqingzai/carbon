@@ -10,7 +10,7 @@ import (
 // 定义 LayoutFactory 接口
 type LayoutFactory interface {
 	~string
-	SetLayout() string
+	Layout() string
 }
 
 // LayoutType defines a LayoutType generic struct
@@ -70,7 +70,6 @@ func (t *LayoutType[T]) MarshalJSON() ([]byte, error) {
 	if t.HasError() {
 		return []byte(`""`), t.Error
 	}
-
 	value := t.Layout(t.getLayout(), t.Timezone())
 	bs := make([]byte, 0, len(value)+2)
 	bs = append(bs, '"')
@@ -109,5 +108,5 @@ func (t *LayoutType[T]) GormDataType() string {
 // 返回设置的布局模板
 func (t *LayoutType[T]) getLayout() string {
 	var factory T
-	return factory.SetLayout()
+	return factory.Layout()
 }
