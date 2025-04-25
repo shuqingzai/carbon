@@ -718,13 +718,13 @@ func TestBuiltinType_GormDataType(t *testing.T) {
 
 type iso8601Type string
 
-func (t iso8601Type) SetFormat() string {
+func (t iso8601Type) Format() string {
 	return ISO8601Format
 }
 
 type rfc3339Type string
 
-func (t rfc3339Type) SetLayout() string {
+func (t rfc3339Type) Layout() string {
 	return RFC3339Layout
 }
 

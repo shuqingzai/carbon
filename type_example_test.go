@@ -53,7 +53,7 @@ func ExampleCarbon_String() {
 
 type W3CType string
 
-func (W3CType) SetLayout() string {
+func (W3CType) Layout() string {
 	return carbon.W3cLayout
 }
 
@@ -147,7 +147,7 @@ func ExampleLayoutType_String() {
 
 type RFC3339Type string
 
-func (RFC3339Type) SetFormat() string {
+func (RFC3339Type) Format() string {
 	return carbon.RFC3339Format
 }
 

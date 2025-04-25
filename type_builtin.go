@@ -2,7 +2,7 @@ package carbon
 
 type timestampSecondType int64
 
-func (t timestampSecondType) setPrecision() int64 {
+func (t timestampSecondType) precision() int64 {
 	return precisionSecond
 }
 
@@ -14,7 +14,7 @@ func NewTimestamp(c *Carbon) *Timestamp {
 
 type timestampMilliType int64
 
-func (t timestampMilliType) setPrecision() int64 {
+func (t timestampMilliType) precision() int64 {
 	return precisionMillisecond
 }
 
@@ -26,7 +26,7 @@ func NewTimestampMilli(c *Carbon) *TimestampMilli {
 
 type timestampMicroType int64
 
-func (t timestampMicroType) setPrecision() int64 {
+func (t timestampMicroType) precision() int64 {
 	return precisionMicrosecond
 }
 
@@ -38,7 +38,7 @@ func NewTimestampMicro(c *Carbon) *TimestampMicro {
 
 type timestampNanoType int64
 
-func (t timestampNanoType) setPrecision() int64 {
+func (t timestampNanoType) precision() int64 {
 	return precisionNanosecond
 }
 
@@ -50,7 +50,7 @@ func NewTimestampNano(c *Carbon) *TimestampNano {
 
 type DateTimeType string
 
-func (t DateTimeType) SetLayout() string {
+func (t DateTimeType) Layout() string {
 	return DateTimeLayout
 }
 
@@ -62,7 +62,7 @@ func NewDateTime(c *Carbon) *DateTime {
 
 type DateTimeMilliType string
 
-func (t DateTimeMilliType) SetLayout() string {
+func (t DateTimeMilliType) Layout() string {
 	return DateTimeMilliLayout
 }
 
@@ -74,7 +74,7 @@ func NewDateTimeMilli(c *Carbon) *DateTimeMilli {
 
 type DateTimeMicroType string
 
-func (t DateTimeMicroType) SetLayout() string {
+func (t DateTimeMicroType) Layout() string {
 	return DateTimeMicroLayout
 }
 
@@ -86,7 +86,7 @@ func NewDateTimeMicro(c *Carbon) *DateTimeMicro {
 
 type DateTimeNanoType string
 
-func (t DateTimeNanoType) SetLayout() string {
+func (t DateTimeNanoType) Layout() string {
 	return DateTimeNanoLayout
 }
 
@@ -98,7 +98,7 @@ func NewDateTimeNano(c *Carbon) *DateTimeNano {
 
 type DateType string
 
-func (t DateType) SetLayout() string {
+func (t DateType) Layout() string {
 	return DateLayout
 }
 
@@ -110,7 +110,7 @@ func NewDate(c *Carbon) *Date {
 
 type DateMilliType string
 
-func (t DateMilliType) SetLayout() string {
+func (t DateMilliType) Layout() string {
 	return DateMilliLayout
 }
 
@@ -122,7 +122,7 @@ func NewDateMilli(c *Carbon) *DateMilli {
 
 type DateMicroType string
 
-func (t DateMicroType) SetLayout() string {
+func (t DateMicroType) Layout() string {
 	return DateMicroLayout
 }
 
@@ -134,7 +134,7 @@ func NewDateMicro(c *Carbon) *DateMicro {
 
 type DateNanoType string
 
-func (t DateNanoType) SetLayout() string {
+func (t DateNanoType) Layout() string {
 	return DateNanoLayout
 }
 
@@ -146,7 +146,7 @@ func NewDateNano(c *Carbon) *DateNano {
 
 type TimeType string
 
-func (t TimeType) SetLayout() string {
+func (t TimeType) Layout() string {
 	return TimeLayout
 }
 
@@ -158,7 +158,7 @@ func NewTime(c *Carbon) *Time {
 
 type TimeMilliType string
 
-func (t TimeMilliType) SetLayout() string {
+func (t TimeMilliType) Layout() string {
 	return TimeMilliLayout
 }
 
@@ -170,7 +170,7 @@ func NewTimeMilli(c *Carbon) *TimeMilli {
 
 type TimeMicroType string
 
-func (t TimeMicroType) SetLayout() string {
+func (t TimeMicroType) Layout() string {
 	return TimeMicroLayout
 }
 
@@ -182,7 +182,7 @@ func NewTimeMicro(c *Carbon) *TimeMicro {
 
 type TimeNanoType string
 
-func (t TimeNanoType) SetLayout() string {
+func (t TimeNanoType) Layout() string {
 	return TimeNanoLayout
 }
 
