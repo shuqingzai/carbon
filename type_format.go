@@ -70,20 +70,18 @@ func (t *FormatType[T]) MarshalJSON() ([]byte, error) {
 	if t.HasError() {
 		return []byte(`""`), t.Error
 	}
-
 	value := t.Format(t.getFormat(), t.Timezone())
-	result := make([]byte, 0, len(value)+2)
-	result = append(result, '"')
-	result = append(result, value...)
-	result = append(result, '"')
-
-	return result, nil
+	bs := make([]byte, 0, len(value)+2)
+	bs = append(bs, '"')
+	bs = append(bs, value...)
+	bs = append(bs, '"')
+	return bs, nil
 }
 
 // UnmarshalJSON implements json.Unmarshal interface for FormatType generic struct.
 // 实现 json.Unmarshaler 接口
-func (t *FormatType[T]) UnmarshalJSON(b []byte) error {
-	value := string(bytes.Trim(b, `"`))
+func (t *FormatType[T]) UnmarshalJSON(bs []byte) error {
+	value := string(bytes.Trim(bs, `"`))
 	if value == "" || value == "null" || value == "0" {
 		return nil
 	}
