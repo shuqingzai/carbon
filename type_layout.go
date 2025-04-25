@@ -3,7 +3,6 @@ package carbon
 import (
 	"bytes"
 	"database/sql/driver"
-	"fmt"
 	"time"
 )
 
@@ -31,7 +30,7 @@ func NewLayoutType[T LayoutFactory](carbon *Carbon) *LayoutType[T] {
 // Scan implements driver.Scanner interface for LayoutType generic struct.
 // 实现 driver.Scanner 接口
 func (t *LayoutType[T]) Scan(src any) error {
-	c := NewCarbon()
+	var c *Carbon
 	switch v := src.(type) {
 	case nil:
 		return nil
@@ -65,14 +64,20 @@ func (t *LayoutType[T]) Value() (driver.Value, error) {
 // MarshalJSON implements json.Marshal interface for LayoutType generic struct.
 // 实现 json.Marshaler 接口
 func (t *LayoutType[T]) MarshalJSON() ([]byte, error) {
-	emptyBytes := []byte(`""`)
 	if t.IsNil() || t.IsZero() {
-		return emptyBytes, nil
+		return []byte(`""`), nil
 	}
 	if t.HasError() {
-		return emptyBytes, t.Error
+		return []byte(`""`), t.Error
 	}
-	return []byte(fmt.Sprintf(`"%s"`, t.Layout(t.getLayout(), t.Timezone()))), nil
+
+	value := t.Layout(t.getLayout(), t.Timezone())
+	result := make([]byte, 0, len(value)+2)
+	result = append(result, '"')
+	result = append(result, value...)
+	result = append(result, '"')
+
+	return result, nil
 }
 
 // UnmarshalJSON implements json.Unmarshal interface for LayoutType generic struct.
@@ -89,7 +94,7 @@ func (t *LayoutType[T]) UnmarshalJSON(b []byte) error {
 // String implements Stringer interface for LayoutType generic struct.
 // 实现 Stringer 接口
 func (t *LayoutType[T]) String() string {
-	if t == nil || t.IsInvalid() || t.IsZero() {
+	if t.IsInvalid() || t.IsZero() {
 		return ""
 	}
 	return t.Layout(t.getLayout(), t.Timezone())

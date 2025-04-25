@@ -3,7 +3,6 @@ package carbon
 import (
 	"bytes"
 	"database/sql/driver"
-	"fmt"
 	"time"
 )
 
@@ -31,7 +30,7 @@ func NewFormatType[T FormatFactory](carbon *Carbon) *FormatType[T] {
 // Scan implements driver.Scanner interface for FormatType generic struct.
 // 实现 driver.Scanner 接口
 func (t *FormatType[T]) Scan(src any) error {
-	c := NewCarbon()
+	var c *Carbon
 	switch v := src.(type) {
 	case nil:
 		return nil
@@ -65,14 +64,20 @@ func (t *FormatType[T]) Value() (driver.Value, error) {
 // MarshalJSON implements json.Marshal interface for FormatType generic struct.
 // 实现 json.Marshaler 接口
 func (t *FormatType[T]) MarshalJSON() ([]byte, error) {
-	emptyBytes := []byte(`""`)
 	if t.IsNil() || t.IsZero() {
-		return emptyBytes, nil
+		return []byte(`""`), nil
 	}
 	if t.HasError() {
-		return emptyBytes, t.Error
+		return []byte(`""`), t.Error
 	}
-	return []byte(fmt.Sprintf(`"%s"`, t.Format(t.getFormat(), t.Timezone()))), nil
+
+	value := t.Format(t.getFormat(), t.Timezone())
+	result := make([]byte, 0, len(value)+2)
+	result = append(result, '"')
+	result = append(result, value...)
+	result = append(result, '"')
+
+	return result, nil
 }
 
 // UnmarshalJSON implements json.Unmarshal interface for FormatType generic struct.
@@ -89,7 +94,7 @@ func (t *FormatType[T]) UnmarshalJSON(b []byte) error {
 // String implements Stringer interface for FormatType generic struct.
 // 实现 Stringer 接口
 func (t *FormatType[T]) String() string {
-	if t == nil || t.IsInvalid() || t.IsZero() {
+	if t.IsInvalid() || t.IsZero() {
 		return ""
 	}
 	return t.Format(t.getFormat(), t.Timezone())
