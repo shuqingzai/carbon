@@ -1,0 +1,109 @@
+package carbon
+
+import (
+	"bytes"
+	"database/sql/driver"
+	"fmt"
+	"time"
+)
+
+// LayoutFactory defines a LayoutFactory interface
+// 定义 LayoutFactory 接口
+type LayoutFactory interface {
+	~string
+	SetLayout() string
+}
+
+// LayoutType defines a LayoutType generic struct
+// 定义 LayoutType 泛型结构体
+type LayoutType[T LayoutFactory] struct {
+	*Carbon
+}
+
+// NewLayoutType returns a new LayoutType generic instance.
+// 返回 LayoutType 泛型实例
+func NewLayoutType[T LayoutFactory](carbon *Carbon) *LayoutType[T] {
+	return &LayoutType[T]{
+		Carbon: carbon,
+	}
+}
+
+// Scan implements driver.Scanner interface for LayoutType generic struct.
+// 实现 driver.Scanner 接口
+func (t *LayoutType[T]) Scan(src any) error {
+	c := NewCarbon()
+	switch v := src.(type) {
+	case nil:
+		return nil
+	case []byte:
+		c = Parse(string(v), DefaultTimezone)
+	case string:
+		c = Parse(v, DefaultTimezone)
+	case time.Time:
+		c = CreateFromStdTime(v, DefaultTimezone)
+	case int64:
+		c = CreateFromTimestamp(v, DefaultTimezone)
+	default:
+		return ErrFailedScan(v)
+	}
+	*t = *NewLayoutType[T](c)
+	return t.Error
+}
+
+// Value implements driver.Valuer interface for LayoutType generic struct.
+// 实现 driver.Valuer 接口
+func (t *LayoutType[T]) Value() (driver.Value, error) {
+	if t.IsNil() || t.IsZero() {
+		return nil, nil
+	}
+	if t.HasError() {
+		return nil, t.Error
+	}
+	return t.StdTime(), nil
+}
+
+// MarshalJSON implements json.Marshal interface for LayoutType generic struct.
+// 实现 json.Marshaler 接口
+func (t *LayoutType[T]) MarshalJSON() ([]byte, error) {
+	emptyBytes := []byte(`""`)
+	if t.IsNil() || t.IsZero() {
+		return emptyBytes, nil
+	}
+	if t.HasError() {
+		return emptyBytes, t.Error
+	}
+	return []byte(fmt.Sprintf(`"%s"`, t.Layout(t.getLayout(), t.Timezone()))), nil
+}
+
+// UnmarshalJSON implements json.Unmarshal interface for LayoutType generic struct.
+// 实现 json.Unmarshaler 接口
+func (t *LayoutType[T]) UnmarshalJSON(b []byte) error {
+	value := string(bytes.Trim(b, `"`))
+	if value == "" || value == "null" || value == "0" {
+		return nil
+	}
+	*t = *NewLayoutType[T](ParseByLayout(value, t.getLayout()))
+	return t.Error
+}
+
+// String implements Stringer interface for LayoutType generic struct.
+// 实现 Stringer 接口
+func (t *LayoutType[T]) String() string {
+	if t == nil || t.IsInvalid() || t.IsZero() {
+		return ""
+	}
+	return t.Layout(t.getLayout(), t.Timezone())
+}
+
+// GormDataType sets gorm data type for LayoutType generic struct.
+// 设置 gorm 数据类型
+func (t *LayoutType[T]) GormDataType() string {
+	return "time"
+}
+
+// getLayout returns the set layout.
+// 返回设置的布局模板
+func (t *LayoutType[T]) getLayout() string {
+	var factory T
+	return factory.SetLayout()
+}
