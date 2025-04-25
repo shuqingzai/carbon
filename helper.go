@@ -113,7 +113,7 @@ func parseTimezone(timezone string) (*Location, error) {
 	}
 	loc, err := time.LoadLocation(timezone)
 	if err != nil {
-		err = ErrInvalidTimezone(timezone)
+		err = fmt.Errorf("%w: %w", ErrInvalidTimezone(timezone), err)
 	}
 	return loc, err
 }
@@ -126,7 +126,7 @@ func parseDuration(duration string) (Duration, error) {
 	}
 	dur, err := time.ParseDuration(duration)
 	if err != nil {
-		err = ErrInvalidDuration(duration)
+		err = fmt.Errorf("%w: %w", ErrInvalidDuration(duration), err)
 	}
 	return dur, err
 }

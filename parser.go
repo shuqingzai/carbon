@@ -1,6 +1,7 @@
 package carbon
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -33,24 +34,6 @@ func Parse(value string, timezone ...string) *Carbon {
 		}
 	}
 	c.Error = ErrFailedParse(value)
-	return c
-}
-
-// ParseByFormat parses a time string as a Carbon instance by a confirmed format.
-// 通过一个确认的 格式模板 将时间字符串解析成 Carbon 实例
-func ParseByFormat(value, format string, timezone ...string) *Carbon {
-	if value == "" {
-		return nil
-	}
-	c := NewCarbon()
-	if format == "" {
-		c.Error = ErrEmptyFormat()
-		return c
-	}
-	c = ParseByLayout(value, format2layout(format), timezone...)
-	if c.HasError() {
-		c.Error = ErrMismatchedFormat(value, format)
-	}
 	return c
 }
 
@@ -105,11 +88,29 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 	}
 	tt, err := time.ParseInLocation(layout, value, c.loc)
 	if err != nil {
-		c.Error = ErrMismatchedLayout(value, layout)
+		c.Error = fmt.Errorf("%w: %w", ErrMismatchedLayout(value, layout), c.Error)
 		return c
 	}
 	c.time = tt
 	c.layout = layout
+	return c
+}
+
+// ParseByFormat parses a time string as a Carbon instance by a confirmed format.
+// 通过一个确认的 格式模板 将时间字符串解析成 Carbon 实例
+func ParseByFormat(value, format string, timezone ...string) *Carbon {
+	if value == "" {
+		return nil
+	}
+	if format == "" {
+		c := NewCarbon()
+		c.Error = ErrEmptyFormat()
+		return c
+	}
+	c := ParseByLayout(value, format2layout(format), timezone...)
+	if c.HasError() {
+		c.Error = fmt.Errorf("%w: %w", ErrMismatchedFormat(value, format), c.Error)
+	}
 	return c
 }
 
