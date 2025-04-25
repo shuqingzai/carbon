@@ -14,12 +14,12 @@ func TestSetLayout(t *testing.T) {
 		SetLayout(DateLayout)
 		assert.Equal(t, DateLayout, DefaultLayout)
 		assert.Equal(t, DateLayout, NewCarbon().CurrentLayout())
-		assert.Equal(t, "0001-01-01", NewCarbon().String())
+		assert.Empty(t, NewCarbon().String())
 
 		SetLayout(DateTimeLayout)
 		assert.Equal(t, DateTimeLayout, DefaultLayout)
 		assert.Equal(t, DateTimeLayout, NewCarbon().CurrentLayout())
-		assert.Equal(t, "0001-01-01 00:00:00", NewCarbon().String())
+		assert.Empty(t, NewCarbon().String())
 	})
 
 	t.Run("valid time", func(t *testing.T) {
@@ -289,7 +289,7 @@ func TestCarbon_SetLayout(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		c := NewCarbon().SetLayout(DateLayout)
 		assert.Equal(t, DateLayout, c.CurrentLayout())
-		assert.Equal(t, "0001-01-01", c.String())
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", c.ToString())
 	})
 
 	t.Run("empty layout", func(t *testing.T) {
