@@ -6,22 +6,22 @@ import (
 	"time"
 )
 
-// LayoutFactory defines a LayoutFactory interface
-// 定义 LayoutFactory 接口
-type LayoutFactory interface {
+// LayoutTyper defines a LayoutTyper interface
+// 定义 LayoutTyper 接口
+type LayoutTyper interface {
 	~string
 	Layout() string
 }
 
 // LayoutType defines a LayoutType generic struct
 // 定义 LayoutType 泛型结构体
-type LayoutType[T LayoutFactory] struct {
+type LayoutType[T LayoutTyper] struct {
 	*Carbon
 }
 
 // NewLayoutType returns a new LayoutType generic instance.
 // 返回 LayoutType 泛型实例
-func NewLayoutType[T LayoutFactory](carbon *Carbon) *LayoutType[T] {
+func NewLayoutType[T LayoutTyper](carbon *Carbon) *LayoutType[T] {
 	return &LayoutType[T]{
 		Carbon: carbon,
 	}
@@ -70,10 +70,10 @@ func (t *LayoutType[T]) MarshalJSON() ([]byte, error) {
 	if t.HasError() {
 		return []byte(`""`), t.Error
 	}
-	value := t.Layout(t.getLayout(), t.Timezone())
-	bs := make([]byte, 0, len(value)+2)
+	v := t.Layout(t.getLayout(), t.Timezone())
+	bs := make([]byte, 0, len(v)+2)
 	bs = append(bs, '"')
-	bs = append(bs, value...)
+	bs = append(bs, v...)
 	bs = append(bs, '"')
 	return bs, nil
 }
@@ -81,11 +81,11 @@ func (t *LayoutType[T]) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON implements json.Unmarshal interface for LayoutType generic struct.
 // 实现 json.Unmarshaler 接口
 func (t *LayoutType[T]) UnmarshalJSON(bs []byte) error {
-	value := string(bytes.Trim(bs, `"`))
-	if value == "" || value == "null" || value == "0" {
+	v := string(bytes.Trim(bs, `"`))
+	if v == "" || v == "null" || v == "0" {
 		return nil
 	}
-	*t = *NewLayoutType[T](ParseByLayout(value, t.getLayout()))
+	*t = *NewLayoutType[T](ParseByLayout(v, t.getLayout()))
 	return t.Error
 }
 
@@ -107,6 +107,6 @@ func (t *LayoutType[T]) GormDataType() string {
 // getLayout returns the set layout.
 // 返回设置的布局模板
 func (t *LayoutType[T]) getLayout() string {
-	var factory T
-	return factory.Layout()
+	var typer T
+	return typer.Layout()
 }
