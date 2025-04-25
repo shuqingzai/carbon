@@ -20,7 +20,7 @@ const (
 // 定义 timestampFactory 接口
 type timestampFactory interface {
 	~int64
-	setPrecision() int64
+	precision() int64
 }
 
 // defines a timestampType generic struct.
@@ -188,5 +188,5 @@ func (t *timestampType[T]) GormDataType() string {
 // 返回设置的时间戳精度
 func (t *timestampType[T]) getPrecision() int64 {
 	var factory T
-	return factory.setPrecision()
+	return factory.precision()
 }
