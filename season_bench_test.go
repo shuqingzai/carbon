@@ -6,6 +6,7 @@ import (
 
 func BenchmarkCarbon_Season(b *testing.B) {
 	c := Now()
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		c.Season()
 	}
@@ -13,6 +14,7 @@ func BenchmarkCarbon_Season(b *testing.B) {
 
 func BenchmarkCarbon_StartOfSeason(b *testing.B) {
 	c := Now()
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		c.StartOfSeason()
 	}
@@ -20,6 +22,7 @@ func BenchmarkCarbon_StartOfSeason(b *testing.B) {
 
 func BenchmarkCarbon_EndOfSeason(b *testing.B) {
 	c := Now()
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		c.EndOfSeason()
 	}
@@ -27,6 +30,7 @@ func BenchmarkCarbon_EndOfSeason(b *testing.B) {
 
 func BenchmarkCarbon_IsSpring(b *testing.B) {
 	c := Now()
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		c.IsSpring()
 	}
@@ -34,6 +38,7 @@ func BenchmarkCarbon_IsSpring(b *testing.B) {
 
 func BenchmarkCarbon_IsSummer(b *testing.B) {
 	c := Now()
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		c.IsSummer()
 	}
@@ -41,6 +46,7 @@ func BenchmarkCarbon_IsSummer(b *testing.B) {
 
 func BenchmarkCarbon_IsAutumn(b *testing.B) {
 	c := Now()
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		c.IsAutumn()
 	}
@@ -48,6 +54,7 @@ func BenchmarkCarbon_IsAutumn(b *testing.B) {
 
 func BenchmarkCarbon_IsWinter(b *testing.B) {
 	c := Now()
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		c.IsWinter()
 	}
