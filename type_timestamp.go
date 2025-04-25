@@ -87,18 +87,18 @@ func (t *timestampType[T]) Value() (driver.Value, error) {
 	if t.HasError() {
 		return nil, t.Error
 	}
-	var v int64
+	var ts int64
 	switch t.getPrecision() {
 	case precisionSecond:
-		v = t.Timestamp()
+		ts = t.Timestamp()
 	case precisionMillisecond:
-		v = t.TimestampMilli()
+		ts = t.TimestampMilli()
 	case precisionMicrosecond:
-		v = t.TimestampMicro()
+		ts = t.TimestampMicro()
 	case precisionNanosecond:
-		v = t.TimestampNano()
+		ts = t.TimestampNano()
 	}
-	return v, nil
+	return ts, nil
 }
 
 // MarshalJSON implements json.Marshal interface for TimestampType generic struct.
