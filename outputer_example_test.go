@@ -6,15 +6,6 @@ import (
 	"github.com/dromara/carbon/v2"
 )
 
-func ExampleCarbon_String() {
-	fmt.Println(carbon.Parse("2020-08-05 13:14:15").String())
-	fmt.Println(carbon.Parse("2020-08-05 13:14:15", carbon.PRC).String())
-
-	// Output:
-	// 2020-08-05 13:14:15
-	// 2020-08-05 13:14:15
-}
-
 func ExampleCarbon_GoString() {
 	fmt.Println(carbon.Parse("2020-08-05 13:14:15").GoString())
 	fmt.Println(carbon.Parse("2020-08-05 13:14:15", carbon.PRC).GoString())

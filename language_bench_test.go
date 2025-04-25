@@ -6,6 +6,7 @@ import (
 
 func BenchmarkLanguage_SetLocale(b *testing.B) {
 	lang := NewLanguage()
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		lang.SetLocale("en")
 	}
@@ -17,6 +18,7 @@ func BenchmarkLanguage_SetResources(b *testing.B) {
 		"short_months": "Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ",
 	}
 	lang := NewLanguage()
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		lang.SetResources(resources)
 	}
@@ -25,6 +27,7 @@ func BenchmarkLanguage_SetResources(b *testing.B) {
 func BenchmarkLanguage_translate(b *testing.B) {
 	lang := NewLanguage()
 	lang.SetLocale("en")
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		lang.translate("month", 1)
 	}
