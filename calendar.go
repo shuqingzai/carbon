@@ -9,11 +9,11 @@ import (
 // Lunar converts Carbon instance to Lunar instance.
 // 将 Carbon 实例转化为 Lunar 实例
 func (c *Carbon) Lunar() *lunar.Lunar {
-	l := new(lunar.Lunar)
 	if c.IsNil() {
 		return nil
 	}
 	if c.HasError() {
+		l := new(lunar.Lunar)
 		l.Error = c.Error
 		return l
 	}
@@ -33,12 +33,11 @@ func CreateFromLunar(year, month, day int, isLeapMonth bool) *Carbon {
 // Julian converts Carbon instance to Julian instance.
 // 将 Carbon 实例转化为 Julian 实例
 func (c *Carbon) Julian() *julian.Julian {
-	j := new(julian.Julian)
 	if c.IsNil() {
 		return nil
 	}
 	if c.HasError() {
-		return j
+		return new(julian.Julian)
 	}
 	return julian.FromStdTime(c.StdTime())
 }
@@ -46,18 +45,17 @@ func (c *Carbon) Julian() *julian.Julian {
 // CreateFromJulian creates a Carbon instance from Julian Day or Modified Julian Day.
 // 从 儒略日/简化儒略日 创建 Carbon 实例
 func CreateFromJulian(f float64) *Carbon {
-	j := julian.NewJulian(f)
-	return NewCarbon(j.ToGregorian(DefaultTimezone).Time)
+	return NewCarbon(julian.NewJulian(f).ToGregorian(DefaultTimezone).Time)
 }
 
 // Persian converts Carbon instance to Persian instance.
 // 将 Carbon 实例转化为 Persian 实例
 func (c *Carbon) Persian() *persian.Persian {
-	p := new(persian.Persian)
 	if c.IsNil() {
 		return nil
 	}
 	if c.HasError() {
+		p := new(persian.Persian)
 		p.Error = c.Error
 		return p
 	}
