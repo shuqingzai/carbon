@@ -41,20 +41,20 @@ func newTimestampType[T timestampFactory](c *Carbon) *timestampType[T] {
 // Scan implements driver.Scanner interface for timestampType generic struct.
 // 实现 driver.Scanner 接口
 func (t *timestampType[T]) Scan(src any) (err error) {
-	ts := int64(0)
-	c := NewCarbon()
+	var (
+		ts int64
+		c  *Carbon
+	)
 	switch v := src.(type) {
 	case nil:
 		return nil
 	case []byte:
-		ts, err = strconv.ParseInt(string(v), 10, 64)
-		if err != nil {
-			return ErrInvalidTimestamp(string(v))
+		if ts, err = parseTimestamp(string(v)); err != nil {
+			return err
 		}
 	case string:
-		ts, err = strconv.ParseInt(v, 10, 64)
-		if err != nil {
-			return ErrInvalidTimestamp(v)
+		if ts, err = parseTimestamp(v); err != nil {
+			return err
 		}
 	case int64:
 		ts = v
@@ -129,15 +129,14 @@ func (t *timestampType[T]) MarshalJSON() ([]byte, error) {
 // 实现 json.Unmarshaler 接口
 func (t *timestampType[T]) UnmarshalJSON(b []byte) error {
 	value := string(bytes.Trim(b, `"`))
-	println("value", value)
-	c := NewCarbon()
 	if value == "" || value == "null" || value == "0" {
 		return nil
 	}
-	ts, err := strconv.ParseInt(value, 10, 64)
+	ts, err := parseTimestamp(value)
 	if err != nil {
-		return ErrInvalidTimestamp(value)
+		return err
 	}
+	var c *Carbon
 	switch t.getPrecision() {
 	case precisionSecond:
 		c = CreateFromTimestamp(ts, DefaultTimezone)
