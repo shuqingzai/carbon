@@ -126,10 +126,10 @@ func TestPersian_ToMonthString(t *testing.T) {
 		p := FromStdTime(time.Date(2020, 2, 1, 0, 0, 0, 0, loc))
 
 		assert.Equal(t, "1398-11-12", p.String())
-		assert.Equal(t, "Bahman", p.ToMonthString("en"))
+		assert.Equal(t, "Bahman", p.ToMonthString(EnLocale))
 
 		assert.Equal(t, "1398-11-12", p.String())
-		assert.Equal(t, "بهمن", p.ToMonthString("fa"))
+		assert.Equal(t, "بهمن", p.ToMonthString(FaLocale))
 	})
 }
 
@@ -150,10 +150,10 @@ func TestPersian_ToShortMonthString(t *testing.T) {
 		p := FromStdTime(time.Date(2020, 2, 1, 0, 0, 0, 0, loc))
 
 		assert.Equal(t, "1398-11-12", p.String())
-		assert.Equal(t, "Bah", p.ToShortMonthString("en"))
+		assert.Equal(t, "Bah", p.ToShortMonthString(EnLocale))
 
 		assert.Equal(t, "1398-11-12", p.String())
-		assert.Equal(t, "بهم", p.ToShortMonthString("fa"))
+		assert.Equal(t, "بهم", p.ToShortMonthString(FaLocale))
 	})
 }
 
@@ -174,10 +174,10 @@ func TestPersian_ToWeekString(t *testing.T) {
 		p := FromStdTime(time.Date(2020, 1, 1, 0, 0, 0, 0, loc))
 
 		assert.Equal(t, "1398-10-11", p.String())
-		assert.Equal(t, "Chaharshanbeh", p.ToWeekString("en"))
+		assert.Equal(t, "Chaharshanbeh", p.ToWeekString(EnLocale))
 
 		assert.Equal(t, "1398-10-11", p.String())
-		assert.Equal(t, "چهارشنبه", p.ToWeekString("fa"))
+		assert.Equal(t, "چهارشنبه", p.ToWeekString(FaLocale))
 	})
 }
 
@@ -198,10 +198,10 @@ func TestPersian_ToShortWeekString(t *testing.T) {
 		p := FromStdTime(time.Date(2020, 1, 1, 0, 0, 0, 0, loc))
 
 		assert.Equal(t, "1398-10-11", p.String())
-		assert.Equal(t, "Cha", p.ToShortWeekString("en"))
+		assert.Equal(t, "Cha", p.ToShortWeekString(EnLocale))
 
 		assert.Equal(t, "1398-10-11", p.String())
-		assert.Equal(t, "د", p.ToShortWeekString("fa"))
+		assert.Equal(t, "د", p.ToShortWeekString(FaLocale))
 	})
 }
 
