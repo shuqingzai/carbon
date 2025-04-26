@@ -55,7 +55,7 @@ func BenchmarkCarbonType_GormDataType(b *testing.B) {
 	c := Now()
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		c.GormDataType()
+		_ = c.GormDataType()
 	}
 }
 
@@ -132,7 +132,7 @@ func BenchmarkBuiltinType_GormDataType(b *testing.B) {
 	t := NewDateTime(Now())
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		t.GormDataType()
+		_ = t.GormDataType()
 	}
 }
 
@@ -191,6 +191,6 @@ func BenchmarkCustomerType_GormDataType(b *testing.B) {
 	t := NewFormatType[iso8601Type](Parse("2020-08-05"))
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		t.GormDataType()
+		_ = t.GormDataType()
 	}
 }
