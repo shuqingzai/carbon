@@ -21,9 +21,9 @@ type FormatType[T FormatTyper] struct {
 
 // NewFormatType returns a new FormatType generic instance.
 // 返回 FormatType 泛型实例
-func NewFormatType[T FormatTyper](carbon *Carbon) *FormatType[T] {
+func NewFormatType[T FormatTyper](c *Carbon) *FormatType[T] {
 	return &FormatType[T]{
-		Carbon: carbon,
+		Carbon: c,
 	}
 }
 
@@ -71,17 +71,17 @@ func (t *FormatType[T]) MarshalJSON() ([]byte, error) {
 		return []byte(`""`), t.Error
 	}
 	v := t.Format(t.getFormat(), t.Timezone())
-	bs := make([]byte, 0, len(v)+2)
-	bs = append(bs, '"')
-	bs = append(bs, v...)
-	bs = append(bs, '"')
-	return bs, nil
+	b := make([]byte, 0, len(v)+2)
+	b = append(b, '"')
+	b = append(b, v...)
+	b = append(b, '"')
+	return b, nil
 }
 
 // UnmarshalJSON implements json.Unmarshal interface for FormatType generic struct.
 // 实现 json.Unmarshaler 接口
-func (t *FormatType[T]) UnmarshalJSON(bs []byte) error {
-	v := string(bytes.Trim(bs, `"`))
+func (t *FormatType[T]) UnmarshalJSON(src []byte) error {
+	v := string(bytes.Trim(src, `"`))
 	if v == "" || v == "null" || v == "0" {
 		return nil
 	}

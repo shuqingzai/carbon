@@ -21,9 +21,9 @@ type LayoutType[T LayoutTyper] struct {
 
 // NewLayoutType returns a new LayoutType generic instance.
 // 返回 LayoutType 泛型实例
-func NewLayoutType[T LayoutTyper](carbon *Carbon) *LayoutType[T] {
+func NewLayoutType[T LayoutTyper](c *Carbon) *LayoutType[T] {
 	return &LayoutType[T]{
-		Carbon: carbon,
+		Carbon: c,
 	}
 }
 
@@ -71,17 +71,17 @@ func (t *LayoutType[T]) MarshalJSON() ([]byte, error) {
 		return []byte(`""`), t.Error
 	}
 	v := t.Layout(t.getLayout(), t.Timezone())
-	bs := make([]byte, 0, len(v)+2)
-	bs = append(bs, '"')
-	bs = append(bs, v...)
-	bs = append(bs, '"')
-	return bs, nil
+	b := make([]byte, 0, len(v)+2)
+	b = append(b, '"')
+	b = append(b, v...)
+	b = append(b, '"')
+	return b, nil
 }
 
 // UnmarshalJSON implements json.Unmarshal interface for LayoutType generic struct.
 // 实现 json.Unmarshaler 接口
-func (t *LayoutType[T]) UnmarshalJSON(bs []byte) error {
-	v := string(bytes.Trim(bs, `"`))
+func (t *LayoutType[T]) UnmarshalJSON(src []byte) error {
+	v := string(bytes.Trim(src, `"`))
 	if v == "" || v == "null" || v == "0" {
 		return nil
 	}

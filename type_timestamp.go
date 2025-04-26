@@ -126,8 +126,8 @@ func (t *timestampType[T]) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshal interface for timestampType generic struct.
 // 实现 json.Unmarshaler 接口
-func (t *timestampType[T]) UnmarshalJSON(bs []byte) error {
-	v := string(bytes.Trim(bs, `"`))
+func (t *timestampType[T]) UnmarshalJSON(src []byte) error {
+	v := string(bytes.Trim(src, `"`))
 	if v == "" || v == "null" || v == "0" {
 		return nil
 	}
@@ -163,7 +163,7 @@ func (t *timestampType[T]) String() string {
 // 返回时间戳
 func (t *timestampType[T]) Int64() (ts int64) {
 	if t.IsInvalid() || t.IsZero() {
-		return ts
+		return
 	}
 	switch t.getPrecision() {
 	case precisionSecond:

@@ -47,22 +47,22 @@ func (c *Carbon) MarshalJSON() ([]byte, error) {
 	if c.HasError() {
 		return []byte(`""`), c.Error
 	}
-	value := c.Layout(DefaultLayout, c.Timezone())
-	bs := make([]byte, 0, len(value)+2)
-	bs = append(bs, '"')
-	bs = append(bs, value...)
-	bs = append(bs, '"')
-	return bs, nil
+	v := c.Layout(DefaultLayout, c.Timezone())
+	b := make([]byte, 0, len(v)+2)
+	b = append(b, '"')
+	b = append(b, v...)
+	b = append(b, '"')
+	return b, nil
 }
 
 // UnmarshalJSON implements json.Unmarshal interface for Carbon struct.
 // 实现 json.Unmarshaler 接口
-func (c *Carbon) UnmarshalJSON(bs []byte) error {
-	value := string(bytes.Trim(bs, `"`))
-	if value == "" || value == "null" || value == "0" {
+func (c *Carbon) UnmarshalJSON(src []byte) error {
+	v := string(bytes.Trim(src, `"`))
+	if v == "" || v == "null" || v == "0" {
 		return nil
 	}
-	*c = *ParseByLayout(value, DefaultLayout)
+	*c = *ParseByLayout(v, DefaultLayout)
 	return c.Error
 }
 
