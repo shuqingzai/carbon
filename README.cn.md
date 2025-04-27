@@ -1676,7 +1676,7 @@ timezone "xxx" is invalid, please see the file "$GOROOT/lib/time/zoneinfo.zip" f
 #### 常见问题
 
 1、v2.5.x 和 v2.6.x 版本有什么区别？
-> v2.5.x 及以下版本是值传递， v2.6.x 及以上版本是指针传递，并且使用了泛型实现了 JSON 编码输出格式自定义。两个版本都会长期维护，但是强烈建议使用 v2.6.x 及以上版本。
+> `v2.5.x` 及以下版本是`值`传递， `v2.6.x` 及以上版本是`指针`传递，强烈建议使用 v2.6.x 及以上版本。
 
 2、window 系统部署时时区报错
 
