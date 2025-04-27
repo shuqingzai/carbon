@@ -26,10 +26,10 @@ func Parse(value string, timezone ...string) *Carbon {
 	case "tomorrow":
 		return Tomorrow(c.Timezone())
 	}
-	for _, layout := range defaultLayouts {
-		if tt, err := time.ParseInLocation(layout, value, c.loc); err == nil {
+	for i := range defaultLayouts {
+		if tt, err := time.ParseInLocation(defaultLayouts[i], value, c.loc); err == nil {
 			c.time = tt
-			c.layout = layout
+			c.layout = defaultLayouts[i]
 			return c
 		}
 	}
@@ -130,10 +130,10 @@ func ParseWithLayouts(value string, layouts []string, timezone ...string) *Carbo
 	if c.HasError() {
 		return c
 	}
-	for _, layout := range layouts {
-		if tt, err := time.ParseInLocation(layout, value, c.loc); err == nil {
+	for i := range layouts {
+		if tt, err := time.ParseInLocation(layouts[i], value, c.loc); err == nil {
 			c.time = tt
-			c.layout = layout
+			c.layout = layouts[i]
 			return c
 		}
 	}
@@ -158,8 +158,8 @@ func ParseWithFormats(value string, formats []string, timezone ...string) *Carbo
 		return c
 	}
 	var layouts []string
-	for _, format := range formats {
-		layouts = append(layouts, format2layout(format))
+	for i := range formats {
+		layouts = append(layouts, format2layout(formats[i]))
 	}
 	return ParseWithLayouts(value, layouts, timezone...)
 }

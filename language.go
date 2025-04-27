@@ -48,8 +48,8 @@ func (lang *Language) Copy() *Language {
 		return newLang
 	}
 	newLang.resources = make(map[string]string)
-	for k, v := range lang.resources {
-		newLang.resources[k] = v
+	for i := range lang.resources {
+		newLang.resources[i] = lang.resources[i]
 	}
 	return newLang
 }
@@ -93,9 +93,9 @@ func (lang *Language) SetResources(resources map[string]string) *Language {
 	lang.rw.Lock()
 	defer lang.rw.Unlock()
 
-	for k, v := range resources {
-		if _, ok := lang.resources[k]; ok {
-			lang.resources[k] = v
+	for i := range resources {
+		if _, ok := lang.resources[i]; ok {
+			lang.resources[i] = resources[i]
 		} else {
 			lang.Error = ErrInvalidResourcesError()
 		}
