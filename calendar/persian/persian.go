@@ -31,9 +31,9 @@ var (
 	ShortFaWeeks = []string{"پ", "چ", "س", "د", "ی", "ش", "ج"}
 )
 
-// returns a invalid persian date.
+// ErrInvalidPersian returns a invalid persian date.
 // 无效的波斯历日期错误
-var invalidPersianError = func() error {
+var ErrInvalidPersian = func() error {
 	return fmt.Errorf("invalid persian date, please make sure the persian date is valid")
 }
 
@@ -50,7 +50,7 @@ func NewPersian(year, month, day int) *Persian {
 	p := new(Persian)
 	p.year, p.month, p.day = year, month, day
 	if !p.IsValid() {
-		p.Error = invalidPersianError()
+		p.Error = ErrInvalidPersian()
 	}
 	return p
 }
