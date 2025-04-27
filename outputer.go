@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// GoString implements fmt.GoStringer interface for FormatType struct.
+// GoString implements fmt.GoStringer interface for Carbon struct.
 // 实现 fmt.GoStringer 接口
 func (c *Carbon) GoString() string {
 	if c.IsInvalid() {
