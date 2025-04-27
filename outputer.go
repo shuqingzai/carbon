@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-// GoString implements fmt.GoStringer and formats c to be printed in Go source code.
-// 实现 fmt.GoStringer 接口，并格式化 c 以在 Go 源代码中打印
+// GoString implements fmt.GoStringer interface for FormatType struct.
+// 实现 fmt.GoStringer 接口
 func (c *Carbon) GoString() string {
 	if c.IsInvalid() {
 		return ""
