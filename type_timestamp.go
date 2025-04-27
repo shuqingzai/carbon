@@ -37,7 +37,7 @@ func NewTimestampType[T TimestampTyper](c *Carbon) *TimestampType[T] {
 	}
 }
 
-// Scan implements driver.Scanner interface for timestampType generic struct.
+// Scan implements driver.Scanner interface for TimestampType generic struct.
 // 实现 driver.Scanner 接口
 func (t *TimestampType[T]) Scan(src any) (err error) {
 	var (
@@ -78,7 +78,7 @@ func (t *TimestampType[T]) Scan(src any) (err error) {
 	return t.Error
 }
 
-// Value implements driver.Valuer interface for timestampType generic struct.
+// Value implements driver.Valuer interface for TimestampType generic struct.
 // 实现 driver.Valuer 接口
 func (t *TimestampType[T]) Value() (driver.Value, error) {
 	if t.IsNil() || t.IsZero() {
@@ -124,7 +124,7 @@ func (t *TimestampType[T]) MarshalJSON() ([]byte, error) {
 	return []byte(strconv.FormatInt(ts, 10)), nil
 }
 
-// UnmarshalJSON implements json.Unmarshal interface for timestampType generic struct.
+// UnmarshalJSON implements json.Unmarshal interface for TimestampType generic struct.
 // 实现 json.Unmarshaler 接口
 func (t *TimestampType[T]) UnmarshalJSON(src []byte) error {
 	v := string(bytes.Trim(src, `"`))
@@ -150,7 +150,7 @@ func (t *TimestampType[T]) UnmarshalJSON(src []byte) error {
 	return t.Error
 }
 
-// String implements Stringer interface for timestampType generic struct.
+// String implements Stringer interface for TimestampType generic struct.
 // 实现 Stringer 接口
 func (t *TimestampType[T]) String() string {
 	if t.IsInvalid() || t.IsZero() {
@@ -178,7 +178,7 @@ func (t *TimestampType[T]) Int64() (ts int64) {
 	return
 }
 
-// GormDataType sets gorm data type for timestampType generic struct.
+// GormDataType sets gorm data type for TimestampType generic struct.
 // 设置 gorm 数据类型
 func (t *TimestampType[T]) GormDataType() string {
 	return "time"
