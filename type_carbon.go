@@ -69,7 +69,7 @@ func (c *Carbon) UnmarshalJSON(src []byte) error {
 // String implements the interface Stringer for Carbon struct.
 // 实现 Stringer 接口
 func (c *Carbon) String() string {
-	if c == nil || c.IsInvalid() || c.IsZero() {
+	if c.IsInvalid() || c.IsZero() {
 		return ""
 	}
 	return c.Layout(c.layout, c.Timezone())
