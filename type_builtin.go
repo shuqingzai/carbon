@@ -1,10 +1,10 @@
 package carbon
 
 type (
-	Timestamp      = timestampType[timestampSecondType]
-	TimestampMilli = timestampType[timestampMilliType]
-	TimestampMicro = timestampType[timestampMicroType]
-	TimestampNano  = timestampType[timestampNanoType]
+	Timestamp      = TimestampType[timestampType]
+	TimestampMilli = TimestampType[timestampMilliType]
+	TimestampMicro = TimestampType[timestampMicroType]
+	TimestampNano  = TimestampType[timestampNanoType]
 
 	DateTime      = LayoutType[DateTimeType]
 	DateTimeMicro = LayoutType[DateTimeMicroType]
@@ -23,16 +23,16 @@ type (
 )
 
 func NewTimestamp(c *Carbon) *Timestamp {
-	return newTimestampType[timestampSecondType](c)
+	return NewTimestampType[timestampType](c)
 }
 func NewTimestampMilli(c *Carbon) *TimestampMilli {
-	return newTimestampType[timestampMilliType](c)
+	return NewTimestampType[timestampMilliType](c)
 }
 func NewTimestampMicro(c *Carbon) *TimestampMicro {
-	return newTimestampType[timestampMicroType](c)
+	return NewTimestampType[timestampMicroType](c)
 }
 func NewTimestampNano(c *Carbon) *TimestampNano {
-	return newTimestampType[timestampNanoType](c)
+	return NewTimestampType[timestampNanoType](c)
 }
 
 func NewDateTime(c *Carbon) *DateTime {
@@ -74,27 +74,27 @@ func NewTimeNano(c *Carbon) *TimeNano {
 	return NewLayoutType[TimeNanoType](c)
 }
 
-type timestampSecondType int64
+type timestampType int64
 
-func (t timestampSecondType) precision() int64 {
+func (t timestampType) Precision() int64 {
 	return precisionSecond
 }
 
 type timestampMilliType int64
 
-func (t timestampMilliType) precision() int64 {
+func (t timestampMilliType) Precision() int64 {
 	return precisionMillisecond
 }
 
 type timestampMicroType int64
 
-func (t timestampMicroType) precision() int64 {
+func (t timestampMicroType) Precision() int64 {
 	return precisionMicrosecond
 }
 
 type timestampNanoType int64
 
-func (t timestampNanoType) precision() int64 {
+func (t timestampNanoType) Precision() int64 {
 	return precisionNanosecond
 }
 

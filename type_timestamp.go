@@ -16,30 +16,30 @@ const (
 	precisionNanosecond  = 999999999
 )
 
-// defines a timestampTyper interface.
-// 定义 timestampTyper 接口
-type timestampTyper interface {
+// TimestampTyper defines a TimestampTyper interface.
+// 定义 TimestampTyper 接口
+type TimestampTyper interface {
 	~int64
-	precision() int64
+	Precision() int64
 }
 
-// defines a timestampType generic struct.
-// 定义 timestampType 泛型结构体
-type timestampType[T timestampTyper] struct {
+// TimestampType defines a TimestampType generic struct.
+// 定义 TimestampType 泛型结构体
+type TimestampType[T TimestampTyper] struct {
 	*Carbon
 }
 
-// returns a new timestampType generic instance.
-// 返回 timestampType 泛型实例
-func newTimestampType[T timestampTyper](c *Carbon) *timestampType[T] {
-	return &timestampType[T]{
+// NewTimestampType returns a new TimestampType generic instance.
+// 返回 TimestampType 泛型实例
+func NewTimestampType[T TimestampTyper](c *Carbon) *TimestampType[T] {
+	return &TimestampType[T]{
 		Carbon: c,
 	}
 }
 
 // Scan implements driver.Scanner interface for timestampType generic struct.
 // 实现 driver.Scanner 接口
-func (t *timestampType[T]) Scan(src any) (err error) {
+func (t *TimestampType[T]) Scan(src any) (err error) {
 	var (
 		ts int64
 		c  *Carbon
@@ -59,7 +59,7 @@ func (t *timestampType[T]) Scan(src any) (err error) {
 		ts = v
 	case time.Time:
 		c = CreateFromStdTime(v, DefaultTimezone)
-		*t = *newTimestampType[T](c)
+		*t = *NewTimestampType[T](c)
 		return t.Error
 	default:
 		return ErrFailedScan(src)
@@ -74,13 +74,13 @@ func (t *timestampType[T]) Scan(src any) (err error) {
 	case precisionNanosecond:
 		c = CreateFromTimestampNano(ts, DefaultTimezone)
 	}
-	*t = *newTimestampType[T](c)
+	*t = *NewTimestampType[T](c)
 	return t.Error
 }
 
 // Value implements driver.Valuer interface for timestampType generic struct.
 // 实现 driver.Valuer 接口
-func (t *timestampType[T]) Value() (driver.Value, error) {
+func (t *TimestampType[T]) Value() (driver.Value, error) {
 	if t.IsNil() || t.IsZero() {
 		return nil, nil
 	}
@@ -103,7 +103,7 @@ func (t *timestampType[T]) Value() (driver.Value, error) {
 
 // MarshalJSON implements json.Marshal interface for TimestampType generic struct.
 // 实现 json.Marshaler 接口
-func (t *timestampType[T]) MarshalJSON() ([]byte, error) {
+func (t *TimestampType[T]) MarshalJSON() ([]byte, error) {
 	if t.IsNil() || t.IsZero() {
 		return []byte(`0`), nil
 	}
@@ -126,7 +126,7 @@ func (t *timestampType[T]) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshal interface for timestampType generic struct.
 // 实现 json.Unmarshaler 接口
-func (t *timestampType[T]) UnmarshalJSON(src []byte) error {
+func (t *TimestampType[T]) UnmarshalJSON(src []byte) error {
 	v := string(bytes.Trim(src, `"`))
 	if v == "" || v == "null" || v == "0" {
 		return nil
@@ -146,13 +146,13 @@ func (t *timestampType[T]) UnmarshalJSON(src []byte) error {
 	case precisionNanosecond:
 		c = CreateFromTimestampNano(ts, DefaultTimezone)
 	}
-	*t = *newTimestampType[T](c)
+	*t = *NewTimestampType[T](c)
 	return t.Error
 }
 
 // String implements Stringer interface for timestampType generic struct.
 // 实现 Stringer 接口
-func (t *timestampType[T]) String() string {
+func (t *TimestampType[T]) String() string {
 	if t.IsInvalid() || t.IsZero() {
 		return "0"
 	}
@@ -161,7 +161,7 @@ func (t *timestampType[T]) String() string {
 
 // Int64 returns the timestamp value.
 // 返回时间戳
-func (t *timestampType[T]) Int64() (ts int64) {
+func (t *TimestampType[T]) Int64() (ts int64) {
 	if t.IsInvalid() || t.IsZero() {
 		return
 	}
@@ -180,13 +180,13 @@ func (t *timestampType[T]) Int64() (ts int64) {
 
 // GormDataType sets gorm data type for timestampType generic struct.
 // 设置 gorm 数据类型
-func (t *timestampType[T]) GormDataType() string {
+func (t *TimestampType[T]) GormDataType() string {
 	return "time"
 }
 
 // getPrecision returns the set timestamp precision.
 // 返回设置的时间戳精度
-func (t *timestampType[T]) getPrecision() int64 {
+func (t *TimestampType[T]) getPrecision() int64 {
 	var typer T
-	return typer.precision()
+	return typer.Precision()
 }
