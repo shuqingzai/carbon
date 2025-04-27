@@ -16,10 +16,10 @@ func (c *Carbon) Scan(src any) error {
 		*c = *Parse(string(v), DefaultTimezone)
 	case string:
 		*c = *Parse(v, DefaultTimezone)
-	case time.Time:
-		*c = *CreateFromStdTime(v, DefaultTimezone)
 	case int64:
 		*c = *CreateFromTimestamp(v, DefaultTimezone)
+	case time.Time:
+		*c = *CreateFromStdTime(v, DefaultTimezone)
 	default:
 		return ErrFailedScan(v)
 	}
