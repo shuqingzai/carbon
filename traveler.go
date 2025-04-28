@@ -11,12 +11,14 @@ func Now(timezone ...string) *Carbon {
 		return frozenNow.testNow
 	}
 	var (
+		tz  string
 		loc *Location
 		err error
 	)
-	tz := DefaultTimezone
 	if len(timezone) > 0 {
 		tz = timezone[0]
+	} else {
+		tz = DefaultTimezone
 	}
 	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
