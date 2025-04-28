@@ -4,6 +4,7 @@ import (
 	"embed"
 	"encoding/json"
 	"fmt"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"sync"
@@ -26,7 +27,7 @@ type Language struct {
 // 初始化 Language 结构体
 func NewLanguage() *Language {
 	return &Language{
-		dir:       "lang/",
+		dir:       "lang",
 		locale:    DefaultLocale,
 		resources: make(map[string]string),
 		rw:        new(sync.RWMutex),
@@ -70,7 +71,7 @@ func (lang *Language) SetLocale(locale string) *Language {
 	defer lang.rw.Unlock()
 
 	lang.locale = locale
-	fileName := lang.dir + locale + ".json"
+	fileName := filepath.Join(lang.dir, locale+".json")
 	var (
 		bs  []byte
 		err error
