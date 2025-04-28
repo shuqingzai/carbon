@@ -2,6 +2,7 @@ package carbon
 
 import (
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -70,6 +71,21 @@ func TestLanguage_SetLocale(t *testing.T) {
 		lang.SetLocale("")
 		fmt.Println("lang", lang.locale)
 		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
+	})
+
+	t.Run("invalid resources", func(t *testing.T) {
+		lang := NewLanguage()
+		locale := "demo"
+		fileName := fmt.Sprintf("%s/%s.json", lang.dir, locale)
+		file, err := os.Create(fileName)
+		if err == nil {
+			file.WriteString(locale)
+		}
+		defer func() {
+			os.Remove(fileName)
+			file.Close()
+		}()
+		assert.Error(t, lang.SetLocale(locale).Error)
 	})
 
 	t.Run("valid time", func(t *testing.T) {

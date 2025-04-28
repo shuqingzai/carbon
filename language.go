@@ -3,6 +3,7 @@ package carbon
 import (
 	"embed"
 	"encoding/json"
+	"fmt"
 	"strconv"
 	"strings"
 	"sync"
@@ -70,12 +71,17 @@ func (lang *Language) SetLocale(locale string) *Language {
 
 	lang.locale = locale
 	fileName := lang.dir + locale + ".json"
-	bytes, err := fs.ReadFile(fileName)
-	if err != nil {
-		lang.Error = ErrNotExistLocale(fileName)
+	var (
+		bs  []byte
+		err error
+	)
+	if bs, err = fs.ReadFile(fileName); err != nil {
+		lang.Error = fmt.Errorf("%w: %w", ErrNotExistLocale(fileName), err)
 		return lang
 	}
-	_ = json.Unmarshal(bytes, &lang.resources)
+	if err = json.Unmarshal(bs, &lang.resources); err != nil {
+		lang.Error = fmt.Errorf("%w: %w", ErrInvalidResourcesError(), err)
+	}
 	return lang
 }
 
