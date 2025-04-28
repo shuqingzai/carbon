@@ -12,13 +12,15 @@ func Parse(value string, timezone ...string) *Carbon {
 		return nil
 	}
 	var (
+		tz  string
 		tt  StdTime
 		loc *Location
 		err error
 	)
-	tz := DefaultTimezone
 	if len(timezone) > 0 {
 		tz = timezone[0]
+	} else {
+		tz = DefaultTimezone
 	}
 	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
@@ -53,14 +55,16 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 		return &Carbon{Error: ErrEmptyLayout()}
 	}
 	var (
+		ts  int64
+		tz  string
 		tt  StdTime
 		loc *Location
-		ts  int64
 		err error
 	)
-	tz := DefaultTimezone
 	if len(timezone) > 0 {
 		tz = timezone[0]
+	} else {
+		tz = DefaultTimezone
 	}
 	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
@@ -128,13 +132,15 @@ func ParseWithLayouts(value string, layouts []string, timezone ...string) *Carbo
 		return Parse(value, timezone...)
 	}
 	var (
+		tz  string
 		tt  StdTime
 		loc *Location
 		err error
 	)
-	tz := DefaultTimezone
 	if len(timezone) > 0 {
 		tz = timezone[0]
+	} else {
+		tz = DefaultTimezone
 	}
 	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
@@ -161,11 +167,13 @@ func ParseWithFormats(value string, formats []string, timezone ...string) *Carbo
 		return Parse(value, timezone...)
 	}
 	var (
+		tz  string
 		err error
 	)
-	tz := DefaultTimezone
 	if len(timezone) > 0 {
 		tz = timezone[0]
+	} else {
+		tz = DefaultTimezone
 	}
 	if _, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
