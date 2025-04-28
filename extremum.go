@@ -1,21 +1,43 @@
 package carbon
 
+import "time"
+
+const (
+	minDuration Duration = -1 << 63
+	maxDuration Duration = 1<<63 - 1
+)
+
 // MaxValue returns a Carbon instance for the greatest supported date.
 // 返回 Carbon 的最大值
 func MaxValue() *Carbon {
-	return create(9999, 12, 31, 23, 59, 59, 999999999, UTC)
+	return NewCarbon(time.Date(9999, time.December, 31, 23, 59, 59, 999999999, time.UTC))
 }
 
 // MinValue returns a Carbon instance for the lowest supported date.
 // 返回 Carbon 的最小值
 func MinValue() *Carbon {
-	return create(-9998, 1, 1, 0, 0, 0, 0, UTC)
+	return NewCarbon(time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC))
 }
 
-// Max returns the maximum Carbon instance from the given Carbon instance (second-precision).
+// MaxDuration returns the maximum duration value.
+// 返回 Duration 的最大值
+func MaxDuration() Duration {
+	return maxDuration
+}
+
+// MinDuration returns the minimum duration value.
+// 返回 Duration 的最小值
+func MinDuration() Duration {
+	return minDuration
+}
+
+// Max returns the maximum Carbon instance from the given Carbon instance.
 // 返回最大的 Carbon 实例
 func Max(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	c = c1
+	if len(c2) == 0 {
+		return
+	}
 	for i := range c2 {
 		if c.IsInvalid() || c2[i].IsInvalid() {
 			return nil
@@ -27,10 +49,13 @@ func Max(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	return
 }
 
-// Min returns the minimum Carbon instance from the given Carbon instance (second-precision).
+// Min returns the minimum Carbon instance from the given Carbon instance.
 // 返回最小的 Carbon 实例
 func Min(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	c = c1
+	if len(c2) == 0 {
+		return
+	}
 	for i := range c2 {
 		if c.IsInvalid() || c2[i].IsInvalid() {
 			return nil

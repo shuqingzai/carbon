@@ -7,25 +7,69 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestLanguage_Copy(t *testing.T) {
+	t.Run("nil language", func(t *testing.T) {
+		oldLang := NewLanguage()
+		oldLang = nil
+		newCarbon := oldLang.Copy()
+
+		assert.Nil(t, oldLang)
+		assert.Nil(t, newCarbon)
+	})
+
+	t.Run("nil resources", func(t *testing.T) {
+		oldLang := NewLanguage()
+		oldLang.resources = nil
+		newCarbon := oldLang.Copy()
+		assert.Equal(t, newCarbon.resources, oldLang.resources)
+	})
+
+	t.Run("copy dir", func(t *testing.T) {
+		oldLang := NewLanguage()
+		oldLang.dir = "lang/"
+		newCarbon := oldLang.Copy()
+		assert.Equal(t, oldLang.dir, newCarbon.dir)
+	})
+
+	t.Run("copy locale", func(t *testing.T) {
+		oldLang := NewLanguage()
+		oldLang.locale = "en"
+		newCarbon := oldLang.Copy()
+		assert.Equal(t, oldLang.locale, newCarbon.locale)
+	})
+
+	t.Run("copy resources", func(t *testing.T) {
+		resources := map[string]string{
+			"months":       "Ⅰ月|Ⅱ月|Ⅲ月|Ⅳ月|Ⅴ月|Ⅵ月|Ⅶ月|Ⅷ月|Ⅸ月|Ⅹ月|Ⅺ月|Ⅻ月",
+			"short_months": "Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ",
+		}
+
+		oldLang := NewLanguage()
+		oldLang.SetLocale("en").SetResources(resources)
+		newCarbon := oldLang.Copy()
+		assert.Equal(t, oldLang.resources, newCarbon.resources)
+	})
+}
+
 func TestLanguage_SetLocale(t *testing.T) {
 	t.Run("nil language", func(t *testing.T) {
 		lang := NewLanguage()
 		lang = nil
 		lang.SetLocale("en")
-		assert.Empty(t, Now().SetLanguage(lang).ToMonthString())
+		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	t.Run("invalid locale", func(t *testing.T) {
 		lang := NewLanguage()
 		lang.SetLocale("xxx")
-		assert.Empty(t, Now().SetLanguage(lang).ToMonthString())
+		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	t.Run("empty locale", func(t *testing.T) {
 		lang := NewLanguage()
 		lang.SetLocale("")
 		fmt.Println("lang", lang.locale)
-		assert.Empty(t, Now().SetLanguage(lang).ToMonthString())
+		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	t.Run("valid time", func(t *testing.T) {
@@ -56,20 +100,19 @@ func TestLanguage_SetResources(t *testing.T) {
 		lang := NewLanguage()
 		lang = nil
 		lang.SetResources(nil)
-		assert.Empty(t, Now().SetLanguage(lang).ToMonthString())
+		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	t.Run("nil resources", func(t *testing.T) {
 		lang := NewLanguage()
 		lang.SetResources(nil)
-		assert.Empty(t, Now().SetLanguage(lang).ToMonthString())
+		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	t.Run("empty resources", func(t *testing.T) {
 		lang := NewLanguage()
 		lang.SetResources(map[string]string{})
-		fmt.Println("lang", lang.locale)
-		assert.Equal(t, March, Now().SetLanguage(lang).ToMonthString())
+		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	t.Run("invalid resources", func(t *testing.T) {
@@ -77,8 +120,7 @@ func TestLanguage_SetResources(t *testing.T) {
 		lang.SetResources(map[string]string{
 			"xxx": "xxx",
 		})
-		fmt.Println("lang", lang.locale)
-		assert.Empty(t, Now().SetLanguage(lang).ToMonthString())
+		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	t.Run("set some resources", func(t *testing.T) {
@@ -150,8 +192,7 @@ func TestLanguage_translate(t *testing.T) {
 	t.Run("empty resources", func(t *testing.T) {
 		lang := NewLanguage()
 		lang.SetResources(map[string]string{})
-		fmt.Println("lang", lang.locale)
-		assert.Equal(t, "1 month", lang.translate("month", 1))
+		assert.Empty(t, lang.translate("month", 1))
 	})
 
 	t.Run("invalid resources", func(t *testing.T) {
@@ -159,14 +200,12 @@ func TestLanguage_translate(t *testing.T) {
 		lang.SetResources(map[string]string{
 			"xxx": "xxx",
 		})
-		fmt.Println("lang", lang.locale)
 		assert.Empty(t, lang.translate("month", 1))
 	})
 
 	t.Run("valid resources", func(t *testing.T) {
 		lang := NewLanguage()
 		lang.SetLocale("en")
-		fmt.Println("lang", lang.locale)
 		assert.Equal(t, "1 month", lang.translate("month", 1))
 		assert.Equal(t, "-1 month", lang.translate("month", -1))
 	})

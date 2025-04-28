@@ -6,53 +6,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCarbon_Lunar(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Empty(t, NewCarbon().Lunar().String())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.Lunar().String())
-	})
-
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").Lunar().String())
-		assert.Empty(t, Parse("0").Lunar().String())
-		assert.Empty(t, Parse("xxx").Lunar().String())
-	})
-
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2023-12-08 00:00:00", Parse("2024-01-18", PRC).Lunar().String())
-		assert.Equal(t, "2023-12-11 00:00:00", Parse("2024-01-21", PRC).Lunar().String())
-		assert.Equal(t, "2023-12-14 00:00:00", Parse("2024-01-24", PRC).Lunar().String())
-	})
-}
-
-func TestCreateFromLunar(t *testing.T) {
-	t.Run("invalid lunar", func(t *testing.T) {
-		assert.Empty(t, CreateFromLunar(2200, 12, 14, 12, 0, 0, false).ToDateTimeString())
-	})
-
-	t.Run("valid lunar", func(t *testing.T) {
-		assert.Equal(t, "2024-01-21 00:00:00", CreateFromLunar(2023, 12, 11, 0, 0, 0, false).ToDateTimeString(PRC))
-		assert.Equal(t, "2024-01-18 00:00:00", CreateFromLunar(2023, 12, 8, 0, 0, 0, false).ToDateTimeString(PRC))
-		assert.Equal(t, "2024-01-24 12:00:00", CreateFromLunar(2023, 12, 14, 12, 0, 0, false).ToDateTimeString(PRC))
-	})
-}
-
 func TestCarbon_Julian(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, 1.7214235e+06, NewCarbon().Julian().JD())
 		assert.Equal(t, float64(-678577), NewCarbon().Julian().MJD())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Zero(t, c.Julian().JD())
-		assert.Zero(t, c.Julian().MJD())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -66,20 +23,64 @@ func TestCarbon_Julian(t *testing.T) {
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, float64(2460334), Parse("2024-01-24 12:00:00").Julian().JD())
-		assert.Equal(t, 60333.5, Parse("2024-01-24 12:00:00").Julian().MJD())
+		j := Parse("2024-01-23 13:14:15").Julian()
+
+		assert.Equal(t, 2460333.051563, j.JD())
+		assert.Equal(t, 60332.551563, j.MJD())
+
+		assert.Equal(t, 2460333.0516, j.JD(4))
+		assert.Equal(t, 60332.5516, j.MJD(4))
+
+		assert.Equal(t, 2460333.0515625, j.JD(7))
+		assert.Equal(t, 60332.5515625, j.MJD(7))
 	})
 }
 
 func TestCreateFromJulian(t *testing.T) {
 	t.Run("invalid julian", func(t *testing.T) {
-		assert.Empty(t, CreateFromJulian(0).ToDateTimeString())
-		assert.Empty(t, CreateFromJulian(-1).ToDateTimeString())
+		assert.Equal(t, "-4712-01-01 12:00:00", CreateFromJulian(0).String())
+		assert.Equal(t, "-4712-01-01 12:00:00", CreateFromJulian(-1).String())
 	})
 
 	t.Run("valid julian", func(t *testing.T) {
-		assert.Equal(t, "2024-01-24 12:00:00", CreateFromJulian(2460334).ToDateTimeString())
-		assert.Equal(t, "2024-01-24 12:00:00", CreateFromJulian(60333.5).ToDateTimeString())
+		assert.Equal(t, "2024-01-23 13:14:15 +0000 UTC", CreateFromJulian(2460333.051563).ToString())
+		assert.Equal(t, "2024-01-23 13:14:15 +0000 UTC", CreateFromJulian(60332.551563).ToString())
+
+		assert.Equal(t, "2024-01-23 13:14:18 +0000 UTC", CreateFromJulian(2460333.0516).ToString())
+		assert.Equal(t, "2024-01-23 13:14:18 +0000 UTC", CreateFromJulian(60332.5516).ToString())
+
+		assert.Equal(t, "2024-01-23 13:14:15 +0000 UTC", CreateFromJulian(2460333.0515625).ToString())
+		assert.Equal(t, "2024-01-23 13:14:15 +0000 UTC", CreateFromJulian(60332.5515625).ToString())
+	})
+}
+
+func TestCarbon_Lunar(t *testing.T) {
+	t.Run("zero time", func(t *testing.T) {
+		assert.Empty(t, NewCarbon().Lunar().String())
+	})
+
+	t.Run("invalid time", func(t *testing.T) {
+		assert.Empty(t, Parse("").Lunar().String())
+		assert.Empty(t, Parse("0").Lunar().String())
+		assert.Empty(t, Parse("xxx").Lunar().String())
+	})
+
+	t.Run("valid time", func(t *testing.T) {
+		assert.Equal(t, "2023-12-08", Parse("2024-01-18", PRC).Lunar().String())
+		assert.Equal(t, "2023-12-11", Parse("2024-01-21", PRC).Lunar().String())
+		assert.Equal(t, "2023-12-14", Parse("2024-01-24", PRC).Lunar().String())
+	})
+}
+
+func TestCreateFromLunar(t *testing.T) {
+	t.Run("invalid lunar", func(t *testing.T) {
+		assert.Empty(t, CreateFromLunar(2200, 12, 14, false).ToString())
+	})
+
+	t.Run("valid lunar", func(t *testing.T) {
+		assert.Equal(t, "2024-01-21 00:00:00 +0800 CST", CreateFromLunar(2023, 12, 11, false).ToString(PRC))
+		assert.Equal(t, "2024-01-18 00:00:00 +0800 CST", CreateFromLunar(2023, 12, 8, false).ToString(PRC))
+		assert.Equal(t, "2024-01-24 00:00:00 +0800 CST", CreateFromLunar(2023, 12, 14, false).ToString(PRC))
 	})
 }
 
@@ -89,13 +90,6 @@ func TestCarbon_Persian(t *testing.T) {
 		assert.Empty(t, NewCarbon().Persian().String())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.Persian().String())
-		assert.Empty(t, c.Persian().String())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").Persian().String())
 		assert.Empty(t, Parse("0").Persian().String())
@@ -103,20 +97,20 @@ func TestCarbon_Persian(t *testing.T) {
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "1178-10-11 00:00:00", Parse("1800-01-01 00:00:00").Persian().String())
-		assert.Equal(t, "1399-05-15 13:14:15", Parse("2020-08-05 13:14:15").Persian().String())
-		assert.Equal(t, "1402-10-11 00:00:00", Parse("2024-01-01 00:00:00").Persian().String())
+		assert.Equal(t, "1178-10-11", Parse("1800-01-01 00:00:00").Persian().String())
+		assert.Equal(t, "1399-05-15", Parse("2020-08-05 13:14:15").Persian().String())
+		assert.Equal(t, "1402-10-11", Parse("2024-01-01 00:00:00").Persian().String())
 	})
 }
 
 func TestCreateFromPersian(t *testing.T) {
 	t.Run("invalid persian", func(t *testing.T) {
-		assert.Empty(t, CreateFromPersian(9999, 12, 14, 12, 0, 0).ToDateTimeString())
+		assert.Empty(t, CreateFromPersian(9999, 12, 14).ToDateTimeString())
 	})
 
 	t.Run("valid persian", func(t *testing.T) {
-		assert.Equal(t, "1800-01-01 00:00:00", CreateFromPersian(1178, 10, 11, 0, 0, 0).ToDateTimeString())
-		assert.Equal(t, "2024-01-01 00:00:00", CreateFromPersian(1402, 10, 11, 0, 0, 0).ToDateTimeString())
-		assert.Equal(t, "2024-08-05 12:00:00", CreateFromPersian(1403, 5, 15, 12, 0, 0).ToDateTimeString())
+		assert.Equal(t, "1800-01-01 00:00:00", CreateFromPersian(1178, 10, 11).ToDateTimeString())
+		assert.Equal(t, "2024-01-01 00:00:00", CreateFromPersian(1402, 10, 11).ToDateTimeString())
+		assert.Equal(t, "2024-08-05 00:00:00", CreateFromPersian(1403, 5, 15).ToDateTimeString())
 	})
 }

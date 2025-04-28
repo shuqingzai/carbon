@@ -19,13 +19,13 @@ func ExampleLanguage_SetLocale() {
 	fmt.Printf("en:%s\n", carbon.Parse("2020-08-05").SetLanguage(lang).ToShortWeekString())
 
 	lang.SetLocale("zh-CN")
-	fmt.Printf("zh-CN:%s\n", carbon.Parse("2020-08-05").SetLanguage(lang).Constellation())
-	fmt.Printf("zh-CN:%s\n", carbon.Parse("2020-08-05").SetLanguage(lang).Season())
-	fmt.Printf("zh-CN:%s\n", carbon.Parse("2020-08-05").SetLanguage(lang).DiffForHumans(carbon.Parse("2024-08-05")))
-	fmt.Printf("zh-CN:%s\n", carbon.Parse("2020-08-05").SetLanguage(lang).ToMonthString())
-	fmt.Printf("zh-CN:%s\n", carbon.Parse("2020-08-05").SetLanguage(lang).ToShortMonthString())
-	fmt.Printf("zh-CN:%s\n", carbon.Parse("2020-08-05").SetLanguage(lang).ToWeekString())
-	fmt.Printf("zh-CN:%s\n", carbon.Parse("2020-08-05").SetLanguage(lang).ToShortWeekString())
+	fmt.Printf("zh-CN:%s\n", carbon.Parse("2020-08-05", carbon.PRC).SetLanguage(lang).Constellation())
+	fmt.Printf("zh-CN:%s\n", carbon.Parse("2020-08-05", carbon.PRC).SetLanguage(lang).Season())
+	fmt.Printf("zh-CN:%s\n", carbon.Parse("2020-08-05", carbon.PRC).SetLanguage(lang).DiffForHumans(carbon.Parse("2024-08-05")))
+	fmt.Printf("zh-CN:%s\n", carbon.Parse("2020-08-05", carbon.PRC).SetLanguage(lang).ToMonthString())
+	fmt.Printf("zh-CN:%s\n", carbon.Parse("2020-08-05", carbon.PRC).SetLanguage(lang).ToShortMonthString())
+	fmt.Printf("zh-CN:%s\n", carbon.Parse("2020-08-05", carbon.PRC).SetLanguage(lang).ToWeekString())
+	fmt.Printf("zh-CN:%s\n", carbon.Parse("2020-08-05", carbon.PRC).SetLanguage(lang).ToShortWeekString())
 
 	// Output:
 	// en:Leo

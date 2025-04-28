@@ -9,14 +9,14 @@ import (
 func ExampleCarbon_HasError() {
 	fmt.Println(carbon.NewCarbon().HasError())
 	fmt.Println(carbon.Parse("").HasError())
-	fmt.Println(carbon.Parse("xxx").HasError())
 	fmt.Println(carbon.Now().HasError())
+	fmt.Println(carbon.Parse("xxx").HasError())
 
 	// Output:
 	// false
 	// false
-	// true
 	// false
+	// true
 }
 
 func ExampleCarbon_IsNil() {
@@ -48,6 +48,22 @@ func ExampleCarbon_IsZero() {
 	// false
 }
 
+func ExampleCarbon_IsEpoch() {
+	fmt.Println(carbon.CreateFromDateTimeNano(1970, 1, 1, 0, 0, 0, 0, carbon.UTC).IsEpoch())
+	fmt.Println(carbon.CreateFromTimestamp(0).IsEpoch())
+	fmt.Println(carbon.NewCarbon().IsEpoch())
+	fmt.Println(carbon.Parse("").IsEpoch())
+	fmt.Println(carbon.Parse("xxx").IsEpoch())
+	fmt.Println(carbon.Now().IsEpoch())
+
+	// Output:
+	// true
+	// true
+	// false
+	// false
+	// false
+	// false
+}
 func ExampleCarbon_IsValid() {
 	fmt.Println(carbon.NewCarbon().IsValid())
 	fmt.Println(carbon.Now().IsValid())

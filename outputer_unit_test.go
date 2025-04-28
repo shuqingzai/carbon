@@ -6,38 +6,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCarbon_String(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-01 00:00:00", NewCarbon().String())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.String())
-	})
-
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").String())
-		assert.Empty(t, Parse("0").String())
-		assert.Empty(t, Parse("xxx").String())
-	})
-
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-08-05 13:14:15", Parse("2020-08-05 13:14:15").String())
-		assert.Equal(t, "2020-08-05", Parse("2020-08-05 13:14:15").SetLayout(DateLayout).String())
-	})
-}
-
 func TestCarbon_GoString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC)", NewCarbon().GoString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.GoString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -57,12 +28,6 @@ func TestCarbon_ToString(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToString())
 		assert.Empty(t, Parse("0").ToString())
@@ -78,13 +43,7 @@ func TestCarbon_ToString(t *testing.T) {
 
 func TestCarbon_ToMonthString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, January, NewCarbon().ToMonthString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToMonthString())
+		assert.Equal(t, "January", NewCarbon().ToMonthString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -104,30 +63,24 @@ func TestCarbon_ToMonthString(t *testing.T) {
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, January, Parse("2020-01-05").ToMonthString())
-		assert.Equal(t, February, Parse("2020-02-05").ToMonthString())
-		assert.Equal(t, March, Parse("2020-03-05").ToMonthString())
-		assert.Equal(t, April, Parse("2020-04-05").ToMonthString())
-		assert.Equal(t, May, Parse("2020-05-05").ToMonthString())
-		assert.Equal(t, June, Parse("2020-06-05").ToMonthString())
-		assert.Equal(t, July, Parse("2020-07-05").ToMonthString())
-		assert.Equal(t, August, Parse("2020-08-05").ToMonthString())
-		assert.Equal(t, September, Parse("2020-09-05").ToMonthString())
-		assert.Equal(t, October, Parse("2020-10-05").ToMonthString())
-		assert.Equal(t, November, Parse("2020-11-05").ToMonthString())
-		assert.Equal(t, December, Parse("2020-12-05").ToMonthString(PRC))
+		assert.Equal(t, January.String(), Parse("2020-01-05").ToMonthString())
+		assert.Equal(t, February.String(), Parse("2020-02-05").ToMonthString())
+		assert.Equal(t, March.String(), Parse("2020-03-05").ToMonthString())
+		assert.Equal(t, April.String(), Parse("2020-04-05").ToMonthString())
+		assert.Equal(t, May.String(), Parse("2020-05-05").ToMonthString())
+		assert.Equal(t, June.String(), Parse("2020-06-05").ToMonthString())
+		assert.Equal(t, July.String(), Parse("2020-07-05").ToMonthString())
+		assert.Equal(t, August.String(), Parse("2020-08-05").ToMonthString())
+		assert.Equal(t, September.String(), Parse("2020-09-05").ToMonthString())
+		assert.Equal(t, October.String(), Parse("2020-10-05").ToMonthString())
+		assert.Equal(t, November.String(), Parse("2020-11-05").ToMonthString())
+		assert.Equal(t, December.String(), Parse("2020-12-05").ToMonthString(PRC))
 	})
 }
 
 func TestCarbon_ToShortMonthString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "Jan", NewCarbon().ToShortMonthString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToShortMonthString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -164,13 +117,7 @@ func TestCarbon_ToShortMonthString(t *testing.T) {
 
 func TestCarbon_ToWeekString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, Monday, NewCarbon().ToWeekString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToWeekString())
+		assert.Equal(t, "Monday", NewCarbon().ToWeekString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -190,25 +137,19 @@ func TestCarbon_ToWeekString(t *testing.T) {
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, Saturday, Parse("2020-08-01").ToWeekString())
-		assert.Equal(t, Sunday, Parse("2020-08-02").ToWeekString())
-		assert.Equal(t, Monday, Parse("2020-08-03").ToWeekString())
-		assert.Equal(t, Tuesday, Parse("2020-08-04").ToWeekString())
-		assert.Equal(t, Wednesday, Parse("2020-08-05").ToWeekString())
-		assert.Equal(t, Thursday, Parse("2020-08-06").ToWeekString())
-		assert.Equal(t, Friday, Parse("2020-08-07").ToWeekString(PRC))
+		assert.Equal(t, Saturday.String(), Parse("2020-08-01").ToWeekString())
+		assert.Equal(t, Sunday.String(), Parse("2020-08-02").ToWeekString())
+		assert.Equal(t, Monday.String(), Parse("2020-08-03").ToWeekString())
+		assert.Equal(t, Tuesday.String(), Parse("2020-08-04").ToWeekString())
+		assert.Equal(t, Wednesday.String(), Parse("2020-08-05").ToWeekString())
+		assert.Equal(t, Thursday.String(), Parse("2020-08-06").ToWeekString())
+		assert.Equal(t, Friday.String(), Parse("2020-08-07").ToWeekString(PRC))
 	})
 }
 
 func TestCarbon_ToShortWeekString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "Mon", NewCarbon().ToShortWeekString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToShortWeekString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -243,12 +184,6 @@ func TestCarbon_ToDayDateTimeString(t *testing.T) {
 		assert.Equal(t, "Mon, Jan 1, 0001 12:00 AM", NewCarbon().ToDayDateTimeString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToDayDateTimeString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToDayDateTimeString())
 		assert.Empty(t, Parse("0").ToDayDateTimeString())
@@ -264,12 +199,6 @@ func TestCarbon_ToDayDateTimeString(t *testing.T) {
 func TestCarbon_ToDateTimeString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00", NewCarbon().ToDateTimeString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToDateTimeString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -290,12 +219,6 @@ func TestCarbon_ToDateTimeMilliString(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00", NewCarbon().ToDateTimeMilliString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToDateTimeMilliString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToDateTimeMilliString())
 		assert.Empty(t, Parse("0").ToDateTimeMilliString())
@@ -312,12 +235,6 @@ func TestCarbon_ToDateTimeMilliString(t *testing.T) {
 func TestCarbon_ToDateTimeMicroString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00", NewCarbon().ToDateTimeMicroString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToDateTimeMicroString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -338,12 +255,6 @@ func TestCarbon_ToDateTimeNanoString(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00", NewCarbon().ToDateTimeNanoString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToDateTimeNanoString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToDateTimeNanoString())
 		assert.Empty(t, Parse("0").ToDateTimeNanoString())
@@ -360,12 +271,6 @@ func TestCarbon_ToDateTimeNanoString(t *testing.T) {
 func TestCarbon_ToShortDateTimeString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "00010101000000", NewCarbon().ToShortDateTimeString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToShortDateTimeString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -386,12 +291,6 @@ func TestCarbon_ToShortDateTimeMilliString(t *testing.T) {
 		assert.Equal(t, "00010101000000", NewCarbon().ToShortDateTimeMilliString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToShortDateTimeMilliString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToShortDateTimeMilliString())
 		assert.Empty(t, Parse("0").ToShortDateTimeMilliString())
@@ -408,12 +307,6 @@ func TestCarbon_ToShortDateTimeMilliString(t *testing.T) {
 func TestCarbon_ToShortDateTimeMicroString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "00010101000000", NewCarbon().ToShortDateTimeMicroString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToShortDateTimeMicroString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -434,12 +327,6 @@ func TestCarbon_ToShortDateTimeNanoString(t *testing.T) {
 		assert.Equal(t, "00010101000000", NewCarbon().ToShortDateTimeNanoString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToShortDateTimeNanoString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToShortDateTimeNanoString())
 		assert.Empty(t, Parse("0").ToShortDateTimeNanoString())
@@ -456,12 +343,6 @@ func TestCarbon_ToShortDateTimeNanoString(t *testing.T) {
 func TestCarbon_ToDateString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01", NewCarbon().ToDateString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToDateString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -482,12 +363,6 @@ func TestCarbon_ToDateMilliString(t *testing.T) {
 		assert.Equal(t, "0001-01-01", NewCarbon().ToDateMilliString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToDateMilliString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToDateMilliString())
 		assert.Empty(t, Parse("0").ToDateMilliString())
@@ -504,12 +379,6 @@ func TestCarbon_ToDateMilliString(t *testing.T) {
 func TestCarbon_ToDateMicroString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01", NewCarbon().ToDateMicroString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToDateMicroString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -530,12 +399,6 @@ func TestCarbon_ToDateNanoString(t *testing.T) {
 		assert.Equal(t, "0001-01-01", NewCarbon().ToDateNanoString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToDateNanoString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToDateNanoString())
 		assert.Empty(t, Parse("0").ToDateNanoString())
@@ -552,12 +415,6 @@ func TestCarbon_ToDateNanoString(t *testing.T) {
 func TestCarbon_ToShortDateString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "00010101", NewCarbon().ToShortDateString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToShortDateString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -578,12 +435,6 @@ func TestCarbon_ToShortDateMilliString(t *testing.T) {
 		assert.Equal(t, "00010101", NewCarbon().ToShortDateMilliString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToShortDateMilliString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToShortDateMilliString())
 		assert.Empty(t, Parse("0").ToShortDateMilliString())
@@ -600,12 +451,6 @@ func TestCarbon_ToShortDateMilliString(t *testing.T) {
 func TestCarbon_ToShortDateMicroString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "00010101", NewCarbon().ToShortDateMicroString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToShortDateMicroString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -626,12 +471,6 @@ func TestCarbon_ToShortDateNanoString(t *testing.T) {
 		assert.Equal(t, "00010101", NewCarbon().ToShortDateNanoString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToShortDateNanoString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToShortDateNanoString())
 		assert.Empty(t, Parse("0").ToShortDateNanoString())
@@ -648,12 +487,6 @@ func TestCarbon_ToShortDateNanoString(t *testing.T) {
 func TestCarbon_ToTimeString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "00:00:00", NewCarbon().ToTimeString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToTimeString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -674,12 +507,6 @@ func TestCarbon_ToTimeMilliString(t *testing.T) {
 		assert.Equal(t, "00:00:00", NewCarbon().ToTimeMilliString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToTimeMilliString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToTimeMilliString())
 		assert.Empty(t, Parse("0").ToTimeMilliString())
@@ -696,12 +523,6 @@ func TestCarbon_ToTimeMilliString(t *testing.T) {
 func TestCarbon_ToTimeMicroString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "00:00:00", NewCarbon().ToTimeMicroString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToTimeMicroString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -722,12 +543,6 @@ func TestCarbon_ToTimeNanoString(t *testing.T) {
 		assert.Equal(t, "00:00:00", NewCarbon().ToTimeNanoString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToTimeNanoString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToTimeNanoString())
 		assert.Empty(t, Parse("0").ToTimeNanoString())
@@ -744,12 +559,6 @@ func TestCarbon_ToTimeNanoString(t *testing.T) {
 func TestCarbon_ToShortTimeString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "000000", NewCarbon().ToShortTimeString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToShortTimeString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -770,12 +579,6 @@ func TestCarbon_ToShortTimeMilliString(t *testing.T) {
 		assert.Equal(t, "000000", NewCarbon().ToShortTimeMilliString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToShortTimeMilliString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToShortTimeMilliString())
 		assert.Empty(t, Parse("0").ToShortTimeMilliString())
@@ -792,12 +595,6 @@ func TestCarbon_ToShortTimeMilliString(t *testing.T) {
 func TestCarbon_ToShortTimeMicroString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "000000", NewCarbon().ToShortTimeMicroString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToShortTimeMicroString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -818,12 +615,6 @@ func TestCarbon_ToShortTimeNanoString(t *testing.T) {
 		assert.Equal(t, "000000", NewCarbon().ToShortTimeNanoString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToShortTimeNanoString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToShortTimeNanoString())
 		assert.Empty(t, Parse("0").ToShortTimeNanoString())
@@ -840,12 +631,6 @@ func TestCarbon_ToShortTimeNanoString(t *testing.T) {
 func TestCarbon_ToAtomString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01T00:00:00Z", NewCarbon().ToAtomString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToAtomString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -866,12 +651,6 @@ func TestCarbon_ToAnsicString(t *testing.T) {
 		assert.Equal(t, "Mon Jan  1 00:00:00 0001", NewCarbon().ToAnsicString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToAnsicString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToAnsicString())
 		assert.Empty(t, Parse("0").ToAnsicString())
@@ -888,12 +667,6 @@ func TestCarbon_ToAnsicString(t *testing.T) {
 func TestCarbon_ToCookieString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "Monday, 01-Jan-0001 00:00:00 UTC", NewCarbon().ToCookieString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToCookieString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -914,12 +687,6 @@ func TestCarbon_ToRssString(t *testing.T) {
 		assert.Equal(t, "Mon, 01 Jan 0001 00:00:00 +0000", NewCarbon().ToRssString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToRssString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToRssString())
 		assert.Empty(t, Parse("0").ToRssString())
@@ -936,12 +703,6 @@ func TestCarbon_ToRssString(t *testing.T) {
 func TestCarbon_ToW3cString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01T00:00:00Z", NewCarbon().ToW3cString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToW3cString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -962,12 +723,6 @@ func TestCarbon_ToUnixDateString(t *testing.T) {
 		assert.Equal(t, "Mon Jan  1 00:00:00 UTC 0001", NewCarbon().ToUnixDateString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToUnixDateString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToUnixDateString())
 		assert.Empty(t, Parse("0").ToUnixDateString())
@@ -984,12 +739,6 @@ func TestCarbon_ToUnixDateString(t *testing.T) {
 func TestCarbon_ToRubyDateString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "Mon Jan 01 00:00:00 +0000 0001", NewCarbon().ToRubyDateString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToRubyDateString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1010,12 +759,6 @@ func TestCarbon_ToKitchenString(t *testing.T) {
 		assert.Equal(t, "12:00AM", NewCarbon().ToKitchenString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToKitchenString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToKitchenString())
 		assert.Empty(t, Parse("0").ToKitchenString())
@@ -1032,12 +775,6 @@ func TestCarbon_ToKitchenString(t *testing.T) {
 func TestCarbon_ToIso8601String(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01T00:00:00+00:00", NewCarbon().ToIso8601String())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToIso8601String())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1058,12 +795,6 @@ func TestCarbon_ToIso8601MilliString(t *testing.T) {
 		assert.Equal(t, "0001-01-01T00:00:00+00:00", NewCarbon().ToIso8601MilliString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToIso8601MilliString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToIso8601MilliString())
 		assert.Empty(t, Parse("0").ToIso8601MilliString())
@@ -1080,12 +811,6 @@ func TestCarbon_ToIso8601MilliString(t *testing.T) {
 func TestCarbon_TToIso8601MicroString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01T00:00:00+00:00", NewCarbon().ToIso8601MicroString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToIso8601MicroString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1106,12 +831,6 @@ func TestCarbon_ToIso8601NanoString(t *testing.T) {
 		assert.Equal(t, "0001-01-01T00:00:00+00:00", NewCarbon().ToIso8601NanoString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToIso8601NanoString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToIso8601NanoString())
 		assert.Empty(t, Parse("0").ToIso8601NanoString())
@@ -1128,12 +847,6 @@ func TestCarbon_ToIso8601NanoString(t *testing.T) {
 func TestCarbon_ToIso8601ZuluString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01T00:00:00Z", NewCarbon().ToIso8601ZuluString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToIso8601ZuluString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1154,12 +867,6 @@ func TestCarbon_ToIso8601ZuluMilliString(t *testing.T) {
 		assert.Equal(t, "0001-01-01T00:00:00Z", NewCarbon().ToIso8601ZuluMilliString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToIso8601ZuluMilliString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToIso8601ZuluMilliString())
 		assert.Empty(t, Parse("0").ToIso8601ZuluMilliString())
@@ -1176,12 +883,6 @@ func TestCarbon_ToIso8601ZuluMilliString(t *testing.T) {
 func TestCarbon_ToIso8601ZuluMicroString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01T00:00:00Z", NewCarbon().ToIso8601ZuluMicroString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToIso8601ZuluMicroString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1202,12 +903,6 @@ func TestCarbon_ToIso8601ZuluNanoString(t *testing.T) {
 		assert.Equal(t, "0001-01-01T00:00:00Z", NewCarbon().ToIso8601ZuluNanoString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToIso8601ZuluNanoString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToIso8601ZuluNanoString())
 		assert.Empty(t, Parse("0").ToIso8601ZuluNanoString())
@@ -1224,12 +919,6 @@ func TestCarbon_ToIso8601ZuluNanoString(t *testing.T) {
 func TestCarbon_ToRfc822String(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "01 Jan 01 00:00 UTC", NewCarbon().ToRfc822String())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToRfc822String())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1250,12 +939,6 @@ func TestCarbon_ToRfc822zString(t *testing.T) {
 		assert.Equal(t, "01 Jan 01 00:00 +0000", NewCarbon().ToRfc822zString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToRfc822zString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToRfc822zString())
 		assert.Empty(t, Parse("0").ToRfc822zString())
@@ -1272,12 +955,6 @@ func TestCarbon_ToRfc822zString(t *testing.T) {
 func TestCarbon_ToRfc850String(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "Monday, 01-Jan-01 00:00:00 UTC", NewCarbon().ToRfc850String())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToRfc850String())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1298,12 +975,6 @@ func TestCarbon_ToRfc1036String(t *testing.T) {
 		assert.Equal(t, "Mon, 01 Jan 01 00:00:00 +0000", NewCarbon().ToRfc1036String())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToRfc1036String())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToRfc1036String())
 		assert.Empty(t, Parse("0").ToRfc1036String())
@@ -1320,12 +991,6 @@ func TestCarbon_ToRfc1036String(t *testing.T) {
 func TestCarbon_ToRfc1123String(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "Mon, 01 Jan 0001 00:00:00 UTC", NewCarbon().ToRfc1123String())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToRfc1123String())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1346,12 +1011,6 @@ func TestCarbon_ToRfc1123zString(t *testing.T) {
 		assert.Equal(t, "Mon, 01 Jan 0001 00:00:00 +0000", NewCarbon().ToRfc1123zString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToRfc1123zString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToRfc1123zString())
 		assert.Empty(t, Parse("0").ToRfc1123zString())
@@ -1368,12 +1027,6 @@ func TestCarbon_ToRfc1123zString(t *testing.T) {
 func TestCarbon_ToRfc2822String(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "Mon, 01 Jan 0001 00:00:00 +0000", NewCarbon().ToRfc2822String())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToRfc2822String())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1394,12 +1047,6 @@ func TestCarbon_ToRfc3339String(t *testing.T) {
 		assert.Equal(t, "0001-01-01T00:00:00Z", NewCarbon().ToRfc3339String())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToRfc3339String())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToRfc3339String())
 		assert.Empty(t, Parse("0").ToRfc3339String())
@@ -1416,12 +1063,6 @@ func TestCarbon_ToRfc3339String(t *testing.T) {
 func TestCarbon_ToRfc3339MilliString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01T00:00:00Z", NewCarbon().ToRfc3339MilliString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToRfc3339MilliString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1442,12 +1083,6 @@ func TestCarbon_ToRfc3339MicroString(t *testing.T) {
 		assert.Equal(t, "0001-01-01T00:00:00Z", NewCarbon().ToRfc3339MicroString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToRfc3339MicroString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToRfc3339MicroString())
 		assert.Empty(t, Parse("0").ToRfc3339MicroString())
@@ -1464,12 +1099,6 @@ func TestCarbon_ToRfc3339MicroString(t *testing.T) {
 func TestCarbon_ToRfc3339NanoString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01T00:00:00Z", NewCarbon().ToRfc3339NanoString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToRfc3339NanoString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1490,12 +1119,6 @@ func TestCarbon_ToRfc7231String(t *testing.T) {
 		assert.Equal(t, "Mon, 01 Jan 0001 00:00:00 UTC", NewCarbon().ToRfc7231String())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToRfc7231String())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToRfc7231String())
 		assert.Empty(t, Parse("0").ToRfc7231String())
@@ -1512,12 +1135,6 @@ func TestCarbon_ToRfc7231String(t *testing.T) {
 func TestCarbon_ToFormattedDateString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "Jan 1, 0001", NewCarbon().ToFormattedDateString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToFormattedDateString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1538,12 +1155,6 @@ func TestCarbon_ToFormattedDayDateString(t *testing.T) {
 		assert.Equal(t, "Mon, Jan 1, 0001", NewCarbon().ToFormattedDayDateString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.ToFormattedDayDateString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").ToFormattedDayDateString())
 		assert.Empty(t, Parse("0").ToFormattedDayDateString())
@@ -1562,12 +1173,6 @@ func TestCarbon_Layout(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00", NewCarbon().Layout(DateTimeLayout))
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.Layout(DateTimeLayout))
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").Layout(DateTimeLayout))
 		assert.Empty(t, Parse("0").Layout(DateTimeLayout))
@@ -1580,18 +1185,17 @@ func TestCarbon_Layout(t *testing.T) {
 		assert.Equal(t, "2020-08-05 00:00:00", Parse("2020-08-05", PRC).Layout(DateTimeLayout, PRC))
 		assert.Equal(t, "2020年08月05日", Parse("2020-08-05 13:14:15").Layout("2006年01月02日"))
 		assert.Equal(t, "Wed, 05 Aug 2020 13:14:15 GMT", Parse("2020-08-05 13:14:15").Layout("Mon, 02 Jan 2006 15:04:05 GMT"))
+
+		assert.Equal(t, "1596633255", Parse("2020-08-05 13:14:15.999999999").Layout(TimestampLayout))
+		assert.Equal(t, "1596633255999", Parse("2020-08-05 13:14:15.999999999").Layout(TimestampMilliLayout))
+		assert.Equal(t, "1596633255999999", Parse("2020-08-05 13:14:15.999999999").Layout(TimestampMicroLayout))
+		assert.Equal(t, "1596633255999999999", Parse("2020-08-05 13:14:15.999999999").Layout(TimestampNanoLayout))
 	})
 }
 
 func TestCarbon_Format(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00", NewCarbon().Format(DateTimeFormat))
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.Format(DateTimeFormat))
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -1616,23 +1220,34 @@ func TestCarbon_Format(t *testing.T) {
 		assert.Equal(t, "1", Parse("2020-08-05 13:14:15").Format("L"))
 		assert.Equal(t, "0", Parse("2021-08-05 13:14:15").Format("L"))
 		assert.Equal(t, "13", Parse("2020-08-05 13:14:15").Format("G"))
-		assert.Equal(t, "1596633255", Parse("2020-08-05 13:14:15").Format("U"))
-		assert.Equal(t, "1596633255000", Parse("2020-08-05 13:14:15").Format("V"))
-		assert.Equal(t, "1596633255000000", Parse("2020-08-05 13:14:15").Format("X"))
-		assert.Equal(t, "1596633255000000000", Parse("2020-08-05 13:14:15").Format("Z"))
-		assert.Equal(t, "999", Parse("2020-08-05 13:14:15.999999999").Format("v"))
-		assert.Equal(t, "999999", Parse("2020-08-05 13:14:15.999999999").Format("x"))
-		assert.Equal(t, "999999999", Parse("2020-08-05 13:14:15.999999999").Format("z"))
+		assert.Equal(t, "1596633255", Parse("2020-08-05 13:14:15").Format("S"))
+		assert.Equal(t, "1596633255000", Parse("2020-08-05 13:14:15").Format("U"))
+		assert.Equal(t, "1596633255000000", Parse("2020-08-05 13:14:15").Format("V"))
+		assert.Equal(t, "1596633255000000000", Parse("2020-08-05 13:14:15").Format("X"))
+		assert.Equal(t, "999", Parse("2020-08-05 13:14:15.999999999").Format("u"))
+		assert.Equal(t, "999999", Parse("2020-08-05 13:14:15.999999999").Format("v"))
+		assert.Equal(t, "999999999", Parse("2020-08-05 13:14:15.999999999").Format("x"))
 		assert.Equal(t, "2", Parse("2020-08-05 13:14:15.999999999").Format("w"))
 		assert.Equal(t, "31", Parse("2020-08-05 13:14:15.999999999").Format("t"))
-		assert.Equal(t, "UTC", Parse("2020-08-05 13:14:15.999999999").Format("e"))
+		assert.Equal(t, "PRC", Parse("2020-08-05 13:14:15.999999999", PRC).Format("z"))
+		assert.Equal(t, "28800", Parse("2020-08-05 13:14:15.999999999", PRC).Format("o"))
 		assert.Equal(t, "3", Parse("2020-08-05 13:14:15.999999999").Format("q"))
 		assert.Equal(t, "21", Parse("2020-08-05 13:14:15.999999999").Format("c"))
-		assert.Equal(t, "5th", Parse("2020-08-05 13:14:15").Format("jS"))
-		assert.Equal(t, "22nd", Parse("2020-08-22 13:14:15").Format("jS"))
-		assert.Equal(t, "23rd", Parse("2020-08-23 13:14:15").Format("jS"))
-		assert.Equal(t, "31st", Parse("2020-08-31 13:14:15").Format("jS"))
+		assert.Equal(t, "Z", Parse("2020-08-05 13:14:15.999999999", UTC).Format("R"))
+		assert.Equal(t, "+08:00", Parse("2020-08-05 13:14:15.999999999", PRC).Format("R"))
+		assert.Equal(t, "Z", Parse("2020-08-05 13:14:15.999999999", UTC).Format("Q"))
+		assert.Equal(t, "+0800", Parse("2020-08-05 13:14:15.999999999", PRC).Format("Q"))
+		assert.Equal(t, "CST", Parse("2020-08-05 13:14:15.999999999", PRC).Format("Z"))
+		assert.Equal(t, "5th", Parse("2020-08-05 13:14:15").Format("jK"))
+		assert.Equal(t, "22nd", Parse("2020-08-22 13:14:15").Format("jK"))
+		assert.Equal(t, "23rd", Parse("2020-08-23 13:14:15").Format("jK"))
+		assert.Equal(t, "31st", Parse("2020-08-31 13:14:15").Format("jK"))
 		assert.Equal(t, "It is 2020-08-31 13:14:15", Parse("2020-08-31 13:14:15").Format("I\\t \\i\\s Y-m-d H:i:s"))
 		assert.Equal(t, "上次打卡时间:2020-08-05 13:14:15，请每日按时打卡", Parse("2020-08-05 13:14:15").Format("上次打卡时间:Y-m-d H:i:s，请每日按时打卡"))
+
+		assert.Equal(t, "1596633255", Parse("2020-08-05 13:14:15.999999999").Format(TimestampFormat))
+		assert.Equal(t, "1596633255999", Parse("2020-08-05 13:14:15.999999999").Format(TimestampMilliFormat))
+		assert.Equal(t, "1596633255999999", Parse("2020-08-05 13:14:15.999999999").Format(TimestampMicroFormat))
+		assert.Equal(t, "1596633255999999999", Parse("2020-08-05 13:14:15.999999999").Format(TimestampNanoFormat))
 	})
 }

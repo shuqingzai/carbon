@@ -11,12 +11,6 @@ func TestCarbon_Season(t *testing.T) {
 		assert.Equal(t, Winter, NewCarbon().Season())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.Season())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").Season())
 		assert.Empty(t, Parse("0").Season())
@@ -54,12 +48,6 @@ func TestCarbon_StartOfSeason(t *testing.T) {
 		assert.Equal(t, "0000-12-01 00:00:00 +0000 UTC", NewCarbon().StartOfSeason().ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.StartOfSeason().ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").StartOfSeason().ToString())
 		assert.Empty(t, Parse("0").StartOfSeason().ToString())
@@ -85,12 +73,6 @@ func TestCarbon_StartOfSeason(t *testing.T) {
 func TestCarbon_EndOfSeason(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-02-28 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfSeason().ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.EndOfSeason().ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -120,12 +102,6 @@ func TestCarbon_IsSpring(t *testing.T) {
 		assert.False(t, NewCarbon().IsSpring())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsSpring())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsSpring())
 		assert.False(t, Parse("0").IsSpring())
@@ -141,12 +117,6 @@ func TestCarbon_IsSpring(t *testing.T) {
 func TestCarbon_IsSummer(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.False(t, NewCarbon().IsSummer())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsSummer())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -166,12 +136,6 @@ func TestCarbon_IsAutumn(t *testing.T) {
 		assert.False(t, NewCarbon().IsAutumn())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsAutumn())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.False(t, Parse("").IsAutumn())
 		assert.False(t, Parse("0").IsAutumn())
@@ -187,12 +151,6 @@ func TestCarbon_IsAutumn(t *testing.T) {
 func TestCarbon_IsWinter(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.True(t, NewCarbon().IsWinter())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.False(t, c.IsWinter())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {

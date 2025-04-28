@@ -8,22 +8,50 @@ import (
 )
 
 func TestNewCarbon(t *testing.T) {
-	t.Run("without time", func(t *testing.T) {
-		assert.Equal(t, time.Time{}.Unix(), NewCarbon().Timestamp())
+	loc, _ := time.LoadLocation(PRC)
+
+	t1, _ := time.Parse(DateTimeLayout, "2020-08-05 13:14:15")
+	t2, _ := time.ParseInLocation(DateTimeLayout, "2020-08-05 13:14:15", loc)
+
+	t.Run("zero time without timezone", func(t *testing.T) {
+		c := NewCarbon()
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", c.ToString())
+		assert.Equal(t, time.Time{}.String(), c.ToString())
 	})
 
-	t.Run("without timezone", func(t *testing.T) {
-		now := time.Now()
-		assert.Equal(t, now.Unix(), NewCarbon(now).Timestamp())
+	t.Run("zero time with timezone", func(t *testing.T) {
+		c := NewCarbon().SetLocation(loc)
+		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", c.ToString())
+		assert.Equal(t, time.Time{}.In(loc).String(), c.ToString())
 	})
 
-	t.Run("with timezone", func(t *testing.T) {
-		now := time.Now().In(time.Local)
-		assert.Equal(t, now.Unix(), NewCarbon(now).Timestamp())
+	t.Run("valid time without timezone", func(t *testing.T) {
+		c := NewCarbon(t1)
+		assert.Equal(t, "2020-08-05 13:14:15 +0000 UTC", c.ToString())
+		assert.Equal(t, t1.String(), c.ToString())
+	})
+
+	t.Run("valid time with timezone", func(t *testing.T) {
+		c := NewCarbon(t2)
+		assert.Equal(t, "2020-08-05 13:14:15 +0800 CST", c.ToString())
+		assert.Equal(t, t2.String(), c.ToString())
 	})
 }
 
 func TestCarbon_Copy(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
+		oldCarbon := Now()
+		oldCarbon = nil
+		newCarbon := oldCarbon.Copy()
+
+		assert.Empty(t, oldCarbon.ToString())
+		assert.Empty(t, newCarbon.ToString())
+
+		oldCarbon = oldCarbon.AddDay()
+		assert.Empty(t, oldCarbon.ToString())
+		assert.Empty(t, newCarbon.ToString())
+	})
+
 	t.Run("copy time", func(t *testing.T) {
 		oldCarbon := Parse("2020-08-05")
 		newCarbon := oldCarbon.Copy()
@@ -88,8 +116,8 @@ func TestCarbon_Copy(t *testing.T) {
 		oldCarbon := Parse("2020-08-05")
 		newCarbon := oldCarbon.Copy()
 
-		assert.Equal(t, August, oldCarbon.ToMonthString())
-		assert.Equal(t, August, newCarbon.ToMonthString())
+		assert.Equal(t, "August", oldCarbon.ToMonthString())
+		assert.Equal(t, "August", newCarbon.ToMonthString())
 
 		oldCarbon.SetLocale("zh-CN")
 		assert.Equal(t, "八月", oldCarbon.ToMonthString())

@@ -15,7 +15,19 @@ func ExampleMaxValue() {
 func ExampleMinValue() {
 	fmt.Println(carbon.MinValue().ToString())
 	// Output:
-	// -9998-01-01 00:00:00 +0000 UTC
+	// 0001-01-01 00:00:00 +0000 UTC
+}
+
+func ExampleMaxDuration() {
+	fmt.Println(carbon.MaxDuration().Seconds())
+	// Output:
+	// 9.223372036854776e+09
+}
+
+func ExampleMinDuration() {
+	fmt.Println(carbon.MinDuration().Seconds())
+	// Output:
+	// -9.223372036854776e+09
 }
 
 func ExampleMax() {

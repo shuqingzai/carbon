@@ -7,151 +7,370 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCarbon_SetLayout(t *testing.T) {
+func TestSetLayout(t *testing.T) {
 	defer SetLayout(DateTimeLayout)
 
 	t.Run("zero time", func(t *testing.T) {
-		c := NewCarbon().SetLayout(DateLayout)
-		assert.Equal(t, DateLayout, c.layout)
+		SetLayout(DateLayout)
+		assert.Equal(t, DateLayout, DefaultLayout)
+		assert.Equal(t, DateLayout, NewCarbon().CurrentLayout())
+		assert.Empty(t, NewCarbon().String())
+
+		SetLayout(DateTimeLayout)
+		assert.Equal(t, DateTimeLayout, DefaultLayout)
+		assert.Equal(t, DateTimeLayout, NewCarbon().CurrentLayout())
+		assert.Empty(t, NewCarbon().String())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetLayout(DateLayout).CurrentLayout())
+	t.Run("valid time", func(t *testing.T) {
+		SetLayout(DateLayout)
+		c1 := Parse("2020-08-05")
+		assert.Equal(t, DateLayout, DefaultLayout)
+		assert.Equal(t, DateLayout, c1.CurrentLayout())
+		assert.Equal(t, "2020-08-05", c1.String())
+
+		SetLayout(DateTimeLayout)
+		c2 := Parse("2020-08-05 13:14:15")
+		assert.Equal(t, DateTimeLayout, DefaultLayout)
+		assert.Equal(t, DateTimeLayout, c2.CurrentLayout())
+		assert.Equal(t, "2020-08-05 13:14:15", c2.String())
+	})
+}
+
+func TestSetFormat(t *testing.T) {
+	defer SetFormat(DateTimeFormat)
+
+	t.Run("zero time", func(t *testing.T) {
+		SetFormat(DateFormat)
+		assert.Equal(t, DateLayout, DefaultLayout)
+		assert.Equal(t, DateLayout, NewCarbon().CurrentLayout())
+
+		SetFormat(DateTimeFormat)
+		assert.Equal(t, DateTimeLayout, DefaultLayout)
+		assert.Equal(t, DateTimeLayout, NewCarbon().CurrentLayout())
+	})
+
+	t.Run("valid time", func(t *testing.T) {
+		SetFormat(DateFormat)
+		c1 := Parse("2020-08-05")
+		assert.Equal(t, DateLayout, DefaultLayout)
+		assert.Equal(t, DateLayout, c1.CurrentLayout())
+
+		SetFormat(DateTimeFormat)
+		c2 := Parse("2020-08-05 13:14:15")
+		assert.Equal(t, DateTimeLayout, DefaultLayout)
+		assert.Equal(t, DateTimeLayout, c2.CurrentLayout())
+	})
+}
+
+func TestSetTimezone(t *testing.T) {
+	defer SetTimezone(UTC)
+
+	t.Run("zero time", func(t *testing.T) {
+		SetTimezone(UTC)
+		assert.Equal(t, UTC, DefaultTimezone)
+		assert.Equal(t, UTC, NewCarbon().Timezone())
+		assert.Equal(t, UTC, NewCarbon().ZoneName())
+		assert.Equal(t, 0, NewCarbon().ZoneOffset())
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().ToString())
+
+		SetTimezone(PRC)
+		assert.Equal(t, PRC, DefaultTimezone)
+		assert.Equal(t, PRC, NewCarbon().Timezone())
+		assert.Equal(t, "LMT", NewCarbon().ZoneName())
+		assert.Equal(t, 29143, NewCarbon().ZoneOffset())
+		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", NewCarbon().ToString())
+
+		SetTimezone(Japan)
+		assert.Equal(t, Japan, DefaultTimezone)
+		assert.Equal(t, Japan, NewCarbon().Timezone())
+		assert.Equal(t, "LMT", NewCarbon().ZoneName())
+		assert.Equal(t, 33539, NewCarbon().ZoneOffset())
+		assert.Equal(t, "0001-01-01 09:18:59 +0918 LMT", NewCarbon().ToString())
+	})
+
+	t.Run("valid time", func(t *testing.T) {
+		SetTimezone(UTC)
+		c1 := Parse("2020-08-05 13:14:15")
+		assert.Equal(t, UTC, DefaultTimezone)
+		assert.Equal(t, UTC, c1.Timezone())
+		assert.Equal(t, UTC, c1.ZoneName())
+		assert.Equal(t, 0, c1.ZoneOffset())
+		assert.Equal(t, "2020-08-05 13:14:15 +0000 UTC", c1.ToString())
+
+		SetTimezone(PRC)
+		c2 := Parse("2020-08-05 13:14:15")
+		assert.Equal(t, PRC, DefaultTimezone)
+		assert.Equal(t, PRC, c2.Timezone())
+		assert.Equal(t, "CST", c2.ZoneName())
+		assert.Equal(t, 28800, c2.ZoneOffset())
+		assert.Equal(t, "2020-08-05 13:14:15 +0800 CST", c2.ToString())
+
+		SetTimezone(Japan)
+		c3 := Parse("2020-08-05 13:14:15")
+		assert.Equal(t, Japan, DefaultTimezone)
+		assert.Equal(t, Japan, c3.Timezone())
+		assert.Equal(t, "JST", c3.ZoneName())
+		assert.Equal(t, 32400, c3.ZoneOffset())
+		assert.Equal(t, "2020-08-05 13:14:15 +0900 JST", c3.ToString())
+	})
+}
+
+func TestSetLocation(t *testing.T) {
+	defer SetLocation(time.UTC)
+
+	t.Run("zero time", func(t *testing.T) {
+		l1, _ := time.LoadLocation(UTC)
+		SetLocation(l1)
+		assert.Equal(t, UTC, DefaultTimezone)
+		assert.Equal(t, UTC, NewCarbon().Timezone())
+		assert.Equal(t, UTC, NewCarbon().ZoneName())
+		assert.Equal(t, 0, NewCarbon().ZoneOffset())
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().ToString())
+
+		l2, _ := time.LoadLocation(PRC)
+		SetLocation(l2)
+		assert.Equal(t, PRC, DefaultTimezone)
+		assert.Equal(t, PRC, NewCarbon().Timezone())
+		assert.Equal(t, "LMT", NewCarbon().ZoneName())
+		assert.Equal(t, 29143, NewCarbon().ZoneOffset())
+		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", NewCarbon().ToString())
+
+		l3, _ := time.LoadLocation(Japan)
+		SetLocation(l3)
+		assert.Equal(t, Japan, DefaultTimezone)
+		assert.Equal(t, Japan, NewCarbon().Timezone())
+		assert.Equal(t, "LMT", NewCarbon().ZoneName())
+		assert.Equal(t, 33539, NewCarbon().ZoneOffset())
+		assert.Equal(t, "0001-01-01 09:18:59 +0918 LMT", NewCarbon().ToString())
+	})
+
+	t.Run("valid time", func(t *testing.T) {
+		l1, _ := time.LoadLocation(UTC)
+		SetLocation(l1)
+		c1 := Parse("2020-08-05 13:14:15")
+		assert.Equal(t, UTC, DefaultTimezone)
+		assert.Equal(t, UTC, c1.Timezone())
+		assert.Equal(t, UTC, c1.ZoneName())
+		assert.Equal(t, 0, c1.ZoneOffset())
+		assert.Equal(t, "2020-08-05 13:14:15 +0000 UTC", c1.ToString())
+
+		l2, _ := time.LoadLocation(PRC)
+		SetLocation(l2)
+		c2 := Parse("2020-08-05 13:14:15")
+		assert.Equal(t, PRC, DefaultTimezone)
+		assert.Equal(t, PRC, c2.Timezone())
+		assert.Equal(t, "CST", c2.ZoneName())
+		assert.Equal(t, 28800, c2.ZoneOffset())
+		assert.Equal(t, "2020-08-05 13:14:15 +0800 CST", c2.ToString())
+
+		l3, _ := time.LoadLocation(Japan)
+		SetLocation(l3)
+		c3 := Parse("2020-08-05 13:14:15")
+		assert.Equal(t, Japan, DefaultTimezone)
+		assert.Equal(t, Japan, c3.Timezone())
+		assert.Equal(t, "JST", c3.ZoneName())
+		assert.Equal(t, 32400, c3.ZoneOffset())
+		assert.Equal(t, "2020-08-05 13:14:15 +0900 JST", c3.ToString())
+	})
+}
+
+func TestSetLocale(t *testing.T) {
+	defer SetLocale("en")
+
+	t.Run("zero time", func(t *testing.T) {
+		SetLocale("zh-CN")
+
+		assert.Equal(t, "zh-CN", DefaultLocale)
+		assert.Equal(t, "zh-CN", NewCarbon().Locale())
+		assert.Equal(t, "摩羯座", NewCarbon().Constellation())
+		assert.Equal(t, "冬季", NewCarbon().Season())
+		assert.Equal(t, "一月", NewCarbon().ToMonthString())
+		assert.Equal(t, "1月", NewCarbon().ToShortMonthString())
+		assert.Equal(t, "星期一", NewCarbon().ToWeekString())
+		assert.Equal(t, "周一", NewCarbon().ToShortWeekString())
+
+		SetLocale("en")
+
+		assert.Equal(t, "en", DefaultLocale)
+		assert.Equal(t, "en", NewCarbon().Locale())
+		assert.Equal(t, "Capricorn", NewCarbon().Constellation())
+		assert.Equal(t, "Winter", NewCarbon().Season())
+		assert.Equal(t, "January", NewCarbon().ToMonthString())
+		assert.Equal(t, "Jan", NewCarbon().ToShortMonthString())
+		assert.Equal(t, "Monday", NewCarbon().ToWeekString())
+		assert.Equal(t, "Mon", NewCarbon().ToShortWeekString())
+	})
+
+	t.Run("valid time", func(t *testing.T) {
+		SetLocale("zh-CN")
+		c1 := Parse("2020-08-05")
+		assert.Equal(t, "zh-CN", DefaultLocale)
+		assert.Equal(t, "zh-CN", c1.Locale())
+		assert.Equal(t, "狮子座", c1.Constellation())
+		assert.Equal(t, "夏季", c1.Season())
+		assert.Equal(t, "八月", c1.ToMonthString())
+		assert.Equal(t, "8月", c1.ToShortMonthString())
+		assert.Equal(t, "星期三", c1.ToWeekString())
+		assert.Equal(t, "周三", c1.ToShortWeekString())
+
+		SetLocale("en")
+		c2 := Parse("2020-08-05")
+		assert.Equal(t, "en", DefaultLocale)
+		assert.Equal(t, "en", c2.Locale())
+		assert.Equal(t, "Leo", c2.Constellation())
+		assert.Equal(t, "Summer", c2.Season())
+		assert.Equal(t, "August", c2.ToMonthString())
+		assert.Equal(t, "Aug", c2.ToShortMonthString())
+		assert.Equal(t, "Wednesday", c2.ToWeekString())
+		assert.Equal(t, "Wed", c2.ToShortWeekString())
+	})
+}
+
+func TestSetWeekStartsAt(t *testing.T) {
+	defer SetWeekStartsAt(Monday)
+
+	t.Run("zero time", func(t *testing.T) {
+		SetWeekStartsAt(Sunday)
+		assert.Equal(t, Sunday, DefaultWeekStartsAt)
+		assert.Equal(t, Sunday, NewCarbon().WeekStartsAt())
+		assert.Equal(t, "0000-12-31 00:00:00 +0000 UTC", NewCarbon().StartOfWeek().ToString())
+
+		SetWeekStartsAt(Monday)
+		assert.Equal(t, Monday, DefaultWeekStartsAt)
+		assert.Equal(t, Monday, NewCarbon().WeekStartsAt())
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfWeek().ToString())
+	})
+
+	t.Run("valid time", func(t *testing.T) {
+		SetWeekStartsAt(Monday)
+		c1 := Parse("2020-08-05")
+		assert.Equal(t, Monday, DefaultWeekStartsAt)
+		assert.Equal(t, Monday, c1.WeekStartsAt())
+		assert.Equal(t, "2020-08-03 00:00:00 +0000 UTC", c1.StartOfWeek().ToString())
+
+		SetWeekStartsAt(Sunday)
+		c2 := Parse("2020-08-05")
+		assert.Equal(t, Sunday, DefaultWeekStartsAt)
+		assert.Equal(t, Sunday, c2.WeekStartsAt())
+		assert.Equal(t, "2020-08-02 00:00:00 +0000 UTC", c2.StartOfWeek().ToString())
+	})
+}
+
+func TestSetWeekendDays(t *testing.T) {
+	defer SetWeekendDays([]Weekday{
+		Saturday, Sunday,
+	})
+
+	t.Run("zero time", func(t *testing.T) {
+		SetWeekendDays([]Weekday{
+			Saturday, Sunday,
+		})
+		assert.True(t, NewCarbon().IsWeekday())
+		assert.False(t, NewCarbon().IsWeekend())
+	})
+
+	t.Run("valid time", func(t *testing.T) {
+		SetWeekendDays([]Weekday{
+			Saturday,
+		})
+		assert.True(t, Parse("2025-04-12").IsWeekend())
+		assert.False(t, Parse("2025-04-13").IsWeekend())
+
+		SetWeekendDays([]Weekday{
+			Sunday,
+		})
+		assert.False(t, Parse("2025-04-12").IsWeekend())
+		assert.True(t, Parse("2025-04-13").IsWeekend())
+	})
+}
+
+func TestCarbon_SetLayout(t *testing.T) {
+	t.Run("zero time", func(t *testing.T) {
+		c := NewCarbon().SetLayout(DateLayout)
+		assert.Equal(t, DateLayout, c.CurrentLayout())
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", c.ToString())
 	})
 
 	t.Run("empty layout", func(t *testing.T) {
 		assert.True(t, Now().SetLayout("").HasError())
 		assert.Empty(t, Now().SetLayout("").CurrentLayout())
+		assert.Empty(t, Now().SetLayout("").String())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").SetLayout(DateLayout).CurrentLayout())
-		assert.Empty(t, Parse("0").SetLayout(DateLayout).CurrentLayout())
-		assert.Empty(t, Parse("xxx").SetLayout(DateLayout).CurrentLayout())
+		assert.Empty(t, Parse("").SetLayout(DateLayout).String())
+		assert.Empty(t, Parse("0").SetLayout(DateLayout).String())
+		assert.Empty(t, Parse("xxx").SetLayout(DateLayout).String())
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		SetLayout(DateLayout)
+		now := Parse("2020-08-05 13:14:15.999999 +0000 UTC")
 
-		c := Parse("2020-08-05")
-		assert.Equal(t, DateLayout, DefaultLayout)
-		assert.Equal(t, DateLayout, c.CurrentLayout())
-
-		c.SetLayout(DateTimeLayout)
-		assert.Equal(t, DateLayout, DefaultLayout)
-		assert.Equal(t, DateTimeLayout, c.CurrentLayout())
+		assert.Equal(t, "2020-08-05 13:14:15", now.SetLayout(DateTimeLayout).String())
+		assert.Equal(t, "1596633255", now.SetLayout(TimestampLayout).String())
+		assert.Equal(t, "1596633255999", now.SetLayout(TimestampMilliLayout).String())
+		assert.Equal(t, "1596633255999999", now.SetLayout(TimestampMicroLayout).String())
+		assert.Equal(t, "1596633255999999000", now.SetLayout(TimestampNanoLayout).String())
 	})
 }
 
 func TestCarbon_SetFormat(t *testing.T) {
-	defer SetFormat(DateTimeFormat)
-
 	t.Run("zero time", func(t *testing.T) {
 		c := NewCarbon().SetFormat(DateFormat)
-		assert.Equal(t, DateLayout, c.layout)
+		assert.Equal(t, DateLayout, c.CurrentLayout())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetFormat(DateFormat).CurrentLayout())
-	})
-
-	t.Run("empty format", func(t *testing.T) {
+	t.Run("empty layout", func(t *testing.T) {
 		assert.True(t, Now().SetFormat("").HasError())
 		assert.Empty(t, Now().SetFormat("").CurrentLayout())
+		assert.Empty(t, Now().SetFormat("").String())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").SetFormat(DateFormat).CurrentLayout())
-		assert.Empty(t, Parse("0").SetFormat(DateFormat).CurrentLayout())
-		assert.Empty(t, Parse("xxx").SetFormat(DateFormat).CurrentLayout())
+		assert.Empty(t, Parse("").SetFormat(DateFormat).String())
+		assert.Empty(t, Parse("0").SetFormat(DateFormat).String())
+		assert.Empty(t, Parse("xxx").SetFormat(DateFormat).String())
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		SetFormat(DateFormat)
-		c := Parse("2020-08-05")
+		now := Parse("2020-08-05 13:14:15.999999 +0000 UTC")
 
-		assert.Equal(t, DateLayout, DefaultLayout)
-		assert.Equal(t, DateLayout, c.CurrentLayout())
-
-		c.SetFormat(DateTimeFormat)
-		assert.Equal(t, DateLayout, DefaultLayout)
-		assert.Equal(t, DateTimeLayout, c.CurrentLayout())
-	})
-}
-
-func TestCarbon_SetWeekStartsAt(t *testing.T) {
-	defer SetWeekStartsAt(Sunday)
-
-	t.Run("zero time", func(t *testing.T) {
-		c := NewCarbon().SetWeekStartsAt(Sunday)
-		assert.Equal(t, "0000-12-31 00:00:00 +0000 UTC", c.StartOfWeek().ToString())
-
-		c.SetWeekStartsAt(Monday)
-		assert.Equal(t, "0000-12-25 00:00:00 +0000 UTC", c.StartOfWeek().ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetWeekStartsAt(Sunday).ToString())
-	})
-
-	t.Run("invalid day", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05").SetWeekStartsAt("").HasError())
-		assert.True(t, Parse("2020-08-05").SetWeekStartsAt("0").HasError())
-		assert.True(t, Parse("2020-08-05").SetWeekStartsAt("xxx").HasError())
-
-		assert.Empty(t, Parse("2020-08-05").SetWeekStartsAt("").ToString())
-		assert.Empty(t, Parse("2020-08-05").SetWeekStartsAt("0").ToString())
-		assert.Empty(t, Parse("2020-08-05").SetWeekStartsAt("xxx").ToString())
-	})
-
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").SetWeekStartsAt(Sunday).ToString())
-		assert.Empty(t, Parse("xxx").SetWeekStartsAt(Sunday).ToString())
-	})
-
-	t.Run("valid time", func(t *testing.T) {
-		SetWeekStartsAt(Monday)
-		c := Parse("2020-08-05")
-
-		assert.Equal(t, Monday, DefaultWeekStartsAt)
-		assert.Equal(t, Monday, c.WeekStartsAt())
-
-		c.SetWeekStartsAt(Sunday)
-		assert.Equal(t, Monday, DefaultWeekStartsAt)
-		assert.Equal(t, Sunday, c.WeekStartsAt())
+		assert.Equal(t, "2020-08-05 13:14:15", now.SetFormat(DateTimeFormat).String())
+		assert.Equal(t, "1596633255", now.SetFormat(TimestampFormat).String())
+		assert.Equal(t, "1596633255999", now.SetFormat(TimestampMilliFormat).String())
+		assert.Equal(t, "1596633255999999", now.SetFormat(TimestampMicroFormat).String())
+		assert.Equal(t, "1596633255999999000", now.SetFormat(TimestampNanoFormat).String())
 	})
 }
 
 func TestCarbon_SetLocale(t *testing.T) {
-	defer SetLocale("en")
-
 	t.Run("zero time", func(t *testing.T) {
-		c := NewCarbon().SetLocale("en")
-		assert.Equal(t, "Capricorn", c.Constellation())
-		assert.Equal(t, "Winter", c.Season())
-		assert.Equal(t, "January", c.ToMonthString())
-		assert.Equal(t, "Jan", c.ToShortMonthString())
-		assert.Equal(t, "Monday", c.ToWeekString())
-		assert.Equal(t, "Mon", c.ToShortWeekString())
-	})
+		c1 := NewCarbon().SetLocale("zh-CN")
+		assert.Equal(t, "zh-CN", c1.Locale())
+		assert.Equal(t, "摩羯座", c1.Constellation())
+		assert.Equal(t, "冬季", c1.Season())
+		assert.Equal(t, "一月", c1.ToMonthString())
+		assert.Equal(t, "1月", c1.ToShortMonthString())
+		assert.Equal(t, "星期一", c1.ToWeekString())
+		assert.Equal(t, "周一", c1.ToShortWeekString())
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetLocale("en").ToString())
+		c2 := NewCarbon().SetLocale("en")
+		assert.Equal(t, "Capricorn", c2.Constellation())
+		assert.Equal(t, "Winter", c2.Season())
+		assert.Equal(t, "January", c2.ToMonthString())
+		assert.Equal(t, "Jan", c2.ToShortMonthString())
+		assert.Equal(t, "Monday", c2.ToWeekString())
+		assert.Equal(t, "Mon", c2.ToShortWeekString())
 	})
 
 	t.Run("invalid locale", func(t *testing.T) {
 		assert.True(t, Now().SetLocale("").HasError())
+		assert.True(t, Now().SetLocale("0").HasError())
 		assert.True(t, Now().SetLocale("xxx").HasError())
 
 		assert.Empty(t, Now().SetLocale("").ToString())
+		assert.Empty(t, Now().SetLocale("0").ToString())
 		assert.Empty(t, Now().SetLocale("xxx").ToString())
 	})
 
@@ -162,64 +381,68 @@ func TestCarbon_SetLocale(t *testing.T) {
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		SetLocale("zh-CN")
-		c := Parse("2020-08-05")
+		c1 := Parse("2020-08-05").SetLocale("zh-CN")
+		assert.Equal(t, "zh-CN", c1.Locale())
+		assert.Equal(t, "狮子座", c1.Constellation())
+		assert.Equal(t, "夏季", c1.Season())
+		assert.Equal(t, "八月", c1.ToMonthString())
+		assert.Equal(t, "8月", c1.ToShortMonthString())
+		assert.Equal(t, "星期三", c1.ToWeekString())
+		assert.Equal(t, "周三", c1.ToShortWeekString())
 
-		assert.Equal(t, "zh-CN", DefaultLocale)
-		assert.Equal(t, "zh-CN", c.Locale())
-
-		assert.Equal(t, "狮子座", c.Constellation())
-		assert.Equal(t, "夏季", c.Season())
-		assert.Equal(t, "八月", c.ToMonthString())
-		assert.Equal(t, "8月", c.ToShortMonthString())
-		assert.Equal(t, "星期三", c.ToWeekString())
-		assert.Equal(t, "周三", c.ToShortWeekString())
-
-		c.SetLocale("en")
-
-		assert.Equal(t, "zh-CN", DefaultLocale)
-		assert.Equal(t, "en", c.Locale())
-
-		assert.Equal(t, "Leo", c.Constellation())
-		assert.Equal(t, "Summer", c.Season())
-		assert.Equal(t, "August", c.ToMonthString())
-		assert.Equal(t, "Aug", c.ToShortMonthString())
-		assert.Equal(t, "Wednesday", c.ToWeekString())
-		assert.Equal(t, "Wed", c.ToShortWeekString())
+		c2 := Parse("2020-08-05").SetLocale("en")
+		assert.Equal(t, "en", c2.Locale())
+		assert.Equal(t, "Leo", c2.Constellation())
+		assert.Equal(t, "Summer", c2.Season())
+		assert.Equal(t, "August", c2.ToMonthString())
+		assert.Equal(t, "Aug", c2.ToShortMonthString())
+		assert.Equal(t, "Wednesday", c2.ToWeekString())
+		assert.Equal(t, "Wed", c2.ToShortWeekString())
 	})
 }
 
 func TestCarbon_SetTimezone(t *testing.T) {
-	defer SetTimezone(UTC)
-
 	t.Run("zero time", func(t *testing.T) {
-		c := NewCarbon().SetTimezone(UTC)
-		assert.Equal(t, UTC, c.Timezone())
-		assert.Equal(t, UTC, c.ZoneName())
-		assert.Equal(t, 0, c.ZoneOffset())
-		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", c.ToString())
+		l1, _ := time.LoadLocation(UTC)
+		t1 := time.Time{}.In(l1)
+		n1, f1 := t1.Zone()
+		assert.Equal(t, UTC, t1.Location().String())
+		assert.Equal(t, UTC, n1)
+		assert.Equal(t, 0, f1)
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", t1.String())
 
-		c.SetTimezone(PRC)
-		assert.Equal(t, PRC, c.Timezone())
-		assert.Equal(t, "CST", c.ZoneName())
-		assert.Equal(t, 28800, c.ZoneOffset())
-		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", c.ToString())
+		c1 := NewCarbon().SetTimezone(UTC)
+		assert.Equal(t, UTC, c1.Timezone())
+		assert.Equal(t, UTC, c1.ZoneName())
+		assert.Equal(t, 0, c1.ZoneOffset())
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", c1.ToString())
 
-		loc, _ := getLocationByTimezone(PRC)
-		tt := time.Time{}.In(loc)
-		name, offset := tt.Zone()
-		assert.Equal(t, "LMT", name)
-		assert.Equal(t, 29143, offset)
-		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", tt.String())
-	})
+		l2, _ := time.LoadLocation(PRC)
+		t2 := time.Time{}.In(l2)
+		n2, f2 := t2.Zone()
+		assert.Equal(t, PRC, t2.Location().String())
+		assert.Equal(t, "LMT", n2)
+		assert.Equal(t, 29143, f2)
+		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", t2.String())
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetTimezone(UTC).Timezone())
-		assert.Empty(t, c.SetTimezone(UTC).ZoneName())
-		assert.Empty(t, c.SetTimezone(UTC).ZoneOffset())
-		assert.Empty(t, c.SetTimezone(UTC).ToString())
+		c2 := NewCarbon().SetTimezone(PRC)
+		assert.Equal(t, PRC, c2.Timezone())
+		assert.Equal(t, "LMT", c2.ZoneName())
+		assert.Equal(t, 29143, c2.ZoneOffset())
+		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", c2.ToString())
+
+		l3, _ := time.LoadLocation(Japan)
+		t3 := time.Time{}.In(l3)
+		n3, f3 := t3.Zone()
+		assert.Equal(t, "LMT", n3)
+		assert.Equal(t, 33539, f3)
+		assert.Equal(t, "0001-01-01 09:18:59 +0918 LMT", t3.String())
+
+		c3 := NewCarbon().SetTimezone(Japan)
+		assert.Equal(t, Japan, c3.Timezone())
+		assert.Equal(t, "LMT", c3.ZoneName())
+		assert.Equal(t, 33539, c3.ZoneOffset())
+		assert.Equal(t, "0001-01-01 09:18:59 +0918 LMT", c3.ToString())
 	})
 
 	t.Run("invalid timezone", func(t *testing.T) {
@@ -239,55 +462,70 @@ func TestCarbon_SetTimezone(t *testing.T) {
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		SetTimezone(PRC)
 		c := Parse("2020-08-05")
 
-		assert.Equal(t, PRC, DefaultTimezone)
-		assert.Equal(t, PRC, c.Timezone())
-		assert.Equal(t, "CST", c.ZoneName())
-		assert.Equal(t, 28800, c.ZoneOffset())
-		assert.Equal(t, "2020-08-05 00:00:00 +0800 CST", c.ToString())
-
 		c.SetTimezone(UTC)
-		assert.Equal(t, PRC, DefaultTimezone)
 		assert.Equal(t, UTC, c.Timezone())
 		assert.Equal(t, UTC, c.ZoneName())
 		assert.Equal(t, 0, c.ZoneOffset())
-		assert.Equal(t, "2020-08-04 16:00:00 +0000 UTC", c.ToString())
+		assert.Equal(t, "2020-08-05 00:00:00 +0000 UTC", c.ToString())
+
+		c.SetTimezone(PRC)
+		assert.Equal(t, PRC, c.Timezone())
+		assert.Equal(t, "CST", c.ZoneName())
+		assert.Equal(t, 28800, c.ZoneOffset())
+		assert.Equal(t, "2020-08-05 08:00:00 +0800 CST", c.ToString())
+
+		c.SetTimezone(Japan)
+		assert.Equal(t, Japan, c.Timezone())
+		assert.Equal(t, "JST", c.ZoneName())
+		assert.Equal(t, 32400, c.ZoneOffset())
+		assert.Equal(t, "2020-08-05 09:00:00 +0900 JST", c.ToString())
 	})
 }
 
 func TestCarbon_SetLocation(t *testing.T) {
-	defer SetLocation(time.UTC)
-
 	t.Run("zero time", func(t *testing.T) {
-		c := NewCarbon().SetLocation(time.UTC)
-		assert.Equal(t, UTC, c.Timezone())
-		assert.Equal(t, UTC, c.ZoneName())
-		assert.Equal(t, 0, c.ZoneOffset())
-		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", c.ToString())
+		l1, _ := time.LoadLocation(UTC)
+		t1 := time.Time{}.In(l1)
+		n1, f1 := t1.Zone()
+		assert.Equal(t, UTC, t1.Location().String())
+		assert.Equal(t, UTC, n1)
+		assert.Equal(t, 0, f1)
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", t1.String())
 
-		loc, _ := time.LoadLocation(PRC)
-		c.SetLocation(loc)
-		assert.Equal(t, PRC, c.Timezone())
-		assert.Equal(t, "CST", c.ZoneName())
-		assert.Equal(t, 28800, c.ZoneOffset())
-		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", c.ToString())
+		c1 := NewCarbon().SetLocation(l1)
+		assert.Equal(t, UTC, c1.Timezone())
+		assert.Equal(t, UTC, c1.ZoneName())
+		assert.Equal(t, 0, c1.ZoneOffset())
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", c1.ToString())
 
-		tt := time.Time{}.In(loc)
-		name, offset := tt.Zone()
-		assert.Equal(t, "LMT", name)
-		assert.Equal(t, 29143, offset)
-		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", tt.String())
-	})
+		l2, _ := time.LoadLocation(PRC)
+		t2 := time.Time{}.In(l2)
+		n2, f2 := t2.Zone()
+		assert.Equal(t, PRC, t2.Location().String())
+		assert.Equal(t, "LMT", n2)
+		assert.Equal(t, 29143, f2)
+		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", t2.String())
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetLocation(time.UTC).Timezone())
-		assert.Empty(t, c.SetLocation(time.UTC).ZoneName())
-		assert.Empty(t, c.SetLocation(time.UTC).ZoneOffset())
-		assert.Empty(t, c.SetLocation(time.UTC).ToString())
+		c2 := NewCarbon().SetLocation(l2)
+		assert.Equal(t, PRC, c2.Timezone())
+		assert.Equal(t, "LMT", c2.ZoneName())
+		assert.Equal(t, 29143, c2.ZoneOffset())
+		assert.Equal(t, "0001-01-01 08:05:43 +0805 LMT", c2.ToString())
+
+		l3, _ := time.LoadLocation(Japan)
+		t3 := time.Time{}.In(l3)
+		n3, f3 := t3.Zone()
+		assert.Equal(t, "LMT", n3)
+		assert.Equal(t, 33539, f3)
+		assert.Equal(t, "0001-01-01 09:18:59 +0918 LMT", t3.String())
+
+		c3 := NewCarbon().SetLocation(l3)
+		assert.Equal(t, Japan, c3.Timezone())
+		assert.Equal(t, "LMT", c3.ZoneName())
+		assert.Equal(t, 33539, c3.ZoneOffset())
+		assert.Equal(t, "0001-01-01 09:18:59 +0918 LMT", c3.ToString())
 	})
 
 	t.Run("nil location", func(t *testing.T) {
@@ -304,23 +542,87 @@ func TestCarbon_SetLocation(t *testing.T) {
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		loc, _ := time.LoadLocation(PRC)
-		SetLocation(loc)
 		c := Parse("2020-08-05")
 
-		assert.Equal(t, PRC, DefaultTimezone)
-		assert.Equal(t, PRC, c.Timezone())
-		assert.Equal(t, "CST", c.ZoneName())
-		assert.Equal(t, 28800, c.ZoneOffset())
-
-		c.SetLocation(time.UTC)
-		assert.Equal(t, PRC, DefaultTimezone)
+		l1, _ := time.LoadLocation(UTC)
+		c.SetLocation(l1)
 		assert.Equal(t, UTC, c.Timezone())
 		assert.Equal(t, UTC, c.ZoneName())
 		assert.Equal(t, 0, c.ZoneOffset())
+		assert.Equal(t, "2020-08-05 00:00:00 +0000 UTC", c.ToString())
+
+		l2, _ := time.LoadLocation(PRC)
+		c.SetLocation(l2)
+		assert.Equal(t, PRC, c.Timezone())
+		assert.Equal(t, "CST", c.ZoneName())
+		assert.Equal(t, 28800, c.ZoneOffset())
+		assert.Equal(t, "2020-08-05 08:00:00 +0800 CST", c.ToString())
+
+		l3, _ := time.LoadLocation(Japan)
+		c.SetLocation(l3)
+		assert.Equal(t, Japan, c.Timezone())
+		assert.Equal(t, "JST", c.ZoneName())
+		assert.Equal(t, 32400, c.ZoneOffset())
+		assert.Equal(t, "2020-08-05 09:00:00 +0900 JST", c.ToString())
 	})
 }
 
+func TestCarbon_SetWeekStartsAt(t *testing.T) {
+	t.Run("zero time", func(t *testing.T) {
+		c1 := NewCarbon().SetWeekStartsAt(Sunday)
+		assert.Equal(t, "0000-12-31 00:00:00 +0000 UTC", c1.StartOfWeek().ToString())
+
+		c2 := NewCarbon().SetWeekStartsAt(Monday)
+		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", c2.StartOfWeek().ToString())
+	})
+
+	t.Run("invalid time", func(t *testing.T) {
+		assert.Empty(t, Parse("").SetWeekStartsAt(Sunday).ToString())
+		assert.Empty(t, Parse("xxx").SetWeekStartsAt(Sunday).ToString())
+	})
+
+	t.Run("valid time", func(t *testing.T) {
+		c1 := Parse("2020-08-05").SetWeekStartsAt(Monday)
+		assert.Equal(t, Monday, c1.WeekStartsAt())
+		assert.Equal(t, "2020-08-03 00:00:00 +0000 UTC", c1.StartOfWeek().ToString())
+
+		c2 := Parse("2020-08-05").SetWeekStartsAt(Sunday)
+		assert.Equal(t, Sunday, c2.WeekStartsAt())
+		assert.Equal(t, "2020-08-02 00:00:00 +0000 UTC", c2.StartOfWeek().ToString())
+	})
+}
+
+func TestCarbon_SetWeekendDays(t *testing.T) {
+	t.Run("zero time", func(t *testing.T) {
+		wd := []Weekday{
+			Saturday, Sunday,
+		}
+		assert.True(t, NewCarbon().SetWeekendDays(wd).IsWeekday())
+		assert.False(t, NewCarbon().SetWeekendDays(wd).IsWeekend())
+	})
+
+	t.Run("invalid time", func(t *testing.T) {
+		wd := []Weekday{
+			Saturday, Sunday,
+		}
+		assert.Empty(t, Parse("").SetWeekendDays(wd).ToString())
+		assert.Empty(t, Parse("xxx").SetWeekendDays(wd).ToString())
+	})
+
+	t.Run("valid time", func(t *testing.T) {
+		wd1 := []Weekday{
+			Saturday,
+		}
+		assert.True(t, Parse("2025-04-12").SetWeekendDays(wd1).IsWeekend())
+		assert.False(t, Parse("2025-04-13").SetWeekendDays(wd1).IsWeekend())
+
+		wd2 := []Weekday{
+			Sunday,
+		}
+		assert.False(t, Parse("2025-04-12").SetWeekendDays(wd2).IsWeekend())
+		assert.True(t, Parse("2025-04-13").SetWeekendDays(wd2).IsWeekend())
+	})
+}
 func TestCarbon_SetLanguage(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		lang := NewLanguage()
@@ -329,18 +631,10 @@ func TestCarbon_SetLanguage(t *testing.T) {
 		assert.Equal(t, "en", c.Locale())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		lang := NewLanguage()
-		lang.SetLocale("en")
-		assert.Empty(t, c.SetLanguage(lang).ToString())
-	})
-
 	t.Run("nil language", func(t *testing.T) {
 		lang := NewLanguage()
 		lang = nil
-		assert.Empty(t, SetLanguage(lang).ToString())
+		assert.Empty(t, NewCarbon().SetLanguage(lang).ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -367,12 +661,6 @@ func TestCarbon_SetDateTime(t *testing.T) {
 		assert.Equal(t, "2020-08-05 13:14:15 +0000 UTC", NewCarbon().SetDateTime(2020, 8, 5, 13, 14, 15).ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetDateTime(2020, 8, 5, 13, 14, 15).ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").SetDateTime(2020, 8, 5, 13, 14, 15).ToString())
 		assert.Empty(t, Parse("0").SetDateTime(2020, 8, 5, 13, 14, 15).ToString())
@@ -387,12 +675,6 @@ func TestCarbon_SetDateTime(t *testing.T) {
 func TestCarbon_SetDateTimeMilli(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "2020-08-05 13:14:15.999 +0000 UTC", NewCarbon().SetDateTimeMilli(2020, 8, 5, 13, 14, 15, 999).ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetDateTimeMilli(2020, 8, 5, 13, 14, 15, 999).ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -411,12 +693,6 @@ func TestCarbon_SetDateTimeMicro(t *testing.T) {
 		assert.Equal(t, "2020-08-05 13:14:15.999999 +0000 UTC", NewCarbon().SetDateTimeMicro(2020, 8, 5, 13, 14, 15, 999999).ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetDateTimeMicro(2020, 8, 5, 13, 14, 15, 999999).ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").SetDateTimeMicro(2020, 8, 5, 13, 14, 15, 999999).ToString())
 		assert.Empty(t, Parse("0").SetDateTimeMicro(2020, 8, 5, 13, 14, 15, 999999).ToString())
@@ -431,12 +707,6 @@ func TestCarbon_SetDateTimeMicro(t *testing.T) {
 func TestCarbon_SetDateTimeNano(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "2020-08-05 13:14:15.999999999 +0000 UTC", NewCarbon().SetDateTimeNano(2020, 8, 5, 13, 14, 15, 999999999).ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetDateTimeNano(2020, 8, 5, 13, 14, 15, 999999999).ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -455,12 +725,6 @@ func TestCarbon_SetDate(t *testing.T) {
 		assert.Equal(t, "2020-08-05 00:00:00 +0000 UTC", NewCarbon().SetDate(2020, 8, 5).ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetDate(2020, 8, 5).ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").SetDate(2020, 8, 5).ToString())
 		assert.Empty(t, Parse("0").SetDate(2020, 8, 5).ToString())
@@ -475,12 +739,6 @@ func TestCarbon_SetDate(t *testing.T) {
 func TestCarbon_SetDateMilli(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "2020-08-05 00:00:00.999 +0000 UTC", NewCarbon().SetDateMilli(2020, 8, 5, 999).ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetDateMilli(2020, 8, 5, 999).ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -499,12 +757,6 @@ func TestCarbon_SetDateMicro(t *testing.T) {
 		assert.Equal(t, "2020-08-05 00:00:00.999999 +0000 UTC", NewCarbon().SetDateMicro(2020, 8, 5, 999999).ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetDateMicro(2020, 8, 5, 999999).ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").SetDateMicro(2020, 8, 5, 999999).ToString())
 		assert.Empty(t, Parse("0").SetDateMicro(2020, 8, 5, 999999).ToString())
@@ -519,12 +771,6 @@ func TestCarbon_SetDateMicro(t *testing.T) {
 func TestCarbon_SetDateNano(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "2020-08-05 00:00:00.999999999 +0000 UTC", NewCarbon().SetDateNano(2020, 8, 5, 999999999).ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetDateNano(2020, 8, 5, 999999999).ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -543,12 +789,6 @@ func TestCarbon_SetTime(t *testing.T) {
 		assert.Equal(t, "0001-01-01 13:14:15 +0000 UTC", NewCarbon().SetTime(13, 14, 15).ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetTime(13, 14, 15).ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").SetTime(13, 14, 15).ToString())
 		assert.Empty(t, Parse("0").SetTime(13, 14, 15).ToString())
@@ -563,12 +803,6 @@ func TestCarbon_SetTime(t *testing.T) {
 func TestCarbon_SetTimeMilli(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01 13:14:15.999 +0000 UTC", NewCarbon().SetTimeMilli(13, 14, 15, 999).ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetTimeMilli(13, 14, 15, 999).ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -587,12 +821,6 @@ func TestCarbon_SetTimeMicro(t *testing.T) {
 		assert.Equal(t, "0001-01-01 13:14:15.999999 +0000 UTC", NewCarbon().SetTimeMicro(13, 14, 15, 999999).ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetTimeMicro(13, 14, 15, 9999999).ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").SetTimeMicro(13, 14, 15, 9999999).ToString())
 		assert.Empty(t, Parse("0").SetTimeMicro(13, 14, 15, 9999999).ToString())
@@ -609,12 +837,6 @@ func TestCarbon_SetTimeNano(t *testing.T) {
 		assert.Equal(t, "0001-01-01 13:14:15.999999999 +0000 UTC", NewCarbon().SetTimeNano(13, 14, 15, 999999999).ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetTimeNano(13, 14, 15, 999999999).ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").SetTimeNano(13, 14, 15, 999999999).ToString())
 		assert.Empty(t, Parse("0").SetTimeNano(13, 14, 15, 999999999).ToString())
@@ -629,12 +851,6 @@ func TestCarbon_SetTimeNano(t *testing.T) {
 func TestCarbon_SetYear(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "2020-01-01 00:00:00 +0000 UTC", NewCarbon().SetYear(2020).ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetYear(2020).ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -655,12 +871,6 @@ func TestCarbon_SetYearNoOverflow(t *testing.T) {
 		assert.Equal(t, "2020-01-01 00:00:00 +0000 UTC", NewCarbon().SetYearNoOverflow(2020).ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetYearNoOverflow(2020).ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").SetYearNoOverflow(2020).ToString())
 		assert.Empty(t, Parse("0").SetYearNoOverflow(2020).ToString())
@@ -677,12 +887,6 @@ func TestCarbon_SetYearNoOverflow(t *testing.T) {
 func TestCarbon_SetMonth(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-02-01 00:00:00 +0000 UTC", NewCarbon().SetMonth(2).ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetMonth(2).ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -703,12 +907,6 @@ func TestCarbon_SetMonthNoOverflow(t *testing.T) {
 		assert.Equal(t, "0001-02-01 00:00:00 +0000 UTC", NewCarbon().SetMonthNoOverflow(2).ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetMonthNoOverflow(2).ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").SetMonthNoOverflow(2).ToString())
 		assert.Empty(t, Parse("0").SetMonthNoOverflow(2).ToString())
@@ -725,12 +923,6 @@ func TestCarbon_SetMonthNoOverflow(t *testing.T) {
 func TestCarbon_SetDay(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-31 00:00:00 +0000 UTC", NewCarbon().SetDay(31).ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetDay(31).ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -751,12 +943,6 @@ func TestCarbon_SetHour(t *testing.T) {
 		assert.Equal(t, "0001-01-01 10:00:00 +0000 UTC", NewCarbon().SetHour(10).ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetHour(10).ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").SetHour(31).ToString())
 		assert.Empty(t, Parse("0").SetHour(31).ToString())
@@ -773,12 +959,6 @@ func TestCarbon_SetHour(t *testing.T) {
 func TestCarbon_SetMinute(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:10:00 +0000 UTC", NewCarbon().SetMinute(10).ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetMinute(10).ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -799,12 +979,6 @@ func TestCarbon_SetSecond(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:10 +0000 UTC", NewCarbon().SetSecond(10).ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetSecond(10).ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").SetSecond(31).ToString())
 		assert.Empty(t, Parse("0").SetSecond(31).ToString())
@@ -821,12 +995,6 @@ func TestCarbon_SetSecond(t *testing.T) {
 func TestCarbon_SetMillisecond(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00.999 +0000 UTC", NewCarbon().SetMillisecond(999).ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetMillisecond(999).ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {
@@ -846,12 +1014,6 @@ func TestCarbon_SetMicrosecond(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00.999999 +0000 UTC", NewCarbon().SetMicrosecond(999999).ToString())
 	})
 
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetMicrosecond(999999).ToString())
-	})
-
 	t.Run("invalid time", func(t *testing.T) {
 		assert.Empty(t, Parse("").SetMicrosecond(999999).ToString())
 		assert.Empty(t, Parse("0").SetMicrosecond(999999).ToString())
@@ -867,12 +1029,6 @@ func TestCarbon_SetMicrosecond(t *testing.T) {
 func TestCarbon_SetNanosecond(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "0001-01-01 00:00:00.999999999 +0000 UTC", NewCarbon().SetNanosecond(999999999).ToString())
-	})
-
-	t.Run("nil time", func(t *testing.T) {
-		c := NewCarbon()
-		c = nil
-		assert.Empty(t, c.SetNanosecond(999999999).ToString())
 	})
 
 	t.Run("invalid time", func(t *testing.T) {

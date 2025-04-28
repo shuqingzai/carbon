@@ -54,36 +54,40 @@ var (
 		0x0e968, 0x0d520, 0x0daa0, 0x16aa6, 0x056d0, 0x04ae0, 0x0a9d4, 0x0a2d0, 0x0d150, 0x0f252, // 2090-2099
 		0x0d520, // 2100
 	}
-
-	InvalidDateError = func() error {
-		return fmt.Errorf("invalid invalid date, please make sure the date is valid")
-	}
 )
 
-// Gregorian defines a Gregorian struct.
-// 定义 Gregorian 结构体
-type Gregorian struct {
-	calendar.Gregorian
+// ErrInvalidLunar returns a invalid lunar date.
+// 无效的农历日期错误
+var ErrInvalidLunar = func() error {
+	return fmt.Errorf("invalid lunar date, please make sure the lunar date is valid")
 }
 
 // Lunar defines a Lunar struct.
 // 定义 Lunar 结构体
 type Lunar struct {
-	year, month, day, hour, minute, second int
-	isLeapMonth                            bool
-	Error                                  error
+	year, month, day int
+	isLeapMonth      bool
+	Error            error
+}
+
+// NewLunar returns a new Lunar instance.
+// 返回 Lunar 实例
+func NewLunar(year, month, day int, isLeapMonth bool) *Lunar {
+	l := new(Lunar)
+	l.year, l.month, l.day, l.isLeapMonth = year, month, day, isLeapMonth
+	if !l.IsValid() {
+		l.Error = ErrInvalidLunar()
+	}
+	return l
 }
 
 // MaxValue returns a Lunar instance for the greatest supported date.
 // 返回 Carbon 的最大值
 func MaxValue() *Lunar {
 	return &Lunar{
-		year:   2100,
-		month:  12,
-		day:    31,
-		hour:   23,
-		minute: 59,
-		second: 59,
+		year:  2100,
+		month: 12,
+		day:   31,
 	}
 }
 
@@ -91,47 +95,23 @@ func MaxValue() *Lunar {
 // 返回 Lunar 的最小值
 func MinValue() *Lunar {
 	return &Lunar{
-		year:   1900,
-		month:  1,
-		day:    1,
-		hour:   0,
-		minute: 0,
-		second: 0,
+		year:  1900,
+		month: 1,
+		day:   1,
 	}
 }
 
-// FromGregorian creates a Gregorian instance from time.Time.
-// 从标准 time.Time 创建 Gregorian 实例
-func FromGregorian(t time.Time) *Gregorian {
-	g := new(Gregorian)
+// FromStdTime creates a Lunar instance from standard time.Time.
+// 从标准 time.Time 创建 Lunar 实例
+func FromStdTime(t time.Time) *Lunar {
+	l := new(Lunar)
 	if t.IsZero() {
-		return g
-	}
-	g.Time = t
-	return g
-}
-
-// FromLunar creates a Lunar instance from lunar datetime.
-// 从 农历日期 创建 Lunar 实例
-func FromLunar(year, month, day, hour, minute, second int, isLeapMonth bool) *Lunar {
-	l := new(Lunar)
-	l.year, l.month, l.day = year, month, day
-	l.hour, l.minute, l.second = hour, minute, second
-	l.isLeapMonth = isLeapMonth
-	return l
-}
-
-// ToLunar converts Gregorian instance to Lunar instance.
-// 将 Gregorian 实例转化为 Lunar 实例
-func (g *Gregorian) ToLunar() *Lunar {
-	l := new(Lunar)
-	if g.IsZero() {
-		return l
+		return nil
 	}
 	daysInYear, daysInMonth, leapMonth := 365, 30, 0
 	maxYear, minYear := MaxValue().year, MinValue().year
 
-	offset := g.diffInDays(time.Date(minYear, 1, 31, 0, 0, 0, 0, g.Location()))
+	offset := int(t.Truncate(time.Hour).Sub(time.Date(minYear, 1, 31, 0, 0, 0, 0, t.Location())).Hours() / 24)
 	for l.year = minYear; l.year <= maxYear && offset > 0; l.year++ {
 		daysInYear = l.getDaysInYear()
 		offset -= daysInYear
@@ -154,7 +134,7 @@ func (g *Gregorian) ToLunar() *Lunar {
 			l.isLeapMonth = false
 		}
 	}
-	// offset为0时，并且刚才计算的月份是闰月，要校正
+	// offset为0时，并且月份是闰月，要校正
 	if offset == 0 && leapMonth > 0 && l.month == leapMonth+1 {
 		if l.isLeapMonth {
 			l.isLeapMonth = false
@@ -169,32 +149,34 @@ func (g *Gregorian) ToLunar() *Lunar {
 		l.month--
 	}
 	l.day = offset + 1
-	l.hour, l.minute, l.second = g.Clock()
-	if !l.IsValid() {
-		l.Error = InvalidDateError()
-		return l
-	}
 	return l
 }
 
 // ToGregorian converts Lunar instance to Gregorian instance.
 // 将 Lunar 实例转化为 Gregorian 实例
-func (l *Lunar) ToGregorian() *Gregorian {
-	g := new(Gregorian)
+func (l *Lunar) ToGregorian(timezone ...string) *calendar.Gregorian {
+	g := new(calendar.Gregorian)
 	if !l.IsValid() {
+		return g
+	}
+	loc := time.UTC
+	if len(timezone) > 0 {
+		loc, g.Error = time.LoadLocation(timezone[0])
+	}
+	if g.Error != nil {
 		return g
 	}
 	days := l.getDaysInMonth()
 	offset := l.getOffsetInYear()
 	offset += l.getOffsetInMonth()
 
-	// 转换闰月农历 需补充该年闰月的前一个月的时差
+	// 补充闰月的前一个月的时差
 	if l.isLeapMonth {
 		offset += days
 	}
-	// https://github.com/golang-module/carbon/issues/219
-	ts := int64(offset+l.day)*86400 - int64(2206512000) + int64(l.hour)*3600 + int64(l.minute)*60 + int64(l.second)
-	g.Time = time.Unix(ts, 0)
+	// https://github.com/dromara/carbon/issues/219
+	ts := int64(offset+l.day)*86400 - int64(2206512000)
+	g.Time = time.Unix(ts, 0).In(loc)
 	return g
 }
 
@@ -204,7 +186,7 @@ func (l *Lunar) Animal() string {
 	if !l.IsValid() {
 		return ""
 	}
-	return animals[l.year%calendar.MonthsPerYear]
+	return animals[l.year%12]
 }
 
 // Festival gets lunar festival name like "春节".
@@ -219,7 +201,7 @@ func (l *Lunar) Festival() string {
 // Year gets lunar year like 2020.
 // 获取农历年份
 func (l *Lunar) Year() int {
-	if l.Error != nil {
+	if !l.IsValid() {
 		return 0
 	}
 	return l.year
@@ -228,7 +210,7 @@ func (l *Lunar) Year() int {
 // Month gets lunar month like 8.
 // 获取农历月份
 func (l *Lunar) Month() int {
-	if l.Error != nil {
+	if !l.IsValid() {
 		return 0
 	}
 	return l.month
@@ -243,33 +225,6 @@ func (l *Lunar) Day() int {
 	return l.day
 }
 
-// Hour gets current hour like 13.
-// 获取农历时辰
-func (l *Lunar) Hour() int {
-	if !l.IsValid() {
-		return 0
-	}
-	return l.hour
-}
-
-// Minute gets current minute like 14.
-// 获取农历分钟数
-func (l *Lunar) Minute() int {
-	if !l.IsValid() {
-		return 0
-	}
-	return l.minute
-}
-
-// Second gets current second like 15.
-// 获取农历秒数
-func (l *Lunar) Second() int {
-	if !l.IsValid() {
-		return 0
-	}
-	return l.second
-}
-
 // LeapMonth gets lunar leap month like 2.
 // 获取农历闰月月份，如 2
 func (l *Lunar) LeapMonth() int {
@@ -280,13 +235,13 @@ func (l *Lunar) LeapMonth() int {
 	return years[l.year-minYear] & 0xf
 }
 
-// String implements Stringer interface and outputs a string in YYYY-MM-DD HH::ii::ss format like "2019-12-07 00:00:00".
-// 实现 Stringer 接口, 输出 YYYY-MM-DD HH::ii::ss 格式字符串，如 "2019-12-07 00:00:00"
+// String implements Stringer interface for Lunar.
+// 实现 Stringer 接口
 func (l *Lunar) String() string {
 	if !l.IsValid() {
 		return ""
 	}
-	return fmt.Sprintf("%04d-%02d-%02d %02d:%02d:%02d", l.year, l.month, l.day, l.hour, l.minute, l.second)
+	return fmt.Sprintf("%04d-%02d-%02d", l.year, l.month, l.day)
 }
 
 // ToYearString outputs a string in lunar year format like "二零二零".
@@ -296,8 +251,8 @@ func (l *Lunar) ToYearString() (year string) {
 		return ""
 	}
 	year = fmt.Sprintf("%d", l.year)
-	for index, number := range numbers {
-		year = strings.Replace(year, fmt.Sprintf("%d", index), number, -1)
+	for i := range numbers {
+		year = strings.Replace(year, fmt.Sprintf("%d", i), numbers[i], -1)
 	}
 	return year
 }
@@ -321,7 +276,7 @@ func (l *Lunar) ToWeekString() (month string) {
 	if !l.IsValid() {
 		return ""
 	}
-	return weeks[l.ToGregorian().Week()]
+	return weeks[l.ToGregorian().Time.Weekday()]
 }
 
 // ToDayString outputs a string in lunar day format like "廿一".
@@ -363,7 +318,7 @@ func (l *Lunar) IsValid() bool {
 	if l == nil || l.Error != nil {
 		return false
 	}
-	if l.Year() >= MinValue().year && l.Year() <= MaxValue().year {
+	if l.year >= MinValue().year && l.year <= MaxValue().year {
 		return true
 	}
 	return false
@@ -384,7 +339,7 @@ func (l *Lunar) IsLeapMonth() bool {
 	if !l.IsValid() {
 		return false
 	}
-	return l.month == l.LeapMonth()
+	return l.isLeapMonth
 }
 
 // IsRatYear reports whether is lunar year of Rat.
@@ -393,7 +348,7 @@ func (l *Lunar) IsRatYear() bool {
 	if !l.IsValid() {
 		return false
 	}
-	if l.year%calendar.MonthsPerYear == 4 {
+	if l.year%12 == 4 {
 		return true
 	}
 	return false
@@ -405,7 +360,7 @@ func (l *Lunar) IsOxYear() bool {
 	if !l.IsValid() {
 		return false
 	}
-	if l.year%calendar.MonthsPerYear == 5 {
+	if l.year%12 == 5 {
 		return true
 	}
 	return false
@@ -417,7 +372,7 @@ func (l *Lunar) IsTigerYear() bool {
 	if !l.IsValid() {
 		return false
 	}
-	if l.year%calendar.MonthsPerYear == 6 {
+	if l.year%12 == 6 {
 		return true
 	}
 	return false
@@ -429,7 +384,7 @@ func (l *Lunar) IsRabbitYear() bool {
 	if !l.IsValid() {
 		return false
 	}
-	if l.year%calendar.MonthsPerYear == 7 {
+	if l.year%12 == 7 {
 		return true
 	}
 	return false
@@ -441,7 +396,7 @@ func (l *Lunar) IsDragonYear() bool {
 	if !l.IsValid() {
 		return false
 	}
-	if l.year%calendar.MonthsPerYear == 8 {
+	if l.year%12 == 8 {
 		return true
 	}
 	return false
@@ -453,7 +408,7 @@ func (l *Lunar) IsSnakeYear() bool {
 	if !l.IsValid() {
 		return false
 	}
-	if l.year%calendar.MonthsPerYear == 9 {
+	if l.year%12 == 9 {
 		return true
 	}
 	return false
@@ -465,7 +420,7 @@ func (l *Lunar) IsHorseYear() bool {
 	if !l.IsValid() {
 		return false
 	}
-	if l.year%calendar.MonthsPerYear == 10 {
+	if l.year%12 == 10 {
 		return true
 	}
 	return false
@@ -477,7 +432,7 @@ func (l *Lunar) IsGoatYear() bool {
 	if !l.IsValid() {
 		return false
 	}
-	if l.year%calendar.MonthsPerYear == 11 {
+	if l.year%12 == 11 {
 		return true
 	}
 	return false
@@ -489,7 +444,7 @@ func (l *Lunar) IsMonkeyYear() bool {
 	if !l.IsValid() {
 		return false
 	}
-	if l.year%calendar.MonthsPerYear == 0 {
+	if l.year%12 == 0 {
 		return true
 	}
 	return false
@@ -501,7 +456,7 @@ func (l *Lunar) IsRoosterYear() bool {
 	if !l.IsValid() {
 		return false
 	}
-	if l.year%calendar.MonthsPerYear == 1 {
+	if l.year%12 == 1 {
 		return true
 	}
 	return false
@@ -513,7 +468,7 @@ func (l *Lunar) IsDogYear() bool {
 	if !l.IsValid() {
 		return false
 	}
-	if l.year%calendar.MonthsPerYear == 2 {
+	if l.year%12 == 2 {
 		return true
 	}
 	return false
@@ -525,14 +480,10 @@ func (l *Lunar) IsPigYear() bool {
 	if !l.IsValid() {
 		return false
 	}
-	if l.year%calendar.MonthsPerYear == 3 {
+	if l.year%12 == 3 {
 		return true
 	}
 	return false
-}
-
-func (g *Gregorian) diffInDays(t time.Time) int {
-	return int(g.Time.Truncate(time.Hour).Sub(t).Hours() / 24)
 }
 
 func (l *Lunar) getOffsetInYear() int {

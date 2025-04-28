@@ -8,26 +8,37 @@ import (
 )
 
 func ExampleNewCarbon() {
-	fmt.Println(carbon.NewCarbon().ToString())
+	loc, _ := time.LoadLocation(carbon.PRC)
 
 	t1, _ := time.Parse(carbon.DateTimeLayout, "2020-08-05 13:14:15")
-	fmt.Println(carbon.NewCarbon(t1).ToString())
-
-	loc, _ := time.LoadLocation(carbon.PRC)
 	t2, _ := time.ParseInLocation(carbon.DateTimeLayout, "2020-08-05 13:14:15", loc)
-	fmt.Println(carbon.NewCarbon(t2).ToString())
+
+	fmt.Println("go zero time:", time.Time{}.String())
+	fmt.Println("go zero time with timezone:", time.Time{}.In(loc).String())
+	fmt.Println("go valid time:", t1.String())
+	fmt.Println("go valid time with timezone:", t2.In(loc).String())
+
+	fmt.Println("carbon zero time:", carbon.NewCarbon().ToString())
+	fmt.Println("carbon zero time with timezone:", carbon.NewCarbon().SetLocation(loc).ToString())
+	fmt.Println("carbon valid time:", carbon.NewCarbon(t1).ToString())
+	fmt.Println("carbon valid time with timezone:", carbon.NewCarbon(t2).SetLocation(loc).ToString())
 
 	// Output:
-	// 0001-01-01 00:00:00 +0000 UTC
-	// 2020-08-05 13:14:15 +0000 UTC
-	// 2020-08-05 13:14:15 +0800 CST
+	// go zero time: 0001-01-01 00:00:00 +0000 UTC
+	// go zero time with timezone: 0001-01-01 08:05:43 +0805 LMT
+	// go valid time: 2020-08-05 13:14:15 +0000 UTC
+	// go valid time with timezone: 2020-08-05 13:14:15 +0800 CST
+	// carbon zero time: 0001-01-01 00:00:00 +0000 UTC
+	// carbon zero time with timezone: 0001-01-01 08:05:43 +0805 LMT
+	// carbon valid time: 2020-08-05 13:14:15 +0000 UTC
+	// carbon valid time with timezone: 2020-08-05 13:14:15 +0800 CST
 }
 
 func ExampleCarbon_Copy() {
 	oldCarbon := carbon.Parse("2020-08-05")
 	newCarbon := oldCarbon.Copy()
 
-	oldCarbon = oldCarbon.AddDay().SetLayout(carbon.DateTimeLayout).SetLocale("zh-CN").SetWeekStartsAt(carbon.Monday)
+	oldCarbon = oldCarbon.AddDay().SetLayout(carbon.DateTimeLayout).SetLocale("zh-CN").SetWeekStartsAt(carbon.Sunday)
 
 	fmt.Printf("old time: %s\n", oldCarbon.ToString())
 	fmt.Printf("new time: %s\n", newCarbon.ToString())
@@ -48,6 +59,6 @@ func ExampleCarbon_Copy() {
 	// new layout: 2006-01-02
 	// old locale: zh-CN
 	// new locale: en
-	// old week starts at: Monday
-	// new week starts at: Sunday
+	// old week starts at: Sunday
+	// new week starts at: Monday
 }

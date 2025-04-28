@@ -3,7 +3,6 @@ package carbon
 import (
 	"embed"
 	"encoding/json"
-	"fmt"
 	"strconv"
 	"strings"
 	"sync"
@@ -11,26 +10,6 @@ import (
 
 //go:embed lang
 var fs embed.FS
-
-var (
-	// empty locale error
-	// 空区域错误
-	emptyLocaleError = func() error {
-		return fmt.Errorf("locale cannot be empty")
-	}
-
-	// invalid locale error
-	// 无效的区域错误
-	invalidLocaleError = func(locale string) error {
-		return fmt.Errorf("invalid locale file %q, please make sure the json file exists and is valid", locale)
-	}
-
-	// invalid resources error
-	// 无效的资源错误
-	invalidResourcesError = func() error {
-		return fmt.Errorf("invalid resources, please make sure the resources exists and is valid")
-	}
-)
 
 // Language defines a Language struct.
 // 定义 Language 结构体
@@ -53,15 +32,36 @@ func NewLanguage() *Language {
 	}
 }
 
+// Copy returns a new copy of the current Language instance
+// 复制 Language 实例
+func (lang *Language) Copy() *Language {
+	if lang == nil {
+		return nil
+	}
+	newLang := &Language{
+		dir:    lang.dir,
+		locale: lang.locale,
+		Error:  lang.Error,
+		rw:     new(sync.RWMutex),
+	}
+	if lang.resources == nil {
+		return newLang
+	}
+	newLang.resources = make(map[string]string)
+	for i := range lang.resources {
+		newLang.resources[i] = lang.resources[i]
+	}
+	return newLang
+}
+
 // SetLocale sets language locale.
 // 设置区域
 func (lang *Language) SetLocale(locale string) *Language {
 	if lang == nil || lang.Error != nil {
 		return lang
 	}
-
 	if locale == "" {
-		lang.Error = emptyLocaleError()
+		lang.Error = ErrEmptyLocale()
 		return lang
 	}
 
@@ -72,7 +72,7 @@ func (lang *Language) SetLocale(locale string) *Language {
 	fileName := lang.dir + locale + ".json"
 	bytes, err := fs.ReadFile(fileName)
 	if err != nil {
-		lang.Error = invalidLocaleError(fileName)
+		lang.Error = ErrNotExistLocale(fileName)
 		return lang
 	}
 	_ = json.Unmarshal(bytes, &lang.resources)
@@ -85,23 +85,24 @@ func (lang *Language) SetResources(resources map[string]string) *Language {
 	if lang == nil || lang.Error != nil {
 		return lang
 	}
-
-	if resources == nil {
-		lang.Error = invalidResourcesError()
+	if len(resources) == 0 {
+		lang.Error = ErrEmptyResources()
 		return lang
 	}
 
 	lang.rw.Lock()
 	defer lang.rw.Unlock()
 
+	for i := range resources {
+		if _, ok := lang.resources[i]; ok {
+			lang.resources[i] = resources[i]
+		} else {
+			lang.Error = ErrInvalidResourcesError()
+		}
+	}
+
 	if len(lang.resources) == 0 {
 		lang.resources = resources
-		return lang
-	}
-	for k, v := range resources {
-		if _, ok := lang.resources[k]; ok {
-			lang.resources[k] = v
-		}
 	}
 	return lang
 }

@@ -6,7 +6,7 @@ import (
 
 // Version current version
 // 当前版本号
-const Version = "2.6.1"
+const Version = "2.6.4"
 
 // timezone constants
 // 时区常量
@@ -77,18 +77,18 @@ const (
 // month constants
 // 月份常量
 const (
-	January   = "January"   // 一月
-	February  = "February"  // 二月
-	March     = "March"     // 三月
-	April     = "April"     // 四月
-	May       = "May"       // 五月
-	June      = "June"      // 六月
-	July      = "July"      // 七月
-	August    = "August"    // 八月
-	September = "September" // 九月
-	October   = "October"   // 十月
-	November  = "November"  // 十一月
-	December  = "December"  // 十二月
+	January   = time.January   // 一月
+	February  = time.February  // 二月
+	March     = time.March     // 三月
+	April     = time.April     // 四月
+	May       = time.May       // 五月
+	June      = time.June      // 六月
+	July      = time.July      // 七月
+	August    = time.August    // 八月
+	September = time.September // 九月
+	October   = time.October   // 十月
+	November  = time.November  // 十一月
+	December  = time.December  // 十二月
 )
 
 // constellation constants
@@ -111,13 +111,13 @@ const (
 // week constants
 // 星期常量
 const (
-	Monday    = "Monday"    // 周一
-	Tuesday   = "Tuesday"   // 周二
-	Wednesday = "Wednesday" // 周三
-	Thursday  = "Thursday"  // 周四
-	Friday    = "Friday"    // 周五
-	Saturday  = "Saturday"  // 周六
-	Sunday    = "Sunday"    // 周日
+	Monday    = time.Monday    // 周一
+	Tuesday   = time.Tuesday   // 周二
+	Wednesday = time.Wednesday // 周三
+	Thursday  = time.Thursday  // 周四
+	Friday    = time.Friday    // 周五
+	Saturday  = time.Saturday  // 周六
+	Sunday    = time.Sunday    // 周日
 )
 
 // season constants
@@ -132,6 +132,7 @@ const (
 // number constants
 // 数字常量
 const (
+	EpochYear          = 1970   // UNIX 纪元年
 	YearsPerMillennium = 1000   // 每千年1000年
 	YearsPerCentury    = 100    // 每世纪100年
 	YearsPerDecade     = 10     // 每十年10年
@@ -139,7 +140,7 @@ const (
 	MonthsPerYear      = 12     // 每年12月
 	MonthsPerQuarter   = 3      // 每季度3月
 	WeeksPerNormalYear = 52     // 每常规年52周
-	weeksPerLongYear   = 53     // 每长年53周
+	WeeksPerLongYear   = 53     // 每长年53周
 	WeeksPerMonth      = 4      // 每月4周
 	DaysPerLeapYear    = 366    // 每闰年366天
 	DaysPerNormalYear  = 365    // 每常规年365天
@@ -219,40 +220,45 @@ const (
 	ShortTimeMilliLayout = "150405.999"
 	ShortTimeMicroLayout = "150405.999999"
 	ShortTimeNanoLayout  = "150405.999999999"
+
+	TimestampLayout      = "unix"
+	TimestampMilliLayout = "unixMilli"
+	TimestampMicroLayout = "unixMicro"
+	TimestampNanoLayout  = "unixNano"
 )
 
 // format constants
 // 格式模板常量
 const (
-	AtomFormat     = "Y-m-d\\TH:i:sP"
-	ANSICFormat    = "D M j H:i:s Y"
-	CookieFormat   = "l, d-M-Y H:i:s T"
+	AtomFormat     = "Y-m-d\\TH:i:sR"
+	ANSICFormat    = "D M  j H:i:s Y"
+	CookieFormat   = "l, d-M-Y H:i:s Z"
 	KitchenFormat  = "g:iA"
 	RssFormat      = "D, d M Y H:i:s O"
 	RubyDateFormat = "D M d H:i:s O Y"
-	UnixDateFormat = "D M j H:i:s T Y"
+	UnixDateFormat = "D M  j H:i:s Z Y"
 
 	RFC1036Format      = "D, d M y H:i:s O"
-	RFC1123Format      = "D, d M Y H:i:s T"
+	RFC1123Format      = "D, d M Y H:i:s Z"
 	RFC1123ZFormat     = "D, d M Y H:i:s O"
 	RFC2822Format      = "D, d M Y H:i:s O"
-	RFC3339Format      = "Y-m-d\\TH:i:sP"
-	RFC3339MilliFormat = "Y-m-d\\TH:i:s.vP"
-	RFC3339MicroFormat = "Y-m-d\\TH:i:s.uP"
-	RFC3339NanoFormat  = "Y-m-d\\TH:i:s.xP"
-	RFC7231Format      = "D, d M Y H:i:s T"
-	RFC822Format       = "d M y H:i T"
+	RFC3339Format      = "Y-m-d\\TH:i:sR"
+	RFC3339MilliFormat = "Y-m-d\\TH:i:s.uR"
+	RFC3339MicroFormat = "Y-m-d\\TH:i:s.vR"
+	RFC3339NanoFormat  = "Y-m-d\\TH:i:s.xR"
+	RFC7231Format      = "D, d M Y H:i:s Z"
+	RFC822Format       = "d M y H:i Z"
 	RFC822ZFormat      = "d M y H:i O"
-	RFC850Format       = "l, d-M-y H:i:s T"
+	RFC850Format       = "l, d-M-y H:i:s Z"
 
 	ISO8601Format      = "Y-m-d\\TH:i:sP"
-	ISO8601MilliFormat = "Y-m-d\\TH:i:s.vP"
-	ISO8601MicroFormat = "Y-m-d\\TH:i:s.uP"
+	ISO8601MilliFormat = "Y-m-d\\TH:i:s.uP"
+	ISO8601MicroFormat = "Y-m-d\\TH:i:s.vP"
 	ISO8601NanoFormat  = "Y-m-d\\TH:i:s.xP"
 
 	ISO8601ZuluFormat      = "Y-m-d\\TH:i:s\\Z"
-	ISO8601ZuluMilliFormat = "Y-m-d\\TH:i:s.v\\Z"
-	ISO8601ZuluMicroFormat = "Y-m-d\\TH:i:s.u\\Z"
+	ISO8601ZuluMilliFormat = "Y-m-d\\TH:i:s.u\\Z"
+	ISO8601ZuluMicroFormat = "Y-m-d\\TH:i:s.v\\Z"
 	ISO8601ZuluNanoFormat  = "Y-m-d\\TH:i:s.x\\Z"
 
 	FormattedDateFormat    = "M j, Y"
@@ -260,29 +266,34 @@ const (
 
 	DayDateTimeFormat        = "D, M j, Y g:i A"
 	DateTimeFormat           = "Y-m-d H:i:s"
-	DateTimeMilliFormat      = "Y-m-d H:i:s.v"
-	DateTimeMicroFormat      = "Y-m-d H:i:s.u"
+	DateTimeMilliFormat      = "Y-m-d H:i:s.u"
+	DateTimeMicroFormat      = "Y-m-d H:i:s.v"
 	DateTimeNanoFormat       = "Y-m-d H:i:s.x"
 	ShortDateTimeFormat      = "YmdHis"
-	ShortDateTimeMilliFormat = "YmdHis.v"
-	ShortDateTimeMicroFormat = "YmdHis.u"
+	ShortDateTimeMilliFormat = "YmdHis.u"
+	ShortDateTimeMicroFormat = "YmdHis.v"
 	ShortDateTimeNanoFormat  = "YmdHis.x"
 
 	DateFormat           = "Y-m-d"
-	DateMilliFormat      = "Y-m-d.v"
-	DateMicroFormat      = "Y-m-d.u"
+	DateMilliFormat      = "Y-m-d.u"
+	DateMicroFormat      = "Y-m-d.v"
 	DateNanoFormat       = "Y-m-d.x"
 	ShortDateFormat      = "Ymd"
-	ShortDateMilliFormat = "Ymd.v"
-	ShortDateMicroFormat = "Ymd.u"
+	ShortDateMilliFormat = "Ymd.u"
+	ShortDateMicroFormat = "Ymd.v"
 	ShortDateNanoFormat  = "Ymd.x"
 
 	TimeFormat           = "H:i:s"
-	TimeMilliFormat      = "H:i:s.v"
-	TimeMicroFormat      = "H:i:s.u"
+	TimeMilliFormat      = "H:i:s.u"
+	TimeMicroFormat      = "H:i:s.v"
 	TimeNanoFormat       = "H:i:s.x"
 	ShortTimeFormat      = "His"
-	ShortTimeMilliFormat = "His.v"
-	ShortTimeMicroFormat = "His.u"
+	ShortTimeMilliFormat = "His.u"
+	ShortTimeMicroFormat = "His.v"
 	ShortTimeNanoFormat  = "His.x"
+
+	TimestampFormat      = "S"
+	TimestampMilliFormat = "U"
+	TimestampMicroFormat = "V"
+	TimestampNanoFormat  = "X"
 )

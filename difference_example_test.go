@@ -185,7 +185,9 @@ func ExampleCarbon_DiffAbsInSeconds() {
 }
 
 func ExampleCarbon_DiffInString() {
-	now := carbon.Now()
+	defer carbon.CleanTestNow()
+	now := carbon.Parse("2020-08-05 13:14:15")
+	carbon.SetTestNow(now)
 
 	fmt.Println(carbon.Parse("2020-08-05 13:14:15").DiffInString(carbon.Parse("2020-08-05 13:14:15")))
 	fmt.Println(now.Copy().AddYearsNoOverflow(1).DiffInString(now))
@@ -222,7 +224,9 @@ func ExampleCarbon_DiffInString() {
 }
 
 func ExampleCarbon_DiffAbsInString() {
-	now := carbon.Now()
+	defer carbon.CleanTestNow()
+	now := carbon.Parse("2020-08-05 13:14:15")
+	carbon.SetTestNow(now)
 
 	fmt.Println(carbon.Parse("2020-08-05 13:14:15").DiffAbsInString(carbon.Parse("2020-08-05 13:14:15")))
 	fmt.Println(now.Copy().AddYearsNoOverflow(1).DiffAbsInString(now))
@@ -259,7 +263,9 @@ func ExampleCarbon_DiffAbsInString() {
 }
 
 func ExampleCarbon_DiffInDuration() {
-	now := carbon.Now()
+	defer carbon.CleanTestNow()
+	now := carbon.Parse("2020-08-05 13:14:15")
+	carbon.SetTestNow(now)
 
 	fmt.Println(carbon.Parse("2020-08-05 13:14:15").DiffInDuration(carbon.Parse("2020-08-05 13:14:15")))
 	fmt.Println(now.Copy().AddYearsNoOverflow(1).DiffInDuration(now).String())
@@ -272,15 +278,17 @@ func ExampleCarbon_DiffInDuration() {
 	// Output:
 	// 0s
 	// -8760h0m0s
-	// 8760h0m0s
+	// 8784h0m0s
 	// -744h0m0s
-	// 672h0m0s
+	// 744h0m0s
 	// -24h0m0s
 	// 24h0m0s
 }
 
 func ExampleCarbon_DiffAbsInDuration() {
-	now := carbon.Now()
+	defer carbon.CleanTestNow()
+	now := carbon.Parse("2020-08-05 13:14:15")
+	carbon.SetTestNow(now)
 
 	fmt.Println(carbon.Parse("2020-08-05 13:14:15").DiffAbsInDuration(carbon.Parse("2020-08-05 13:14:15")))
 	fmt.Println(now.Copy().AddYearsNoOverflow(1).DiffAbsInDuration(now).String())
@@ -293,18 +301,17 @@ func ExampleCarbon_DiffAbsInDuration() {
 	// Output:
 	// 0s
 	// 8760h0m0s
-	// 8760h0m0s
+	// 8784h0m0s
 	// 744h0m0s
-	// 672h0m0s
+	// 744h0m0s
 	// 24h0m0s
 	// 24h0m0s
 }
 
 func ExampleCarbon_DiffForHumans() {
 	defer carbon.CleanTestNow()
-
-	carbon.SetTestNow(carbon.Parse("2020-08-05 13:14:15"))
-	now := carbon.Now()
+	now := carbon.Parse("2020-08-05 13:14:15")
+	carbon.SetTestNow(now)
 
 	fmt.Println(carbon.Parse("2020-08-05 13:14:15").DiffForHumans(carbon.Parse("2020-08-05 13:14:15")))
 	fmt.Println(carbon.Parse("2020-08-03 13:14:15").DiffForHumans())
