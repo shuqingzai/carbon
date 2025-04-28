@@ -52,6 +52,8 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 		return &Carbon{Error: ErrEmptyLayout()}
 	}
 	var (
+		ts  int64
+		tt  time.Time
 		loc *Location
 		err error
 	)
@@ -66,34 +68,29 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 	// timestamp layouts
 	switch layout {
 	case TimestampLayout:
-		ts, err := parseTimestamp(value)
-		if err != nil {
+		if ts, err = parseTimestamp(value); err != nil {
 			return &Carbon{Error: err}
 		}
 		return CreateFromTimestamp(ts).SetLocation(loc)
 	case TimestampMilliLayout:
-		ts, err := parseTimestamp(value)
-		if err != nil {
+		if ts, err = parseTimestamp(value); err != nil {
 			return &Carbon{Error: err}
 		}
 		return CreateFromTimestampMilli(ts).SetLocation(loc)
 	case TimestampMicroLayout:
-		ts, err := parseTimestamp(value)
-		if err != nil {
+		if ts, err = parseTimestamp(value); err != nil {
 			return &Carbon{Error: err}
 		}
 		return CreateFromTimestampMicro(ts).SetLocation(loc)
 	case TimestampNanoLayout:
-		ts, err := parseTimestamp(value)
-		if err != nil {
+		if ts, err = parseTimestamp(value); err != nil {
 			return &Carbon{Error: err}
 		}
 		return CreateFromTimestampNano(ts).SetLocation(loc)
 	}
 
 	// other layouts
-	tt, err := time.ParseInLocation(layout, value, loc)
-	if err != nil {
+	if tt, err = time.ParseInLocation(layout, value, loc); err != nil {
 		return &Carbon{Error: fmt.Errorf("%w: %w", ErrMismatchedLayout(value, layout), err)}
 	}
 
@@ -130,6 +127,7 @@ func ParseWithLayouts(value string, layouts []string, timezone ...string) *Carbo
 		return Parse(value, timezone...)
 	}
 	var (
+		tt  time.Time
 		loc *Location
 		err error
 	)
@@ -143,7 +141,7 @@ func ParseWithLayouts(value string, layouts []string, timezone ...string) *Carbo
 	}
 	c := NewCarbon().SetLocation(loc)
 	for i := range layouts {
-		if tt, err := time.ParseInLocation(layouts[i], value, loc); err == nil {
+		if tt, err = time.ParseInLocation(layouts[i], value, loc); err == nil {
 			c.time = tt
 			c.layout = layouts[i]
 			return c
