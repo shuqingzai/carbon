@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"database/sql/driver"
 	"strconv"
-	"time"
 )
 
 // timestamp precision constants
@@ -57,11 +56,11 @@ func (t *TimestampType[T]) Scan(src any) (err error) {
 		}
 	case int64:
 		ts = v
-	case time.Time:
+	case StdTime:
 		c = CreateFromStdTime(v, DefaultTimezone)
 		*t = *NewTimestampType[T](c)
 		return t.Error
-	case *time.Time:
+	case *StdTime:
 		c = CreateFromStdTime(*v, DefaultTimezone)
 		*t = *NewTimestampType[T](c)
 		return t.Error

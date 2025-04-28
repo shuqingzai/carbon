@@ -3,7 +3,6 @@ package carbon
 import (
 	"bytes"
 	"database/sql/driver"
-	"time"
 )
 
 // LayoutTyper defines a LayoutTyper interface
@@ -40,9 +39,9 @@ func (t *LayoutType[T]) Scan(src any) error {
 		c = Parse(v, DefaultTimezone)
 	case int64:
 		c = CreateFromTimestamp(v, DefaultTimezone)
-	case time.Time:
+	case StdTime:
 		c = CreateFromStdTime(v, DefaultTimezone)
-	case *time.Time:
+	case *StdTime:
 		c = CreateFromStdTime(*v, DefaultTimezone)
 	default:
 		return ErrFailedScan(v)

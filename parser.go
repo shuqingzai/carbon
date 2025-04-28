@@ -12,7 +12,7 @@ func Parse(value string, timezone ...string) *Carbon {
 		return nil
 	}
 	var (
-		tt  time.Time
+		tt  StdTime
 		loc *Location
 		err error
 	)
@@ -53,7 +53,7 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 		return &Carbon{Error: ErrEmptyLayout()}
 	}
 	var (
-		tt  time.Time
+		tt  StdTime
 		loc *Location
 		ts  int64
 		err error
@@ -128,7 +128,7 @@ func ParseWithLayouts(value string, layouts []string, timezone ...string) *Carbo
 		return Parse(value, timezone...)
 	}
 	var (
-		tt  time.Time
+		tt  StdTime
 		loc *Location
 		err error
 	)

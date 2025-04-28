@@ -3,7 +3,6 @@ package carbon
 import (
 	"bytes"
 	"database/sql/driver"
-	"time"
 )
 
 // Scan implements driver.Scanner interface for Carbon struct.
@@ -18,9 +17,9 @@ func (c *Carbon) Scan(src any) error {
 		*c = *Parse(v, DefaultTimezone)
 	case int64:
 		*c = *CreateFromTimestamp(v, DefaultTimezone)
-	case time.Time:
+	case StdTime:
 		*c = *CreateFromStdTime(v, DefaultTimezone)
-	case *time.Time:
+	case *StdTime:
 		*c = *CreateFromStdTime(*v, DefaultTimezone)
 	default:
 		return ErrFailedScan(v)
