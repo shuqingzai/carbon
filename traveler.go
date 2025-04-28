@@ -7,44 +7,42 @@ import (
 // Now returns a Carbon instance for now.
 // 当前
 func Now(timezone ...string) *Carbon {
-	c := NewCarbon()
-	if len(timezone) > 0 {
-		c.loc, c.Error = parseTimezone(timezone[0])
-	}
-	if c.HasError() {
-		return c
-	}
 	if IsTestNow() {
 		return frozenNow.testNow
 	}
-	c.time = time.Now().In(c.loc)
-	return c
+	var (
+		loc *Location
+		err error
+	)
+	if len(timezone) > 0 {
+		loc, err = parseTimezone(timezone[0])
+	} else {
+		loc, err = parseTimezone(DefaultTimezone)
+	}
+	if err != nil {
+		return &Carbon{Error: err}
+	}
+	return CreateFromStdTime(time.Now().In(loc))
 }
 
 // Tomorrow returns a Carbon instance for tomorrow.
 // 明天
 func Tomorrow(timezone ...string) *Carbon {
-	c := NewCarbon()
-	if len(timezone) > 0 {
-		c.loc, c.Error = parseTimezone(timezone[0])
+	now := Now(timezone...) // used V2
+	if now.IsInvalid() {
+		return now
 	}
-	if c.HasError() {
-		return c
-	}
-	return Now(c.Timezone()).Copy().AddDay()
+	return now.Copy().AddDay()
 }
 
 // Yesterday returns a Carbon instance for yesterday.
 // 昨天
 func Yesterday(timezone ...string) *Carbon {
-	c := NewCarbon()
-	if len(timezone) > 0 {
-		c.loc, c.Error = parseTimezone(timezone[0])
+	now := Now(timezone...) // used V2
+	if now.IsInvalid() {
+		return now
 	}
-	if c.HasError() {
-		return c
-	}
-	return Now(c.Timezone()).Copy().SubDay()
+	return now.Copy().SubDay()
 }
 
 // AddDuration adds duration.
