@@ -28,7 +28,7 @@ func Now(timezone ...string) *Carbon {
 // Tomorrow returns a Carbon instance for tomorrow.
 // 明天
 func Tomorrow(timezone ...string) *Carbon {
-	now := Now(timezone...) // used V2
+	now := Now(timezone...)
 	if now.IsInvalid() {
 		return now
 	}
@@ -38,7 +38,7 @@ func Tomorrow(timezone ...string) *Carbon {
 // Yesterday returns a Carbon instance for yesterday.
 // 昨天
 func Yesterday(timezone ...string) *Carbon {
-	now := Now(timezone...) // used V2
+	now := Now(timezone...)
 	if now.IsInvalid() {
 		return now
 	}
