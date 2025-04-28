@@ -52,7 +52,6 @@ func (c *Carbon) Copy() *Carbon {
 	if c == nil {
 		return nil
 	}
-
 	return &Carbon{
 		layout:       c.layout,
 		time:         time.Date(c.Year(), time.Month(c.Month()), c.Day(), c.Hour(), c.Minute(), c.Second(), c.Nanosecond(), c.loc),

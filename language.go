@@ -33,13 +33,11 @@ func NewLanguage() *Language {
 }
 
 // Copy returns a new copy of the current Language instance
-//
 // 复制 Language 实例
 func (lang *Language) Copy() *Language {
 	if lang == nil {
 		return nil
 	}
-
 	newLang := &Language{
 		dir:    lang.dir,
 		locale: lang.locale,
@@ -49,12 +47,10 @@ func (lang *Language) Copy() *Language {
 	if lang.resources == nil {
 		return newLang
 	}
-
 	newLang.resources = make(map[string]string)
-	for k, v := range lang.resources {
-		newLang.resources[k] = v
+	for i := range lang.resources {
+		newLang.resources[i] = lang.resources[i]
 	}
-
 	return newLang
 }
 
@@ -64,7 +60,6 @@ func (lang *Language) SetLocale(locale string) *Language {
 	if lang == nil || lang.Error != nil {
 		return lang
 	}
-
 	if locale == "" {
 		lang.Error = ErrEmptyLocale()
 		return lang
@@ -90,7 +85,6 @@ func (lang *Language) SetResources(resources map[string]string) *Language {
 	if lang == nil || lang.Error != nil {
 		return lang
 	}
-
 	if len(resources) == 0 {
 		lang.Error = ErrEmptyResources()
 		return lang
@@ -99,9 +93,9 @@ func (lang *Language) SetResources(resources map[string]string) *Language {
 	lang.rw.Lock()
 	defer lang.rw.Unlock()
 
-	for k, v := range resources {
-		if _, ok := lang.resources[k]; ok {
-			lang.resources[k] = v
+	for i := range resources {
+		if _, ok := lang.resources[i]; ok {
+			lang.resources[i] = resources[i]
 		} else {
 			lang.Error = ErrInvalidResourcesError()
 		}
@@ -110,7 +104,6 @@ func (lang *Language) SetResources(resources map[string]string) *Language {
 	if len(lang.resources) == 0 {
 		lang.resources = resources
 	}
-
 	return lang
 }
 

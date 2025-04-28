@@ -7,17 +7,8 @@ import (
 	"strings"
 )
 
-// String implements the interface Stringer for Carbon struct.
-// 实现 Stringer 接口
-func (c *Carbon) String() string {
-	if c.IsInvalid() {
-		return ""
-	}
-	return c.Layout(c.layout, c.Timezone())
-}
-
-// GoString implements fmt.GoStringer and formats c to be printed in Go source code.
-// 实现 fmt.GoStringer 接口，并格式化 c 以在 Go 源代码中打印
+// GoString implements fmt.GoStringer interface for Carbon struct.
+// 实现 fmt.GoStringer 接口
 func (c *Carbon) GoString() string {
 	if c.IsInvalid() {
 		return ""
@@ -809,40 +800,39 @@ func (c *Carbon) Format(format string, timezone ...string) string {
 	if c.IsInvalid() {
 		return ""
 	}
-
-	buf := &bytes.Buffer{}
+	buffer := &bytes.Buffer{}
 	for i := 0; i < len(format); i++ {
 		if layout, ok := formatMap[format[i]]; ok {
 			switch format[i] {
 			case 'D': // short week, such as Mon
-				buf.WriteString(c.ToShortWeekString())
+				buffer.WriteString(c.ToShortWeekString())
 			case 'F': // month, such as January
-				buf.WriteString(c.ToMonthString())
+				buffer.WriteString(c.ToMonthString())
 			case 'M': // short month, such as Jan
-				buf.WriteString(c.ToShortMonthString())
+				buffer.WriteString(c.ToShortMonthString())
 			case 'S': // timestamp with second, such as 1596604455
-				buf.WriteString(strconv.FormatInt(c.Timestamp(), 10))
+				buffer.WriteString(strconv.FormatInt(c.Timestamp(), 10))
 			case 'U': // timestamp with millisecond, such as 1596604455000
-				buf.WriteString(strconv.FormatInt(c.TimestampMilli(), 10))
+				buffer.WriteString(strconv.FormatInt(c.TimestampMilli(), 10))
 			case 'V': // timestamp with microsecond, such as 1596604455000000
-				buf.WriteString(strconv.FormatInt(c.TimestampMicro(), 10))
+				buffer.WriteString(strconv.FormatInt(c.TimestampMicro(), 10))
 			case 'X': // timestamp with nanoseconds, such as 1596604455000000000
-				buf.WriteString(strconv.FormatInt(c.TimestampNano(), 10))
+				buffer.WriteString(strconv.FormatInt(c.TimestampNano(), 10))
 			default: // common symbols
-				buf.WriteString(c.StdTime().Format(layout))
+				buffer.WriteString(c.StdTime().Format(layout))
 			}
 		} else {
 			switch format[i] {
 			case '\\': // raw output, no parse
-				buf.WriteByte(format[i+1])
+				buffer.WriteByte(format[i+1])
 				i++
 				continue
 			case 'W': // week number of the year in ISO-8601 format, ranging from 01-52
 				week := fmt.Sprintf("%02d", c.WeekOfYear())
-				buf.WriteString(week)
+				buffer.WriteString(week)
 			case 'N': // day of the week as a number in ISO-8601 format, ranging from 01-7
 				week := fmt.Sprintf("%02d", c.DayOfWeek())
-				buf.WriteString(week)
+				buffer.WriteString(week)
 			case 'K': // abbreviated suffix for the day of the month, such as st, nd, rd, th
 				suffix := "th"
 				switch c.Day() {
@@ -853,31 +843,31 @@ func (c *Carbon) Format(format string, timezone ...string) string {
 				case 3, 23:
 					suffix = "rd"
 				}
-				buf.WriteString(suffix)
+				buffer.WriteString(suffix)
 			case 'L': // whether it is a leap year, if it is a leap year, it is 1, otherwise it is 0
 				if c.IsLeapYear() {
-					buf.WriteString("1")
+					buffer.WriteString("1")
 				} else {
-					buf.WriteString("0")
+					buffer.WriteString("0")
 				}
 			case 'G': // 24-hour format, no padding, ranging from 0-23
-				buf.WriteString(strconv.Itoa(c.Hour()))
+				buffer.WriteString(strconv.Itoa(c.Hour()))
 			case 'w': // day of the week represented by the number, ranging from 0-6
-				buf.WriteString(strconv.Itoa(c.DayOfWeek() - 1))
+				buffer.WriteString(strconv.Itoa(c.DayOfWeek() - 1))
 			case 't': // number of days in the month, ranging from 28-31
-				buf.WriteString(strconv.Itoa(c.DaysInMonth()))
+				buffer.WriteString(strconv.Itoa(c.DaysInMonth()))
 			case 'z': // current zone location, such as Asia/Tokyo
-				buf.WriteString(c.Timezone())
+				buffer.WriteString(c.Timezone())
 			case 'o': // current zone offset, such as 28800
-				buf.WriteString(strconv.Itoa(c.ZoneOffset()))
+				buffer.WriteString(strconv.Itoa(c.ZoneOffset()))
 			case 'q': // current quarter, ranging from 1-4
-				buf.WriteString(strconv.Itoa(c.Quarter()))
+				buffer.WriteString(strconv.Itoa(c.Quarter()))
 			case 'c': // current century, ranging from 0-99
-				buf.WriteString(strconv.Itoa(c.Century()))
+				buffer.WriteString(strconv.Itoa(c.Century()))
 			default:
-				buf.WriteByte(format[i])
+				buffer.WriteByte(format[i])
 			}
 		}
 	}
-	return buf.String()
+	return buffer.String()
 }

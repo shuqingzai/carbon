@@ -17,12 +17,14 @@ func BenchmarkSetDefault(b *testing.B) {
 		},
 	}
 
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		SetDefault(d)
 	}
 }
 
 func BenchmarkResetDefault(b *testing.B) {
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		ResetDefault()
 	}

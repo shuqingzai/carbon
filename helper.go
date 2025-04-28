@@ -3,6 +3,7 @@ package carbon
 import (
 	"bytes"
 	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -86,51 +87,58 @@ var defaultLayouts = []string{
 // converts format to layout.
 // format 转 layout
 func format2layout(format string) string {
-	buf := &bytes.Buffer{}
+	buffer := &bytes.Buffer{}
 	for i := 0; i < len(format); i++ {
 		if layout, ok := formatMap[format[i]]; ok {
-			buf.WriteString(layout)
+			buffer.WriteString(layout)
 		} else {
 			switch format[i] {
 			case '\\': // raw output, no parse
-				buf.WriteByte(format[i+1])
+				buffer.WriteByte(format[i+1])
 				i++
 				continue
 			default:
-				buf.WriteByte(format[i])
+				buffer.WriteByte(format[i])
 			}
 		}
 	}
-
-	return buf.String()
+	return buffer.String()
 }
 
 // parses a timezone string as a time.Location instance.
 // 将 时区字符串 解析成 time.Location 实例
-func parseTimezone(timezone string) (*Location, error) {
+func parseTimezone(timezone string) (loc *Location, err error) {
 	if timezone == "" {
 		return nil, ErrEmptyTimezone()
 	}
-
-	loc, err := time.LoadLocation(timezone)
+	loc, err = time.LoadLocation(timezone)
 	if err != nil {
 		err = fmt.Errorf("%w: %w", ErrInvalidTimezone(timezone), err)
 	}
-	return loc, err
+	return
 }
 
 // parses a duration string as a time.Duration instance.
 // 将 时长字符串 解析成 time.Duration 实例
-func parseDuration(duration string) (Duration, error) {
+func parseDuration(duration string) (dur Duration, err error) {
 	if duration == "" {
 		return 0, ErrEmptyDuration()
 	}
-
-	dur, err := time.ParseDuration(duration)
+	dur, err = time.ParseDuration(duration)
 	if err != nil {
 		err = fmt.Errorf("%w: %w", ErrInvalidDuration(duration), err)
 	}
-	return dur, err
+	return
+}
+
+// parses a timestamp string as a int64 format timestamp.
+// 将 时间戳字符串 解析成 int64 格式时间戳
+func parseTimestamp(timestamp string) (ts int64, err error) {
+	ts, err = strconv.ParseInt(timestamp, 10, 64)
+	if err != nil {
+		return 0, fmt.Errorf("%w: %w", ErrInvalidTimestamp(timestamp), err)
+	}
+	return
 }
 
 // gets absolute value.

@@ -6,23 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCarbon_String(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-01 00:00:00", NewCarbon().String())
-	})
-
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").String())
-		assert.Empty(t, Parse("0").String())
-		assert.Empty(t, Parse("xxx").String())
-	})
-
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-08-05 13:14:15", Parse("2020-08-05 13:14:15").String())
-		assert.Equal(t, "2020-08-05", Parse("2020-08-05 13:14:15").SetLayout(DateLayout).String())
-	})
-}
-
 func TestCarbon_GoString(t *testing.T) {
 	t.Run("zero time", func(t *testing.T) {
 		assert.Equal(t, "time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC)", NewCarbon().GoString())
@@ -80,18 +63,18 @@ func TestCarbon_ToMonthString(t *testing.T) {
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "January", Parse("2020-01-05").ToMonthString())
-		assert.Equal(t, "February", Parse("2020-02-05").ToMonthString())
-		assert.Equal(t, "March", Parse("2020-03-05").ToMonthString())
-		assert.Equal(t, "April", Parse("2020-04-05").ToMonthString())
-		assert.Equal(t, "May", Parse("2020-05-05").ToMonthString())
-		assert.Equal(t, "June", Parse("2020-06-05").ToMonthString())
-		assert.Equal(t, "July", Parse("2020-07-05").ToMonthString())
-		assert.Equal(t, "August", Parse("2020-08-05").ToMonthString())
-		assert.Equal(t, "September", Parse("2020-09-05").ToMonthString())
-		assert.Equal(t, "October", Parse("2020-10-05").ToMonthString())
-		assert.Equal(t, "November", Parse("2020-11-05").ToMonthString())
-		assert.Equal(t, "December", Parse("2020-12-05").ToMonthString(PRC))
+		assert.Equal(t, January.String(), Parse("2020-01-05").ToMonthString())
+		assert.Equal(t, February.String(), Parse("2020-02-05").ToMonthString())
+		assert.Equal(t, March.String(), Parse("2020-03-05").ToMonthString())
+		assert.Equal(t, April.String(), Parse("2020-04-05").ToMonthString())
+		assert.Equal(t, May.String(), Parse("2020-05-05").ToMonthString())
+		assert.Equal(t, June.String(), Parse("2020-06-05").ToMonthString())
+		assert.Equal(t, July.String(), Parse("2020-07-05").ToMonthString())
+		assert.Equal(t, August.String(), Parse("2020-08-05").ToMonthString())
+		assert.Equal(t, September.String(), Parse("2020-09-05").ToMonthString())
+		assert.Equal(t, October.String(), Parse("2020-10-05").ToMonthString())
+		assert.Equal(t, November.String(), Parse("2020-11-05").ToMonthString())
+		assert.Equal(t, December.String(), Parse("2020-12-05").ToMonthString(PRC))
 	})
 }
 
@@ -154,13 +137,13 @@ func TestCarbon_ToWeekString(t *testing.T) {
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "Saturday", Parse("2020-08-01").ToWeekString())
-		assert.Equal(t, "Sunday", Parse("2020-08-02").ToWeekString())
-		assert.Equal(t, "Monday", Parse("2020-08-03").ToWeekString())
-		assert.Equal(t, "Tuesday", Parse("2020-08-04").ToWeekString())
-		assert.Equal(t, "Wednesday", Parse("2020-08-05").ToWeekString())
-		assert.Equal(t, "Thursday", Parse("2020-08-06").ToWeekString())
-		assert.Equal(t, "Friday", Parse("2020-08-07").ToWeekString(PRC))
+		assert.Equal(t, Saturday.String(), Parse("2020-08-01").ToWeekString())
+		assert.Equal(t, Sunday.String(), Parse("2020-08-02").ToWeekString())
+		assert.Equal(t, Monday.String(), Parse("2020-08-03").ToWeekString())
+		assert.Equal(t, Tuesday.String(), Parse("2020-08-04").ToWeekString())
+		assert.Equal(t, Wednesday.String(), Parse("2020-08-05").ToWeekString())
+		assert.Equal(t, Thursday.String(), Parse("2020-08-06").ToWeekString())
+		assert.Equal(t, Friday.String(), Parse("2020-08-07").ToWeekString(PRC))
 	})
 }
 

@@ -16,7 +16,6 @@ func (c *Carbon) DiffInYears(carbon ...*Carbon) int64 {
 		end = Now(c.Timezone())
 	}
 	start := c
-
 	if start.IsInvalid() || end.IsInvalid() {
 		return 0
 	}
@@ -46,7 +45,6 @@ func (c *Carbon) DiffInMonths(carbon ...*Carbon) int64 {
 		end = Now(c.Timezone())
 	}
 	start := c
-
 	if start.IsInvalid() || end.IsInvalid() {
 		return 0
 	}
@@ -79,7 +77,6 @@ func (c *Carbon) DiffInWeeks(carbon ...*Carbon) int64 {
 		end = Now(c.Timezone())
 	}
 	start := c
-
 	if start.IsInvalid() || end.IsInvalid() {
 		return 0
 	}
@@ -102,7 +99,6 @@ func (c *Carbon) DiffInDays(carbon ...*Carbon) int64 {
 		end = Now(c.Timezone())
 	}
 	start := c
-
 	if start.IsInvalid() || end.IsInvalid() {
 		return 0
 	}
@@ -125,7 +121,6 @@ func (c *Carbon) DiffInHours(carbon ...*Carbon) int64 {
 		end = Now(c.Timezone())
 	}
 	start := c
-
 	if start.IsInvalid() || end.IsInvalid() {
 		return 0
 	}
@@ -148,7 +143,6 @@ func (c *Carbon) DiffInMinutes(carbon ...*Carbon) int64 {
 		end = Now(c.Timezone())
 	}
 	start := c
-
 	if start.IsInvalid() || end.IsInvalid() {
 		return 0
 	}
@@ -171,7 +165,6 @@ func (c *Carbon) DiffInSeconds(carbon ...*Carbon) int64 {
 		end = Now(c.Timezone())
 	}
 	start := c
-
 	if start.IsInvalid() || end.IsInvalid() {
 		return 0
 	}
@@ -194,7 +187,6 @@ func (c *Carbon) DiffInString(carbon ...*Carbon) string {
 		end = Now(c.Timezone())
 	}
 	start := c
-
 	if start.IsInvalid() || end.IsInvalid() {
 		return ""
 	}
@@ -212,7 +204,6 @@ func (c *Carbon) DiffAbsInString(carbon ...*Carbon) string {
 		end = Now(c.Timezone())
 	}
 	start := c
-
 	if start.IsInvalid() || end.IsInvalid() {
 		return ""
 	}
@@ -230,7 +221,6 @@ func (c *Carbon) DiffInDuration(carbon ...*Carbon) Duration {
 		end = Now(c.Timezone())
 	}
 	start := c
-
 	if start.IsInvalid() || end.IsInvalid() {
 		return 0
 	}
@@ -257,7 +247,6 @@ func (c *Carbon) DiffForHumans(carbon ...*Carbon) string {
 		end = Now(c.Timezone())
 	}
 	start := c
-
 	if start.IsInvalid() || end.IsInvalid() {
 		return ""
 	}
