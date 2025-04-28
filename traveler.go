@@ -397,8 +397,7 @@ func (c *Carbon) AddHours(hours int) *Carbon {
 	if c.IsInvalid() {
 		return c
 	}
-	td := Duration(hours) * time.Hour
-	c.time = c.StdTime().Add(td)
+	c.time = c.StdTime().Add(Duration(hours) * time.Hour)
 	return c
 }
 
@@ -426,8 +425,7 @@ func (c *Carbon) AddMinutes(minutes int) *Carbon {
 	if c.IsInvalid() {
 		return c
 	}
-	td := Duration(minutes) * time.Minute
-	c.time = c.StdTime().Add(td)
+	c.time = c.StdTime().Add(Duration(minutes) * time.Minute)
 	return c
 }
 
@@ -455,8 +453,7 @@ func (c *Carbon) AddSeconds(seconds int) *Carbon {
 	if c.IsInvalid() {
 		return c
 	}
-	td := Duration(seconds) * time.Second
-	c.time = c.StdTime().Add(td)
+	c.time = c.StdTime().Add(Duration(seconds) * time.Second)
 	return c
 }
 
@@ -484,8 +481,7 @@ func (c *Carbon) AddMilliseconds(milliseconds int) *Carbon {
 	if c.IsInvalid() {
 		return c
 	}
-	td := Duration(milliseconds) * time.Millisecond
-	c.time = c.StdTime().Add(td)
+	c.time = c.StdTime().Add(Duration(milliseconds) * time.Millisecond)
 	return c
 }
 
@@ -513,8 +509,7 @@ func (c *Carbon) AddMicroseconds(microseconds int) *Carbon {
 	if c.IsInvalid() {
 		return c
 	}
-	td := Duration(microseconds) * time.Microsecond
-	c.time = c.StdTime().Add(td)
+	c.time = c.StdTime().Add(Duration(microseconds) * time.Microsecond)
 	return c
 }
 
@@ -542,8 +537,7 @@ func (c *Carbon) AddNanoseconds(nanoseconds int) *Carbon {
 	if c.IsInvalid() {
 		return c
 	}
-	td := Duration(nanoseconds) * time.Nanosecond
-	c.time = c.StdTime().Add(td)
+	c.time = c.StdTime().Add(Duration(nanoseconds) * time.Nanosecond)
 	return c
 }
 

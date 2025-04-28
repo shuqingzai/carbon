@@ -79,9 +79,7 @@ func (lang *Language) SetLocale(locale string) *Language {
 		lang.Error = fmt.Errorf("%w: %w", ErrNotExistLocale(fileName), err)
 		return lang
 	}
-	if err = json.Unmarshal(bs, &lang.resources); err != nil {
-		lang.Error = fmt.Errorf("%w: %w", ErrInvalidResourcesError(), err)
-	}
+	_ = json.Unmarshal(bs, &lang.resources)
 	return lang
 }
 

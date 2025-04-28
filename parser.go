@@ -12,6 +12,7 @@ func Parse(value string, timezone ...string) *Carbon {
 		return nil
 	}
 	var (
+		tt  time.Time
 		loc *Location
 		err error
 	)
@@ -32,7 +33,7 @@ func Parse(value string, timezone ...string) *Carbon {
 	}
 	c := NewCarbon().SetLocation(loc)
 	for i := range defaultLayouts {
-		if tt, err := time.ParseInLocation(defaultLayouts[i], value, loc); err == nil {
+		if tt, err = time.ParseInLocation(defaultLayouts[i], value, loc); err == nil {
 			c.time = tt
 			c.layout = defaultLayouts[i]
 			return c
@@ -52,9 +53,9 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 		return &Carbon{Error: ErrEmptyLayout()}
 	}
 	var (
-		ts  int64
 		tt  time.Time
 		loc *Location
+		ts  int64
 		err error
 	)
 	tz := DefaultTimezone
@@ -135,8 +136,7 @@ func ParseWithLayouts(value string, layouts []string, timezone ...string) *Carbo
 	if len(timezone) > 0 {
 		tz = timezone[0]
 	}
-	loc, err = parseTimezone(tz)
-	if err != nil {
+	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
 	}
 	c := NewCarbon().SetLocation(loc)
