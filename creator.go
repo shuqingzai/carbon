@@ -6,68 +6,91 @@ import (
 
 // CreateFromStdTime creates a Carbon instance from standard time.Time.
 // 从标准的 time.Time 创建 Carbon 实例
-func CreateFromStdTime(time StdTime, timezone ...string) *Carbon {
-	c := NewCarbon(time)
+func CreateFromStdTime(stdTime StdTime, timezone ...string) *Carbon {
+	var (
+		loc *Location
+		err error
+	)
 	if len(timezone) > 0 {
-		c.loc, c.Error = parseTimezone(timezone[0])
+		loc, err = parseTimezone(timezone[0])
+		if err != nil {
+			return &Carbon{Error: err}
+		}
+		return NewCarbon(stdTime.In(loc))
 	}
-	return c
+	return NewCarbon(stdTime)
 }
 
 // CreateFromTimestamp creates a Carbon instance from a given timestamp with second precision.
 // 从给定的秒精度时间戳创建 Carbon 实例
 func CreateFromTimestamp(timestamp int64, timezone ...string) *Carbon {
-	c := NewCarbon()
+	var (
+		loc *Location
+		err error
+	)
+	tz := DefaultTimezone
 	if len(timezone) > 0 {
-		c.loc, c.Error = parseTimezone(timezone[0])
+		tz = timezone[0]
 	}
-	if c.HasError() {
-		return c
+	loc, err = parseTimezone(tz)
+	if err != nil {
+		return &Carbon{Error: err}
 	}
-	c.time = time.Unix(timestamp, 0)
-	return c
+	return NewCarbon(time.Unix(timestamp, 0).In(loc))
 }
 
 // CreateFromTimestampMilli creates a Carbon instance from a given timestamp with millisecond precision.
 // 从给定的毫秒精度时间戳创建 Carbon 实例
 func CreateFromTimestampMilli(timestampMilli int64, timezone ...string) *Carbon {
-	c := NewCarbon()
+	var (
+		loc *Location
+		err error
+	)
+	tz := DefaultTimezone
 	if len(timezone) > 0 {
-		c.loc, c.Error = parseTimezone(timezone[0])
+		tz = timezone[0]
 	}
-	if c.HasError() {
-		return c
+	loc, err = parseTimezone(tz)
+	if err != nil {
+		return &Carbon{Error: err}
 	}
-	c.time = time.Unix(timestampMilli/1e3, (timestampMilli%1e3)*1e6)
-	return c
+	return NewCarbon(time.Unix(timestampMilli/1e3, (timestampMilli%1e3)*1e6).In(loc))
 }
 
 // CreateFromTimestampMicro creates a Carbon instance from a given timestamp with microsecond precision.
 // 从给定的微秒精度时间戳创建 Carbon 实例
 func CreateFromTimestampMicro(timestampMicro int64, timezone ...string) *Carbon {
-	c := NewCarbon()
+	var (
+		loc *Location
+		err error
+	)
+	tz := DefaultTimezone
 	if len(timezone) > 0 {
-		c.loc, c.Error = parseTimezone(timezone[0])
+		tz = timezone[0]
 	}
-	if c.HasError() {
-		return c
+	loc, err = parseTimezone(tz)
+	if err != nil {
+		return &Carbon{Error: err}
 	}
-	c.time = time.Unix(timestampMicro/1e6, (timestampMicro%1e6)*1e3)
-	return c
+	return NewCarbon(time.Unix(timestampMicro/1e6, (timestampMicro%1e6)*1e3).In(loc))
 }
 
 // CreateFromTimestampNano creates a Carbon instance from a given timestamp with nanosecond precision.
 // 从给定的纳秒精度时间戳创建 Carbon 实例
 func CreateFromTimestampNano(timestampNano int64, timezone ...string) *Carbon {
-	c := NewCarbon()
+	var (
+		loc *Location
+		err error
+	)
+	tz := DefaultTimezone
 	if len(timezone) > 0 {
-		c.loc, c.Error = parseTimezone(timezone[0])
+		tz = timezone[0]
 	}
-	if c.HasError() {
-		return c
+	loc, err = parseTimezone(tz)
+	if err != nil {
+		return &Carbon{Error: err}
 	}
-	c.time = time.Unix(timestampNano/1e9, timestampNano%1e9)
-	return c
+	return NewCarbon(time.Unix(timestampNano/1e9, timestampNano%1e9).In(loc))
 }
 
 // CreateFromDateTime creates a Carbon instance from a given date and time.
@@ -149,13 +172,17 @@ func CreateFromTimeNano(hour, minute, second, nanosecond int, timezone ...string
 // creates a Carbon instance from a given date, time and nanosecond.
 // 从给定的年、月、日、时、分、秒、纳秒创建 Carbon 实例
 func create(year, month, day, hour, minute, second, nanosecond int, timezone ...string) *Carbon {
-	c := NewCarbon()
+	var (
+		loc *Location
+		err error
+	)
+	tz := DefaultTimezone
 	if len(timezone) > 0 {
-		c.loc, c.Error = parseTimezone(timezone[0])
+		tz = timezone[0]
 	}
-	if c.HasError() {
-		return c
+	loc, err = parseTimezone(tz)
+	if err != nil {
+		return &Carbon{Error: err}
 	}
-	c.time = time.Date(year, time.Month(month), day, hour, minute, second, nanosecond, c.loc)
-	return c
+	return NewCarbon(time.Date(year, time.Month(month), day, hour, minute, second, nanosecond, loc))
 }
