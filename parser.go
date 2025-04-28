@@ -25,11 +25,11 @@ func Parse(value string, timezone ...string) *Carbon {
 	}
 	switch value {
 	case "now":
-		return Now(tz)
+		return Now().SetLocation(loc)
 	case "yesterday":
-		return Yesterday(tz)
+		return Yesterday().SetLocation(loc)
 	case "tomorrow":
-		return Tomorrow(tz)
+		return Tomorrow().SetLocation(loc)
 	}
 	c := NewCarbon().SetLocation(loc)
 	for i := range defaultLayouts {
@@ -64,46 +64,42 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 	if err != nil {
 		return &Carbon{Error: err}
 	}
-	c := NewCarbon().SetLocation(loc)
 
 	// timestamp layouts
 	switch layout {
 	case TimestampLayout:
 		ts, err := parseTimestamp(value)
 		if err != nil {
-			c.Error = err
-			return c
+			return &Carbon{Error: err}
 		}
-		return CreateFromTimestamp(ts, c.Timezone())
+		return CreateFromTimestamp(ts).SetLocation(loc)
 	case TimestampMilliLayout:
 		ts, err := parseTimestamp(value)
 		if err != nil {
-			c.Error = err
-			return c
+			return &Carbon{Error: err}
 		}
-		return CreateFromTimestampMilli(ts, c.Timezone())
+		return CreateFromTimestampMilli(ts).SetLocation(loc)
 	case TimestampMicroLayout:
 		ts, err := parseTimestamp(value)
 		if err != nil {
-			c.Error = err
-			return c
+			return &Carbon{Error: err}
 		}
-		return CreateFromTimestampMicro(ts, c.Timezone())
+		return CreateFromTimestampMicro(ts).SetLocation(loc)
 	case TimestampNanoLayout:
 		ts, err := parseTimestamp(value)
 		if err != nil {
-			c.Error = err
-			return c
+			return &Carbon{Error: err}
 		}
-		return CreateFromTimestampNano(ts, c.Timezone())
+		return CreateFromTimestampNano(ts).SetLocation(loc)
 	}
 
 	// other layouts
-	tt, err := time.ParseInLocation(layout, value, c.loc)
+	tt, err := time.ParseInLocation(layout, value, loc)
 	if err != nil {
-		c.Error = fmt.Errorf("%w: %w", ErrMismatchedLayout(value, layout), c.Error)
-		return c
+		return &Carbon{Error: fmt.Errorf("%w: %w", ErrMismatchedLayout(value, layout), err)}
 	}
+	c := NewCarbon()
+	c.loc = loc
 	c.time = tt
 	c.layout = layout
 	return c
@@ -148,7 +144,7 @@ func ParseWithLayouts(value string, layouts []string, timezone ...string) *Carbo
 	}
 	c := NewCarbon().SetLocation(loc)
 	for i := range layouts {
-		if tt, err := time.ParseInLocation(layouts[i], value, c.loc); err == nil {
+		if tt, err := time.ParseInLocation(layouts[i], value, loc); err == nil {
 			c.time = tt
 			c.layout = layouts[i]
 			return c
