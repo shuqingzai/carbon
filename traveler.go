@@ -18,8 +18,7 @@ func Now(timezone ...string) *Carbon {
 	if len(timezone) > 0 {
 		tz = timezone[0]
 	}
-	loc, err = parseTimezone(tz)
-	if err != nil {
+	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
 	}
 	return CreateFromStdTime(time.Now().In(loc))
@@ -51,8 +50,11 @@ func (c *Carbon) AddDuration(duration string) *Carbon {
 	if c.IsInvalid() {
 		return c
 	}
-	td, err := parseDuration(duration)
-	if err != nil {
+	var (
+		td  Duration
+		err error
+	)
+	if td, err = parseDuration(duration); err != nil {
 		c.Error = err
 		return c
 	}

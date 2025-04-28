@@ -19,8 +19,7 @@ func Parse(value string, timezone ...string) *Carbon {
 	if len(timezone) > 0 {
 		tz = timezone[0]
 	}
-	loc, err = parseTimezone(tz)
-	if err != nil {
+	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
 	}
 	switch value {
@@ -60,8 +59,7 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 	if len(timezone) > 0 {
 		tz = timezone[0]
 	}
-	loc, err = parseTimezone(tz)
-	if err != nil {
+	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
 	}
 
@@ -98,6 +96,7 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 	if err != nil {
 		return &Carbon{Error: fmt.Errorf("%w: %w", ErrMismatchedLayout(value, layout), err)}
 	}
+
 	c := NewCarbon()
 	c.loc = loc
 	c.time = tt

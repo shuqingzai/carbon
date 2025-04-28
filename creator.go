@@ -12,8 +12,7 @@ func CreateFromStdTime(stdTime StdTime, timezone ...string) *Carbon {
 		err error
 	)
 	if len(timezone) > 0 {
-		loc, err = parseTimezone(timezone[0])
-		if err != nil {
+		if loc, err = parseTimezone(timezone[0]); err != nil {
 			return &Carbon{Error: err}
 		}
 		return NewCarbon(stdTime.In(loc))
@@ -32,8 +31,7 @@ func CreateFromTimestamp(timestamp int64, timezone ...string) *Carbon {
 	if len(timezone) > 0 {
 		tz = timezone[0]
 	}
-	loc, err = parseTimezone(tz)
-	if err != nil {
+	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
 	}
 	return NewCarbon(time.Unix(timestamp, 0).In(loc))
@@ -50,8 +48,7 @@ func CreateFromTimestampMilli(timestampMilli int64, timezone ...string) *Carbon 
 	if len(timezone) > 0 {
 		tz = timezone[0]
 	}
-	loc, err = parseTimezone(tz)
-	if err != nil {
+	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
 	}
 	return NewCarbon(time.Unix(timestampMilli/1e3, (timestampMilli%1e3)*1e6).In(loc))
@@ -68,8 +65,7 @@ func CreateFromTimestampMicro(timestampMicro int64, timezone ...string) *Carbon 
 	if len(timezone) > 0 {
 		tz = timezone[0]
 	}
-	loc, err = parseTimezone(tz)
-	if err != nil {
+	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
 	}
 	return NewCarbon(time.Unix(timestampMicro/1e6, (timestampMicro%1e6)*1e3).In(loc))
@@ -86,8 +82,7 @@ func CreateFromTimestampNano(timestampNano int64, timezone ...string) *Carbon {
 	if len(timezone) > 0 {
 		tz = timezone[0]
 	}
-	loc, err = parseTimezone(tz)
-	if err != nil {
+	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
 	}
 	return NewCarbon(time.Unix(timestampNano/1e9, timestampNano%1e9).In(loc))
@@ -180,8 +175,7 @@ func create(year, month, day, hour, minute, second, nanosecond int, timezone ...
 	if len(timezone) > 0 {
 		tz = timezone[0]
 	}
-	loc, err = parseTimezone(tz)
-	if err != nil {
+	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
 	}
 	return NewCarbon(time.Date(year, time.Month(month), day, hour, minute, second, nanosecond, loc))
