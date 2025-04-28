@@ -24,12 +24,14 @@ func CreateFromStdTime(stdTime StdTime, timezone ...string) *Carbon {
 // 从给定的秒精度时间戳创建 Carbon 实例
 func CreateFromTimestamp(timestamp int64, timezone ...string) *Carbon {
 	var (
+		tz  string
 		loc *Location
 		err error
 	)
-	tz := DefaultTimezone
 	if len(timezone) > 0 {
 		tz = timezone[0]
+	} else {
+		tz = DefaultTimezone
 	}
 	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
@@ -41,12 +43,14 @@ func CreateFromTimestamp(timestamp int64, timezone ...string) *Carbon {
 // 从给定的毫秒精度时间戳创建 Carbon 实例
 func CreateFromTimestampMilli(timestampMilli int64, timezone ...string) *Carbon {
 	var (
+		tz  string
 		loc *Location
 		err error
 	)
-	tz := DefaultTimezone
 	if len(timezone) > 0 {
 		tz = timezone[0]
+	} else {
+		tz = DefaultTimezone
 	}
 	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
@@ -58,12 +62,14 @@ func CreateFromTimestampMilli(timestampMilli int64, timezone ...string) *Carbon 
 // 从给定的微秒精度时间戳创建 Carbon 实例
 func CreateFromTimestampMicro(timestampMicro int64, timezone ...string) *Carbon {
 	var (
+		tz  string
 		loc *Location
 		err error
 	)
-	tz := DefaultTimezone
 	if len(timezone) > 0 {
 		tz = timezone[0]
+	} else {
+		tz = DefaultTimezone
 	}
 	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
@@ -75,12 +81,14 @@ func CreateFromTimestampMicro(timestampMicro int64, timezone ...string) *Carbon 
 // 从给定的纳秒精度时间戳创建 Carbon 实例
 func CreateFromTimestampNano(timestampNano int64, timezone ...string) *Carbon {
 	var (
+		tz  string
 		loc *Location
 		err error
 	)
-	tz := DefaultTimezone
 	if len(timezone) > 0 {
 		tz = timezone[0]
+	} else {
+		tz = DefaultTimezone
 	}
 	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
@@ -168,12 +176,14 @@ func CreateFromTimeNano(hour, minute, second, nanosecond int, timezone ...string
 // 从给定的年、月、日、时、分、秒、纳秒创建 Carbon 实例
 func create(year, month, day, hour, minute, second, nanosecond int, timezone ...string) *Carbon {
 	var (
+		tz  string
 		loc *Location
 		err error
 	)
-	tz := DefaultTimezone
 	if len(timezone) > 0 {
 		tz = timezone[0]
+	} else {
+		tz = DefaultTimezone
 	}
 	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
