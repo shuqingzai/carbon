@@ -20,6 +20,8 @@ func (c *Carbon) Scan(src any) error {
 		*c = *CreateFromTimestamp(v, DefaultTimezone)
 	case time.Time:
 		*c = *CreateFromStdTime(v, DefaultTimezone)
+	case *time.Time:
+		*c = *CreateFromStdTime(*v, DefaultTimezone)
 	default:
 		return ErrFailedScan(v)
 	}

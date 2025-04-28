@@ -61,6 +61,10 @@ func (t *TimestampType[T]) Scan(src any) (err error) {
 		c = CreateFromStdTime(v, DefaultTimezone)
 		*t = *NewTimestampType[T](c)
 		return t.Error
+	case *time.Time:
+		c = CreateFromStdTime(*v, DefaultTimezone)
+		*t = *NewTimestampType[T](c)
+		return t.Error
 	default:
 		return ErrFailedScan(src)
 	}
@@ -131,8 +135,11 @@ func (t *TimestampType[T]) UnmarshalJSON(src []byte) error {
 	if v == "" || v == "null" || v == "0" {
 		return nil
 	}
-	ts, err := parseTimestamp(v)
-	if err != nil {
+	var (
+		ts  int64
+		err error
+	)
+	if ts, err = parseTimestamp(v); err != nil {
 		return err
 	}
 	var c *Carbon
