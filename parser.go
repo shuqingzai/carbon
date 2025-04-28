@@ -54,31 +54,31 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 	if c.HasError() {
 		return c
 	}
-	if layout == TimestampLayout {
+
+	// timestamp layouts
+	switch layout {
+	case TimestampLayout:
 		ts, err := parseTimestamp(value)
 		if err != nil {
 			c.Error = err
 			return c
 		}
 		return CreateFromTimestamp(ts, c.Timezone())
-	}
-	if layout == TimestampMilliLayout {
+	case TimestampMilliLayout:
 		ts, err := parseTimestamp(value)
 		if err != nil {
 			c.Error = err
 			return c
 		}
 		return CreateFromTimestampMilli(ts, c.Timezone())
-	}
-	if layout == TimestampMicroLayout {
+	case TimestampMicroLayout:
 		ts, err := parseTimestamp(value)
 		if err != nil {
 			c.Error = err
 			return c
 		}
 		return CreateFromTimestampMicro(ts, c.Timezone())
-	}
-	if layout == TimestampNanoLayout {
+	case TimestampNanoLayout:
 		ts, err := parseTimestamp(value)
 		if err != nil {
 			c.Error = err
@@ -86,6 +86,8 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 		}
 		return CreateFromTimestampNano(ts, c.Timezone())
 	}
+
+	// other layouts
 	tt, err := time.ParseInLocation(layout, value, c.loc)
 	if err != nil {
 		c.Error = fmt.Errorf("%w: %w", ErrMismatchedLayout(value, layout), c.Error)
