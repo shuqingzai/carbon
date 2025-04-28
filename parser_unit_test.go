@@ -7,12 +7,12 @@ import (
 )
 
 func TestParse(t *testing.T) {
-	t.Run("empty time", func(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
 		assert.Nil(t, Parse(""))
 		assert.Empty(t, Parse("").ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	t.Run("invalid carbon", func(t *testing.T) {
 		assert.True(t, Parse("0").HasError())
 		assert.True(t, Parse("xxx").HasError())
 
@@ -75,12 +75,12 @@ func TestParse(t *testing.T) {
 }
 
 func TestParseByFormat(t *testing.T) {
-	t.Run("empty time", func(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
 		assert.Nil(t, ParseByFormat("", DateFormat))
 		assert.Empty(t, ParseByFormat("", DateFormat).ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	t.Run("invalid carbon", func(t *testing.T) {
 		assert.True(t, ParseByFormat("0", DateFormat).HasError())
 		assert.True(t, ParseByFormat("xxx", DateFormat, PRC).HasError())
 
@@ -144,12 +144,12 @@ func TestParseByFormat(t *testing.T) {
 }
 
 func TestParseByLayout(t *testing.T) {
-	t.Run("empty time", func(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
 		assert.Nil(t, ParseByLayout("", DateLayout))
 		assert.Empty(t, ParseByLayout("", DateLayout).ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	t.Run("invalid carbon", func(t *testing.T) {
 		assert.True(t, ParseByLayout("0", DateFormat).HasError())
 		assert.True(t, ParseByLayout("xxx", DateFormat, PRC).HasError())
 
@@ -204,12 +204,12 @@ func TestParseByLayout(t *testing.T) {
 }
 
 func TestParseWithLayouts(t *testing.T) {
-	t.Run("empty time", func(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
 		assert.Nil(t, ParseWithLayouts("", []string{DateTimeLayout}))
 		assert.Empty(t, ParseWithLayouts("", []string{DateTimeLayout}).ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	t.Run("invalid carbon", func(t *testing.T) {
 		assert.True(t, ParseWithLayouts("0", []string{DateTimeLayout}).HasError())
 		assert.True(t, ParseWithLayouts("xxx", []string{DateTimeLayout}).HasError())
 
@@ -244,12 +244,12 @@ func TestParseWithLayouts(t *testing.T) {
 }
 
 func TestParseWithFormats(t *testing.T) {
-	t.Run("empty time", func(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
 		assert.Nil(t, ParseWithFormats("", []string{DateTimeFormat}))
 		assert.Empty(t, ParseWithFormats("", []string{DateTimeFormat}).ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	t.Run("invalid carbon", func(t *testing.T) {
 		assert.True(t, ParseWithFormats("0", []string{DateTimeLayout}).HasError())
 		assert.True(t, ParseWithFormats("xxx", []string{DateTimeLayout}).HasError())
 

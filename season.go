@@ -54,9 +54,9 @@ func (c *Carbon) StartOfSeason() *Carbon {
 	}
 	year, month, _ := c.Date()
 	if month == 1 || month == 2 {
-		return create(year-1, 12, 1, 0, 0, 0, 0, c.Timezone())
+		return create(year-1, 12, 1, 0, 0, 0, 0).SetLocation(c.loc)
 	}
-	return create(year, month/3*3, 1, 0, 0, 0, 0, c.Timezone())
+	return create(year, month/3*3, 1, 0, 0, 0, 0).SetLocation(c.loc)
 }
 
 // EndOfSeason returns a Carbon instance for end of the season.
@@ -67,12 +67,12 @@ func (c *Carbon) EndOfSeason() *Carbon {
 	}
 	year, month, _ := c.Date()
 	if month == 1 || month == 2 {
-		return create(year, 3, 0, 23, 59, 59, 999999999, c.Timezone())
+		return create(year, 3, 0, 23, 59, 59, 999999999).SetLocation(c.loc)
 	}
 	if month == 12 {
-		return create(year+1, 3, 0, 23, 59, 59, 999999999, c.Timezone())
+		return create(year+1, 3, 0, 23, 59, 59, 999999999).SetLocation(c.loc)
 	}
-	return create(year, month/3*3+3, 0, 23, 59, 59, 999999999, c.Timezone())
+	return create(year, month/3*3+3, 0, 23, 59, 59, 999999999).SetLocation(c.loc)
 }
 
 // IsSpring reports whether is spring.

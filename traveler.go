@@ -183,11 +183,11 @@ func (c *Carbon) AddYearsNoOverflow(years int) *Carbon {
 	nanosecond := c.Nanosecond()
 	year, month, day, hour, minute, second := c.DateTime()
 	// 获取N年后本月的最后一天
-	lastYear, lastMonth, lastDay := create(year+years, month+1, 0, hour, minute, second, nanosecond, c.Timezone()).Date()
+	lastYear, lastMonth, lastDay := create(year+years, month+1, 0, hour, minute, second, nanosecond).SetLocation(c.loc).Date()
 	if day > lastDay {
 		day = lastDay
 	}
-	return create(lastYear, lastMonth, day, hour, minute, second, nanosecond, c.Timezone())
+	return create(lastYear, lastMonth, day, hour, minute, second, nanosecond).SetLocation(c.loc)
 }
 
 // AddYear adds one year.
@@ -296,11 +296,11 @@ func (c *Carbon) AddMonthsNoOverflow(months int) *Carbon {
 	nanosecond := c.Nanosecond()
 	year, month, day, hour, minute, second := c.DateTime()
 	// 获取N月后的最后一天
-	lastYear, lastMonth, lastDay := create(year, month+months+1, 0, hour, minute, second, nanosecond, c.Timezone()).Date()
+	lastYear, lastMonth, lastDay := create(year, month+months+1, 0, hour, minute, second, nanosecond).SetLocation(c.loc).Date()
 	if day > lastDay {
 		day = lastDay
 	}
-	return create(lastYear, lastMonth, day, hour, minute, second, nanosecond, c.Timezone())
+	return create(lastYear, lastMonth, day, hour, minute, second, nanosecond).SetLocation(c.loc)
 }
 
 // AddMonth adds one month.

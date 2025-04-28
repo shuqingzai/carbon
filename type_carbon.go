@@ -47,7 +47,7 @@ func (c *Carbon) MarshalJSON() ([]byte, error) {
 	if c.HasError() {
 		return []byte(`""`), c.Error
 	}
-	v := c.Layout(DefaultLayout, c.Timezone())
+	v := c.Layout(DefaultLayout)
 	b := make([]byte, 0, len(v)+2)
 	b = append(b, '"')
 	b = append(b, v...)
@@ -72,7 +72,7 @@ func (c *Carbon) String() string {
 	if c.IsInvalid() || c.IsZero() {
 		return ""
 	}
-	return c.Layout(c.layout, c.Timezone())
+	return c.Layout(c.layout)
 }
 
 // GormDataType sets gorm data type for Carbon struct.

@@ -70,7 +70,7 @@ func (t *FormatType[T]) MarshalJSON() ([]byte, error) {
 	if t.HasError() {
 		return []byte(`""`), t.Error
 	}
-	v := t.Format(t.getFormat(), t.Timezone())
+	v := t.Format(t.getFormat())
 	b := make([]byte, 0, len(v)+2)
 	b = append(b, '"')
 	b = append(b, v...)
@@ -95,7 +95,7 @@ func (t *FormatType[T]) String() string {
 	if t.IsInvalid() || t.IsZero() {
 		return ""
 	}
-	return t.Format(t.getFormat(), t.Timezone())
+	return t.Format(t.getFormat())
 }
 
 // GormDataType sets gorm data type for FormatType generic struct.
