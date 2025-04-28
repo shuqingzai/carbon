@@ -31,14 +31,14 @@ type Carbon struct {
 
 // NewCarbon returns a new Carbon instance.
 // 返回 Carbon 实例
-func NewCarbon(time ...StdTime) *Carbon {
+func NewCarbon(stdTime ...StdTime) *Carbon {
 	c := new(Carbon)
 	c.lang = NewLanguage().SetLocale(DefaultLocale)
 	c.layout = DefaultLayout
 	c.weekStartsAt = DefaultWeekStartsAt
 	c.weekendDays = DefaultWeekendDays
-	if len(time) > 0 {
-		c.time = time[0]
+	if len(stdTime) > 0 {
+		c.time = stdTime[0]
 		c.loc = c.time.Location()
 		return c
 	}
