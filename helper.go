@@ -133,7 +133,7 @@ func parseDuration(duration string) (dur Duration, err error) {
 // 将 时间戳字符串 解析成 int64 格式时间戳
 func parseTimestamp(timestamp string) (ts int64, err error) {
 	if ts, err = strconv.ParseInt(timestamp, 10, 64); err != nil {
-		return 0, fmt.Errorf("%w: %w", ErrInvalidTimestamp(timestamp), err)
+		err = fmt.Errorf("%w: %w", ErrInvalidTimestamp(timestamp), err)
 	}
 	return
 }
