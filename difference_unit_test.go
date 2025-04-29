@@ -13,16 +13,9 @@ func TestCarbon_DiffInYears(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffInYears())
-		assert.Zero(t, Now().DiffInYears(Parse("")))
+		assert.Zero(t, now.DiffInYears(Parse("")))
 		assert.Zero(t, Parse("xxx").DiffInYears())
-		assert.Zero(t, Now().DiffInYears(Parse("xxx")))
-	})
-
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.Zero(t, Parse("").DiffInYears())
-		assert.Zero(t, Now().DiffInYears(Parse("")))
-		assert.Zero(t, Parse("xxx").DiffInYears())
-		assert.Zero(t, Now().DiffInYears(Parse("xxx")))
+		assert.Zero(t, now.DiffInYears(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -47,9 +40,9 @@ func TestCarbon_DiffAbsInYears(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffAbsInYears())
-		assert.Zero(t, Now().DiffAbsInYears(Parse("")))
+		assert.Zero(t, now.DiffAbsInYears(Parse("")))
 		assert.Zero(t, Parse("xxx").DiffAbsInYears())
-		assert.Zero(t, Now().DiffAbsInYears(Parse("xxx")))
+		assert.Zero(t, now.DiffAbsInYears(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -74,10 +67,10 @@ func TestCarbon_DiffInMonths(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffInMonths())
-		assert.Zero(t, Now().DiffInMonths(Parse("")))
+		assert.Zero(t, now.DiffInMonths(Parse("")))
 		assert.Zero(t, Parse("").DiffInMonths(Parse("")))
 		assert.Zero(t, Parse("xxx").DiffInMonths())
-		assert.Zero(t, Now().DiffInMonths(Parse("xxx")))
+		assert.Zero(t, now.DiffInMonths(Parse("xxx")))
 		assert.Zero(t, Parse("xxx").DiffInMonths(Parse("xxx")))
 	})
 
@@ -103,9 +96,9 @@ func TestCarbon_DiffAbsInMonths(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffAbsInMonths())
-		assert.Zero(t, Now().DiffAbsInMonths(Parse("")))
+		assert.Zero(t, now.DiffAbsInMonths(Parse("")))
 		assert.Zero(t, Parse("xxx").DiffAbsInMonths())
-		assert.Zero(t, Now().DiffAbsInMonths(Parse("xxx")))
+		assert.Zero(t, now.DiffAbsInMonths(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -130,9 +123,9 @@ func TestCarbon_DiffInWeeks(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffInWeeks())
-		assert.Zero(t, Now().DiffInWeeks(Parse("")))
+		assert.Zero(t, now.DiffInWeeks(Parse("")))
 		assert.Zero(t, Parse("xxx").DiffInWeeks())
-		assert.Zero(t, Now().DiffInWeeks(Parse("xxx")))
+		assert.Zero(t, now.DiffInWeeks(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -155,9 +148,9 @@ func TestCarbon_DiffAbsInWeeks(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffAbsInWeeks())
-		assert.Zero(t, Now().DiffAbsInWeeks(Parse("")))
+		assert.Zero(t, now.DiffAbsInWeeks(Parse("")))
 		assert.Zero(t, Parse("xxx").DiffAbsInWeeks())
-		assert.Zero(t, Now().DiffAbsInWeeks(Parse("xxx")))
+		assert.Zero(t, now.DiffAbsInWeeks(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -180,9 +173,9 @@ func TestCarbon_DiffInDays(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffInDays())
-		assert.Zero(t, Now().DiffInDays(Parse("")))
+		assert.Zero(t, now.DiffInDays(Parse("")))
 		assert.Zero(t, Parse("xxx").DiffInDays())
-		assert.Zero(t, Now().DiffInDays(Parse("xxx")))
+		assert.Zero(t, now.DiffInDays(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -207,9 +200,9 @@ func TestCarbon_DiffAbsInDays(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffAbsInDays())
-		assert.Zero(t, Now().DiffAbsInDays(Parse("")))
+		assert.Zero(t, now.DiffAbsInDays(Parse("")))
 		assert.Zero(t, Parse("xxx").DiffAbsInDays())
-		assert.Zero(t, Now().DiffAbsInDays(Parse("xxx")))
+		assert.Zero(t, now.DiffAbsInDays(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -234,9 +227,9 @@ func TestCarbon_DiffInHours(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffInHours())
-		assert.Zero(t, Now().DiffInHours(Parse("")))
+		assert.Zero(t, now.DiffInHours(Parse("")))
 		assert.Zero(t, Parse("xxx").DiffInHours())
-		assert.Zero(t, Now().DiffInHours(Parse("xxx")))
+		assert.Zero(t, now.DiffInHours(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -261,9 +254,9 @@ func TestCarbon_DiffAbsInHours(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffAbsInHours())
-		assert.Zero(t, Now().DiffAbsInHours(Parse("")))
+		assert.Zero(t, now.DiffAbsInHours(Parse("")))
 		assert.Zero(t, Parse("xxx").DiffAbsInHours())
-		assert.Zero(t, Now().DiffAbsInHours(Parse("xxx")))
+		assert.Zero(t, now.DiffAbsInHours(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -288,9 +281,9 @@ func TestCarbon_DiffInMinutes(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffInMinutes())
-		assert.Zero(t, Now().DiffInMinutes(Parse("")))
+		assert.Zero(t, now.DiffInMinutes(Parse("")))
 		assert.Zero(t, Parse("xxx").DiffInMinutes())
-		assert.Zero(t, Now().DiffInMinutes(Parse("xxx")))
+		assert.Zero(t, now.DiffInMinutes(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -315,9 +308,9 @@ func TestCarbon_DiffAbsInMinutes(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffAbsInMinutes())
-		assert.Zero(t, Now().DiffAbsInMinutes(Parse("")))
+		assert.Zero(t, now.DiffAbsInMinutes(Parse("")))
 		assert.Zero(t, Parse("xxx").DiffAbsInMinutes())
-		assert.Zero(t, Now().DiffAbsInMinutes(Parse("xxx")))
+		assert.Zero(t, now.DiffAbsInMinutes(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -342,9 +335,9 @@ func TestCarbon_DiffInSeconds(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffInSeconds())
-		assert.Zero(t, Now().DiffInSeconds(Parse("")))
+		assert.Zero(t, now.DiffInSeconds(Parse("")))
 		assert.Zero(t, Parse("xxx").DiffInSeconds())
-		assert.Zero(t, Now().DiffInSeconds(Parse("xxx")))
+		assert.Zero(t, now.DiffInSeconds(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -369,9 +362,9 @@ func TestCarbon_DiffAbsInSeconds(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Zero(t, Parse("").DiffAbsInSeconds())
-		assert.Zero(t, Now().DiffAbsInSeconds(Parse("")))
+		assert.Zero(t, now.DiffAbsInSeconds(Parse("")))
 		assert.Zero(t, Parse("xxx").DiffAbsInSeconds())
-		assert.Zero(t, Now().DiffAbsInSeconds(Parse("xxx")))
+		assert.Zero(t, now.DiffAbsInSeconds(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -396,9 +389,9 @@ func TestCarbon_DiffInString(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Empty(t, Parse("").DiffInString())
-		assert.Empty(t, Now().DiffInString(Parse("")))
+		assert.Empty(t, now.DiffInString(Parse("")))
 		assert.Empty(t, Parse("xxx").DiffInString())
-		assert.Empty(t, Now().DiffInString(Parse("xxx")))
+		assert.Empty(t, now.DiffInString(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -445,9 +438,9 @@ func TestCarbon_DiffAbsInString(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Empty(t, Parse("").DiffAbsInString())
-		assert.Empty(t, Now().DiffAbsInString(Parse("")))
+		assert.Empty(t, now.DiffAbsInString(Parse("")))
 		assert.Empty(t, Parse("xxx").DiffAbsInString())
-		assert.Empty(t, Now().DiffAbsInString(Parse("xxx")))
+		assert.Empty(t, now.DiffAbsInString(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -490,9 +483,9 @@ func TestCarbon_DiffInDuration(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Empty(t, Parse("").DiffInDuration())
-		assert.Empty(t, Now().DiffInDuration(Parse("")))
+		assert.Empty(t, now.DiffInDuration(Parse("")))
 		assert.Empty(t, Parse("xxx").DiffInDuration())
-		assert.Empty(t, Now().DiffInDuration(Parse("xxx")))
+		assert.Empty(t, now.DiffInDuration(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -523,9 +516,9 @@ func TestCarbon_DiffAbsInDuration(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Empty(t, Parse("").DiffAbsInDuration())
-		assert.Empty(t, Now().DiffAbsInDuration(Parse("")))
+		assert.Empty(t, now.DiffAbsInDuration(Parse("")))
 		assert.Empty(t, Parse("xxx").DiffAbsInDuration())
-		assert.Empty(t, Now().DiffAbsInDuration(Parse("xxx")))
+		assert.Empty(t, now.DiffAbsInDuration(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
@@ -556,9 +549,9 @@ func TestCarbon_DiffForHumans(t *testing.T) {
 
 	t.Run("invalid carbon", func(t *testing.T) {
 		assert.Empty(t, Parse("").DiffForHumans())
-		assert.Empty(t, Now().DiffForHumans(Parse("")))
+		assert.Empty(t, now.DiffForHumans(Parse("")))
 		assert.Empty(t, Parse("xxx").DiffForHumans())
-		assert.Empty(t, Now().DiffForHumans(Parse("xxx")))
+		assert.Empty(t, now.DiffForHumans(Parse("xxx")))
 	})
 
 	t.Run("without parameter", func(t *testing.T) {
