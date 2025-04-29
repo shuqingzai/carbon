@@ -1333,25 +1333,25 @@ carbon.Parse("2020-08-05 13:14:15").IsWinter() // false
 
 ```go
 type User struct {
-  Date      carbon.Date      `json:"date"`
-  DateMilli carbon.DateMilli `json:"date_milli"`
-  DateMicro carbon.DateMicro `json:"date_micro"`
-  DateNano  carbon.DateNano  `json:"date_nano"`
+  Date      *carbon.Date      `json:"date"`
+  DateMilli *carbon.DateMilli `json:"date_milli"`
+  DateMicro *carbon.DateMicro `json:"date_micro"`
+  DateNano  *carbon.DateNano  `json:"date_nano"`
   
-  Time      carbon.Time      `json:"time"`
-  TimeMilli carbon.TimeMilli `json:"time_milli"`
-  TimeMicro carbon.TimeMicro `json:"time_micro"`
-  TimeNano  carbon.TimeNano  `json:"time_nano"`
+  Time      *carbon.Time      `json:"time"`
+  TimeMilli *carbon.TimeMilli `json:"time_milli"`
+  TimeMicro *carbon.TimeMicro `json:"time_micro"`
+  TimeNano  *carbon.TimeNano  `json:"time_nano"`
   
-  DateTime      carbon.DateTime      `json:"date_time"`
-  DateTimeMilli carbon.DateTimeMilli `json:"date_time_milli"`
-  DateTimeMicro carbon.DateTimeMicro `json:"date_time_micro"`
-  DateTimeNano  carbon.DateTimeNano  `json:"date_time_nano"`
+  DateTime      *carbon.DateTime      `json:"date_time"`
+  DateTimeMilli *carbon.DateTimeMilli `json:"date_time_milli"`
+  DateTimeMicro *carbon.DateTimeMicro `json:"date_time_micro"`
+  DateTimeNano  *carbon.DateTimeNano  `json:"date_time_nano"`
   
-  Timestamp      carbon.Timestamp      `json:"timestamp"`
-  TimestampMilli carbon.TimestampMilli `json:"timestamp_milli"`
-  TimestampMicro carbon.TimestampMicro `json:"timestamp_micro"`
-  TimestampNano  carbon.TimestampNano  `json:"timestamp_nano"`
+  Timestamp      *carbon.Timestamp      `json:"timestamp"`
+  TimestampMilli *carbon.TimestampMilli `json:"timestamp_milli"`
+  TimestampMicro *carbon.TimestampMicro `json:"timestamp_micro"`
+  TimestampNano  *carbon.TimestampNano  `json:"timestamp_nano"`
   
   CreatedAt *carbon.DateTime `json:"created_at"`
   UpdatedAt *carbon.DateTime `json:"updated_at"`
@@ -1362,25 +1362,25 @@ var user User
 
 c := carbon.Parse("2020-08-05 13:14:15.999999999")
 
-user.Date      = *carbon.NewDate(c)
-user.DateMilli = *carbon.NewDateMilli(c)
-user.DateMicro = *carbon.NewDateMicro(c)
-user.DateNano  = *carbon.NewDateNano(c)
+user.Date      = carbon.NewDate(c)
+user.DateMilli = carbon.NewDateMilli(c)
+user.DateMicro = carbon.NewDateMicro(c)
+user.DateNano  = carbon.NewDateNano(c)
 
-user.Time      = *carbon.NewTime(c)
-user.TimeMilli = *carbon.NewTimeMilli(c)
-user.TimeMicro = *carbon.NewTimeMicro(c)
-user.TimeNano  = *carbon.NewTimeNano(c)
+user.Time      = carbon.NewTime(c)
+user.TimeMilli = carbon.NewTimeMilli(c)
+user.TimeMicro = carbon.NewTimeMicro(c)
+user.TimeNano  = carbon.NewTimeNano(c)
 
-user.DateTime      = *carbon.NewDateTime(c)
-user.DateTimeMilli = *carbon.NewDateTimeMilli(c)
-user.DateTimeMicro = *carbon.NewDateTimeMicro(c)
-user.DateTimeNano  = *carbon.NewDateTimeNano(c)
+user.DateTime      = carbon.NewDateTime(c)
+user.DateTimeMilli = carbon.NewDateTimeMilli(c)
+user.DateTimeMicro = carbon.NewDateTimeMicro(c)
+user.DateTimeNano  = carbon.NewDateTimeNano(c)
 
-user.Timestamp      = *carbon.NewTimestamp(c)
-user.TimestampMilli = *carbon.NewTimestampMilli(c)
-user.TimestampMicro = *carbon.NewTimestampMicro(c)
-user.TimestampNano  = *carbon.NewTimestampNano(c)
+user.Timestamp      = carbon.NewTimestamp(c)
+user.TimestampMilli = carbon.NewTimestampMilli(c)
+user.TimestampMicro = carbon.NewTimestampMicro(c)
+user.TimestampNano  = carbon.NewTimestampNano(c)
 
 user.CreatedAt = carbon.NewDateTime(c)
 user.UpdatedAt = carbon.NewDateTime(c)
@@ -1539,13 +1539,13 @@ lang.SetLocale("en")
 carbon.SetTestNow(carbon.Parse("2020-08-05 13:14:15"))
 now := carbon.Now().SetLanguage(lang)
 
-now.Copy().AddHours(1).DiffForHumans() // 1 hour from now
-now.Copy().AddHours(1).ToMonthString() // August
-now.Copy().AddHours(1).ToShortMonthString() // Aug
-now.Copy().AddHours(1).ToWeekString() // Wednesday
-now.Copy().AddHours(1).ToShortWeekString() // Wed
-now.Copy().AddHours(1).Constellation() // Leo
-now.Copy().AddHours(1).Season() // Summer
+now.AddHours(1).DiffForHumans() // 1 hour from now
+now.AddHours(1).ToMonthString() // August
+now.AddHours(1).ToShortMonthString() // Aug
+now.AddHours(1).ToWeekString() // Wednesday
+now.AddHours(1).ToShortWeekString() // Wed
+now.AddHours(1).Constellation() // Leo
+now.AddHours(1).Season() // Summer
 ```
 
 ###### Reset some resources(the rests still translate from the given locale)
@@ -1561,14 +1561,14 @@ lang.SetLocale("en").SetResources(resources)
 carbon.SetTestNow(carbon.Parse("2020-08-05 13:14:15"))
 now := carbon.Now().SetLanguage(lang)
 
-now.Copy().AddYears(1).DiffForHumans() // 1 year from now
-now.Copy().AddHours(1).DiffForHumans() // 1h from now
-now.Copy().ToMonthString() // August
-now.Copy().ToShortMonthString() // Aug
-now.Copy().ToWeekString() // Tuesday
-now.Copy().ToShortWeekString() // Tue
-now.Copy().Constellation() // Leo
-now.Copy().Season() // Summer
+now.AddYears(1).DiffForHumans() // 1 year from now
+now.AddHours(1).DiffForHumans() // 1h from now
+now.ToMonthString() // August
+now.ToShortMonthString() // Aug
+now.ToWeekString() // Tuesday
+now.ToShortWeekString() // Tue
+now.Constellation() // Leo
+now.Season() // Summer
 ```
 
 ###### Reset all resources
@@ -1600,14 +1600,14 @@ lang.SetResources(resources)
 carbon.SetTestNow(carbon.Parse("2020-08-05 13:14:15"))
 now := carbon.Now().SetLanguage(lang)
 
-now.Copy().AddYears(1).DiffForHumans() // in 1 yr
-now.Copy().AddHours(1).DiffForHumans() // in 1h
-now.Copy().ToMonthString() // august
-now.Copy().ToShortMonthString() // aug
-now.Copy().ToWeekString() // tuesday
-now.Copy().ToShortWeekString() // tue
-now.Copy().Constellation() // leo
-now.Copy().Season() // summer
+now.AddYears(1).DiffForHumans() // in 1 yr
+now.AddHours(1).DiffForHumans() // in 1h
+now.ToMonthString() // august
+now.ToShortMonthString() // aug
+now.ToWeekString() // tuesday
+now.ToShortWeekString() // tue
+now.Constellation() // leo
+now.Season() // summer
 ```
 
 ##### Error

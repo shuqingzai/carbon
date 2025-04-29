@@ -1336,25 +1336,25 @@ carbon.Parse("2020-08-05 13:14:15").IsWinter() // false
 
 ```go
 type User struct {
-  Date      carbon.Date      `json:"date"`
-  DateMilli carbon.DateMilli `json:"date_milli"`
-  DateMicro carbon.DateMicro `json:"date_micro"`
-  DateNano  carbon.DateNano  `json:"date_nano"`
+  Date      *carbon.Date      `json:"date"`
+  DateMilli *carbon.DateMilli `json:"date_milli"`
+  DateMicro *carbon.DateMicro `json:"date_micro"`
+  DateNano  *carbon.DateNano  `json:"date_nano"`
   
-  Time      carbon.Time      `json:"time"`
-  TimeMilli carbon.TimeMilli `json:"time_milli"`
-  TimeMicro carbon.TimeMicro `json:"time_micro"`
-  TimeNano  carbon.TimeNano  `json:"time_nano"`
+  Time      *carbon.Time      `json:"time"`
+  TimeMilli *carbon.TimeMilli `json:"time_milli"`
+  TimeMicro *carbon.TimeMicro `json:"time_micro"`
+  TimeNano  *carbon.TimeNano  `json:"time_nano"`
   
-  DateTime      carbon.DateTime      `json:"date_time"`
-  DateTimeMilli carbon.DateTimeMilli `json:"date_time_milli"`
-  DateTimeMicro carbon.DateTimeMicro `json:"date_time_micro"`
-  DateTimeNano  carbon.DateTimeNano  `json:"date_time_nano"`
+  DateTime      *carbon.DateTime      `json:"date_time"`
+  DateTimeMilli *carbon.DateTimeMilli `json:"date_time_milli"`
+  DateTimeMicro *carbon.DateTimeMicro `json:"date_time_micro"`
+  DateTimeNano  *carbon.DateTimeNano  `json:"date_time_nano"`
   
-  Timestamp      carbon.Timestamp      `json:"timestamp"`
-  TimestampMilli carbon.TimestampMilli `json:"timestamp_milli"`
-  TimestampMicro carbon.TimestampMicro `json:"timestamp_micro"`
-  TimestampNano  carbon.TimestampNano  `json:"timestamp_nano"`
+  Timestamp      *carbon.Timestamp      `json:"timestamp"`
+  TimestampMilli *carbon.TimestampMilli `json:"timestamp_milli"`
+  TimestampMicro *carbon.TimestampMicro `json:"timestamp_micro"`
+  TimestampNano  *carbon.TimestampNano  `json:"timestamp_nano"`
   
   CreatedAt *carbon.DateTime `json:"created_at"`
   UpdatedAt *carbon.DateTime `json:"updated_at"`
@@ -1365,25 +1365,25 @@ var user User
 
 c := carbon.Parse("2020-08-05 13:14:15.999999999")
 
-user.Date      = *carbon.NewDate(c)
-user.DateMilli = *carbon.NewDateMilli(c)
-user.DateMicro = *carbon.NewDateMicro(c)
-user.DateNano  = *carbon.NewDateNano(c)
+user.Date      = carbon.NewDate(c)
+user.DateMilli = carbon.NewDateMilli(c)
+user.DateMicro = carbon.NewDateMicro(c)
+user.DateNano  = carbon.NewDateNano(c)
 
-user.Time      = *carbon.NewTime(c)
-user.TimeMilli = *carbon.NewTimeMilli(c)
-user.TimeMicro = *carbon.NewTimeMicro(c)
-user.TimeNano  = *carbon.NewTimeNano(c)
+user.Time      = carbon.NewTime(c)
+user.TimeMilli = carbon.NewTimeMilli(c)
+user.TimeMicro = carbon.NewTimeMicro(c)
+user.TimeNano  = carbon.NewTimeNano(c)
 
-user.DateTime      = *carbon.NewDateTime(c)
-user.DateTimeMilli = *carbon.NewDateTimeMilli(c)
-user.DateTimeMicro = *carbon.NewDateTimeMicro(c)
-user.DateTimeNano  = *carbon.NewDateTimeNano(c)
+user.DateTime      = carbon.NewDateTime(c)
+user.DateTimeMilli = carbon.NewDateTimeMilli(c)
+user.DateTimeMicro = carbon.NewDateTimeMicro(c)
+user.DateTimeNano  = carbon.NewDateTimeNano(c)
 
-user.Timestamp      = *carbon.NewTimestamp(c)
-user.TimestampMilli = *carbon.NewTimestampMilli(c)
-user.TimestampMicro = *carbon.NewTimestampMicro(c)
-user.TimestampNano  = *carbon.NewTimestampNano(c)
+user.Timestamp      = carbon.NewTimestamp(c)
+user.TimestampMilli = carbon.NewTimestampMilli(c)
+user.TimestampMicro = carbon.NewTimestampMicro(c)
+user.TimestampNano  = carbon.NewTimestampNano(c)
 
 user.CreatedAt = carbon.NewDateTime(c)
 user.UpdatedAt = carbon.NewDateTime(c)
