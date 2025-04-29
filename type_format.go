@@ -51,20 +51,22 @@ func (t *FormatType[T]) Scan(src any) error {
 
 // Value implements driver.Valuer interface for FormatType generic struct.
 // 实现 driver.Valuer 接口
-func (t *FormatType[T]) Value() (driver.Value, error) {
-	if t.IsNil() || t.IsZero() {
-		return nil, nil
-	}
+func (t FormatType[T]) Value() (driver.Value, error) {
 	if t.HasError() {
 		return nil, t.Error
 	}
+
+	if t.IsZero() {
+		return nil, nil
+	}
+
 	return t.StdTime(), nil
 }
 
 // MarshalJSON implements json.Marshal interface for FormatType generic struct.
 // 实现 json.Marshaler 接口
-func (t *FormatType[T]) MarshalJSON() ([]byte, error) {
-	if t.IsNil() || t.IsZero() {
+func (t FormatType[T]) MarshalJSON() ([]byte, error) {
+	if t.IsZero() {
 		return []byte(`""`), nil
 	}
 	if t.HasError() {
@@ -91,7 +93,7 @@ func (t *FormatType[T]) UnmarshalJSON(src []byte) error {
 
 // String implements Stringer interface for FormatType generic struct.
 // 实现 Stringer 接口
-func (t *FormatType[T]) String() string {
+func (t FormatType[T]) String() string {
 	if t.IsInvalid() || t.IsZero() {
 		return ""
 	}
@@ -100,13 +102,13 @@ func (t *FormatType[T]) String() string {
 
 // GormDataType sets gorm data type for FormatType generic struct.
 // 设置 gorm 数据类型
-func (t *FormatType[T]) GormDataType() string {
+func (FormatType[T]) GormDataType() string {
 	return "time"
 }
 
 // getFormat returns the set format.
 // 返回设置的格式模板
-func (t *FormatType[T]) getFormat() string {
+func (FormatType[T]) getFormat() string {
 	var typer T
 	return typer.Format()
 }
