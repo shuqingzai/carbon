@@ -8,7 +8,7 @@ import (
 // 当前
 func Now(timezone ...string) *Carbon {
 	if IsTestNow() {
-		return frozenNow.testNow
+		return frozenNow.testNow.Copy()
 	}
 	var (
 		tz  string
@@ -33,7 +33,7 @@ func Tomorrow(timezone ...string) *Carbon {
 	if now.IsInvalid() {
 		return now
 	}
-	return now.Copy().AddDay()
+	return now.AddDay()
 }
 
 // Yesterday returns a Carbon instance for yesterday.
@@ -43,7 +43,7 @@ func Yesterday(timezone ...string) *Carbon {
 	if now.IsInvalid() {
 		return now
 	}
-	return now.Copy().SubDay()
+	return now.SubDay()
 }
 
 // AddDuration adds duration.
