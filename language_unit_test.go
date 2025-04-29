@@ -26,7 +26,7 @@ func TestLanguage_Copy(t *testing.T) {
 
 	t.Run("copy dir", func(t *testing.T) {
 		oldLang := NewLanguage()
-		oldLang.dir = "lang/"
+		oldLang.dir = "lang"
 		newCarbon := oldLang.Copy()
 		assert.Equal(t, oldLang.dir, newCarbon.dir)
 	})
