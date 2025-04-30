@@ -8,12 +8,18 @@ import (
 )
 
 func TestCarbon_HasError(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
+		c := NewCarbon()
+		c = nil
+		assert.False(t, c.HasError())
+	})
+
 	t.Run("zero carbon", func(t *testing.T) {
 		assert.False(t, NewCarbon().HasError())
 	})
 
 	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").HasError())
+		assert.True(t, Parse("").HasError())
 		assert.True(t, Parse("0").HasError())
 		assert.True(t, Parse("xxx").HasError())
 	})
@@ -35,7 +41,7 @@ func TestCarbon_IsNil(t *testing.T) {
 	})
 
 	t.Run("invalid carbon", func(t *testing.T) {
-		assert.True(t, Parse("").IsNil())
+		assert.False(t, Parse("").IsNil())
 		assert.False(t, Parse("0").IsNil())
 		assert.False(t, Parse("xxx").IsNil())
 	})

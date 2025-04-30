@@ -14,7 +14,7 @@ func ExampleCarbon_HasError() {
 
 	// Output:
 	// false
-	// false
+	// true
 	// false
 	// true
 }
@@ -25,7 +25,12 @@ func ExampleCarbon_IsNil() {
 	fmt.Println(carbon.Now().IsNil())
 	fmt.Println(carbon.Parse("").IsNil())
 
+	c := carbon.NewCarbon()
+	c = nil
+	fmt.Println(c.IsNil())
+
 	// Output:
+	// false
 	// false
 	// false
 	// false

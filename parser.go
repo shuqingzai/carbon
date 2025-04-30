@@ -9,7 +9,7 @@ import (
 // 将标准格式时间字符串解析成 Carbon 实例
 func Parse(value string, timezone ...string) *Carbon {
 	if value == "" {
-		return nil
+		return &Carbon{Error: ErrFailedParse(value)}
 	}
 	var (
 		tz  string
