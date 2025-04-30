@@ -13,8 +13,8 @@ func (c *Carbon) HasError() bool {
 	return c.Error != nil
 }
 
-// IsNil reports whether is a nil time.
-// 是否是空时间
+// IsNil reports whether is nil pointer.
+// 是否是空指针
 func (c *Carbon) IsNil() bool {
 	if c == nil || &c.time == nil {
 		return true
