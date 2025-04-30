@@ -83,7 +83,7 @@ func (t *TimestampType[T]) Scan(src any) (err error) {
 
 // Value implements driver.Valuer interface for TimestampType generic struct.
 // 实现 driver.Valuer 接口
-func (t *TimestampType[T]) Value() (driver.Value, error) {
+func (t TimestampType[T]) Value() (driver.Value, error) {
 	if t.IsNil() || t.IsZero() {
 		return nil, nil
 	}
@@ -106,7 +106,7 @@ func (t *TimestampType[T]) Value() (driver.Value, error) {
 
 // MarshalJSON implements json.Marshal interface for TimestampType generic struct.
 // 实现 json.Marshaler 接口
-func (t *TimestampType[T]) MarshalJSON() ([]byte, error) {
+func (t TimestampType[T]) MarshalJSON() ([]byte, error) {
 	if t.IsNil() || t.IsZero() {
 		return []byte(`0`), nil
 	}
@@ -186,13 +186,13 @@ func (t *TimestampType[T]) Int64() (ts int64) {
 
 // GormDataType sets gorm data type for TimestampType generic struct.
 // 设置 gorm 数据类型
-func (t *TimestampType[T]) GormDataType() string {
+func (t TimestampType[T]) GormDataType() string {
 	return "time"
 }
 
 // getPrecision returns the set timestamp precision.
 // 返回设置的时间戳精度
-func (t *TimestampType[T]) getPrecision() int64 {
+func (t TimestampType[T]) getPrecision() int64 {
 	var typer T
 	return typer.Precision()
 }

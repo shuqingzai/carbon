@@ -52,7 +52,7 @@ func (t *LayoutType[T]) Scan(src any) error {
 
 // Value implements driver.Valuer interface for LayoutType generic struct.
 // 实现 driver.Valuer 接口
-func (t *LayoutType[T]) Value() (driver.Value, error) {
+func (t LayoutType[T]) Value() (driver.Value, error) {
 	if t.IsNil() || t.IsZero() {
 		return nil, nil
 	}
@@ -64,7 +64,7 @@ func (t *LayoutType[T]) Value() (driver.Value, error) {
 
 // MarshalJSON implements json.Marshal interface for LayoutType generic struct.
 // 实现 json.Marshaler 接口
-func (t *LayoutType[T]) MarshalJSON() ([]byte, error) {
+func (t LayoutType[T]) MarshalJSON() ([]byte, error) {
 	if t.IsNil() || t.IsZero() {
 		return []byte(`""`), nil
 	}

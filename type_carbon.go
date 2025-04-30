@@ -29,19 +29,19 @@ func (c *Carbon) Scan(src any) error {
 
 // Value implements driver.Valuer interface for Carbon struct.
 // 实现 driver.Valuer 接口
-func (c *Carbon) Value() (driver.Value, error) {
-	if c.IsNil() || c.IsZero() {
-		return nil, nil
-	}
+func (c Carbon) Value() (driver.Value, error) {
 	if c.HasError() {
 		return nil, c.Error
+	}
+	if c.IsZero() {
+		return nil, nil
 	}
 	return c.StdTime(), nil
 }
 
 // MarshalJSON implements json.Marshal interface for Carbon struct.
 // 实现 json.Marshaler 接口
-func (c *Carbon) MarshalJSON() ([]byte, error) {
+func (c Carbon) MarshalJSON() ([]byte, error) {
 	if c.IsNil() || c.IsZero() {
 		return []byte(`""`), nil
 	}
@@ -78,6 +78,6 @@ func (c *Carbon) String() string {
 
 // GormDataType sets gorm data type for Carbon struct.
 // 设置 gorm 数据类型
-func (c *Carbon) GormDataType() string {
+func (c Carbon) GormDataType() string {
 	return "time"
 }

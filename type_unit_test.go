@@ -52,25 +52,19 @@ func TestCarbonType_Scan(t *testing.T) {
 }
 
 func TestCarbonType_Value(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		v, err := Parse("").Value()
-		assert.Nil(t, v)
-		assert.Nil(t, err)
-	})
-
-	t.Run("zero time", func(t *testing.T) {
+	t.Run("zero carbon", func(t *testing.T) {
 		v, err := NewCarbon().Value()
 		assert.Nil(t, v)
 		assert.Nil(t, err)
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	t.Run("invalid carbon", func(t *testing.T) {
 		v, err := Parse("xxx").Value()
 		assert.Nil(t, v)
 		assert.Error(t, err)
 	})
 
-	t.Run("valid time", func(t *testing.T) {
+	t.Run("valid carbon", func(t *testing.T) {
 		c := Parse("2020-08-05")
 		v, err := c.Value()
 		assert.Equal(t, c.StdTime(), v)
@@ -81,7 +75,7 @@ func TestCarbonType_Value(t *testing.T) {
 func TestCarbonType_MarshalJSON(t *testing.T) {
 	var model carbonTypeModel
 
-	t.Run("nil time", func(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
 		model.Carbon2 = nil
 
 		data, err := json.Marshal(&model)
@@ -89,7 +83,7 @@ func TestCarbonType_MarshalJSON(t *testing.T) {
 		assert.Equal(t, `{"carbon1":"","carbon2":null}`, string(data))
 	})
 
-	t.Run("zero time", func(t *testing.T) {
+	t.Run("zero carbon", func(t *testing.T) {
 		c := NewCarbon()
 		model.Carbon1 = *c
 		model.Carbon2 = c
@@ -99,7 +93,7 @@ func TestCarbonType_MarshalJSON(t *testing.T) {
 		assert.Equal(t, `{"carbon1":"","carbon2":""}`, string(data))
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	t.Run("invalid carbon", func(t *testing.T) {
 		c := Parse("xxx")
 		model.Carbon1 = *c
 		model.Carbon2 = c
@@ -109,7 +103,7 @@ func TestCarbonType_MarshalJSON(t *testing.T) {
 		assert.Empty(t, string(data))
 	})
 
-	t.Run("valid time", func(t *testing.T) {
+	t.Run("valid carbon", func(t *testing.T) {
 		c := Parse("2020-08-05 13:14:15.999999999")
 		model.Carbon1 = *c
 		model.Carbon2 = c
@@ -153,29 +147,6 @@ func TestCarbonType_UnmarshalJSON(t *testing.T) {
 
 		assert.Equal(t, "2020-08-05 13:14:15", model.Carbon1.String())
 		assert.Equal(t, "2020-08-05 13:14:15", model.Carbon2.String())
-	})
-}
-
-func TestCarbonType_String(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := Now()
-		c = nil
-		assert.Empty(t, c.String())
-	})
-
-	t.Run("zero time", func(t *testing.T) {
-		assert.Empty(t, NewCarbon().String())
-	})
-
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").String())
-		assert.Empty(t, Parse("0").String())
-		assert.Empty(t, Parse("xxx").String())
-	})
-
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-08-05 13:14:15", Parse("2020-08-05 13:14:15").String())
-		assert.Equal(t, "2020-08-05", Parse("2020-08-05 13:14:15").SetLayout(DateLayout).String())
 	})
 }
 
@@ -326,7 +297,7 @@ func TestBuiltinType_Scan(t *testing.T) {
 }
 
 func TestBuiltinType_Value(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
 		v1, e1 := NewDateTime(nil).Value()
 		assert.Nil(t, v1)
 		assert.Nil(t, e1)
@@ -336,7 +307,7 @@ func TestBuiltinType_Value(t *testing.T) {
 		assert.Nil(t, e2)
 	})
 
-	t.Run("zero time", func(t *testing.T) {
+	t.Run("zero carbon", func(t *testing.T) {
 		c := NewCarbon()
 
 		v1, e1 := NewDateTime(c).Value()
@@ -348,7 +319,7 @@ func TestBuiltinType_Value(t *testing.T) {
 		assert.Nil(t, e2)
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	t.Run("invalid carbon", func(t *testing.T) {
 		c := Parse("xxx")
 
 		v1, e1 := NewDateTime(c).Value()
@@ -360,7 +331,7 @@ func TestBuiltinType_Value(t *testing.T) {
 		assert.Error(t, e2)
 	})
 
-	t.Run("valid time", func(t *testing.T) {
+	t.Run("valid carbon", func(t *testing.T) {
 		c := Parse("2020-08-05")
 
 		v1, e1 := NewDateTime(c).Value()
@@ -388,7 +359,7 @@ func TestBuiltinType_Value(t *testing.T) {
 func TestBuiltinType_MarshalJSON(t *testing.T) {
 	var model builtinTypeModel
 
-	t.Run("nil time", func(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
 		model.Date = *NewDate(nil)
 		model.DateMilli = *NewDateMilli(nil)
 		model.DateMicro = *NewDateMicro(nil)
@@ -418,7 +389,7 @@ func TestBuiltinType_MarshalJSON(t *testing.T) {
 		assert.Equal(t, `{"date":"","date_milli":"","date_micro":"","date_nano":"","time":"","time_milli":"","time_micro":"","time_nano":"","date_time":"","date_time_milli":"","date_time_micro":"","date_time_nano":"","created_at":"","updated_at":"","timestamp":0,"timestamp_milli":0,"timestamp_micro":0,"timestamp_nano":0,"deleted_at":0}`, string(data))
 	})
 
-	t.Run("zero time", func(t *testing.T) {
+	t.Run("zero carbon", func(t *testing.T) {
 		c := NewCarbon()
 
 		model.Date = *NewDate(c)
@@ -450,7 +421,7 @@ func TestBuiltinType_MarshalJSON(t *testing.T) {
 		assert.Equal(t, `{"date":"","date_milli":"","date_micro":"","date_nano":"","time":"","time_milli":"","time_micro":"","time_nano":"","date_time":"","date_time_milli":"","date_time_micro":"","date_time_nano":"","created_at":"","updated_at":"","timestamp":0,"timestamp_milli":0,"timestamp_micro":0,"timestamp_nano":0,"deleted_at":0}`, string(data))
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	t.Run("invalid carbon", func(t *testing.T) {
 		c := Parse("xxx")
 
 		var model1 builtinTypeModel
@@ -496,7 +467,7 @@ func TestBuiltinType_MarshalJSON(t *testing.T) {
 		assert.Empty(t, string(data2))
 	})
 
-	t.Run("valid time", func(t *testing.T) {
+	t.Run("valid carbon", func(t *testing.T) {
 		c := Parse("2020-08-05 13:14:15.999999999")
 
 		model.Date = *NewDate(c)
@@ -812,7 +783,7 @@ func TestCustomerType_Scan(t *testing.T) {
 }
 
 func TestCustomerType_Value(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
 		t1, e1 := NewFormatType[iso8601Type](nil).Value()
 		assert.Nil(t, t1)
 		assert.Nil(t, e1)
@@ -822,7 +793,7 @@ func TestCustomerType_Value(t *testing.T) {
 		assert.Nil(t, e2)
 	})
 
-	t.Run("zero time", func(t *testing.T) {
+	t.Run("zero carbon", func(t *testing.T) {
 		c := NewCarbon()
 
 		t1, e1 := NewFormatType[iso8601Type](c).Value()
@@ -834,7 +805,7 @@ func TestCustomerType_Value(t *testing.T) {
 		assert.Nil(t, e2)
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	t.Run("invalid carbon", func(t *testing.T) {
 		c := Parse("xxx")
 
 		t1, e1 := NewFormatType[iso8601Type](c).Value()
@@ -846,7 +817,7 @@ func TestCustomerType_Value(t *testing.T) {
 		assert.Error(t, e2)
 	})
 
-	t.Run("valid time", func(t *testing.T) {
+	t.Run("valid carbon", func(t *testing.T) {
 		c := Parse("2020-08-05")
 
 		t1, e1 := NewFormatType[iso8601Type](c).Value()
@@ -862,7 +833,7 @@ func TestCustomerType_Value(t *testing.T) {
 func TestCustomerType_MarshalJSON(t *testing.T) {
 	var model CustomerTypeModel
 
-	t.Run("nil time", func(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
 		model.Customer1 = *NewFormatType[iso8601Type](nil)
 		model.Customer2 = *NewLayoutType[rfc3339Type](nil)
 
@@ -874,7 +845,7 @@ func TestCustomerType_MarshalJSON(t *testing.T) {
 		assert.Equal(t, `{"customer1":"","customer2":"","created_at":"","updated_at":""}`, string(data))
 	})
 
-	t.Run("zero time", func(t *testing.T) {
+	t.Run("zero carbon", func(t *testing.T) {
 		c := NewCarbon()
 
 		model.Customer1 = *NewFormatType[iso8601Type](c)
@@ -888,7 +859,7 @@ func TestCustomerType_MarshalJSON(t *testing.T) {
 		assert.Equal(t, `{"customer1":"","customer2":"","created_at":"","updated_at":""}`, string(data))
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	t.Run("invalid carbon", func(t *testing.T) {
 		c := Parse("xxx")
 
 		model.Customer1 = *NewFormatType[iso8601Type](c)
@@ -902,7 +873,7 @@ func TestCustomerType_MarshalJSON(t *testing.T) {
 		assert.Empty(t, string(data))
 	})
 
-	t.Run("valid time", func(t *testing.T) {
+	t.Run("valid carbon", func(t *testing.T) {
 		c := Parse("2020-08-05 13:14:15.999999999")
 
 		model.Customer1 = *NewFormatType[iso8601Type](c)
