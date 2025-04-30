@@ -24,8 +24,8 @@ func (c *Carbon) Lunar() *lunar.Lunar {
 // 从 农历日期 创建 Carbon 实例
 func CreateFromLunar(year, month, day int, isLeapMonth bool) *Carbon {
 	l := lunar.NewLunar(year, month, day, isLeapMonth)
-	if !l.IsValid() {
-		return nil
+	if l.Error != nil {
+		return &Carbon{Error: l.Error}
 	}
 	return NewCarbon(l.ToGregorian(DefaultTimezone).Time)
 }
@@ -66,8 +66,8 @@ func (c *Carbon) Persian() *persian.Persian {
 // 从 波斯日期 创建 Carbon 实例
 func CreateFromPersian(year, month, day int) *Carbon {
 	p := persian.NewPersian(year, month, day)
-	if !p.IsValid() {
-		return nil
+	if p.Error != nil {
+		return &Carbon{Error: p.Error}
 	}
 	return NewCarbon(p.ToGregorian(DefaultTimezone).Time)
 }

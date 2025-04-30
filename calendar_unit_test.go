@@ -7,6 +7,12 @@ import (
 )
 
 func TestCarbon_Julian(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
+		c := NewCarbon()
+		c = nil
+		assert.Nil(t, c.Julian())
+	})
+
 	t.Run("zero carbon", func(t *testing.T) {
 		assert.Equal(t, 1.7214235e+06, NewCarbon().Julian().JD())
 		assert.Equal(t, float64(-678577), NewCarbon().Julian().MJD())
@@ -55,6 +61,12 @@ func TestCreateFromJulian(t *testing.T) {
 }
 
 func TestCarbon_Lunar(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
+		c := NewCarbon()
+		c = nil
+		assert.Nil(t, c.Lunar())
+	})
+
 	t.Run("zero carbon", func(t *testing.T) {
 		assert.Empty(t, NewCarbon().Lunar().String())
 	})
@@ -85,6 +97,12 @@ func TestCreateFromLunar(t *testing.T) {
 }
 
 func TestCarbon_Persian(t *testing.T) {
+	t.Run("nil carbon", func(t *testing.T) {
+		c := NewCarbon()
+		c = nil
+		assert.Nil(t, c.Persian())
+	})
+
 	t.Run("zero carbon", func(t *testing.T) {
 		assert.Empty(t, NewCarbon().Persian().String())
 		assert.Empty(t, NewCarbon().Persian().String())
