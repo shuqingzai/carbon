@@ -7,15 +7,12 @@ import (
 )
 
 func TestParse(t *testing.T) {
-	t.Run("nil carbon", func(t *testing.T) {
-		assert.Nil(t, Parse(""))
-		assert.Empty(t, Parse("").ToString())
-	})
-
-	t.Run("invalid carbon", func(t *testing.T) {
+	t.Run("invalid value", func(t *testing.T) {
+		assert.True(t, Parse("").HasError())
 		assert.True(t, Parse("0").HasError())
 		assert.True(t, Parse("xxx").HasError())
 
+		assert.Empty(t, Parse("").ToString())
 		assert.Empty(t, Parse("0").ToString())
 		assert.Empty(t, Parse("xxx").ToString())
 	})
