@@ -35,11 +35,14 @@ func MinDuration() Duration {
 // 返回最大的 Carbon 实例
 func Max(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	c = c1
+	if c.IsInvalid() {
+		return nil
+	}
 	if len(c2) == 0 {
 		return
 	}
 	for i := range c2 {
-		if c.IsInvalid() || c2[i].IsInvalid() {
+		if c2[i].IsInvalid() {
 			return nil
 		}
 		if c2[i].Gte(c) {
@@ -53,11 +56,14 @@ func Max(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 // 返回最小的 Carbon 实例
 func Min(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	c = c1
+	if c.IsInvalid() {
+		return nil
+	}
 	if len(c2) == 0 {
 		return
 	}
 	for i := range c2 {
-		if c.IsInvalid() || c2[i].IsInvalid() {
+		if c2[i].IsInvalid() {
 			return nil
 		}
 		if c2[i].Lte(c) {
