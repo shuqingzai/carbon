@@ -551,7 +551,7 @@ func (s *BuiltinTypeSuite) TestBuiltinType_UnmarshalJSON() {
 		s.Empty(model.CreatedAt.String())
 		s.Empty(model.UpdatedAt.String())
 		s.Equal("0", model.DeletedAt.String())
-		s.Zero(model.DeletedAt.Int64())
+		s.Equal(int64(0), model.DeletedAt.Int64())
 	})
 
 	s.Run("null value", func() {
@@ -586,7 +586,7 @@ func (s *BuiltinTypeSuite) TestBuiltinType_UnmarshalJSON() {
 		s.Empty(model.CreatedAt.String())
 		s.Empty(model.UpdatedAt.String())
 		s.Equal("0", model.DeletedAt.String())
-		s.Zero(model.DeletedAt.Int64())
+		s.Equal(int64(0), model.DeletedAt.Int64())
 	})
 
 	s.Run("zero value", func() {
@@ -621,7 +621,7 @@ func (s *BuiltinTypeSuite) TestBuiltinType_UnmarshalJSON() {
 		s.Empty(model.CreatedAt.String())
 		s.Empty(model.UpdatedAt.String())
 		s.Equal("0", model.DeletedAt.String())
-		s.Zero(model.DeletedAt.Int64())
+		s.Equal(int64(0), model.DeletedAt.Int64())
 	})
 
 	s.Run("error value", func() {
@@ -663,7 +663,7 @@ func (s *BuiltinTypeSuite) TestBuiltinType_UnmarshalJSON() {
 		s.Empty(model.CreatedAt.String())
 		s.Empty(model.UpdatedAt.String())
 		s.Equal("0", model.DeletedAt.String())
-		s.Zero(model.DeletedAt.Int64())
+		s.Equal(int64(0), model.DeletedAt.Int64())
 	})
 
 	s.Run("valid value", func() {
