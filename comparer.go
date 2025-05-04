@@ -16,10 +16,7 @@ func (c *Carbon) HasError() bool {
 // IsNil reports whether is nil pointer.
 // 是否是空指针
 func (c *Carbon) IsNil() bool {
-	if c == nil || &c.time == nil {
-		return true
-	}
-	return false
+	return c == nil
 }
 
 // IsZero reports whether is a zero time(0001-01-01 00:00:00 +0000 UTC).
@@ -537,6 +534,9 @@ func (c *Carbon) Between(start *Carbon, end *Carbon) bool {
 // BetweenIncludedStart reports whether between two times, included the start time.
 // 是否在两个时间之间(包括开始时间)
 func (c *Carbon) BetweenIncludedStart(start *Carbon, end *Carbon) bool {
+	if c.IsZero() && start.IsZero() {
+		return true
+	}
 	if c.IsInvalid() || start.IsInvalid() || end.IsInvalid() {
 		return false
 	}
@@ -552,6 +552,9 @@ func (c *Carbon) BetweenIncludedStart(start *Carbon, end *Carbon) bool {
 // BetweenIncludedEnd reports whether between two times, included the end time.
 // 是否在两个时间之间(包括结束时间)
 func (c *Carbon) BetweenIncludedEnd(start *Carbon, end *Carbon) bool {
+	if c.IsZero() && end.IsZero() {
+		return true
+	}
 	if c.IsInvalid() || start.IsInvalid() || end.IsInvalid() {
 		return false
 	}
@@ -567,6 +570,9 @@ func (c *Carbon) BetweenIncludedEnd(start *Carbon, end *Carbon) bool {
 // BetweenIncludedBoth reports whether between two times, included the start and end time.
 // 是否在两个时间之间(包括这两个时间)
 func (c *Carbon) BetweenIncludedBoth(start *Carbon, end *Carbon) bool {
+	if (c.IsZero() && start.IsZero()) || (c.IsZero() && end.IsZero()) {
+		return true
+	}
 	if c.IsInvalid() || start.IsInvalid() || end.IsInvalid() {
 		return false
 	}
