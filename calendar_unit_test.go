@@ -3,132 +3,132 @@ package carbon
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-func TestCarbon_Julian(t *testing.T) {
-	t.Run("nil carbon", func(t *testing.T) {
-		c := NewCarbon()
+type CalendarSuite struct {
+	suite.Suite
+}
+
+func TestCalendarSuite(t *testing.T) {
+	suite.Run(t, new(CalendarSuite))
+}
+
+func (s *CalendarSuite) TestCarbon_Julian() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
 		c = nil
-		assert.Nil(t, c.Julian())
+		s.Nil(c.Julian())
 	})
 
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.Equal(t, 1.7214235e+06, NewCarbon().Julian().JD())
-		assert.Equal(t, float64(-678577), NewCarbon().Julian().MJD())
-	})
-
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.Zero(t, Parse("").Julian().JD())
-		assert.Zero(t, Parse("0").Julian().JD())
-		assert.Zero(t, Parse("xxx").Julian().JD())
-
-		assert.Zero(t, Parse("").Julian().MJD())
-		assert.Zero(t, Parse("0").Julian().MJD())
-		assert.Zero(t, Parse("xxx").Julian().MJD())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		j := Parse("2024-01-23 13:14:15").Julian()
-
-		assert.Equal(t, 2460333.051563, j.JD())
-		assert.Equal(t, 60332.551563, j.MJD())
-
-		assert.Equal(t, 2460333.0516, j.JD(4))
-		assert.Equal(t, 60332.5516, j.MJD(4))
-
-		assert.Equal(t, 2460333.0515625, j.JD(7))
-		assert.Equal(t, 60332.5515625, j.MJD(7))
-	})
-}
-
-func TestCreateFromJulian(t *testing.T) {
-	t.Run("invalid julian", func(t *testing.T) {
-		assert.Equal(t, "-4712-01-01 12:00:00", CreateFromJulian(0).String())
-		assert.Equal(t, "-4712-01-01 12:00:00", CreateFromJulian(-1).String())
-	})
-
-	t.Run("valid julian", func(t *testing.T) {
-		assert.Equal(t, "2024-01-23 13:14:15 +0000 UTC", CreateFromJulian(2460333.051563).ToString())
-		assert.Equal(t, "2024-01-23 13:14:15 +0000 UTC", CreateFromJulian(60332.551563).ToString())
-
-		assert.Equal(t, "2024-01-23 13:14:18 +0000 UTC", CreateFromJulian(2460333.0516).ToString())
-		assert.Equal(t, "2024-01-23 13:14:18 +0000 UTC", CreateFromJulian(60332.5516).ToString())
-
-		assert.Equal(t, "2024-01-23 13:14:15 +0000 UTC", CreateFromJulian(2460333.0515625).ToString())
-		assert.Equal(t, "2024-01-23 13:14:15 +0000 UTC", CreateFromJulian(60332.5515625).ToString())
-	})
-}
-
-func TestCarbon_Lunar(t *testing.T) {
-	t.Run("nil carbon", func(t *testing.T) {
+	s.Run("zero carbon", func() {
 		c := NewCarbon()
+		s.Equal(1.7214235e+06, c.Julian().JD())
+		s.Equal(float64(-678577), c.Julian().MJD())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.Zero(c.Julian().JD())
+		s.Zero(c.Julian().MJD())
+	})
+
+	s.Run("valid carbon", func() {
+		c := Parse("2024-01-23 13:14:15")
+
+		s.Equal(2460333.051563, c.Julian().JD())
+		s.Equal(60332.551563, c.Julian().MJD())
+
+		s.Equal(2460333.0516, c.Julian().JD(4))
+		s.Equal(60332.5516, c.Julian().MJD(4))
+
+		s.Equal(2460333.0515625, c.Julian().JD(7))
+		s.Equal(60332.5515625, c.Julian().MJD(7))
+	})
+}
+
+func (s *CalendarSuite) TestCreateFromJulian() {
+	s.Run("error julian", func() {
+		s.Equal("-4712-01-01 12:00:00", CreateFromJulian(0).String())
+		s.Equal("-4712-01-01 12:00:00", CreateFromJulian(-1).String())
+	})
+
+	s.Run("valid julian", func() {
+		s.Equal("2024-01-23 13:14:15 +0000 UTC", CreateFromJulian(2460333.051563).ToString())
+		s.Equal("2024-01-23 13:14:15 +0000 UTC", CreateFromJulian(60332.551563).ToString())
+
+		s.Equal("2024-01-23 13:14:18 +0000 UTC", CreateFromJulian(2460333.0516).ToString())
+		s.Equal("2024-01-23 13:14:18 +0000 UTC", CreateFromJulian(60332.5516).ToString())
+
+		s.Equal("2024-01-23 13:14:15 +0000 UTC", CreateFromJulian(2460333.0515625).ToString())
+		s.Equal("2024-01-23 13:14:15 +0000 UTC", CreateFromJulian(60332.5515625).ToString())
+	})
+}
+
+func (s *CalendarSuite) TestCarbon_Lunar() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
 		c = nil
-		assert.Nil(t, c.Lunar())
+		s.Nil(c.Lunar())
 	})
 
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.Empty(t, NewCarbon().Lunar().String())
+	s.Run("zero carbon", func() {
+		s.Empty(NewCarbon().Lunar().String())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.Empty(t, Parse("").Lunar().String())
-		assert.Empty(t, Parse("0").Lunar().String())
-		assert.Empty(t, Parse("xxx").Lunar().String())
+	s.Run("error carbon", func() {
+		s.Error(Parse("xxx").Lunar().Error)
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.Equal(t, "2023-12-08", Parse("2024-01-18", PRC).Lunar().String())
-		assert.Equal(t, "2023-12-11", Parse("2024-01-21", PRC).Lunar().String())
-		assert.Equal(t, "2023-12-14", Parse("2024-01-24", PRC).Lunar().String())
+	s.Run("valid carbon", func() {
+		s.Equal("2023-12-08", Parse("2024-01-18", PRC).Lunar().String())
+		s.Equal("2023-12-11", Parse("2024-01-21", PRC).Lunar().String())
+		s.Equal("2023-12-14", Parse("2024-01-24", PRC).Lunar().String())
 	})
 }
 
-func TestCreateFromLunar(t *testing.T) {
-	t.Run("invalid lunar", func(t *testing.T) {
-		assert.Empty(t, CreateFromLunar(2200, 12, 14, false).ToString())
+func (s *CalendarSuite) TestCreateFromLunar() {
+	s.Run("error lunar", func() {
+		s.Empty(CreateFromLunar(2200, 12, 14, false).ToString())
 	})
 
-	t.Run("valid lunar", func(t *testing.T) {
-		assert.Equal(t, "2024-01-21 00:00:00 +0800 CST", CreateFromLunar(2023, 12, 11, false).ToString(PRC))
-		assert.Equal(t, "2024-01-18 00:00:00 +0800 CST", CreateFromLunar(2023, 12, 8, false).ToString(PRC))
-		assert.Equal(t, "2024-01-24 00:00:00 +0800 CST", CreateFromLunar(2023, 12, 14, false).ToString(PRC))
+	s.Run("valid lunar", func() {
+		s.Equal("2024-01-21 00:00:00 +0800 CST", CreateFromLunar(2023, 12, 11, false).ToString(PRC))
+		s.Equal("2024-01-18 00:00:00 +0800 CST", CreateFromLunar(2023, 12, 8, false).ToString(PRC))
+		s.Equal("2024-01-24 00:00:00 +0800 CST", CreateFromLunar(2023, 12, 14, false).ToString(PRC))
 	})
 }
 
-func TestCarbon_Persian(t *testing.T) {
-	t.Run("nil carbon", func(t *testing.T) {
-		c := NewCarbon()
+func (s *CalendarSuite) TestCarbon_Persian() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
 		c = nil
-		assert.Nil(t, c.Persian())
+		s.Nil(c.Persian())
 	})
 
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.Empty(t, NewCarbon().Persian().String())
-		assert.Empty(t, NewCarbon().Persian().String())
+	s.Run("zero carbon", func() {
+		s.Empty(NewCarbon().Persian().String())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.Empty(t, Parse("").Persian().String())
-		assert.Empty(t, Parse("0").Persian().String())
-		assert.Empty(t, Parse("xxx").Persian().String())
+	s.Run("error carbon", func() {
+		s.Error(Parse("xxx").Persian().Error)
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.Equal(t, "1178-10-11", Parse("1800-01-01 00:00:00").Persian().String())
-		assert.Equal(t, "1399-05-15", Parse("2020-08-05 13:14:15").Persian().String())
-		assert.Equal(t, "1402-10-11", Parse("2024-01-01 00:00:00").Persian().String())
+	s.Run("valid carbon", func() {
+		s.Equal("1178-10-11", Parse("1800-01-01 00:00:00").Persian().String())
+		s.Equal("1399-05-15", Parse("2020-08-05 13:14:15").Persian().String())
+		s.Equal("1402-10-11", Parse("2024-01-01 00:00:00").Persian().String())
 	})
 }
 
-func TestCreateFromPersian(t *testing.T) {
-	t.Run("invalid persian", func(t *testing.T) {
-		assert.Empty(t, CreateFromPersian(9999, 12, 14).ToDateTimeString())
+func (s *CalendarSuite) TestCreateFromPersian() {
+	s.Run("error persian", func() {
+		s.Empty(CreateFromPersian(9999, 12, 14).ToDateTimeString())
 	})
 
-	t.Run("valid persian", func(t *testing.T) {
-		assert.Equal(t, "1800-01-01 00:00:00", CreateFromPersian(1178, 10, 11).ToDateTimeString())
-		assert.Equal(t, "2024-01-01 00:00:00", CreateFromPersian(1402, 10, 11).ToDateTimeString())
-		assert.Equal(t, "2024-08-05 00:00:00", CreateFromPersian(1403, 5, 15).ToDateTimeString())
+	s.Run("valid persian", func() {
+		s.Equal("1800-01-01 00:00:00", CreateFromPersian(1178, 10, 11).ToDateTimeString())
+		s.Equal("2024-01-01 00:00:00", CreateFromPersian(1402, 10, 11).ToDateTimeString())
+		s.Equal("2024-08-05 00:00:00", CreateFromPersian(1403, 5, 15).ToDateTimeString())
 	})
 }

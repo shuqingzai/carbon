@@ -4,1160 +4,1554 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-func TestCarbon_HasError(t *testing.T) {
-	t.Run("nil carbon", func(t *testing.T) {
-		c := NewCarbon()
+type ComparerSuite struct {
+	suite.Suite
+}
+
+func TestComparerSuite(t *testing.T) {
+	suite.Run(t, new(ComparerSuite))
+}
+
+func (s *ComparerSuite) TestCarbon_HasError() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
 		c = nil
-		assert.False(t, c.HasError())
+		s.False(c.HasError())
 	})
 
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().HasError())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.HasError())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.True(t, Parse("").HasError())
-		assert.True(t, Parse("0").HasError())
-		assert.True(t, Parse("xxx").HasError())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.True(c.HasError())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Now().HasError())
+	s.Run("valid carbon", func() {
+		s.False(Now().HasError())
 	})
 }
 
-func TestCarbon_IsNil(t *testing.T) {
-	t.Run("nil carbon", func(t *testing.T) {
-		c := NewCarbon()
+func (s *ComparerSuite) TestCarbon_IsNil() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
 		c = nil
-		assert.True(t, c.IsNil())
+		s.True(c.IsNil())
 	})
 
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsNil())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsNil())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsNil())
-		assert.False(t, Parse("0").IsNil())
-		assert.False(t, Parse("xxx").IsNil())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsNil())
 	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Parse("2020-08-05").IsNil())
+	s.Run("valid carbon", func() {
+		s.False(Parse("2020-08-05").IsNil())
 	})
 }
 
-func TestCarbon_IsZero(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
+func (s *ComparerSuite) TestCarbon_IsZero() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsZero())
+	})
+
+	s.Run("zero carbon", func() {
 		stdTime1 := time.Date(0001, 1, 1, 00, 00, 00, 00, time.UTC)
 		carbon1 := CreateFromDateTimeNano(0001, 1, 1, 00, 00, 00, 00, UTC)
-		assert.True(t, carbon1.IsZero())
-		assert.Equal(t, stdTime1.IsZero(), carbon1.IsZero())
+		s.True(carbon1.IsZero())
+		s.Equal(stdTime1.IsZero(), carbon1.IsZero())
 
 		stdTime2 := time.Time{}
 		carbon2 := NewCarbon()
-		assert.True(t, carbon2.IsZero())
-		assert.Equal(t, stdTime2.IsZero(), carbon2.IsZero())
+		s.True(carbon2.IsZero())
+		s.Equal(stdTime2.IsZero(), carbon2.IsZero())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsZero())
-		assert.False(t, Parse("0").IsZero())
-		assert.False(t, Parse("xxx").IsZero())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsZero())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Parse("0000-00-00 00:00:00").IsZero())
-		assert.False(t, Parse("2020-08-05").IsZero())
-		assert.False(t, Parse("0000-00-00").IsZero())
-	})
-}
-
-func TestCarbon_IsEpoch(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		carbon1 := CreateFromDateTimeNano(0001, 1, 1, 00, 00, 00, 00, UTC)
-		assert.False(t, carbon1.IsEpoch())
-
-		carbon2 := NewCarbon()
-		assert.False(t, carbon2.IsEpoch())
-	})
-
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsEpoch())
-		assert.False(t, Parse("0").IsEpoch())
-		assert.False(t, Parse("xxx").IsEpoch())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, CreateFromDateTimeNano(1970, 1, 1, 0, 0, 0, 0, UTC).IsEpoch())
-		assert.True(t, CreateFromTimestamp(0).IsEpoch())
-		assert.False(t, Parse("2020-08-05").IsEpoch())
-		assert.False(t, Parse("0000-00-00").IsEpoch())
+	s.Run("valid carbon", func() {
+		s.False(Parse("0000-00-00 00:00:00").IsZero())
+		s.False(Parse("2020-08-05").IsZero())
+		s.False(Parse("0000-00-00").IsZero())
 	})
 }
 
-func TestCarbon_IsValid(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsValid())
+func (s *ComparerSuite) TestCarbon_IsEpoch() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsEpoch())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsValid())
-		assert.False(t, Parse("0").IsValid())
-		assert.False(t, Parse("xxx").IsValid())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsEpoch())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-08").IsValid())
-	})
-}
-
-func TestCarbon_IsInvalid(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsInvalid())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsEpoch())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.True(t, Parse("").IsInvalid())
-		assert.True(t, Parse("0").IsInvalid())
-		assert.True(t, Parse("xxx").IsInvalid())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Parse("2020-08-08").IsInvalid())
+	s.Run("valid carbon", func() {
+		s.True(CreateFromDateTimeNano(1970, 1, 1, 0, 0, 0, 0, UTC).IsEpoch())
+		s.True(CreateFromTimestamp(0).IsEpoch())
+		s.False(Parse("2020-08-05").IsEpoch())
+		s.False(Parse("0000-00-00").IsEpoch())
 	})
 }
 
-func TestCarbon_IsDST(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsDST())
+func (s *ComparerSuite) TestCarbon_IsValid() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsValid())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsDST())
-		assert.False(t, Parse("0").IsDST())
-		assert.False(t, Parse("xxx").IsDST())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.True(c.IsValid())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsValid())
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-08").IsValid())
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_IsInvalid() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.True(c.IsInvalid())
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsInvalid())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.True(c.IsInvalid())
+	})
+
+	s.Run("valid carbon", func() {
+		s.False(Parse("2020-08-08").IsInvalid())
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_IsDST() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsDST())
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsDST())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsDST())
+	})
+
+	s.Run("valid carbon", func() {
 		tzWithDST, tzWithoutDST := "Australia/Sydney", "Australia/Brisbane"
-		assert.True(t, Parse("2009-01-01", tzWithDST).IsDST())
-		assert.False(t, Parse("2009-01-01", tzWithoutDST).IsDST())
+		s.True(Parse("2009-01-01", tzWithDST).IsDST())
+		s.False(Parse("2009-01-01", tzWithoutDST).IsDST())
 	})
 }
 
-func TestCarbon_IsAM(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsAM())
+func (s *ComparerSuite) TestCarbon_IsAM() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsAM())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsAM())
-		assert.False(t, Parse("0").IsAM())
-		assert.False(t, Parse("xxx").IsAM())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.True(c.IsAM())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-08 00:00:00").IsAM())
-		assert.False(t, Parse("2020-08-08 12:00:00").IsAM())
-		assert.False(t, Parse("2020-08-08 23:59:59").IsAM())
-	})
-}
-
-func TestCarbon_IsPM(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsPM())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsAM())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsPM())
-		assert.False(t, Parse("0").IsPM())
-		assert.False(t, Parse("xxx").IsPM())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Parse("2020-08-08 00:00:00").IsPM())
-		assert.True(t, Parse("2020-08-08 12:00:00").IsPM())
-		assert.True(t, Parse("2020-08-08 23:59:59").IsPM())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-08 00:00:00").IsAM())
+		s.False(Parse("2020-08-08 12:00:00").IsAM())
+		s.False(Parse("2020-08-08 23:59:59").IsAM())
 	})
 }
 
-func TestCarbon_IsLeapYear(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsLeapYear())
+func (s *ComparerSuite) TestCarbon_IsPM() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsPM())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsLeapYear())
-		assert.False(t, Parse("0").IsLeapYear())
-		assert.False(t, Parse("xxx").IsLeapYear())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsPM())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Parse("2015-01-01").IsLeapYear())
-		assert.True(t, Parse("2016-01-01").IsLeapYear())
-	})
-}
-
-func TestCarbon_IsLongYear(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsLongYear())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsPM())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsLongYear())
-		assert.False(t, Parse("0").IsLongYear())
-		assert.False(t, Parse("xxx").IsLongYear())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2015-01-01").IsLongYear())
-		assert.False(t, Parse("2016-01-01").IsLongYear())
+	s.Run("valid carbon", func() {
+		s.False(Parse("2020-08-08 00:00:00").IsPM())
+		s.True(Parse("2020-08-08 12:00:00").IsPM())
+		s.True(Parse("2020-08-08 23:59:59").IsPM())
 	})
 }
 
-func TestCarbon_IsJanuary(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsJanuary())
+func (s *ComparerSuite) TestCarbon_IsLeapYear() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsLeapYear())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsJanuary())
-		assert.False(t, Parse("0").IsJanuary())
-		assert.False(t, Parse("xxx").IsJanuary())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsLeapYear())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-01-01").IsJanuary())
-		assert.False(t, Parse("2020-02-01").IsJanuary())
-	})
-}
-
-func TestCarbon_IsFebruary(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsFebruary())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsLeapYear())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsFebruary())
-		assert.False(t, Parse("0").IsFebruary())
-		assert.False(t, Parse("xxx").IsFebruary())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-02-01").IsFebruary())
-		assert.False(t, Parse("2020-03-01").IsFebruary())
+	s.Run("valid carbon", func() {
+		s.False(Parse("2015-01-01").IsLeapYear())
+		s.True(Parse("2016-01-01").IsLeapYear())
 	})
 }
 
-func TestCarbon_IsMarch(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsMarch())
+func (s *ComparerSuite) TestCarbon_IsLongYear() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsLongYear())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsMarch())
-		assert.False(t, Parse("0").IsMarch())
-		assert.False(t, Parse("xxx").IsMarch())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsLongYear())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-03-01").IsMarch())
-		assert.False(t, Parse("2020-04-01").IsMarch())
-	})
-}
-
-func TestCarbon_IsApril(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsApril())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsLongYear())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsApril())
-		assert.False(t, Parse("0").IsApril())
-		assert.False(t, Parse("xxx").IsApril())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-04-01").IsApril())
-		assert.False(t, Parse("2020-05-01").IsApril())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2015-01-01").IsLongYear())
+		s.False(Parse("2016-01-01").IsLongYear())
 	})
 }
 
-func TestCarbon_IsMay(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsMay())
+func (s *ComparerSuite) TestCarbon_IsJanuary() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsJanuary())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsMay())
-		assert.False(t, Parse("0").IsMay())
-		assert.False(t, Parse("xxx").IsMay())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.True(c.IsJanuary())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-05-01").IsMay())
-		assert.False(t, Parse("2020-06-01").IsMay())
-	})
-}
-
-func TestCarbon_IsJune(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsJune())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsJanuary())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsJune())
-		assert.False(t, Parse("0").IsJune())
-		assert.False(t, Parse("xxx").IsJune())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-06-01").IsJune())
-		assert.False(t, Parse("2020-07-01").IsJune())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-01-01").IsJanuary())
+		s.False(Parse("2020-02-01").IsJanuary())
 	})
 }
 
-func TestCarbon_IsJuly(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsJuly())
+func (s *ComparerSuite) TestCarbon_IsFebruary() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsFebruary())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsJuly())
-		assert.False(t, Parse("0").IsJuly())
-		assert.False(t, Parse("xxx").IsJuly())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsFebruary())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-07-01").IsJuly())
-		assert.False(t, Parse("2020-08-01").IsJuly())
-	})
-}
-
-func TestCarbon_IsAugust(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsAugust())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsFebruary())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsAugust())
-		assert.False(t, Parse("0").IsAugust())
-		assert.False(t, Parse("xxx").IsAugust())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-01").IsAugust())
-		assert.False(t, Parse("2020-09-01").IsAugust())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-02-01").IsFebruary())
+		s.False(Parse("2020-03-01").IsFebruary())
 	})
 }
 
-func TestCarbon_IsSeptember(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsSeptember())
+func (s *ComparerSuite) TestCarbon_IsMarch() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsMarch())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsSeptember())
-		assert.False(t, Parse("0").IsSeptember())
-		assert.False(t, Parse("xxx").IsSeptember())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsMarch())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-09-01").IsSeptember())
-		assert.False(t, Parse("2020-10-01").IsSeptember())
-	})
-}
-
-func TestCarbon_IsOctober(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsOctober())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsMarch())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsOctober())
-		assert.False(t, Parse("0").IsOctober())
-		assert.False(t, Parse("xxx").IsOctober())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-10-01").IsOctober())
-		assert.False(t, Parse("2020-11-01").IsOctober())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-03-01").IsMarch())
+		s.False(Parse("2020-04-01").IsMarch())
 	})
 }
 
-func TestCarbon_IsNovember(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsNovember())
+func (s *ComparerSuite) TestCarbon_IsApril() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsApril())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsNovember())
-		assert.False(t, Parse("0").IsNovember())
-		assert.False(t, Parse("xxx").IsNovember())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsApril())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-11-01").IsNovember())
-		assert.False(t, Parse("2020-12-01").IsNovember())
-	})
-}
-
-func TestCarbon_IsDecember(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsDecember())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsApril())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsDecember())
-		assert.False(t, Parse("0").IsDecember())
-		assert.False(t, Parse("xxx").IsDecember())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-12-01").IsDecember())
-		assert.False(t, Parse("2020-01-01").IsDecember())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-04-01").IsApril())
+		s.False(Parse("2020-05-01").IsApril())
 	})
 }
 
-func TestCarbon_IsMonday(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsMonday())
+func (s *ComparerSuite) TestCarbon_IsMay() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsMay())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsMonday())
-		assert.False(t, Parse("0").IsMonday())
-		assert.False(t, Parse("xxx").IsMonday())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsMay())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2025-03-03").IsMonday())
-		assert.False(t, Parse("2025-03-04").IsMonday())
-	})
-}
-
-func TestCarbon_IsTuesday(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsTuesday())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsMay())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsTuesday())
-		assert.False(t, Parse("0").IsTuesday())
-		assert.False(t, Parse("xxx").IsTuesday())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2025-03-04").IsTuesday())
-		assert.False(t, Parse("2025-03-05").IsTuesday())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-05-01").IsMay())
+		s.False(Parse("2020-06-01").IsMay())
 	})
 }
 
-func TestCarbon_IsWednesday(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsWednesday())
+func (s *ComparerSuite) TestCarbon_IsJune() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsJune())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsWednesday())
-		assert.False(t, Parse("0").IsWednesday())
-		assert.False(t, Parse("xxx").IsWednesday())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsJune())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2025-03-05").IsWednesday())
-		assert.False(t, Parse("2025-03-06").IsWednesday())
-	})
-}
-
-func TestCarbon_IsThursday(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsThursday())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsJune())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsThursday())
-		assert.False(t, Parse("0").IsThursday())
-		assert.False(t, Parse("xxx").IsThursday())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2025-03-06").IsThursday())
-		assert.False(t, Parse("2025-03-07").IsThursday())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-06-01").IsJune())
+		s.False(Parse("2020-07-01").IsJune())
 	})
 }
 
-func TestCarbon_IsFriday(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsFriday())
+func (s *ComparerSuite) TestCarbon_IsJuly() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsJuly())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsFriday())
-		assert.False(t, Parse("0").IsFriday())
-		assert.False(t, Parse("xxx").IsFriday())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsJuly())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2025-03-07").IsFriday())
-		assert.False(t, Parse("2025-03-08").IsFriday())
-	})
-}
-
-func TestCarbon_IsSaturday(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsSaturday())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsJuly())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsSaturday())
-		assert.False(t, Parse("0").IsSaturday())
-		assert.False(t, Parse("xxx").IsSaturday())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2025-03-08").IsSaturday())
-		assert.False(t, Parse("2025-03-09").IsSaturday())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-07-01").IsJuly())
+		s.False(Parse("2020-08-01").IsJuly())
 	})
 }
 
-func TestCarbon_IsSunday(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsSunday())
+func (s *ComparerSuite) TestCarbon_IsAugust() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsAugust())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsSunday())
-		assert.False(t, Parse("0").IsSunday())
-		assert.False(t, Parse("xxx").IsSunday())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsAugust())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2025-03-09").IsSunday())
-		assert.False(t, Parse("2025-03-10").IsSunday())
-	})
-}
-
-func TestCarbon_IsWeekday(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsWeekday())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsAugust())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsWeekday())
-		assert.False(t, Parse("0").IsWeekday())
-		assert.False(t, Parse("xxx").IsWeekday())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Parse("2025-03-01").IsWeekday())
-		assert.False(t, Parse("2025-03-02").IsWeekday())
-		assert.True(t, Parse("2025-03-03").IsWeekday())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-01").IsAugust())
+		s.False(Parse("2020-09-01").IsAugust())
 	})
 }
 
-func TestCarbon_IsWeekend(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsWeekend())
+func (s *ComparerSuite) TestCarbon_IsSeptember() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsSeptember())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsWeekend())
-		assert.False(t, Parse("0").IsWeekend())
-		assert.False(t, Parse("xxx").IsWeekend())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsSeptember())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2025-03-01").IsWeekend())
-		assert.True(t, Parse("2025-03-02").IsWeekend())
-		assert.False(t, Parse("2025-03-03").IsWeekend())
-	})
-}
-
-func TestCarbon_IsNow(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsNow())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsSeptember())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsNow())
-		assert.False(t, Parse("0").IsNow())
-		assert.False(t, Parse("xxx").IsNow())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Yesterday().IsNow())
-		assert.True(t, Now().IsNow())
-		assert.False(t, Tomorrow().IsNow())
-		assert.False(t, Parse("2025-03-01").IsNow())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-09-01").IsSeptember())
+		s.False(Parse("2020-10-01").IsSeptember())
 	})
 }
 
-func TestCarbon_IsFuture(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsFuture())
+func (s *ComparerSuite) TestCarbon_IsOctober() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsOctober())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsFuture())
-		assert.False(t, Parse("0").IsFuture())
-		assert.False(t, Parse("xxx").IsFuture())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsOctober())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Yesterday().IsFuture())
-		assert.False(t, Now().IsFuture())
-		assert.True(t, Tomorrow().IsFuture())
-		assert.False(t, Parse("2025-03-01").IsFuture())
-	})
-}
-
-func TestCarbon_IsPast(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsPast())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsOctober())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsPast())
-		assert.False(t, Parse("0").IsPast())
-		assert.False(t, Parse("xxx").IsPast())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Yesterday().IsPast())
-		assert.False(t, Now().IsPast())
-		assert.False(t, Tomorrow().IsPast())
-		assert.True(t, Parse("2025-03-01").IsPast())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-10-01").IsOctober())
+		s.False(Parse("2020-11-01").IsOctober())
 	})
 }
 
-func TestCarbon_IsYesterday(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsYesterday())
+func (s *ComparerSuite) TestCarbon_IsNovember() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsNovember())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsYesterday())
-		assert.False(t, Parse("0").IsYesterday())
-		assert.False(t, Parse("xxx").IsYesterday())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsNovember())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Yesterday().IsYesterday())
-		assert.False(t, Now().IsYesterday())
-		assert.False(t, Tomorrow().IsYesterday())
-		assert.False(t, Parse("2025-03-01").IsYesterday())
-	})
-}
-
-func TestCarbon_IsToday(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsToday())
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsNovember())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsToday())
-		assert.False(t, Parse("0").IsToday())
-		assert.False(t, Parse("xxx").IsToday())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Yesterday().IsToday())
-		assert.True(t, Now().IsToday())
-		assert.False(t, Tomorrow().IsToday())
-		assert.False(t, Parse("2025-03-01").IsToday())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-11-01").IsNovember())
+		s.False(Parse("2020-12-01").IsNovember())
 	})
 }
 
-func TestCarbon_IsTomorrow(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsTomorrow())
+func (s *ComparerSuite) TestCarbon_IsDecember() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsDecember())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsTomorrow())
-		assert.False(t, Parse("0").IsTomorrow())
-		assert.False(t, Parse("xxx").IsTomorrow())
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsDecember())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Yesterday().IsTomorrow())
-		assert.False(t, Now().IsTomorrow())
-		assert.True(t, Tomorrow().IsTomorrow())
-		assert.False(t, Parse("2025-03-01").IsTomorrow())
-	})
-}
-
-func TestCarbon_IsSameCentury(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsSameCentury(NewCarbon()))
-		assert.False(t, Now().IsSameCentury(NewCarbon()))
-		assert.False(t, NewCarbon().IsSameCentury(Now()))
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsDecember())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").IsSameCentury(Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").IsSameCentury(Parse("xxx")))
-		assert.False(t, Parse("xxx").IsSameCentury(Parse("xxx")))
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05").IsSameCentury(Parse("2010-01-01")))
-		assert.True(t, Parse("2020-08-05").IsSameCentury(Parse("2030-12-31")))
-		assert.False(t, Parse("2020-08-05").IsSameCentury(Parse("2100-08-05")))
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-12-01").IsDecember())
+		s.False(Parse("2020-01-01").IsDecember())
 	})
 }
 
-func TestCarbon_IsSameDecade(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsSameDecade(NewCarbon()))
-		assert.False(t, Now().IsSameDecade(NewCarbon()))
-		assert.False(t, NewCarbon().IsSameDecade(Now()))
+func (s *ComparerSuite) TestCarbon_IsMonday() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsMonday())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").IsSameDecade(Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").IsSameDecade(Parse("xxx")))
-		assert.False(t, Parse("xxx").IsSameDecade(Parse("xxx")))
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.True(c.IsMonday())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05").IsSameDecade(Parse("2020-01-01")))
-		assert.True(t, Parse("2020-08-05").IsSameDecade(Parse("2020-12-31")))
-		assert.False(t, Parse("2020-08-05").IsSameDecade(Parse("2010-08-05")))
-	})
-}
-
-func TestCarbon_IsSameYear(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsSameYear(NewCarbon()))
-		assert.False(t, Now().IsSameYear(NewCarbon()))
-		assert.False(t, NewCarbon().IsSameYear(Now()))
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsMonday())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").IsSameYear(Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").IsSameYear(Parse("xxx")))
-		assert.False(t, Parse("xxx").IsSameYear(Parse("xxx")))
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Parse("2020-08-05").IsSameYear(Parse("2010-08-05")))
-		assert.True(t, Parse("2020-08-05").IsSameYear(Parse("2020-01-01")))
-		assert.True(t, Parse("2020-08-05").IsSameYear(Parse("2020-12-31")))
+	s.Run("valid carbon", func() {
+		s.True(Parse("2025-03-03").IsMonday())
+		s.False(Parse("2025-03-04").IsMonday())
 	})
 }
 
-func TestCarbon_IsSameQuarter(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsSameQuarter(NewCarbon()))
-		assert.False(t, Parse("2020-08-05").IsSameQuarter(NewCarbon()))
-		assert.False(t, NewCarbon().IsSameQuarter(Parse("2020-08-05")))
+func (s *ComparerSuite) TestCarbon_IsTuesday() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsTuesday())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").IsSameQuarter(Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").IsSameQuarter(Parse("xxx")))
-		assert.False(t, Parse("xxx").IsSameQuarter(Parse("xxx")))
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsTuesday())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05").IsSameQuarter(Parse("2020-08-06")))
-		assert.False(t, Parse("2020-08-05").IsSameQuarter(Parse("2010-08-05")))
-		assert.False(t, Parse("2020-08-05").IsSameQuarter(Parse("2010-01-05")))
-	})
-}
-
-func TestCarbon_IsSameMonth(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsSameMonth(NewCarbon()))
-		assert.False(t, Parse("2020-08-05").IsSameMonth(NewCarbon()))
-		assert.False(t, NewCarbon().IsSameMonth(Parse("2020-08-05")))
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsTuesday())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").IsSameMonth(Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").IsSameMonth(Parse("xxx")))
-		assert.False(t, Parse("xxx").IsSameMonth(Parse("xxx")))
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05").IsSameMonth(Parse("2020-08-01")))
-		assert.False(t, Parse("2020-08-05").IsSameMonth(Parse("2021-08-05")))
-		assert.False(t, Parse("2020-08-05").IsSameMonth(Parse("2020-09-05")))
+	s.Run("valid carbon", func() {
+		s.True(Parse("2025-03-04").IsTuesday())
+		s.False(Parse("2025-03-05").IsTuesday())
 	})
 }
 
-func TestCarbon_IsSameDay(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsSameDay(NewCarbon()))
-		assert.False(t, Parse("2020-08-05").IsSameDay(NewCarbon()))
-		assert.False(t, NewCarbon().IsSameDay(Parse("2020-08-05")))
+func (s *ComparerSuite) TestCarbon_IsWednesday() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsWednesday())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").IsSameDay(Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").IsSameDay(Parse("xxx")))
-		assert.False(t, Parse("xxx").IsSameDay(Parse("xxx")))
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsWednesday())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05 00:00:00").IsSameDay(Parse("2020-08-05 23:59:59")))
-		assert.False(t, Parse("2020-08-05 00:00:00").IsSameDay(Parse("2021-08-05 00:00:00")))
-		assert.False(t, Parse("2020-08-05 00:00:00").IsSameDay(Parse("2020-09-05 00:00:00")))
-	})
-}
-
-func TestCarbon_IsSameHour(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsSameHour(NewCarbon()))
-		assert.False(t, Parse("2020-08-05").IsSameHour(NewCarbon()))
-		assert.False(t, NewCarbon().IsSameHour(Parse("2020-08-05")))
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsWednesday())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").IsSameHour(Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").IsSameHour(Parse("xxx")))
-		assert.False(t, Parse("xxx").IsSameHour(Parse("xxx")))
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05 22:00:00").IsSameHour(Parse("2020-08-05 22:59:59")))
-		assert.False(t, Parse("2020-08-05 22:00:00").IsSameHour(Parse("2021-08-05 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").IsSameHour(Parse("2020-09-05 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").IsSameHour(Parse("2020-08-06 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").IsSameHour(Parse("2020-08-05 23:00:00")))
+	s.Run("valid carbon", func() {
+		s.True(Parse("2025-03-05").IsWednesday())
+		s.False(Parse("2025-03-06").IsWednesday())
 	})
 }
 
-func TestCarbon_IsSameMinute(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsSameMinute(NewCarbon()))
-		assert.False(t, Parse("2020-08-05").IsSameMinute(NewCarbon()))
-		assert.False(t, NewCarbon().IsSameMinute(Parse("2020-08-05")))
+func (s *ComparerSuite) TestCarbon_IsThursday() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsThursday())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").IsSameMinute(Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").IsSameMinute(Parse("xxx")))
-		assert.False(t, Parse("xxx").IsSameMinute(Parse("xxx")))
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsThursday())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05 22:00:00").IsSameMinute(Parse("2020-08-05 22:00:59")))
-		assert.False(t, Parse("2020-08-05 22:00:00").IsSameMinute(Parse("2021-08-05 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").IsSameMinute(Parse("2020-08-06 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").IsSameMinute(Parse("2020-08-05 23:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").IsSameMinute(Parse("2020-08-05 22:01:00")))
-	})
-}
-
-func TestCarbon_IsSameSecond(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsSameSecond(NewCarbon()))
-		assert.False(t, Parse("2020-08-05").IsSameSecond(NewCarbon()))
-		assert.False(t, NewCarbon().IsSameSecond(Parse("2020-08-05")))
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsThursday())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").IsSameSecond(Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").IsSameSecond(Parse("xxx")))
-		assert.False(t, Parse("xxx").IsSameSecond(Parse("xxx")))
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05 22:00:00").IsSameSecond(Parse("2020-08-05 22:00:00.999999")))
-		assert.False(t, Parse("2020-08-05 22:00:00").IsSameSecond(Parse("2021-08-05 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").IsSameSecond(Parse("2020-09-05 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").IsSameSecond(Parse("2020-08-06 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").IsSameSecond(Parse("2020-08-05 23:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").IsSameSecond(Parse("2020-08-05 22:01:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").IsSameSecond(Parse("2020-08-05 22:00:01")))
+	s.Run("valid carbon", func() {
+		s.True(Parse("2025-03-06").IsThursday())
+		s.False(Parse("2025-03-07").IsThursday())
 	})
 }
 
-func TestCarbon_Compare(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().Compare("=", NewCarbon()))
-		assert.False(t, Parse("2020-08-05").Compare("=", NewCarbon()))
-		assert.False(t, NewCarbon().Compare("=", Parse("2020-08-05")))
+func (s *ComparerSuite) TestCarbon_IsFriday() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsFriday())
 	})
 
-	t.Run("invalid operator", func(t *testing.T) {
-		assert.False(t, Now().Compare("", Yesterday()))
-		assert.False(t, Now().Compare("%", Yesterday()))
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsFriday())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").Compare("<", Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").Compare(">", Parse("xxx")))
-		assert.False(t, Parse("xxx").Compare("!=", Parse("xxx")))
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsFriday())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05 22:00:00").Compare("=", Parse("2020-08-05 22:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").Compare(">=", Parse("2020-08-05 22:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").Compare("<=", Parse("2020-08-05 22:00:00")))
-
-		assert.True(t, Parse("2020-08-05 22:00:00").Compare(">", Parse("2020-07-05 22:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").Compare(">=", Parse("2020-07-05 22:00:00")))
-
-		assert.True(t, Parse("2020-08-05 22:00:00").Compare("<", Parse("2020-09-05 22:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").Compare("<=", Parse("2020-09-05 22:00:00")))
-
-		assert.True(t, Parse("2020-08-05 22:00:00").Compare("<>", Parse("2020-06-05 22:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").Compare("!=", Parse("2020-06-05 22:00:00")))
+	s.Run("valid carbon", func() {
+		s.True(Parse("2025-03-07").IsFriday())
+		s.False(Parse("2025-03-08").IsFriday())
 	})
 }
 
-func TestCarbon_Gt(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().Gt(NewCarbon()))
-		assert.True(t, Parse("2020-08-05").Gt(NewCarbon()))
-		assert.False(t, NewCarbon().Gt(Parse("2020-08-05")))
+func (s *ComparerSuite) TestCarbon_IsSaturday() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsSaturday())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").Gt(Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").Gt(Parse("xxx")))
-		assert.False(t, Parse("xxx").Gt(Parse("xxx")))
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsSaturday())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05 22:00:00").Gt(Parse("2020-08-05 21:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").Gt(Parse("2020-08-05 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").Gt(Parse("2020-08-05 23:00:00")))
-	})
-}
-
-func TestCarbon_Lt(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().Lt(NewCarbon()))
-		assert.False(t, Parse("2020-08-05").Lt(NewCarbon()))
-		assert.True(t, NewCarbon().Lt(Parse("2020-08-05")))
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsSaturday())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").Lt(Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").Lt(Parse("xxx")))
-		assert.False(t, Parse("xxx").Lt(Parse("xxx")))
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Parse("2020-08-05 22:00:00").Lt(Parse("2020-08-05 21:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").Lt(Parse("2020-08-05 22:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").Lt(Parse("2020-08-05 23:00:00")))
+	s.Run("valid carbon", func() {
+		s.True(Parse("2025-03-08").IsSaturday())
+		s.False(Parse("2025-03-09").IsSaturday())
 	})
 }
 
-func TestCarbon_Eq(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().Eq(NewCarbon()))
-		assert.False(t, Parse("2020-08-05").Eq(NewCarbon()))
-		assert.False(t, NewCarbon().Eq(Parse("2020-08-05")))
+func (s *ComparerSuite) TestCarbon_IsSunday() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsSunday())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").Eq(Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").Eq(Parse("xxx")))
-		assert.False(t, Parse("xxx").Eq(Parse("xxx")))
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsSunday())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Parse("2020-08-05 22:00:00").Eq(Parse("2020-08-05 21:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").Eq(Parse("2020-08-05 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").Eq(Parse("2020-08-05 23:00:00")))
-	})
-}
-
-func TestCarbon_Ne(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().Ne(NewCarbon()))
-		assert.True(t, Parse("2020-08-05").Ne(NewCarbon()))
-		assert.True(t, NewCarbon().Ne(Parse("2020-08-05")))
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsSunday())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").Ne(Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").Ne(Parse("xxx")))
-		assert.False(t, Parse("xxx").Ne(Parse("xxx")))
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05 22:00:00").Ne(Parse("2020-08-05 21:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").Ne(Parse("2020-08-05 22:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").Ne(Parse("2020-08-05 23:00:00")))
+	s.Run("valid carbon", func() {
+		s.True(Parse("2025-03-09").IsSunday())
+		s.False(Parse("2025-03-10").IsSunday())
 	})
 }
 
-func TestCarbon_Gte(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().Gte(NewCarbon()))
-		assert.True(t, Parse("2020-08-05").Gte(NewCarbon()))
-		assert.False(t, NewCarbon().Gte(Parse("2020-08-05")))
+func (s *ComparerSuite) TestCarbon_IsWeekday() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsWeekday())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").Gte(Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").Gte(Parse("xxx")))
-		assert.False(t, Parse("xxx").Gte(Parse("xxx")))
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.True(c.IsWeekday())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05 22:00:00").Gte(Parse("2020-08-05 21:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").Gte(Parse("2020-08-05 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").Gte(Parse("2020-08-05 23:00:00")))
-	})
-}
-
-func TestCarbon_Lte(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().Lte(NewCarbon()))
-		assert.False(t, Parse("2020-08-05").Lte(NewCarbon()))
-		assert.True(t, NewCarbon().Lte(Parse("2020-08-05")))
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsWeekday())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").Lte(Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").Lte(Parse("xxx")))
-		assert.False(t, Parse("xxx").Lte(Parse("xxx")))
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Parse("2020-08-05 22:00:00").Lte(Parse("2020-08-05 21:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").Lte(Parse("2020-08-05 22:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").Lte(Parse("2020-08-05 23:00:00")))
+	s.Run("valid carbon", func() {
+		s.False(Parse("2025-03-01").IsWeekday())
+		s.False(Parse("2025-03-02").IsWeekday())
+		s.True(Parse("2025-03-03").IsWeekday())
 	})
 }
 
-func TestCarbon_Between(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().Between(NewCarbon(), NewCarbon()))
-		assert.False(t, Parse("2020-08-05").Between(NewCarbon(), NewCarbon()))
-		assert.False(t, NewCarbon().Between(NewCarbon(), Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").Between(NewCarbon(), Parse("2020-08-05")))
-		assert.True(t, Parse("2020-08-05").Between(NewCarbon(), Parse("2020-08-06")))
+func (s *ComparerSuite) TestCarbon_IsWeekend() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsWeekend())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").Between(Parse("xxx"), Parse("xxx")))
-
-		assert.False(t, Parse("xxx").Between(Parse("xxx"), Parse("2020-08-05")))
-		assert.False(t, Parse("xxx").Between(Parse("2020-08-05"), Parse("2020-08-05")))
-
-		assert.False(t, Parse("2020-08-05").Between(Parse("xxx"), Parse("xxx")))
-		assert.False(t, Parse("2020-08-05").Between(Parse("xxx"), Parse("2020-08-05")))
-
-		assert.False(t, Parse("2020-08-05").Between(Parse("2020-08-05"), Parse("xxx")))
-		assert.False(t, Parse("xxx").Between(Parse("2020-08-05"), Parse("xxx")))
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsWeekend())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05 22:00:00").Between(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 23:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").Between(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 23:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").Between(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").Between(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").Between(Parse("2021-08-05 22:00:00"), Parse("2019-08-05 22:00:00")))
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsWeekend())
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2025-03-01").IsWeekend())
+		s.True(Parse("2025-03-02").IsWeekend())
+		s.False(Parse("2025-03-03").IsWeekend())
 	})
 }
 
-func TestCarbon_BetweenIncludedStart(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().BetweenIncludedStart(NewCarbon(), NewCarbon()))
-		assert.False(t, Parse("2020-08-05").BetweenIncludedStart(NewCarbon(), NewCarbon()))
-		assert.True(t, NewCarbon().BetweenIncludedStart(NewCarbon(), Parse("2020-08-05")))
-		assert.False(t, Parse("2020-08-05").BetweenIncludedStart(NewCarbon(), Parse("2020-08-05")))
-		assert.True(t, Parse("2020-08-05").BetweenIncludedStart(NewCarbon(), Parse("2020-08-06")))
-		assert.False(t, Parse("2020-08-05").BetweenIncludedStart(Parse("2020-08-05"), NewCarbon()))
+func (s *ComparerSuite) TestCarbon_IsNow() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsNow())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").BetweenIncludedStart(Parse("xxx"), Parse("xxx")))
-
-		assert.False(t, Parse("xxx").BetweenIncludedStart(Parse("xxx"), Parse("2020-08-05")))
-		assert.False(t, Parse("xxx").BetweenIncludedStart(Parse("2020-08-05"), Parse("2020-08-05")))
-
-		assert.False(t, Parse("2020-08-05").BetweenIncludedStart(Parse("xxx"), Parse("xxx")))
-		assert.False(t, Parse("2020-08-05").BetweenIncludedStart(Parse("xxx"), Parse("2020-08-05")))
-
-		assert.False(t, Parse("2020-08-05").BetweenIncludedStart(Parse("2020-08-05"), Parse("xxx")))
-		assert.False(t, Parse("xxx").BetweenIncludedStart(Parse("2020-08-05"), Parse("xxx")))
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsNow())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Parse("2020-08-05 22:00:00").BetweenIncludedStart(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 22:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").BetweenIncludedStart(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 23:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").BetweenIncludedStart(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 23:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").BetweenIncludedStart(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").BetweenIncludedStart(Parse("2022-08-05 22:00:00"), Parse("2021-08-05 22:00:00")))
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsNow())
+	})
+
+	s.Run("valid carbon", func() {
+		s.False(Yesterday().IsNow())
+		s.True(Now().IsNow())
+		s.False(Tomorrow().IsNow())
+		s.False(Parse("2025-03-01").IsNow())
 	})
 }
 
-func TestCarbon_BetweenIncludedEnd(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().BetweenIncludedEnd(NewCarbon(), NewCarbon()))
-		assert.False(t, Parse("2020-08-05").BetweenIncludedEnd(NewCarbon(), NewCarbon()))
-		assert.False(t, NewCarbon().BetweenIncludedEnd(NewCarbon(), Parse("2020-08-05")))
-		assert.True(t, Parse("2020-08-05").BetweenIncludedEnd(NewCarbon(), Parse("2020-08-05")))
-		assert.True(t, Parse("2020-08-05").BetweenIncludedEnd(NewCarbon(), Parse("2020-08-06")))
-		assert.False(t, Parse("2020-08-05").BetweenIncludedEnd(Parse("2020-08-05"), NewCarbon()))
+func (s *ComparerSuite) TestCarbon_IsFuture() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsFuture())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").BetweenIncludedEnd(Parse("xxx"), Parse("xxx")))
-
-		assert.False(t, Parse("xxx").BetweenIncludedEnd(Parse("xxx"), Parse("2020-08-05")))
-		assert.False(t, Parse("xxx").BetweenIncludedEnd(Parse("2020-08-05"), Parse("2020-08-05")))
-
-		assert.False(t, Parse("2020-08-05").BetweenIncludedEnd(Parse("xxx"), Parse("xxx")))
-		assert.False(t, Parse("2020-08-05").BetweenIncludedEnd(Parse("xxx"), Parse("2020-08-05")))
-
-		assert.False(t, Parse("2020-08-05").BetweenIncludedEnd(Parse("2020-08-05"), Parse("xxx")))
-		assert.False(t, Parse("xxx").BetweenIncludedEnd(Parse("2020-08-05"), Parse("xxx")))
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsFuture())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.False(t, Parse("2020-08-05 22:00:00").BetweenIncludedEnd(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 22:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").BetweenIncludedEnd(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 23:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").BetweenIncludedEnd(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 23:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").BetweenIncludedEnd(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").BetweenIncludedEnd(Parse("2022-08-05 22:00:00"), Parse("2021-08-05 22:00:00")))
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsFuture())
+	})
+
+	s.Run("valid carbon", func() {
+		s.False(Yesterday().IsFuture())
+		s.False(Now().IsFuture())
+		s.True(Tomorrow().IsFuture())
+		s.False(Parse("2025-03-01").IsFuture())
 	})
 }
 
-func TestCarbon_BetweenIncludedBoth(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().BetweenIncludedBoth(NewCarbon(), NewCarbon()))
-		assert.False(t, Parse("2020-08-05").BetweenIncludedBoth(NewCarbon(), NewCarbon()))
-		assert.True(t, NewCarbon().BetweenIncludedBoth(NewCarbon(), Parse("2020-08-05")))
-		assert.True(t, Parse("2020-08-05").BetweenIncludedBoth(NewCarbon(), Parse("2020-08-05")))
-		assert.True(t, Parse("2020-08-05").BetweenIncludedBoth(NewCarbon(), Parse("2020-08-06")))
-		assert.False(t, Parse("2020-08-05").BetweenIncludedBoth(Parse("2020-08-05"), NewCarbon()))
+func (s *ComparerSuite) TestCarbon_IsPast() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsPast())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("xxx").BetweenIncludedBoth(Parse("xxx"), Parse("xxx")))
-
-		assert.False(t, Parse("xxx").BetweenIncludedBoth(Parse("xxx"), Parse("2020-08-05")))
-		assert.False(t, Parse("xxx").BetweenIncludedBoth(Parse("2020-08-05"), Parse("2020-08-05")))
-
-		assert.False(t, Parse("2020-08-05").BetweenIncludedBoth(Parse("xxx"), Parse("xxx")))
-		assert.False(t, Parse("2020-08-05").BetweenIncludedBoth(Parse("xxx"), Parse("2020-08-05")))
-
-		assert.False(t, Parse("2020-08-05").BetweenIncludedBoth(Parse("2020-08-05"), Parse("xxx")))
-		assert.False(t, Parse("xxx").BetweenIncludedBoth(Parse("2020-08-05"), Parse("xxx")))
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.True(c.IsPast())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-05 22:00:00").BetweenIncludedBoth(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 22:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").BetweenIncludedBoth(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 23:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").BetweenIncludedBoth(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 23:00:00")))
-		assert.True(t, Parse("2020-08-05 22:00:00").BetweenIncludedBoth(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 22:00:00")))
-		assert.False(t, Parse("2020-08-05 22:00:00").BetweenIncludedBoth(Parse("2022-08-05 22:00:00"), Parse("2021-08-05 22:00:00")))
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsPast())
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Yesterday().IsPast())
+		s.False(Now().IsPast())
+		s.False(Tomorrow().IsPast())
+		s.True(Parse("2025-03-01").IsPast())
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_IsYesterday() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsYesterday())
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsYesterday())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsYesterday())
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Yesterday().IsYesterday())
+		s.False(Now().IsYesterday())
+		s.False(Tomorrow().IsYesterday())
+		s.False(Parse("2025-03-01").IsYesterday())
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_IsToday() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsToday())
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsToday())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsToday())
+	})
+
+	s.Run("valid carbon", func() {
+		s.False(Yesterday().IsToday())
+		s.True(Now().IsToday())
+		s.False(Tomorrow().IsToday())
+		s.False(Parse("2025-03-01").IsToday())
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_IsTomorrow() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsTomorrow())
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsTomorrow())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsTomorrow())
+	})
+
+	s.Run("valid carbon", func() {
+		s.False(Yesterday().IsTomorrow())
+		s.False(Now().IsTomorrow())
+		s.True(Tomorrow().IsTomorrow())
+		s.False(Parse("2025-03-01").IsTomorrow())
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_IsSameCentury() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsSameCentury(NewCarbon()))
+		s.False(Now().IsSameCentury(c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsSameCentury(Now()))
+		s.False(Now().IsSameCentury(c))
+		s.True(c.IsSameCentury(c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsSameCentury(Now()))
+		s.False(Now().IsSameCentury(c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-05").IsSameCentury(Parse("2010-01-01")))
+		s.True(Parse("2020-08-05").IsSameCentury(Parse("2030-12-31")))
+		s.False(Parse("2020-08-05").IsSameCentury(Parse("2100-08-05")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_IsSameDecade() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsSameDecade(NewCarbon()))
+		s.False(Now().IsSameDecade(c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsSameDecade(Now()))
+		s.False(Now().IsSameDecade(c))
+		s.True(c.IsSameDecade(c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsSameDecade(Now()))
+		s.False(Now().IsSameDecade(c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-05").IsSameDecade(Parse("2020-01-01")))
+		s.True(Parse("2020-08-05").IsSameDecade(Parse("2020-12-31")))
+		s.False(Parse("2020-08-05").IsSameDecade(Parse("2010-08-05")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_IsSameYear() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsSameYear(NewCarbon()))
+		s.False(Now().IsSameYear(c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsSameYear(Now()))
+		s.False(Now().IsSameYear(c))
+		s.True(c.IsSameYear(c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsSameYear(Now()))
+		s.False(Now().IsSameYear(c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.False(Parse("2020-08-05").IsSameYear(Parse("2010-08-05")))
+		s.True(Parse("2020-08-05").IsSameYear(Parse("2020-01-01")))
+		s.True(Parse("2020-08-05").IsSameYear(Parse("2020-12-31")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_IsSameQuarter() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsSameQuarter(NewCarbon()))
+		s.False(Now().IsSameQuarter(c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsSameQuarter(Now()))
+		s.False(Now().IsSameQuarter(c))
+		s.True(c.IsSameQuarter(c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsSameQuarter(Now()))
+		s.False(Now().IsSameQuarter(c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-05").IsSameQuarter(Parse("2020-08-06")))
+		s.False(Parse("2020-08-05").IsSameQuarter(Parse("2010-08-05")))
+		s.False(Parse("2020-08-05").IsSameQuarter(Parse("2010-01-05")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_IsSameMonth() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsSameMonth(NewCarbon()))
+		s.False(Now().IsSameMonth(c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsSameMonth(Now()))
+		s.False(Now().IsSameMonth(c))
+		s.True(c.IsSameMonth(c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsSameMonth(Now()))
+		s.False(Now().IsSameMonth(c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-05").IsSameMonth(Parse("2020-08-01")))
+		s.False(Parse("2020-08-05").IsSameMonth(Parse("2021-08-05")))
+		s.False(Parse("2020-08-05").IsSameMonth(Parse("2020-09-05")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_IsSameDay() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsSameDay(NewCarbon()))
+		s.False(Now().IsSameDay(c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsSameDay(Now()))
+		s.False(Now().IsSameDay(c))
+		s.True(c.IsSameDay(c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsSameDay(Now()))
+		s.False(Now().IsSameDay(c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-05 00:00:00").IsSameDay(Parse("2020-08-05 23:59:59")))
+		s.False(Parse("2020-08-05 00:00:00").IsSameDay(Parse("2021-08-05 00:00:00")))
+		s.False(Parse("2020-08-05 00:00:00").IsSameDay(Parse("2020-09-05 00:00:00")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_IsSameHour() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsSameHour(NewCarbon()))
+		s.False(Now().IsSameHour(c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsSameHour(Now()))
+		s.False(Now().IsSameHour(c))
+		s.True(c.IsSameHour(c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsSameHour(Now()))
+		s.False(Now().IsSameHour(c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-05 22:00:00").IsSameHour(Parse("2020-08-05 22:59:59")))
+		s.False(Parse("2020-08-05 22:00:00").IsSameHour(Parse("2021-08-05 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").IsSameHour(Parse("2020-09-05 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").IsSameHour(Parse("2020-08-06 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").IsSameHour(Parse("2020-08-05 23:00:00")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_IsSameMinute() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsSameMinute(NewCarbon()))
+		s.False(Now().IsSameMinute(c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsSameMinute(Now()))
+		s.False(Now().IsSameMinute(c))
+		s.True(c.IsSameMinute(c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsSameMinute(Now()))
+		s.False(Now().IsSameMinute(c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-05 22:00:00").IsSameMinute(Parse("2020-08-05 22:00:59")))
+		s.False(Parse("2020-08-05 22:00:00").IsSameMinute(Parse("2021-08-05 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").IsSameMinute(Parse("2020-08-06 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").IsSameMinute(Parse("2020-08-05 23:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").IsSameMinute(Parse("2020-08-05 22:01:00")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_IsSameSecond() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsSameSecond(NewCarbon()))
+		s.False(Now().IsSameSecond(c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.IsSameSecond(Now()))
+		s.False(Now().IsSameSecond(c))
+		s.True(c.IsSameSecond(c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.IsSameSecond(Now()))
+		s.False(Now().IsSameSecond(c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-05 22:00:00").IsSameSecond(Parse("2020-08-05 22:00:00.999999")))
+		s.False(Parse("2020-08-05 22:00:00").IsSameSecond(Parse("2021-08-05 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").IsSameSecond(Parse("2020-09-05 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").IsSameSecond(Parse("2020-08-06 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").IsSameSecond(Parse("2020-08-05 23:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").IsSameSecond(Parse("2020-08-05 22:01:00")))
+		s.False(Parse("2020-08-05 22:00:00").IsSameSecond(Parse("2020-08-05 22:00:01")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_Compare() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.Compare("<", Now()))
+		s.False(Now().Compare("<", c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.Compare("=", Now()))
+		s.False(Now().Compare("=", c))
+		s.True(c.Compare("=", c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.Compare("<", Now()))
+		s.False(Now().Compare(">", c))
+		s.False(c.Compare("!=", c))
+	})
+
+	s.Run("invalid operator", func() {
+		s.False(Now().Compare("", Yesterday()))
+		s.False(Now().Compare("%", Yesterday()))
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-05 22:00:00").Compare("=", Parse("2020-08-05 22:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").Compare(">=", Parse("2020-08-05 22:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").Compare("<=", Parse("2020-08-05 22:00:00")))
+
+		s.True(Parse("2020-08-05 22:00:00").Compare(">", Parse("2020-07-05 22:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").Compare(">=", Parse("2020-07-05 22:00:00")))
+
+		s.True(Parse("2020-08-05 22:00:00").Compare("<", Parse("2020-09-05 22:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").Compare("<=", Parse("2020-09-05 22:00:00")))
+
+		s.True(Parse("2020-08-05 22:00:00").Compare("<>", Parse("2020-06-05 22:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").Compare("!=", Parse("2020-06-05 22:00:00")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_Gt() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.Gt(Now()))
+		s.False(Now().Gt(c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.Gt(Now()))
+		s.True(Now().Gt(c))
+		s.False(c.Gt(c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.Gt(Now()))
+		s.False(Now().Gt(c))
+		s.False(c.Gt(c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-05 22:00:00").Gt(Parse("2020-08-05 21:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").Gt(Parse("2020-08-05 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").Gt(Parse("2020-08-05 23:00:00")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_Lt() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.Lt(Now()))
+		s.False(Now().Lt(c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.True(c.Lt(Now()))
+		s.False(Now().Lt(c))
+		s.False(c.Lt(c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.Lt(Now()))
+		s.False(Now().Lt(c))
+		s.False(c.Lt(c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.False(Parse("2020-08-05 22:00:00").Lt(Parse("2020-08-05 21:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").Lt(Parse("2020-08-05 22:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").Lt(Parse("2020-08-05 23:00:00")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_Eq() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.Eq(Now()))
+		s.False(Now().Eq(c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.Eq(Now()))
+		s.False(Now().Eq(c))
+		s.True(c.Eq(c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.Eq(Now()))
+		s.False(Now().Eq(c))
+		s.False(c.Eq(c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.False(Parse("2020-08-05 22:00:00").Eq(Parse("2020-08-05 21:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").Eq(Parse("2020-08-05 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").Eq(Parse("2020-08-05 23:00:00")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_Ne() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.Ne(Now()))
+		s.False(Now().Ne(c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.True(c.Ne(Now()))
+		s.True(Now().Ne(c))
+		s.False(c.Ne(c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.Ne(Now()))
+		s.False(Now().Ne(c))
+		s.False(c.Ne(c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-05 22:00:00").Ne(Parse("2020-08-05 21:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").Ne(Parse("2020-08-05 22:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").Ne(Parse("2020-08-05 23:00:00")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_Gte() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.Gte(Now()))
+		s.False(Now().Gte(c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.Gte(Now()))
+		s.True(Now().Gte(c))
+		s.True(c.Gte(c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.Gte(Now()))
+		s.False(Now().Gte(c))
+		s.False(c.Gte(c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-05 22:00:00").Gte(Parse("2020-08-05 21:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").Gte(Parse("2020-08-05 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").Gte(Parse("2020-08-05 23:00:00")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_Lte() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.Lte(Now()))
+		s.False(Now().Lte(c))
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.True(c.Lte(Now()))
+		s.False(Now().Lte(c))
+		s.True(c.Lte(c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.Lte(Now()))
+		s.False(Now().Lte(c))
+		s.False(c.Lte(c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.False(Parse("2020-08-05 22:00:00").Lte(Parse("2020-08-05 21:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").Lte(Parse("2020-08-05 22:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").Lte(Parse("2020-08-05 23:00:00")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_Between() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.Between(Now(), Tomorrow()))
+		s.False(Now().Between(c, Tomorrow()))
+		s.False(Yesterday().Between(Now(), c))
+		s.False(Yesterday().Between(c, c))
+		s.False(c.Between(c, Tomorrow()))
+		s.False(c.Between(c, c))
+
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.Between(Now(), Tomorrow()))
+		s.True(Now().Between(c, Tomorrow()))
+		s.False(Yesterday().Between(Now(), c))
+		s.False(Yesterday().Between(c, c))
+		s.False(c.Between(c, Tomorrow()))
+		s.False(c.Between(c, c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.Between(Now(), Tomorrow()))
+		s.False(Now().Between(c, Tomorrow()))
+		s.False(Yesterday().Between(Now(), c))
+		s.False(Yesterday().Between(c, c))
+		s.False(c.Between(c, Tomorrow()))
+		s.False(c.Between(c, c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-05 22:00:00").Between(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 23:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").Between(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 23:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").Between(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").Between(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").Between(Parse("2021-08-05 22:00:00"), Parse("2019-08-05 22:00:00")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_BetweenIncludedStart() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.BetweenIncludedStart(Now(), Tomorrow()))
+		s.False(Now().BetweenIncludedStart(c, Tomorrow()))
+		s.False(Yesterday().BetweenIncludedStart(Now(), c))
+		s.False(Yesterday().BetweenIncludedStart(c, c))
+		s.False(c.BetweenIncludedStart(c, Tomorrow()))
+		s.False(c.BetweenIncludedStart(c, c))
+
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.BetweenIncludedStart(Now(), Tomorrow()))
+		s.True(Now().BetweenIncludedStart(c, Tomorrow()))
+		s.False(Yesterday().BetweenIncludedStart(Now(), c))
+		s.False(Yesterday().BetweenIncludedStart(c, c))
+		s.True(c.BetweenIncludedStart(c, Tomorrow()))
+		s.True(c.BetweenIncludedStart(c, c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.BetweenIncludedStart(Now(), Tomorrow()))
+		s.False(Now().BetweenIncludedStart(c, Tomorrow()))
+		s.False(Yesterday().BetweenIncludedStart(Now(), c))
+		s.False(Yesterday().BetweenIncludedStart(c, c))
+		s.False(c.BetweenIncludedStart(c, Tomorrow()))
+		s.False(c.BetweenIncludedStart(c, c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.False(Parse("2020-08-05 22:00:00").BetweenIncludedStart(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 22:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").BetweenIncludedStart(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 23:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").BetweenIncludedStart(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 23:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").BetweenIncludedStart(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").BetweenIncludedStart(Parse("2022-08-05 22:00:00"), Parse("2021-08-05 22:00:00")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_BetweenIncludedEnd() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.BetweenIncludedEnd(Now(), Tomorrow()))
+		s.False(Now().BetweenIncludedEnd(c, Tomorrow()))
+		s.False(Yesterday().BetweenIncludedEnd(Now(), c))
+		s.False(Yesterday().BetweenIncludedEnd(c, c))
+		s.False(c.BetweenIncludedEnd(c, Tomorrow()))
+		s.False(c.BetweenIncludedEnd(c, c))
+
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.BetweenIncludedEnd(Now(), Tomorrow()))
+		s.True(Now().BetweenIncludedEnd(c, Tomorrow()))
+		s.False(Yesterday().BetweenIncludedEnd(Now(), c))
+		s.False(Yesterday().BetweenIncludedEnd(c, c))
+		s.False(c.BetweenIncludedEnd(c, Tomorrow()))
+		s.True(c.BetweenIncludedEnd(c, c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.BetweenIncludedEnd(Now(), Tomorrow()))
+		s.False(Now().BetweenIncludedEnd(c, Tomorrow()))
+		s.False(Yesterday().BetweenIncludedEnd(Now(), c))
+		s.False(Yesterday().BetweenIncludedEnd(c, c))
+		s.False(c.BetweenIncludedEnd(c, Tomorrow()))
+		s.False(c.BetweenIncludedEnd(c, c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.False(Parse("2020-08-05 22:00:00").BetweenIncludedEnd(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 22:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").BetweenIncludedEnd(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 23:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").BetweenIncludedEnd(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 23:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").BetweenIncludedEnd(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").BetweenIncludedEnd(Parse("2022-08-05 22:00:00"), Parse("2021-08-05 22:00:00")))
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_BetweenIncludedBoth() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.BetweenIncludedBoth(Now(), Tomorrow()))
+		s.False(Now().BetweenIncludedBoth(c, Tomorrow()))
+		s.False(Yesterday().BetweenIncludedBoth(Now(), c))
+		s.False(Yesterday().BetweenIncludedBoth(c, c))
+		s.False(c.BetweenIncludedBoth(c, Tomorrow()))
+		s.False(c.BetweenIncludedBoth(c, c))
+
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon()
+		s.False(c.BetweenIncludedBoth(Now(), Tomorrow()))
+		s.True(Now().BetweenIncludedBoth(c, Tomorrow()))
+		s.False(Yesterday().BetweenIncludedBoth(Now(), c))
+		s.False(Yesterday().BetweenIncludedBoth(c, c))
+		s.True(c.BetweenIncludedBoth(c, Tomorrow()))
+		s.True(c.BetweenIncludedBoth(c, c))
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx")
+		s.False(c.BetweenIncludedBoth(Now(), Tomorrow()))
+		s.False(Now().BetweenIncludedBoth(c, Tomorrow()))
+		s.False(Yesterday().BetweenIncludedBoth(Now(), c))
+		s.False(Yesterday().BetweenIncludedBoth(c, c))
+		s.False(c.BetweenIncludedBoth(c, Tomorrow()))
+		s.False(c.BetweenIncludedBoth(c, c))
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-05 22:00:00").BetweenIncludedBoth(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 22:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").BetweenIncludedBoth(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 23:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").BetweenIncludedBoth(Parse("2020-08-05 22:00:00"), Parse("2020-08-05 23:00:00")))
+		s.True(Parse("2020-08-05 22:00:00").BetweenIncludedBoth(Parse("2020-08-05 21:00:00"), Parse("2020-08-05 22:00:00")))
+		s.False(Parse("2020-08-05 22:00:00").BetweenIncludedBoth(Parse("2022-08-05 22:00:00"), Parse("2021-08-05 22:00:00")))
 	})
 }

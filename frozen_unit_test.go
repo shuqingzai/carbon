@@ -4,26 +4,34 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-func TestSetTestNow(t *testing.T) {
+type FrozenSuite struct {
+	suite.Suite
+}
+
+func TestFrozenSuite(t *testing.T) {
+	suite.Run(t, new(FrozenSuite))
+}
+
+func (s *FrozenSuite) TestSetTestNow() {
 	now := Parse("2020-08-05")
 
 	SetTestNow(now)
-	assert.Equal(t, "2020-08-05", Now().ToDateString())
-	assert.Equal(t, "2020-08-04", Yesterday().ToDateString())
-	assert.Equal(t, "2020-08-06", Tomorrow().ToDateString())
-	assert.Equal(t, "just now", Now().DiffForHumans())
-	assert.Equal(t, "1 day ago", Yesterday().DiffForHumans())
-	assert.Equal(t, "1 day from now", Tomorrow().DiffForHumans())
-	assert.Equal(t, "2 months from now", Parse("2020-10-05").DiffForHumans())
-	assert.Equal(t, "2 months before", now.DiffForHumans(Parse("2020-10-05")))
-	assert.True(t, IsTestNow())
+	s.Equal("2020-08-05", Now().ToDateString())
+	s.Equal("2020-08-04", Yesterday().ToDateString())
+	s.Equal("2020-08-06", Tomorrow().ToDateString())
+	s.Equal("just now", Now().DiffForHumans())
+	s.Equal("1 day ago", Yesterday().DiffForHumans())
+	s.Equal("1 day from now", Tomorrow().DiffForHumans())
+	s.Equal("2 months from now", Parse("2020-10-05").DiffForHumans())
+	s.Equal("2 months before", now.DiffForHumans(Parse("2020-10-05")))
+	s.True(IsTestNow())
 
 	CleanTestNow()
-	assert.Equal(t, time.Now().In(time.UTC).Format(DateLayout), Now().ToDateString())
-	assert.Equal(t, time.Now().In(time.UTC).Add(time.Hour*-24).Format(DateLayout), Yesterday().ToDateString())
-	assert.Equal(t, time.Now().In(time.UTC).Add(time.Hour*24).Format(DateLayout), Tomorrow().ToDateString())
-	assert.False(t, IsTestNow())
+	s.Equal(time.Now().In(time.UTC).Format(DateLayout), Now().ToDateString())
+	s.Equal(time.Now().In(time.UTC).Add(time.Hour*-24).Format(DateLayout), Yesterday().ToDateString())
+	s.Equal(time.Now().In(time.UTC).Add(time.Hour*24).Format(DateLayout), Tomorrow().ToDateString())
+	s.False(IsTestNow())
 }

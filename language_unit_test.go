@@ -4,41 +4,50 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-func TestLanguage_Copy(t *testing.T) {
-	t.Run("nil language", func(t *testing.T) {
+type LanguageSuite struct {
+	suite.Suite
+}
+
+func TestLanguageSuite(t *testing.T) {
+	suite.Run(t, new(LanguageSuite))
+}
+
+func (s *LanguageSuite) TestLanguage_Copy() {
+	s.Run("copy nil language", func() {
 		oldLang := NewLanguage()
 		oldLang = nil
 		newCarbon := oldLang.Copy()
 
-		assert.Nil(t, oldLang)
-		assert.Nil(t, newCarbon)
+		s.Nil(oldLang)
+		s.Nil(newCarbon)
 	})
 
-	t.Run("nil resources", func(t *testing.T) {
+	s.Run("copy nil resources", func() {
 		oldLang := NewLanguage()
 		oldLang.resources = nil
 		newCarbon := oldLang.Copy()
-		assert.Equal(t, newCarbon.resources, oldLang.resources)
+		s.Nil(oldLang.resources)
+		s.Nil(newCarbon.resources)
 	})
 
-	t.Run("copy dir", func(t *testing.T) {
+	s.Run("copy dir", func() {
 		oldLang := NewLanguage()
 		oldLang.dir = "lang"
 		newCarbon := oldLang.Copy()
-		assert.Equal(t, oldLang.dir, newCarbon.dir)
+		s.Equal(oldLang.dir, newCarbon.dir)
 	})
 
-	t.Run("copy locale", func(t *testing.T) {
+	s.Run("copy locale", func() {
 		oldLang := NewLanguage()
 		oldLang.locale = "en"
 		newCarbon := oldLang.Copy()
-		assert.Equal(t, oldLang.locale, newCarbon.locale)
+		s.Equal(oldLang.locale, newCarbon.locale)
 	})
 
-	t.Run("copy resources", func(t *testing.T) {
+	s.Run("copy resources", func() {
 		resources := map[string]string{
 			"months":       "Ⅰ月|Ⅱ月|Ⅲ月|Ⅳ月|Ⅴ月|Ⅵ月|Ⅶ月|Ⅷ月|Ⅸ月|Ⅹ月|Ⅺ月|Ⅻ月",
 			"short_months": "Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ",
@@ -47,83 +56,83 @@ func TestLanguage_Copy(t *testing.T) {
 		oldLang := NewLanguage()
 		oldLang.SetLocale("en").SetResources(resources)
 		newCarbon := oldLang.Copy()
-		assert.Equal(t, oldLang.resources, newCarbon.resources)
+		s.Equal(oldLang.resources, newCarbon.resources)
 	})
 }
 
-func TestLanguage_SetLocale(t *testing.T) {
-	t.Run("nil language", func(t *testing.T) {
+func (s *LanguageSuite) TestLanguage_SetLocale() {
+	s.Run("nil language", func() {
 		lang := NewLanguage()
 		lang = nil
 		lang.SetLocale("en")
-		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
+		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
-	t.Run("invalid locale", func(t *testing.T) {
+	s.Run("error locale", func() {
 		lang := NewLanguage()
 		lang.SetLocale("xxx")
-		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
+		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
-	t.Run("empty locale", func(t *testing.T) {
+	s.Run("empty locale", func() {
 		lang := NewLanguage()
 		lang.SetLocale("")
 		fmt.Println("lang", lang.locale)
-		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
+		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
+	s.Run("valid time", func() {
 		lang := NewLanguage()
 
 		lang.SetLocale("en")
-		assert.Equal(t, "Leo", Parse("2020-08-05").SetLanguage(lang).Constellation())
-		assert.Equal(t, "Summer", Parse("2020-08-05").SetLanguage(lang).Season())
-		assert.Equal(t, "4 years before", Parse("2020-08-05").SetLanguage(lang).DiffForHumans(Parse("2024-08-05")))
-		assert.Equal(t, "August", Parse("2020-08-05").SetLanguage(lang).ToMonthString())
-		assert.Equal(t, "Aug", Parse("2020-08-05").SetLanguage(lang).ToShortMonthString())
-		assert.Equal(t, "Wednesday", Parse("2020-08-05").SetLanguage(lang).ToWeekString())
-		assert.Equal(t, "Wed", Parse("2020-08-05").SetLanguage(lang).ToShortWeekString())
+		s.Equal("Leo", Parse("2020-08-05").SetLanguage(lang).Constellation())
+		s.Equal("Summer", Parse("2020-08-05").SetLanguage(lang).Season())
+		s.Equal("4 years before", Parse("2020-08-05").SetLanguage(lang).DiffForHumans(Parse("2024-08-05")))
+		s.Equal("August", Parse("2020-08-05").SetLanguage(lang).ToMonthString())
+		s.Equal("Aug", Parse("2020-08-05").SetLanguage(lang).ToShortMonthString())
+		s.Equal("Wednesday", Parse("2020-08-05").SetLanguage(lang).ToWeekString())
+		s.Equal("Wed", Parse("2020-08-05").SetLanguage(lang).ToShortWeekString())
 
 		lang.SetLocale("zh-CN")
-		assert.Equal(t, "狮子座", Parse("2020-08-05").SetLanguage(lang).Constellation())
-		assert.Equal(t, "夏季", Parse("2020-08-05").SetLanguage(lang).Season())
-		assert.Equal(t, "4 年前", Parse("2020-08-05").SetLanguage(lang).DiffForHumans(Parse("2024-08-05")))
-		assert.Equal(t, "八月", Parse("2020-08-05").SetLanguage(lang).ToMonthString())
-		assert.Equal(t, "8月", Parse("2020-08-05").SetLanguage(lang).ToShortMonthString())
-		assert.Equal(t, "星期三", Parse("2020-08-05").SetLanguage(lang).ToWeekString())
-		assert.Equal(t, "周三", Parse("2020-08-05").SetLanguage(lang).ToShortWeekString())
+		s.Equal("狮子座", Parse("2020-08-05").SetLanguage(lang).Constellation())
+		s.Equal("夏季", Parse("2020-08-05").SetLanguage(lang).Season())
+		s.Equal("4 年前", Parse("2020-08-05").SetLanguage(lang).DiffForHumans(Parse("2024-08-05")))
+		s.Equal("八月", Parse("2020-08-05").SetLanguage(lang).ToMonthString())
+		s.Equal("8月", Parse("2020-08-05").SetLanguage(lang).ToShortMonthString())
+		s.Equal("星期三", Parse("2020-08-05").SetLanguage(lang).ToWeekString())
+		s.Equal("周三", Parse("2020-08-05").SetLanguage(lang).ToShortWeekString())
 	})
 }
 
-func TestLanguage_SetResources(t *testing.T) {
-	t.Run("nil language", func(t *testing.T) {
+func (s *LanguageSuite) TestLanguage_SetResources() {
+	s.Run("nil language", func() {
 		lang := NewLanguage()
 		lang = nil
 		lang.SetResources(nil)
-		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
+		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
-	t.Run("nil resources", func(t *testing.T) {
+	s.Run("nil resources", func() {
 		lang := NewLanguage()
 		lang.SetResources(nil)
-		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
+		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
-	t.Run("empty resources", func(t *testing.T) {
+	s.Run("empty resources", func() {
 		lang := NewLanguage()
 		lang.SetResources(map[string]string{})
-		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
+		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
-	t.Run("invalid resources", func(t *testing.T) {
+	s.Run("error resources", func() {
 		lang := NewLanguage()
 		lang.SetResources(map[string]string{
 			"xxx": "xxx",
 		})
-		assert.Empty(t, Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
+		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
-	t.Run("set some resources", func(t *testing.T) {
+	s.Run("set some resources", func() {
 		resources := map[string]string{
 			"months":       "Ⅰ月|Ⅱ月|Ⅲ月|Ⅳ月|Ⅴ月|Ⅵ月|Ⅶ月|Ⅷ月|Ⅸ月|Ⅹ月|Ⅺ月|Ⅻ月",
 			"short_months": "Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ",
@@ -132,16 +141,16 @@ func TestLanguage_SetResources(t *testing.T) {
 		lang := NewLanguage()
 		lang.SetLocale("en").SetResources(resources)
 
-		assert.Equal(t, "Leo", Parse("2020-08-05").SetLanguage(lang).Constellation())
-		assert.Equal(t, "Summer", Parse("2020-08-05").SetLanguage(lang).Season())
-		assert.Equal(t, "4 years before", Parse("2020-08-05").SetLanguage(lang).DiffForHumans(Parse("2024-08-05")))
-		assert.Equal(t, "Ⅷ月", Parse("2020-08-05").SetLanguage(lang).ToMonthString())
-		assert.Equal(t, "Ⅷ", Parse("2020-08-05").SetLanguage(lang).ToShortMonthString())
-		assert.Equal(t, "Wednesday", Parse("2020-08-05").SetLanguage(lang).ToWeekString())
-		assert.Equal(t, "Wed", Parse("2020-08-05").SetLanguage(lang).ToShortWeekString())
+		s.Equal("Leo", Parse("2020-08-05").SetLanguage(lang).Constellation())
+		s.Equal("Summer", Parse("2020-08-05").SetLanguage(lang).Season())
+		s.Equal("4 years before", Parse("2020-08-05").SetLanguage(lang).DiffForHumans(Parse("2024-08-05")))
+		s.Equal("Ⅷ月", Parse("2020-08-05").SetLanguage(lang).ToMonthString())
+		s.Equal("Ⅷ", Parse("2020-08-05").SetLanguage(lang).ToShortMonthString())
+		s.Equal("Wednesday", Parse("2020-08-05").SetLanguage(lang).ToWeekString())
+		s.Equal("Wed", Parse("2020-08-05").SetLanguage(lang).ToShortWeekString())
 	})
 
-	t.Run("set all resources", func(t *testing.T) {
+	s.Run("set all resources", func() {
 		resources := map[string]string{
 			"constellations": "Aries|Taurus|Gemini|Cancer|Leo|Virgo|Libra|Scorpio|Sagittarius|Capricorn|Aquarius|Pisces",
 			"seasons":        "spring|summer|autumn|winter",
@@ -166,47 +175,47 @@ func TestLanguage_SetResources(t *testing.T) {
 		lang := NewLanguage()
 		lang.SetResources(resources)
 
-		assert.Equal(t, "Leo", Parse("2020-08-05").SetLanguage(lang).Constellation())
-		assert.Equal(t, "summer", Parse("2020-08-05").SetLanguage(lang).Season())
-		assert.Equal(t, "4 yrs before", Parse("2020-08-05").SetLanguage(lang).DiffForHumans(Parse("2024-08-05")))
-		assert.Equal(t, "August", Parse("2020-08-05").SetLanguage(lang).ToMonthString())
-		assert.Equal(t, "Aug", Parse("2020-08-05").SetLanguage(lang).ToShortMonthString())
-		assert.Equal(t, "Wednesday", Parse("2020-08-05").SetLanguage(lang).ToWeekString())
-		assert.Equal(t, "Wed", Parse("2020-08-05").SetLanguage(lang).ToShortWeekString())
+		s.Equal("Leo", Parse("2020-08-05").SetLanguage(lang).Constellation())
+		s.Equal("summer", Parse("2020-08-05").SetLanguage(lang).Season())
+		s.Equal("4 yrs before", Parse("2020-08-05").SetLanguage(lang).DiffForHumans(Parse("2024-08-05")))
+		s.Equal("August", Parse("2020-08-05").SetLanguage(lang).ToMonthString())
+		s.Equal("Aug", Parse("2020-08-05").SetLanguage(lang).ToShortMonthString())
+		s.Equal("Wednesday", Parse("2020-08-05").SetLanguage(lang).ToWeekString())
+		s.Equal("Wed", Parse("2020-08-05").SetLanguage(lang).ToShortWeekString())
 	})
 }
 
-func TestLanguage_translate(t *testing.T) {
-	t.Run("nil language", func(t *testing.T) {
+func (s *LanguageSuite) TestLanguage_translate() {
+	s.Run("nil language", func() {
 		lang := NewLanguage()
 		lang = nil
-		assert.Empty(t, lang.translate("month", 1))
+		s.Empty(lang.translate("month", 1))
 	})
 
-	t.Run("nil resources", func(t *testing.T) {
+	s.Run("nil resources", func() {
 		lang := NewLanguage()
 		lang.SetResources(nil)
-		assert.Empty(t, lang.translate("month", 1))
+		s.Empty(lang.translate("month", 1))
 	})
 
-	t.Run("empty resources", func(t *testing.T) {
+	s.Run("empty resources", func() {
 		lang := NewLanguage()
 		lang.SetResources(map[string]string{})
-		assert.Empty(t, lang.translate("month", 1))
+		s.Empty(lang.translate("month", 1))
 	})
 
-	t.Run("invalid resources", func(t *testing.T) {
+	s.Run("error resources", func() {
 		lang := NewLanguage()
 		lang.SetResources(map[string]string{
 			"xxx": "xxx",
 		})
-		assert.Empty(t, lang.translate("month", 1))
+		s.Empty(lang.translate("month", 1))
 	})
 
-	t.Run("valid resources", func(t *testing.T) {
+	s.Run("valid resources", func() {
 		lang := NewLanguage()
 		lang.SetLocale("en")
-		assert.Equal(t, "1 month", lang.translate("month", 1))
-		assert.Equal(t, "-1 month", lang.translate("month", -1))
+		s.Equal("1 month", lang.translate("month", 1))
+		s.Equal("-1 month", lang.translate("month", -1))
 	})
 }

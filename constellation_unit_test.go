@@ -3,272 +3,332 @@ package carbon
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-func TestCarbon_Constellation(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.Equal(t, Capricorn, NewCarbon().Constellation())
+type ConstellationSuite struct {
+	suite.Suite
+}
+
+func TestConstellationSuite(t *testing.T) {
+	suite.Run(t, new(ConstellationSuite))
+}
+
+func (s *ConstellationSuite) TestCarbon_Constellation() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.Empty(c.Constellation())
 	})
 
-	t.Run("invalid resources", func(t *testing.T) {
+	s.Run("zero carbon", func() {
+		s.Equal(Capricorn, NewCarbon().Constellation())
+	})
+
+	s.Run("error carbon", func() {
+		s.Empty(Parse("xxx").Constellation())
+	})
+
+	s.Run("error resources", func() {
 		lang := NewLanguage()
 		resources := map[string]string{
 			"constellations": "xxx",
 		}
 		lang.SetResources(resources)
 		c := Parse("2020-01-05").SetLanguage(lang)
-		assert.Empty(t, c.Constellation())
+		s.Empty(c.Constellation())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.Empty(t, Parse("").Constellation())
-		assert.Empty(t, Parse("0").Constellation())
-		assert.Empty(t, Parse("xxx").Constellation())
-	})
+	s.Run("valid carbon", func() {
+		s.Equal(Capricorn, Parse("2020-01-05").Constellation())
+		s.Equal(Aquarius, Parse("2020-02-05").Constellation())
+		s.Equal(Pisces, Parse("2020-03-05").Constellation())
+		s.Equal(Aries, Parse("2020-04-05").Constellation())
+		s.Equal(Taurus, Parse("2020-05-05").Constellation())
+		s.Equal(Gemini, Parse("2020-06-05").Constellation())
+		s.Equal(Cancer, Parse("2020-07-05").Constellation())
+		s.Equal(Leo, Parse("2020-08-05").Constellation())
+		s.Equal(Virgo, Parse("2020-09-05").Constellation())
+		s.Equal(Libra, Parse("2020-10-05").Constellation())
+		s.Equal(Scorpio, Parse("2020-11-05").Constellation())
+		s.Equal(Sagittarius, Parse("2020-12-05").Constellation())
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.Equal(t, Capricorn, Parse("2020-01-05").Constellation())
-		assert.Equal(t, Aquarius, Parse("2020-02-05").Constellation())
-		assert.Equal(t, Pisces, Parse("2020-03-05").Constellation())
-		assert.Equal(t, Aries, Parse("2020-04-05").Constellation())
-		assert.Equal(t, Taurus, Parse("2020-05-05").Constellation())
-		assert.Equal(t, Gemini, Parse("2020-06-05").Constellation())
-		assert.Equal(t, Cancer, Parse("2020-07-05").Constellation())
-		assert.Equal(t, Leo, Parse("2020-08-05").Constellation())
-		assert.Equal(t, Virgo, Parse("2020-09-05").Constellation())
-		assert.Equal(t, Libra, Parse("2020-10-05").Constellation())
-		assert.Equal(t, Scorpio, Parse("2020-11-05").Constellation())
-		assert.Equal(t, Sagittarius, Parse("2020-12-05").Constellation())
-
-		assert.Equal(t, "摩羯座", Parse("2020-01-05").SetLocale("zh-CN").Constellation())
-		assert.Equal(t, "水瓶座", Parse("2020-01-22").SetLocale("zh-CN").Constellation())
-		assert.Equal(t, "水瓶座", Parse("2020-02-05").SetLocale("zh-CN").Constellation())
-		assert.Equal(t, "双鱼座", Parse("2020-03-05").SetLocale("zh-CN").Constellation())
-		assert.Equal(t, "白羊座", Parse("2020-04-05").SetLocale("zh-CN").Constellation())
-		assert.Equal(t, "金牛座", Parse("2020-05-05").SetLocale("zh-CN").Constellation())
-		assert.Equal(t, "双子座", Parse("2020-06-05").SetLocale("zh-CN").Constellation())
-		assert.Equal(t, "巨蟹座", Parse("2020-07-05").SetLocale("zh-CN").Constellation())
-		assert.Equal(t, "狮子座", Parse("2020-08-05").SetLocale("zh-CN").Constellation())
-		assert.Equal(t, "处女座", Parse("2020-09-05").SetLocale("zh-CN").Constellation())
-		assert.Equal(t, "天秤座", Parse("2020-10-05").SetLocale("zh-CN").Constellation())
-		assert.Equal(t, "天蝎座", Parse("2020-11-05").SetLocale("zh-CN").Constellation())
-		assert.Equal(t, "射手座", Parse("2020-12-05").SetLocale("zh-CN").Constellation())
+		s.Equal("摩羯座", Parse("2020-01-05").SetLocale("zh-CN").Constellation())
+		s.Equal("水瓶座", Parse("2020-01-22").SetLocale("zh-CN").Constellation())
+		s.Equal("水瓶座", Parse("2020-02-05").SetLocale("zh-CN").Constellation())
+		s.Equal("双鱼座", Parse("2020-03-05").SetLocale("zh-CN").Constellation())
+		s.Equal("白羊座", Parse("2020-04-05").SetLocale("zh-CN").Constellation())
+		s.Equal("金牛座", Parse("2020-05-05").SetLocale("zh-CN").Constellation())
+		s.Equal("双子座", Parse("2020-06-05").SetLocale("zh-CN").Constellation())
+		s.Equal("巨蟹座", Parse("2020-07-05").SetLocale("zh-CN").Constellation())
+		s.Equal("狮子座", Parse("2020-08-05").SetLocale("zh-CN").Constellation())
+		s.Equal("处女座", Parse("2020-09-05").SetLocale("zh-CN").Constellation())
+		s.Equal("天秤座", Parse("2020-10-05").SetLocale("zh-CN").Constellation())
+		s.Equal("天蝎座", Parse("2020-11-05").SetLocale("zh-CN").Constellation())
+		s.Equal("射手座", Parse("2020-12-05").SetLocale("zh-CN").Constellation())
 	})
 }
 
-func TestCarbon_IsAries(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsAries())
+func (s *ConstellationSuite) TestCarbon_IsAries() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsAries())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsAries())
-		assert.False(t, Parse("0").IsAries())
-		assert.False(t, Parse("xxx").IsAries())
+	s.Run("zero carbon", func() {
+		s.False(NewCarbon().IsAries())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-03-21").IsAries())
-		assert.True(t, Parse("2020-04-19").IsAries())
-		assert.False(t, Parse("2020-08-05").IsAries())
-	})
-}
-
-func TestCarbon_IsTaurus(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsTaurus())
+	s.Run("error carbon", func() {
+		s.False(Parse("xxx").IsAries())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsTaurus())
-		assert.False(t, Parse("0").IsTaurus())
-		assert.False(t, Parse("xxx").IsTaurus())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-04-20").IsTaurus())
-		assert.True(t, Parse("2020-05-20").IsTaurus())
-		assert.False(t, Parse("2020-08-05").IsTaurus())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-03-21").IsAries())
+		s.True(Parse("2020-04-19").IsAries())
+		s.False(Parse("2020-08-05").IsAries())
 	})
 }
 
-func TestCarbon_IsGemini(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsGemini())
+func (s *ConstellationSuite) TestCarbon_IsTaurus() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsTaurus())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsGemini())
-		assert.False(t, Parse("0").IsGemini())
-		assert.False(t, Parse("xxx").IsGemini())
+	s.Run("zero carbon", func() {
+		s.False(NewCarbon().IsTaurus())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-05-21").IsGemini())
-		assert.True(t, Parse("2020-06-21").IsGemini())
-		assert.False(t, Parse("2020-08-05").IsGemini())
-	})
-}
-
-func TestCarbon_IsCancer(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsCancer())
+	s.Run("error carbon", func() {
+		s.False(Parse("xxx").IsTaurus())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsCancer())
-		assert.False(t, Parse("0").IsCancer())
-		assert.False(t, Parse("xxx").IsCancer())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-06-22").IsCancer())
-		assert.True(t, Parse("2020-07-22").IsCancer())
-		assert.False(t, Parse("2020-08-05").IsCancer())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-04-20").IsTaurus())
+		s.True(Parse("2020-05-20").IsTaurus())
+		s.False(Parse("2020-08-05").IsTaurus())
 	})
 }
 
-func TestCarbon_IsLeo(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsLeo())
+func (s *ConstellationSuite) TestCarbon_IsGemini() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsGemini())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsLeo())
-		assert.False(t, Parse("0").IsLeo())
-		assert.False(t, Parse("xxx").IsLeo())
+	s.Run("zero carbon", func() {
+		s.False(NewCarbon().IsGemini())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-07-23").IsLeo())
-		assert.True(t, Parse("2020-08-22").IsLeo())
-		assert.False(t, Parse("2020-09-01").IsLeo())
-	})
-}
-
-func TestCarbon_IsVirgo(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsVirgo())
+	s.Run("error carbon", func() {
+		s.False(Parse("xxx").IsGemini())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsVirgo())
-		assert.False(t, Parse("0").IsVirgo())
-		assert.False(t, Parse("xxx").IsVirgo())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-08-23").IsVirgo())
-		assert.True(t, Parse("2020-09-22").IsVirgo())
-		assert.False(t, Parse("2020-08-05").IsVirgo())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-05-21").IsGemini())
+		s.True(Parse("2020-06-21").IsGemini())
+		s.False(Parse("2020-08-05").IsGemini())
 	})
 }
 
-func TestCarbon_IsLibra(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsLibra())
+func (s *ConstellationSuite) TestCarbon_IsCancer() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsCancer())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsLibra())
-		assert.False(t, Parse("0").IsLibra())
-		assert.False(t, Parse("xxx").IsLibra())
+	s.Run("zero carbon", func() {
+		s.False(NewCarbon().IsCancer())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-09-23").IsLibra())
-		assert.True(t, Parse("2020-10-23").IsLibra())
-		assert.False(t, Parse("2020-08-05").IsLibra())
-	})
-}
-
-func TestCarbon_IsScorpio(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsScorpio())
+	s.Run("error carbon", func() {
+		s.False(Parse("xxx").IsCancer())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsScorpio())
-		assert.False(t, Parse("0").IsScorpio())
-		assert.False(t, Parse("xxx").IsScorpio())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-10-24").IsScorpio())
-		assert.True(t, Parse("2020-11-22").IsScorpio())
-		assert.False(t, Parse("2020-08-05").IsScorpio())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-06-22").IsCancer())
+		s.True(Parse("2020-07-22").IsCancer())
+		s.False(Parse("2020-08-05").IsCancer())
 	})
 }
 
-func TestCarbon_IsSagittarius(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsSagittarius())
+func (s *ConstellationSuite) TestCarbon_IsLeo() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsLeo())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsSagittarius())
-		assert.False(t, Parse("0").IsSagittarius())
-		assert.False(t, Parse("xxx").IsSagittarius())
+	s.Run("zero carbon", func() {
+		s.False(NewCarbon().IsLeo())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-11-23").IsSagittarius())
-		assert.True(t, Parse("2020-12-21").IsSagittarius())
-		assert.False(t, Parse("2020-08-05").IsSagittarius())
-	})
-}
-
-func TestCarbon_IsCapricorn(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.True(t, NewCarbon().IsCapricorn())
+	s.Run("error carbon", func() {
+		s.False(Parse("xxx").IsLeo())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsCapricorn())
-		assert.False(t, Parse("0").IsCapricorn())
-		assert.False(t, Parse("xxx").IsCapricorn())
-	})
-
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-12-22").IsCapricorn())
-		assert.True(t, Parse("2020-01-19").IsCapricorn())
-		assert.False(t, Parse("2020-08-05").IsCapricorn())
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-07-23").IsLeo())
+		s.True(Parse("2020-08-22").IsLeo())
+		s.False(Parse("2020-09-01").IsLeo())
 	})
 }
 
-func TestCarbon_IsAquarius(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsAquarius())
+func (s *ConstellationSuite) TestCarbon_IsVirgo() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsVirgo())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsAquarius())
-		assert.False(t, Parse("0").IsAquarius())
-		assert.False(t, Parse("xxx").IsAquarius())
+	s.Run("zero carbon", func() {
+		s.False(NewCarbon().IsVirgo())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-01-20").IsAquarius())
-		assert.True(t, Parse("2020-02-18").IsAquarius())
-		assert.False(t, Parse("2020-08-05").IsAquarius())
+	s.Run("error carbon", func() {
+		s.False(Parse("xxx").IsVirgo())
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-08-23").IsVirgo())
+		s.True(Parse("2020-09-22").IsVirgo())
+		s.False(Parse("2020-08-05").IsVirgo())
 	})
 }
 
-func TestCarbon_IsPisces(t *testing.T) {
-	t.Run("zero carbon", func(t *testing.T) {
-		assert.False(t, NewCarbon().IsPisces())
+func (s *ConstellationSuite) TestCarbon_IsLibra() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsLibra())
 	})
 
-	t.Run("invalid carbon", func(t *testing.T) {
-		assert.False(t, Parse("").IsPisces())
-		assert.False(t, Parse("0").IsPisces())
-		assert.False(t, Parse("xxx").IsPisces())
+	s.Run("zero carbon", func() {
+		s.False(NewCarbon().IsLibra())
 	})
 
-	t.Run("valid carbon", func(t *testing.T) {
-		assert.True(t, Parse("2020-02-19").IsPisces())
-		assert.True(t, Parse("2020-03-20").IsPisces())
-		assert.False(t, Parse("2020-08-05").IsPisces())
+	s.Run("error carbon", func() {
+		s.False(Parse("xxx").IsLibra())
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-09-23").IsLibra())
+		s.True(Parse("2020-10-23").IsLibra())
+		s.False(Parse("2020-08-05").IsLibra())
+	})
+}
+
+func (s *ConstellationSuite) TestCarbon_IsScorpio() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsScorpio())
+	})
+
+	s.Run("zero carbon", func() {
+		s.False(NewCarbon().IsScorpio())
+	})
+
+	s.Run("error carbon", func() {
+		s.False(Parse("xxx").IsScorpio())
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-10-24").IsScorpio())
+		s.True(Parse("2020-11-22").IsScorpio())
+		s.False(Parse("2020-08-05").IsScorpio())
+	})
+}
+
+func (s *ConstellationSuite) TestCarbon_IsSagittarius() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsSagittarius())
+	})
+
+	s.Run("zero carbon", func() {
+		s.False(NewCarbon().IsSagittarius())
+	})
+
+	s.Run("error carbon", func() {
+		s.False(Parse("xxx").IsSagittarius())
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-11-23").IsSagittarius())
+		s.True(Parse("2020-12-21").IsSagittarius())
+		s.False(Parse("2020-08-05").IsSagittarius())
+	})
+}
+
+func (s *ConstellationSuite) TestCarbon_IsCapricorn() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsCapricorn())
+	})
+
+	s.Run("zero carbon", func() {
+		s.True(NewCarbon().IsCapricorn())
+	})
+
+	s.Run("error carbon", func() {
+		s.False(Parse("xxx").IsCapricorn())
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-12-22").IsCapricorn())
+		s.True(Parse("2020-01-19").IsCapricorn())
+		s.False(Parse("2020-08-05").IsCapricorn())
+	})
+}
+
+func (s *ConstellationSuite) TestCarbon_IsAquarius() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsAquarius())
+	})
+
+	s.Run("zero carbon", func() {
+		s.False(NewCarbon().IsAquarius())
+	})
+
+	s.Run("error carbon", func() {
+		s.False(Parse("xxx").IsAquarius())
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-01-20").IsAquarius())
+		s.True(Parse("2020-02-18").IsAquarius())
+		s.False(Parse("2020-08-05").IsAquarius())
+	})
+}
+
+func (s *ConstellationSuite) TestCarbon_IsPisces() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsPisces())
+	})
+
+	s.Run("zero carbon", func() {
+		s.False(NewCarbon().IsPisces())
+	})
+
+	s.Run("error carbon", func() {
+		s.False(Parse("xxx").IsPisces())
+	})
+
+	s.Run("valid carbon", func() {
+		s.True(Parse("2020-02-19").IsPisces())
+		s.True(Parse("2020-03-20").IsPisces())
+		s.False(Parse("2020-08-05").IsPisces())
 	})
 }
