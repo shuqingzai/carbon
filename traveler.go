@@ -49,7 +49,7 @@ func Yesterday(timezone ...string) *Carbon {
 // AddDuration adds duration.
 // 按照时长增加时间,支持整数/浮点数和符号ns(纳秒)、us(微妙)、ms(毫秒)、s(秒)、m(分钟)、h(小时)的组合
 func (c *Carbon) AddDuration(duration string) *Carbon {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return c
 	}
 	var (
@@ -169,7 +169,7 @@ func (c *Carbon) SubDecadeNoOverflow() *Carbon {
 // AddYears adds some years.
 // N 年后
 func (c *Carbon) AddYears(years int) *Carbon {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return c
 	}
 	c.time = c.StdTime().AddDate(years, 0, 0)
@@ -179,7 +179,7 @@ func (c *Carbon) AddYears(years int) *Carbon {
 // AddYearsNoOverflow adds some years without overflowing month.
 // N 年后(月份不溢出)
 func (c *Carbon) AddYearsNoOverflow(years int) *Carbon {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return c
 	}
 	nanosecond := c.Nanosecond()
@@ -207,7 +207,7 @@ func (c *Carbon) AddYearNoOverflow() *Carbon {
 // SubYears subtracts some years.
 // N 年前
 func (c *Carbon) SubYears(years int) *Carbon {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return c
 	}
 	return c.AddYears(-years)
@@ -282,7 +282,7 @@ func (c *Carbon) SubQuarterNoOverflow() *Carbon {
 // AddMonths adds some months.
 // N 个月后
 func (c *Carbon) AddMonths(months int) *Carbon {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return c
 	}
 	c.time = c.StdTime().AddDate(0, months, 0)
@@ -292,7 +292,7 @@ func (c *Carbon) AddMonths(months int) *Carbon {
 // AddMonthsNoOverflow adds some months without overflowing month.
 // N 个月后(月份不溢出)
 func (c *Carbon) AddMonthsNoOverflow(months int) *Carbon {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return c
 	}
 	nanosecond := c.Nanosecond()
@@ -368,7 +368,7 @@ func (c *Carbon) SubWeek() *Carbon {
 // AddDays adds some days.
 // N 天后
 func (c *Carbon) AddDays(days int) *Carbon {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return c
 	}
 	c.time = c.StdTime().AddDate(0, 0, days)
@@ -396,7 +396,7 @@ func (c *Carbon) SubDay() *Carbon {
 // AddHours adds some hours.
 // N 小时后
 func (c *Carbon) AddHours(hours int) *Carbon {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return c
 	}
 	c.time = c.StdTime().Add(Duration(hours) * time.Hour)
@@ -424,7 +424,7 @@ func (c *Carbon) SubHour() *Carbon {
 // AddMinutes adds some minutes.
 // N 分钟后
 func (c *Carbon) AddMinutes(minutes int) *Carbon {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return c
 	}
 	c.time = c.StdTime().Add(Duration(minutes) * time.Minute)
@@ -452,7 +452,7 @@ func (c *Carbon) SubMinute() *Carbon {
 // AddSeconds adds some seconds.
 // N 秒钟后
 func (c *Carbon) AddSeconds(seconds int) *Carbon {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return c
 	}
 	c.time = c.StdTime().Add(Duration(seconds) * time.Second)
@@ -480,7 +480,7 @@ func (c *Carbon) SubSecond() *Carbon {
 // AddMilliseconds adds some milliseconds.
 // N 毫秒后
 func (c *Carbon) AddMilliseconds(milliseconds int) *Carbon {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return c
 	}
 	c.time = c.StdTime().Add(Duration(milliseconds) * time.Millisecond)
@@ -508,7 +508,7 @@ func (c *Carbon) SubMillisecond() *Carbon {
 // AddMicroseconds adds some microseconds.
 // N 微秒后
 func (c *Carbon) AddMicroseconds(microseconds int) *Carbon {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return c
 	}
 	c.time = c.StdTime().Add(Duration(microseconds) * time.Microsecond)
@@ -536,7 +536,7 @@ func (c *Carbon) SubMicrosecond() *Carbon {
 // AddNanoseconds adds some nanoseconds.
 // N 纳秒后
 func (c *Carbon) AddNanoseconds(nanoseconds int) *Carbon {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return c
 	}
 	c.time = c.StdTime().Add(Duration(nanoseconds) * time.Nanosecond)
