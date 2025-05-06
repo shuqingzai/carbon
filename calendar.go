@@ -12,6 +12,9 @@ func (c *Carbon) Lunar() *lunar.Lunar {
 	if c.IsNil() {
 		return nil
 	}
+	if c.IsEmpty() {
+		return &lunar.Lunar{}
+	}
 	if c.HasError() {
 		l := new(lunar.Lunar)
 		l.Error = c.Error
@@ -36,6 +39,9 @@ func (c *Carbon) Julian() *julian.Julian {
 	if c.IsNil() {
 		return nil
 	}
+	if c.IsEmpty() {
+		return &julian.Julian{}
+	}
 	if c.HasError() {
 		return new(julian.Julian)
 	}
@@ -53,6 +59,9 @@ func CreateFromJulian(f float64) *Carbon {
 func (c *Carbon) Persian() *persian.Persian {
 	if c.IsNil() {
 		return nil
+	}
+	if c.IsEmpty() {
+		return &persian.Persian{}
 	}
 	if c.HasError() {
 		p := new(persian.Persian)
