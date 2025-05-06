@@ -473,6 +473,38 @@ func (s *BuiltinTypeSuite) TestBuiltinType_MarshalJSON() {
 		s.Equal(`{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`, string(data))
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+
+		model.Date = *NewDate(c)
+		model.DateMilli = *NewDateMilli(c)
+		model.DateMicro = *NewDateMicro(c)
+		model.DateNano = *NewDateNano(c)
+
+		model.Time = *NewTime(c)
+		model.TimeMilli = *NewTimeMilli(c)
+		model.TimeMicro = *NewTimeMicro(c)
+		model.TimeNano = *NewTimeNano(c)
+
+		model.DateTime = *NewDateTime(c)
+		model.DateTimeMilli = *NewDateTimeMilli(c)
+		model.DateTimeMicro = *NewDateTimeMicro(c)
+		model.DateTimeNano = *NewDateTimeNano(c)
+
+		model.Timestamp = *NewTimestamp(c)
+		model.TimestampMilli = *NewTimestampMilli(c)
+		model.TimestampMicro = *NewTimestampMicro(c)
+		model.TimestampNano = *NewTimestampNano(c)
+
+		model.CreatedAt = NewDateTime(c)
+		model.UpdatedAt = NewDateTime(c)
+		model.DeletedAt = NewTimestamp(c)
+
+		data, err := json.Marshal(&model)
+		s.Nil(err)
+		s.Equal(`{"date":"","date_milli":"","date_micro":"","date_nano":"","time":"","time_milli":"","time_micro":"","time_nano":"","date_time":"","date_time_milli":"","date_time_micro":"","date_time_nano":"","created_at":"","updated_at":"","timestamp":0,"timestamp_milli":0,"timestamp_micro":0,"timestamp_nano":0,"deleted_at":0}`, string(data))
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 
