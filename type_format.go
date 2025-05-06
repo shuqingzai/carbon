@@ -59,6 +59,9 @@ func (t FormatType[T]) Value() (driver.Value, error) {
 	if t.HasError() {
 		return nil, t.Error
 	}
+	if t.IsEmpty() {
+		return "", nil
+	}
 	return t.StdTime(), nil
 }
 
@@ -66,10 +69,13 @@ func (t FormatType[T]) Value() (driver.Value, error) {
 // 实现 json.Marshaler 接口
 func (t FormatType[T]) MarshalJSON() ([]byte, error) {
 	if t.IsNil() || t.IsZero() {
-		return []byte(`""`), nil
+		return []byte(`null`), nil
 	}
 	if t.HasError() {
-		return []byte(`""`), t.Error
+		return []byte(`null`), t.Error
+	}
+	if t.IsEmpty() {
+		return []byte(`""`), nil
 	}
 	v := t.Format(t.getFormat())
 	b := make([]byte, 0, len(v)+2)
@@ -83,7 +89,7 @@ func (t FormatType[T]) MarshalJSON() ([]byte, error) {
 // 实现 json.Unmarshaler 接口
 func (t *FormatType[T]) UnmarshalJSON(src []byte) error {
 	v := string(bytes.Trim(src, `"`))
-	if v == "" || v == "null" || v == "0" {
+	if v == "" || v == "null" {
 		return nil
 	}
 	*t = *NewFormatType[T](ParseByFormat(v, t.getFormat()))
@@ -93,7 +99,7 @@ func (t *FormatType[T]) UnmarshalJSON(src []byte) error {
 // String implements Stringer interface for FormatType generic struct.
 // 实现 Stringer 接口
 func (t *FormatType[T]) String() string {
-	if t.IsInvalid() || t.IsZero() {
+	if t == nil || t.IsInvalid() || t.IsZero() || t.IsEmpty() {
 		return ""
 	}
 	return t.Format(t.getFormat())

@@ -90,6 +90,9 @@ func (t TimestampType[T]) Value() (driver.Value, error) {
 	if t.HasError() {
 		return nil, t.Error
 	}
+	if t.IsEmpty() {
+		return 0, nil
+	}
 	var ts int64
 	switch t.getPrecision() {
 	case precisionSecond:
@@ -108,10 +111,13 @@ func (t TimestampType[T]) Value() (driver.Value, error) {
 // 实现 json.Marshaler 接口
 func (t TimestampType[T]) MarshalJSON() ([]byte, error) {
 	if t.IsNil() || t.IsZero() {
-		return []byte(`0`), nil
+		return []byte(`null`), nil
 	}
 	if t.HasError() {
-		return []byte(`0`), t.Error
+		return []byte(`null`), t.Error
+	}
+	if t.IsEmpty() {
+		return []byte(`0`), nil
 	}
 	var ts int64
 	switch t.getPrecision() {
@@ -131,7 +137,7 @@ func (t TimestampType[T]) MarshalJSON() ([]byte, error) {
 // 实现 json.Unmarshaler 接口
 func (t *TimestampType[T]) UnmarshalJSON(src []byte) error {
 	v := string(bytes.Trim(src, `"`))
-	if v == "" || v == "null" || v == "0" {
+	if v == "" || v == "null" {
 		return nil
 	}
 	var (
@@ -159,7 +165,10 @@ func (t *TimestampType[T]) UnmarshalJSON(src []byte) error {
 // String implements Stringer interface for TimestampType generic struct.
 // 实现 Stringer 接口
 func (t *TimestampType[T]) String() string {
-	if t.IsInvalid() || t.IsZero() {
+	if t == nil {
+		return "0"
+	}
+	if t.IsInvalid() || t.IsZero() || t.IsEmpty() {
 		return "0"
 	}
 	return strconv.FormatInt(t.Int64(), 10)
@@ -168,7 +177,7 @@ func (t *TimestampType[T]) String() string {
 // Int64 returns the timestamp value.
 // 返回时间戳
 func (t *TimestampType[T]) Int64() (ts int64) {
-	if t.IsInvalid() || t.IsZero() {
+	if t == nil || t.IsInvalid() || t.IsZero() || t.IsEmpty() {
 		return
 	}
 	switch t.getPrecision() {

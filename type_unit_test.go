@@ -72,6 +72,12 @@ func (s *CarbonTypeSuite) TestCarbonType_Value() {
 		s.Error(err)
 	})
 
+	s.Run("empty carbon", func() {
+		v, err := Parse("").Value()
+		s.Empty(v)
+		s.Nil(err)
+	})
+
 	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05")
 		v, err := c.Value()
@@ -83,12 +89,18 @@ func (s *CarbonTypeSuite) TestCarbonType_Value() {
 func (s *CarbonTypeSuite) TestCarbonType_MarshalJSON() {
 	var model carbonTypeModel
 
+	s.Run("unset carbon", func() {
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"carbon1":null,"carbon2":null}`, string(v))
+	})
+
 	s.Run("nil carbon", func() {
 		model.Carbon2 = nil
 
-		data, err := json.Marshal(&model)
-		s.Nil(err)
-		s.Equal(`{"carbon1":"","carbon2":null}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"carbon1":null,"carbon2":null}`, string(v))
 	})
 
 	s.Run("zero carbon", func() {
@@ -96,9 +108,19 @@ func (s *CarbonTypeSuite) TestCarbonType_MarshalJSON() {
 		model.Carbon1 = *c
 		model.Carbon2 = c
 
-		data, err := json.Marshal(&model)
-		s.Nil(err)
-		s.Equal(`{"carbon1":"","carbon2":""}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"carbon1":null,"carbon2":null}`, string(v))
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		model.Carbon1 = *c
+		model.Carbon2 = c
+
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"carbon1":"","carbon2":""}`, string(v))
 	})
 
 	s.Run("error carbon", func() {
@@ -106,9 +128,9 @@ func (s *CarbonTypeSuite) TestCarbonType_MarshalJSON() {
 		model.Carbon1 = *c
 		model.Carbon2 = c
 
-		data, err := json.Marshal(&model)
-		s.Error(err)
-		s.Empty(string(data))
+		v, e := json.Marshal(&model)
+		s.Error(e)
+		s.Empty(string(v))
 	})
 
 	s.Run("valid carbon", func() {
@@ -116,9 +138,9 @@ func (s *CarbonTypeSuite) TestCarbonType_MarshalJSON() {
 		model.Carbon1 = *c
 		model.Carbon2 = c
 
-		data, err := json.Marshal(&model)
-		s.Nil(err)
-		s.Equal(`{"carbon1":"2020-08-05 13:14:15","carbon2":"2020-08-05 13:14:15"}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"carbon1":"2020-08-05 13:14:15","carbon2":"2020-08-05 13:14:15"}`, string(v))
 	})
 }
 
@@ -134,17 +156,13 @@ func (s *CarbonTypeSuite) TestCarbonType_UnmarshalJSON() {
 	})
 
 	s.Run("null value", func() {
-		value := `{"carbon1":"null","carbon2":"null"}`
-		s.NoError(json.Unmarshal([]byte(value), &model))
-
+		value1 := `{"carbon1":null,"carbon2":null}`
+		s.NoError(json.Unmarshal([]byte(value1), &model))
 		s.Empty(model.Carbon1.String())
 		s.Empty(model.Carbon2.String())
-	})
 
-	s.Run("zero value", func() {
-		value := `{"carbon1":"0","carbon2":"0"}`
-		s.NoError(json.Unmarshal([]byte(value), &model))
-
+		value2 := `{"carbon1":"null","carbon2":"null"}`
+		s.NoError(json.Unmarshal([]byte(value2), &model))
 		s.Empty(model.Carbon1.String())
 		s.Empty(model.Carbon2.String())
 	})
@@ -335,6 +353,18 @@ func (s *BuiltinTypeSuite) TestBuiltinType_Value() {
 		s.Nil(e2)
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+
+		v1, e1 := NewDateTime(c).Value()
+		s.Empty(v1)
+		s.Nil(e1)
+
+		v2, e2 := NewTimestamp(c).Value()
+		s.Empty(v2)
+		s.Nil(e2)
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 
@@ -375,6 +405,12 @@ func (s *BuiltinTypeSuite) TestBuiltinType_Value() {
 func (s *BuiltinTypeSuite) TestBuiltinType_MarshalJSON() {
 	var model builtinTypeModel
 
+	s.Run("unset carbon", func() {
+		data, err := json.Marshal(&model)
+		s.Nil(err)
+		s.Equal(`{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`, string(data))
+	})
+
 	s.Run("nil carbon", func() {
 		model.Date = *NewDate(nil)
 		model.DateMilli = *NewDateMilli(nil)
@@ -402,7 +438,7 @@ func (s *BuiltinTypeSuite) TestBuiltinType_MarshalJSON() {
 
 		data, err := json.Marshal(&model)
 		s.Nil(err)
-		s.Equal(`{"date":"","date_milli":"","date_micro":"","date_nano":"","time":"","time_milli":"","time_micro":"","time_nano":"","date_time":"","date_time_milli":"","date_time_micro":"","date_time_nano":"","created_at":"","updated_at":"","timestamp":0,"timestamp_milli":0,"timestamp_micro":0,"timestamp_nano":0,"deleted_at":0}`, string(data))
+		s.Equal(`{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`, string(data))
 	})
 
 	s.Run("zero carbon", func() {
@@ -434,7 +470,7 @@ func (s *BuiltinTypeSuite) TestBuiltinType_MarshalJSON() {
 
 		data, err := json.Marshal(&model)
 		s.Nil(err)
-		s.Equal(`{"date":"","date_milli":"","date_micro":"","date_nano":"","time":"","time_milli":"","time_micro":"","time_nano":"","date_time":"","date_time_milli":"","date_time_micro":"","date_time_nano":"","created_at":"","updated_at":"","timestamp":0,"timestamp_milli":0,"timestamp_micro":0,"timestamp_nano":0,"deleted_at":0}`, string(data))
+		s.Equal(`{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`, string(data))
 	})
 
 	s.Run("error carbon", func() {
@@ -555,8 +591,8 @@ func (s *BuiltinTypeSuite) TestBuiltinType_UnmarshalJSON() {
 	})
 
 	s.Run("null value", func() {
-		value := `{"date":"null","date_milli":"null","date_micro":"null","date_nano":"null","time":"null","time_milli":"null","time_micro":"null","time_nano":"null","date_time":"null","date_time_milli":"null","date_time_micro":"null","date_time_nano":"null","created_at":"null","updated_at":"null","timestamp":"null","timestamp_milli":"null","timestamp_micro":"null","timestamp_nano":"null","deleted_at":"null"}`
-		s.NoError(json.Unmarshal([]byte(value), &model))
+		value1 := `{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`
+		s.NoError(json.Unmarshal([]byte(value1), &model))
 
 		s.Empty(model.Date.String())
 		s.Empty(model.DateMilli.String())
@@ -587,11 +623,9 @@ func (s *BuiltinTypeSuite) TestBuiltinType_UnmarshalJSON() {
 		s.Empty(model.UpdatedAt.String())
 		s.Equal("0", model.DeletedAt.String())
 		s.Equal(int64(0), model.DeletedAt.Int64())
-	})
 
-	s.Run("zero value", func() {
-		value := `{"date":"0","date_milli":"0","date_micro":"0","date_nano":"0","time":"0","time_milli":"0","time_micro":"0","time_nano":"0","date_time":"0","date_time_milli":"0","date_time_micro":"0","date_time_nano":"0","created_at":"0","updated_at":"0","timestamp":"0","timestamp_milli":"0","timestamp_micro":"0","timestamp_nano":"0","deleted_at":"0"}`
-		s.NoError(json.Unmarshal([]byte(value), &model))
+		value2 := `{"date":"null","date_milli":"null","date_micro":"null","date_nano":"null","time":"null","time_milli":"null","time_micro":"null","time_nano":"null","date_time":"null","date_time_milli":"null","date_time_micro":"null","date_time_nano":"null","created_at":"null","updated_at":"null","timestamp":"null","timestamp_milli":"null","timestamp_micro":"null","timestamp_nano":"null","deleted_at":"null"}`
+		s.NoError(json.Unmarshal([]byte(value2), &model))
 
 		s.Empty(model.Date.String())
 		s.Empty(model.DateMilli.String())
@@ -829,6 +863,18 @@ func (s *CustomerTypeSuite) TestCustomerType_Value() {
 		s.Nil(e2)
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+
+		t1, e1 := NewFormatType[iso8601Type](c).Value()
+		s.Empty(t1)
+		s.Nil(e1)
+
+		t2, e2 := NewLayoutType[rfc3339Type](c).Value()
+		s.Empty(t2)
+		s.Nil(e2)
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 
@@ -866,11 +912,25 @@ func (s *CustomerTypeSuite) TestCustomerType_MarshalJSON() {
 
 		data, err := json.Marshal(&model)
 		s.Nil(err)
-		s.Equal(`{"customer1":"","customer2":"","created_at":"","updated_at":""}`, string(data))
+		s.Equal(`{"customer1":null,"customer2":null,"created_at":null,"updated_at":null}`, string(data))
 	})
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon()
+
+		model.Customer1 = *NewFormatType[iso8601Type](c)
+		model.Customer2 = *NewLayoutType[rfc3339Type](c)
+
+		model.CreatedAt = NewFormatType[iso8601Type](c)
+		model.UpdatedAt = NewLayoutType[rfc3339Type](c)
+
+		data, err := json.Marshal(&model)
+		s.Nil(err)
+		s.Equal(`{"customer1":null,"customer2":null,"created_at":null,"updated_at":null}`, string(data))
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("")
 
 		model.Customer1 = *NewFormatType[iso8601Type](c)
 		model.Customer2 = *NewLayoutType[rfc3339Type](c)
@@ -926,18 +986,16 @@ func (s *CustomerTypeSuite) TestCustomerType_UnmarshalJSON() {
 	})
 
 	s.Run("null value", func() {
-		value := `{"customer1":"null","customer2":"null","created_at":"null","updated_at":"null"}`
-		s.NoError(json.Unmarshal([]byte(value), &model))
+		value1 := `{"customer1":null,"customer2":null,"created_at":null,"updated_at":null}`
+		s.NoError(json.Unmarshal([]byte(value1), &model))
 
 		s.Empty(model.Customer1.String())
 		s.Empty(model.Customer2.String())
 		s.Empty(model.CreatedAt.String())
 		s.Empty(model.UpdatedAt.String())
-	})
 
-	s.Run("zero value", func() {
-		value := `{"customer1":"0","customer2":"0","created_at":"0","updated_at":"0"}`
-		s.NoError(json.Unmarshal([]byte(value), &model))
+		value2 := `{"customer1":"null","customer2":"null","created_at":"null","updated_at":"null"}`
+		s.NoError(json.Unmarshal([]byte(value2), &model))
 
 		s.Empty(model.Customer1.String())
 		s.Empty(model.Customer2.String())
