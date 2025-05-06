@@ -25,6 +25,10 @@ func (s *SeasonSuite) TestSeason() {
 		s.Equal(Winter, NewCarbon().Season())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").Season())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").Season())
 	})
@@ -66,6 +70,10 @@ func (s *SeasonSuite) TestStartOfSeason() {
 		s.Equal("0000-12-01 00:00:00 +0000 UTC", NewCarbon().StartOfSeason().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Error(Parse("").StartOfSeason().Error)
+	})
+
 	s.Run("error carbon", func() {
 		s.Error(Parse("xxx").StartOfSeason().Error)
 	})
@@ -95,6 +103,10 @@ func (s *SeasonSuite) TestEndOfSeason() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0001-02-28 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfSeason().ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Error(Parse("").EndOfSeason().Error)
 	})
 
 	s.Run("error carbon", func() {
@@ -128,6 +140,10 @@ func (s *SeasonSuite) TestIsSpring() {
 		s.False(NewCarbon().IsSpring())
 	})
 
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsSpring())
+	})
+
 	s.Run("error carbon", func() {
 		s.False(Parse("xxx").IsSpring())
 	})
@@ -147,6 +163,10 @@ func (s *SeasonSuite) TestIsSummer() {
 
 	s.Run("zero carbon", func() {
 		s.False(NewCarbon().IsSummer())
+	})
+
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsSummer())
 	})
 
 	s.Run("error carbon", func() {
@@ -170,6 +190,10 @@ func (s *SeasonSuite) TestIsAutumn() {
 		s.False(NewCarbon().IsAutumn())
 	})
 
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsAutumn())
+	})
+
 	s.Run("error carbon", func() {
 		s.False(Parse("xxx").IsAutumn())
 	})
@@ -189,6 +213,10 @@ func (s *SeasonSuite) TestIsWinter() {
 
 	s.Run("zero carbon", func() {
 		s.True(NewCarbon().IsWinter())
+	})
+
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsWinter())
 	})
 
 	s.Run("error carbon", func() {

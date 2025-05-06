@@ -57,6 +57,10 @@ func (s *GetterSuite) TestCarbon_DaysInYear() {
 		s.Equal(365, NewCarbon().DaysInYear())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").DaysInYear())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").DaysInYear())
 	})
@@ -76,6 +80,10 @@ func (s *GetterSuite) TestCarbon_DaysInMonth() {
 
 	s.Run("zero carbon", func() {
 		s.Equal(31, NewCarbon().DaysInMonth())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").DaysInMonth())
 	})
 
 	s.Run("error carbon", func() {
@@ -101,6 +109,10 @@ func (s *GetterSuite) TestCarbon_MonthOfYear() {
 		s.Equal(1, NewCarbon().MonthOfYear())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").MonthOfYear())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").MonthOfYear())
 	})
@@ -122,6 +134,10 @@ func (s *GetterSuite) TestCarbon_DayOfYear() {
 
 	s.Run("zero carbon", func() {
 		s.Equal(1, NewCarbon().DayOfYear())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").DayOfYear())
 	})
 
 	s.Run("error carbon", func() {
@@ -147,6 +163,10 @@ func (s *GetterSuite) TestCarbon_DayOfMonth() {
 		s.Equal(1, NewCarbon().DayOfMonth())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").DayOfMonth())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").DayOfMonth())
 	})
@@ -167,6 +187,10 @@ func (s *GetterSuite) TestCarbon_DayOfWeek() {
 
 	s.Run("zero carbon", func() {
 		s.Equal(1, NewCarbon().DayOfWeek())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").DayOfWeek())
 	})
 
 	s.Run("error carbon", func() {
@@ -192,6 +216,10 @@ func (s *GetterSuite) TestCarbon_WeekOfYear() {
 		s.Equal(1, NewCarbon().WeekOfYear())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").WeekOfYear())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").WeekOfYear())
 	})
@@ -213,6 +241,10 @@ func (s *GetterSuite) TestCarbon_WeekOfMonth() {
 
 	s.Run("zero carbon", func() {
 		s.Equal(1, NewCarbon().WeekOfMonth())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").WeekOfMonth())
 	})
 
 	s.Run("error carbon", func() {
@@ -242,6 +274,10 @@ func (s *GetterSuite) TestCarbon_DateTime() {
 		s.Zero(hour, minute, second)
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").DateTime())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").DateTime())
 	})
@@ -268,6 +304,10 @@ func (s *GetterSuite) TestCarbon_DateTimeMilli() {
 		year, month, day, hour, minute, second, millisecond := NewCarbon().DateTimeMilli()
 		s.Equal(1, year, month, day)
 		s.Zero(hour, minute, second, millisecond)
+	})
+
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").DateTimeMilli())
 	})
 
 	s.Run("error carbon", func() {
@@ -299,6 +339,10 @@ func (s *GetterSuite) TestCarbon_DateTimeMicro() {
 		s.Zero(hour, minute, second, microsecond)
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").DateTimeMicro())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").DateTimeMicro())
 	})
@@ -326,6 +370,10 @@ func (s *GetterSuite) TestCarbon_DateTimeNano() {
 		year, month, day, hour, minute, second, nanosecond := NewCarbon().DateTimeNano()
 		s.Equal(1, year, month, day)
 		s.Zero(hour, minute, second, nanosecond)
+	})
+
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").DateTimeNano())
 	})
 
 	s.Run("error carbon", func() {
@@ -356,6 +404,10 @@ func (s *GetterSuite) TestCarbon_Date() {
 		s.Equal(1, year, month, day)
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").Date())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").Date())
 	})
@@ -379,6 +431,10 @@ func (s *GetterSuite) TestCarbon_DateMilli() {
 		year, month, day, millisecond := NewCarbon().DateMilli()
 		s.Equal(1, year, month, day)
 		s.Zero(millisecond)
+	})
+
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").DateMilli())
 	})
 
 	s.Run("error carbon", func() {
@@ -407,6 +463,10 @@ func (s *GetterSuite) TestCarbon_DateMicro() {
 		s.Zero(microsecond)
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").DateMicro())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").DateMicro())
 	})
@@ -433,6 +493,10 @@ func (s *GetterSuite) TestCarbon_DateNano() {
 		s.Zero(nanosecond)
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").DateNano())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").DateNano())
 	})
@@ -457,6 +521,10 @@ func (s *GetterSuite) TestCarbon_Time() {
 		s.Zero(NewCarbon().Time())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").Time())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").Time())
 	})
@@ -478,6 +546,10 @@ func (s *GetterSuite) TestCarbon_TimeMilli() {
 
 	s.Run("zero carbon", func() {
 		s.Zero(NewCarbon().TimeMilli())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").TimeMilli())
 	})
 
 	s.Run("error carbon", func() {
@@ -504,6 +576,10 @@ func (s *GetterSuite) TestCarbon_TimeMicro() {
 		s.Zero(NewCarbon().TimeMicro())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").TimeMicro())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").TimeMicro())
 	})
@@ -526,6 +602,10 @@ func (s *GetterSuite) TestCarbon_TimeNano() {
 
 	s.Run("zero carbon", func() {
 		s.Zero(NewCarbon().TimeNano())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").TimeNano())
 	})
 
 	s.Run("error carbon", func() {
@@ -552,6 +632,10 @@ func (s *GetterSuite) TestCarbon_Century() {
 		s.Equal(1, NewCarbon().Century())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").Century())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").Century())
 	})
@@ -571,6 +655,10 @@ func (s *GetterSuite) TestCarbon_Decade() {
 
 	s.Run("zero carbon", func() {
 		s.Zero(NewCarbon().Decade())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").Decade())
 	})
 
 	s.Run("error carbon", func() {
@@ -596,6 +684,10 @@ func (s *GetterSuite) TestCarbon_Year() {
 		s.Equal(1, NewCarbon().Year())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").Year())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").Year())
 	})
@@ -617,6 +709,10 @@ func (s *GetterSuite) TestCarbon_Quarter() {
 
 	s.Run("zero carbon", func() {
 		s.Equal(1, NewCarbon().Quarter())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").Quarter())
 	})
 
 	s.Run("error carbon", func() {
@@ -642,6 +738,10 @@ func (s *GetterSuite) TestCarbon_Month() {
 		s.Equal(1, NewCarbon().Month())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").Month())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").Month())
 	})
@@ -663,6 +763,10 @@ func (s *GetterSuite) TestCarbon_Week() {
 
 	s.Run("zero carbon", func() {
 		s.Equal(0, NewCarbon().Week())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Equal(-1, Parse("").Week())
 	})
 
 	s.Run("error carbon", func() {
@@ -688,6 +792,10 @@ func (s *GetterSuite) TestCarbon_Day() {
 		s.Equal(1, NewCarbon().Day())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").Day())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").Day())
 	})
@@ -711,6 +819,10 @@ func (s *GetterSuite) TestCarbon_Hour() {
 		s.Zero(NewCarbon().Hour())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").Hour())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").Hour())
 	})
@@ -729,6 +841,10 @@ func (s *GetterSuite) TestCarbon_Minute() {
 
 	s.Run("zero carbon", func() {
 		s.Zero(NewCarbon().Minute())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").Minute())
 	})
 
 	s.Run("error carbon", func() {
@@ -751,6 +867,10 @@ func (s *GetterSuite) TestCarbon_Second() {
 		s.Zero(NewCarbon().Second())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").Second())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").Second())
 	})
@@ -769,6 +889,10 @@ func (s *GetterSuite) TestCarbon_Millisecond() {
 
 	s.Run("zero carbon", func() {
 		s.Zero(NewCarbon().Millisecond())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").Millisecond())
 	})
 
 	s.Run("error carbon", func() {
@@ -791,6 +915,10 @@ func (s *GetterSuite) TestCarbon_Microsecond() {
 		s.Zero(NewCarbon().Microsecond())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").Microsecond())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").Microsecond())
 	})
@@ -811,6 +939,10 @@ func (s *GetterSuite) TestCarbon_Nanosecond() {
 		s.Zero(NewCarbon().Nanosecond())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").Nanosecond())
+	})
+
 	s.Run("error carbon", func() {
 		s.Zero(Parse("xxx").Nanosecond())
 	})
@@ -829,6 +961,10 @@ func (s *GetterSuite) TestCarbon_Timestamp() {
 
 	s.Run("zero carbon", func() {
 		s.Equal(int64(-62135596800), NewCarbon().Timestamp())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Equal(int64(0), Parse("").Timestamp())
 	})
 
 	s.Run("error carbon", func() {
@@ -852,6 +988,10 @@ func (s *GetterSuite) TestCarbon_TimestampMilli() {
 		s.Equal(int64(-62135596800000), NewCarbon().TimestampMilli())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Equal(int64(0), Parse("").TimestampMilli())
+	})
+
 	s.Run("error carbon", func() {
 		s.Equal(int64(0), Parse("xxx").TimestampMilli())
 	})
@@ -871,6 +1011,10 @@ func (s *GetterSuite) TestCarbon_TimestampMicro() {
 
 	s.Run("zero carbon", func() {
 		s.Equal(int64(-62135596800000000), NewCarbon().TimestampMicro())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Equal(int64(0), Parse("").TimestampMicro())
 	})
 
 	s.Run("error carbon", func() {
@@ -894,6 +1038,10 @@ func (s *GetterSuite) TestCarbon_TimestampNano() {
 		s.Equal(int64(-6795364578871345152), NewCarbon().TimestampNano())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Equal(int64(0), Parse("").TimestampNano())
+	})
+
 	s.Run("error carbon", func() {
 		s.Equal(int64(0), Parse("xxx").TimestampNano())
 	})
@@ -913,6 +1061,10 @@ func (s *GetterSuite) TestCarbon_Timezone() {
 
 	s.Run("zero carbon", func() {
 		s.Equal(UTC, NewCarbon().Timezone())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").Timezone())
 	})
 
 	s.Run("error carbon", func() {
@@ -937,6 +1089,10 @@ func (s *GetterSuite) TestCarbon_ZoneName() {
 		s.Equal(UTC, NewCarbon().ZoneName())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").ZoneName())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").ZoneName())
 	})
@@ -957,6 +1113,10 @@ func (s *GetterSuite) TestCarbon_ZoneOffset() {
 
 	s.Run("zero carbon", func() {
 		s.Zero(NewCarbon().ZoneOffset())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").ZoneOffset())
 	})
 
 	s.Run("error carbon", func() {
@@ -981,6 +1141,10 @@ func (s *GetterSuite) TestCarbon_Locale() {
 		s.Equal("en", NewCarbon().Locale())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").Locale())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").Locale())
 	})
@@ -1001,6 +1165,10 @@ func (s *GetterSuite) TestCarbon_WeekStartsAt() {
 
 	s.Run("zero carbon", func() {
 		s.Equal(DefaultWeekStartsAt, NewCarbon().WeekStartsAt())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").WeekStartsAt())
 	})
 
 	s.Run("error carbon", func() {
@@ -1024,6 +1192,10 @@ func (s *GetterSuite) TestCarbon_WeekEndsAt() {
 		s.Equal(Sunday, NewCarbon().WeekEndsAt())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").WeekEndsAt())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").WeekEndsAt())
 	})
@@ -1043,6 +1215,10 @@ func (s *GetterSuite) TestCarbon_CurrentLayout() {
 
 	s.Run("zero carbon", func() {
 		s.Equal(DefaultLayout, NewCarbon().CurrentLayout())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").CurrentLayout())
 	})
 
 	s.Run("error carbon", func() {
@@ -1065,6 +1241,10 @@ func (s *GetterSuite) TestCarbon_Age() {
 
 	s.Run("zero carbon", func() {
 		s.Equal(2024, NewCarbon().Age())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Zero(Parse("").Age())
 	})
 
 	s.Run("error carbon", func() {

@@ -27,6 +27,12 @@ func (s *CalendarSuite) TestCarbon_Julian() {
 		s.Equal(float64(-678577), c.Julian().MJD())
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.Julian().JD())
+		s.Zero(c.Julian().MJD())
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 		s.Zero(c.Julian().JD())
@@ -76,6 +82,10 @@ func (s *CalendarSuite) TestCarbon_Lunar() {
 		s.Empty(NewCarbon().Lunar().String())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").Lunar().String())
+	})
+
 	s.Run("error carbon", func() {
 		s.Error(Parse("xxx").Lunar().Error)
 	})
@@ -108,6 +118,10 @@ func (s *CalendarSuite) TestCarbon_Persian() {
 
 	s.Run("zero carbon", func() {
 		s.Empty(NewCarbon().Persian().String())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").Persian().String())
 	})
 
 	s.Run("error carbon", func() {

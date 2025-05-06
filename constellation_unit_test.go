@@ -25,6 +25,10 @@ func (s *ConstellationSuite) TestCarbon_Constellation() {
 		s.Equal(Capricorn, NewCarbon().Constellation())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").Constellation())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").Constellation())
 	})
@@ -80,6 +84,10 @@ func (s *ConstellationSuite) TestCarbon_IsAries() {
 		s.False(NewCarbon().IsAries())
 	})
 
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsAries())
+	})
+
 	s.Run("error carbon", func() {
 		s.False(Parse("xxx").IsAries())
 	})
@@ -100,6 +108,10 @@ func (s *ConstellationSuite) TestCarbon_IsTaurus() {
 
 	s.Run("zero carbon", func() {
 		s.False(NewCarbon().IsTaurus())
+	})
+
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsTaurus())
 	})
 
 	s.Run("error carbon", func() {
@@ -124,6 +136,10 @@ func (s *ConstellationSuite) TestCarbon_IsGemini() {
 		s.False(NewCarbon().IsGemini())
 	})
 
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsGemini())
+	})
+
 	s.Run("error carbon", func() {
 		s.False(Parse("xxx").IsGemini())
 	})
@@ -144,6 +160,10 @@ func (s *ConstellationSuite) TestCarbon_IsCancer() {
 
 	s.Run("zero carbon", func() {
 		s.False(NewCarbon().IsCancer())
+	})
+
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsCancer())
 	})
 
 	s.Run("error carbon", func() {
@@ -168,6 +188,10 @@ func (s *ConstellationSuite) TestCarbon_IsLeo() {
 		s.False(NewCarbon().IsLeo())
 	})
 
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsLeo())
+	})
+
 	s.Run("error carbon", func() {
 		s.False(Parse("xxx").IsLeo())
 	})
@@ -188,6 +212,10 @@ func (s *ConstellationSuite) TestCarbon_IsVirgo() {
 
 	s.Run("zero carbon", func() {
 		s.False(NewCarbon().IsVirgo())
+	})
+
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsVirgo())
 	})
 
 	s.Run("error carbon", func() {
@@ -212,6 +240,10 @@ func (s *ConstellationSuite) TestCarbon_IsLibra() {
 		s.False(NewCarbon().IsLibra())
 	})
 
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsLibra())
+	})
+
 	s.Run("error carbon", func() {
 		s.False(Parse("xxx").IsLibra())
 	})
@@ -232,6 +264,10 @@ func (s *ConstellationSuite) TestCarbon_IsScorpio() {
 
 	s.Run("zero carbon", func() {
 		s.False(NewCarbon().IsScorpio())
+	})
+
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsScorpio())
 	})
 
 	s.Run("error carbon", func() {
@@ -256,6 +292,10 @@ func (s *ConstellationSuite) TestCarbon_IsSagittarius() {
 		s.False(NewCarbon().IsSagittarius())
 	})
 
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsSagittarius())
+	})
+
 	s.Run("error carbon", func() {
 		s.False(Parse("xxx").IsSagittarius())
 	})
@@ -276,6 +316,10 @@ func (s *ConstellationSuite) TestCarbon_IsCapricorn() {
 
 	s.Run("zero carbon", func() {
 		s.True(NewCarbon().IsCapricorn())
+	})
+
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsCapricorn())
 	})
 
 	s.Run("error carbon", func() {
@@ -300,6 +344,10 @@ func (s *ConstellationSuite) TestCarbon_IsAquarius() {
 		s.False(NewCarbon().IsAquarius())
 	})
 
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsAquarius())
+	})
+
 	s.Run("error carbon", func() {
 		s.False(Parse("xxx").IsAquarius())
 	})
@@ -320,6 +368,10 @@ func (s *ConstellationSuite) TestCarbon_IsPisces() {
 
 	s.Run("zero carbon", func() {
 		s.False(NewCarbon().IsPisces())
+	})
+
+	s.Run("empty carbon", func() {
+		s.False(Parse("").IsPisces())
 	})
 
 	s.Run("error carbon", func() {

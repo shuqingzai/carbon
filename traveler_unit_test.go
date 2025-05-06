@@ -77,6 +77,10 @@ func (s *TravelerSuite) TestCarbon_AddDuration() {
 		s.Equal("0001-01-01 10:00:00 +0000 UTC", NewCarbon().AddDuration("10h").ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddDuration("10h").ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddDuration("10h").ToString())
 	})
@@ -107,6 +111,10 @@ func (s *TravelerSuite) TestCarbon_SubDuration() {
 		s.Equal("0000-12-31 14:00:00 +0000 UTC", NewCarbon().SubDuration("10h").ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubDuration("10h").ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubDuration("10h").ToString())
 	})
@@ -134,6 +142,10 @@ func (s *TravelerSuite) TestCarbon_AddCenturies() {
 		s.Equal("0201-01-01 00:00:00 +0000 UTC", NewCarbon().AddCenturies(2).ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddCenturies(2).ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddCenturies(2).ToString())
 	})
@@ -154,6 +166,10 @@ func (s *TravelerSuite) TestCarbon_AddCenturiesNoOverflow() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0201-01-01 00:00:00 +0000 UTC", NewCarbon().AddCenturiesNoOverflow(2).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddCenturiesNoOverflow(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -178,6 +194,10 @@ func (s *TravelerSuite) TestCarbon_AddCentury() {
 		s.Equal("0101-01-01 00:00:00 +0000 UTC", NewCarbon().AddCentury().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddCentury().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddCentury().ToString())
 	})
@@ -198,6 +218,10 @@ func (s *TravelerSuite) TestCarbon_AddCenturyNoOverflow() {
 		s.Equal("0101-01-01 00:00:00 +0000 UTC", NewCarbon().AddCenturyNoOverflow().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddCenturyNoOverflow().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddCenturyNoOverflow().ToString())
 	})
@@ -216,6 +240,10 @@ func (s *TravelerSuite) TestCarbon_SubCenturies() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("-0199-01-01 00:00:00 +0000 UTC", NewCarbon().SubCenturies(2).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubCenturies(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -240,6 +268,10 @@ func (s *TravelerSuite) TestCarbon_SubCenturiesNoOverflow() {
 		s.Equal("-0199-01-01 00:00:00 +0000 UTC", NewCarbon().SubCenturiesNoOverflow(2).ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubCenturiesNoOverflow(2).ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubCenturiesNoOverflow(2).ToString())
 	})
@@ -262,6 +294,10 @@ func (s *TravelerSuite) TestCarbon_SubCentury() {
 		s.Equal("-0099-01-01 00:00:00 +0000 UTC", NewCarbon().SubCentury().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubCentury().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubCentury().ToString())
 	})
@@ -282,6 +318,10 @@ func (s *TravelerSuite) TestCarbon_SubCenturyNoOverflow() {
 		s.Equal("-0099-01-01 00:00:00 +0000 UTC", NewCarbon().SubCenturyNoOverflow().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubCenturyNoOverflow().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubCenturyNoOverflow().ToString())
 	})
@@ -300,6 +340,10 @@ func (s *TravelerSuite) TestCarbon_AddDecades() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0021-01-01 00:00:00 +0000 UTC", NewCarbon().AddDecades(2).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddDecades(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -324,6 +368,10 @@ func (s *TravelerSuite) TestCarbon_AddDecadesNoOverflow() {
 		s.Equal("0021-01-01 00:00:00 +0000 UTC", NewCarbon().AddDecadesNoOverflow(2).ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddDecadesNoOverflow(2).ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddDecadesNoOverflow(2).ToString())
 	})
@@ -346,6 +394,10 @@ func (s *TravelerSuite) TestCarbon_AddDecade() {
 		s.Equal("0011-01-01 00:00:00 +0000 UTC", NewCarbon().AddDecade().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddDecade().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddDecade().ToString())
 	})
@@ -366,6 +418,10 @@ func (s *TravelerSuite) TestCarbon_AddDecadeNoOverflow() {
 		s.Equal("0011-01-01 00:00:00 +0000 UTC", NewCarbon().AddDecadeNoOverflow().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddDecadeNoOverflow().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddDecadeNoOverflow().ToString())
 	})
@@ -384,6 +440,10 @@ func (s *TravelerSuite) TestCarbon_SubDecades() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("-0019-01-01 00:00:00 +0000 UTC", NewCarbon().SubDecades(2).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubDecades(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -408,6 +468,10 @@ func (s *TravelerSuite) TestCarbon_SubDecadesNoOverflow() {
 		s.Equal("-0019-01-01 00:00:00 +0000 UTC", NewCarbon().SubDecadesNoOverflow(2).ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubDecadesNoOverflow(2).ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubDecadesNoOverflow(2).ToString())
 	})
@@ -430,6 +494,10 @@ func (s *TravelerSuite) TestCarbon_SubDecade() {
 		s.Equal("-0009-01-01 00:00:00 +0000 UTC", NewCarbon().SubDecade().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubDecade().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubDecade().ToString())
 	})
@@ -450,6 +518,10 @@ func (s *TravelerSuite) TestCarbon_SubDecadeNoOverflow() {
 		s.Equal("-0009-01-01 00:00:00 +0000 UTC", NewCarbon().SubDecadeNoOverflow().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubDecadeNoOverflow().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubDecadeNoOverflow().ToString())
 	})
@@ -468,6 +540,10 @@ func (s *TravelerSuite) TestCarbon_AddYears() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0003-01-01", NewCarbon().AddYears(2).ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddYears(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -493,6 +569,10 @@ func (s *TravelerSuite) TestCarbon_AddYearsNoOverflow() {
 		s.Equal("0003-01-01", NewCarbon().AddYearsNoOverflow(2).ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddYearsNoOverflow(2).ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddYearsNoOverflow(2).ToString())
 	})
@@ -514,6 +594,10 @@ func (s *TravelerSuite) TestCarbon_AddYear() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0002-01-01", NewCarbon().AddYear().ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddYear().ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -538,6 +622,10 @@ func (s *TravelerSuite) TestCarbon_AddYearNoOverflow() {
 		s.Equal("0002-01-01", NewCarbon().AddYearNoOverflow().ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddYearNoOverflow().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddYearNoOverflow().ToString())
 	})
@@ -558,6 +646,10 @@ func (s *TravelerSuite) TestCarbon_SubYears() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("-0001-01-01", NewCarbon().SubYears(2).ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubYears(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -583,6 +675,10 @@ func (s *TravelerSuite) TestCarbon_SubYearsNoOverflow() {
 		s.Equal("-0001-01-01", NewCarbon().SubYearsNoOverflow(2).ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubYearsNoOverflow(2).ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubYearsNoOverflow(2).ToString())
 	})
@@ -604,6 +700,10 @@ func (s *TravelerSuite) TestCarbon_SubYear() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0000-01-01", NewCarbon().SubYear().ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubYear().ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -628,6 +728,10 @@ func (s *TravelerSuite) TestCarbon_SubYearNoOverflow() {
 		s.Equal("0000-01-01", NewCarbon().SubYearNoOverflow().ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubYearNoOverflow().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubYearNoOverflow().ToString())
 	})
@@ -648,6 +752,10 @@ func (s *TravelerSuite) TestCarbon_AddQuarters() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0001-07-01", NewCarbon().AddQuarters(2).ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddQuarters(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -674,6 +782,10 @@ func (s *TravelerSuite) TestCarbon_AddQuartersNoOverflow() {
 		s.Equal("0001-07-01", NewCarbon().AddQuartersNoOverflow(2).ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddQuartersNoOverflow(2).ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddQuartersNoOverflow(2).ToString())
 	})
@@ -696,6 +808,10 @@ func (s *TravelerSuite) TestCarbon_AddQuarter() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0001-04-01", NewCarbon().AddQuarter().ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddQuarter().ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -721,6 +837,10 @@ func (s *TravelerSuite) TestCarbon_AddQuarterNoOverflow() {
 		s.Equal("0001-04-01", NewCarbon().AddQuarterNoOverflow().ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddQuarterNoOverflow().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddQuarterNoOverflow().ToString())
 	})
@@ -742,6 +862,10 @@ func (s *TravelerSuite) TestCarbon_SubQuarters() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0000-07-01", NewCarbon().SubQuarters(2).ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubQuarters(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -768,6 +892,10 @@ func (s *TravelerSuite) TestCarbon_SubQuartersNoOverflow() {
 		s.Equal("0000-07-01", NewCarbon().SubQuartersNoOverflow(2).ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubQuartersNoOverflow(2).ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubQuartersNoOverflow(2).ToString())
 	})
@@ -790,6 +918,10 @@ func (s *TravelerSuite) TestCarbon_SubQuarter() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0000-10-01", NewCarbon().SubQuarter().ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubQuarter().ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -815,6 +947,10 @@ func (s *TravelerSuite) TestCarbon_SubQuarterNoOverflow() {
 		s.Equal("0000-10-01", NewCarbon().SubQuarterNoOverflow().ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubQuarterNoOverflow().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubQuarterNoOverflow().ToString())
 	})
@@ -836,6 +972,10 @@ func (s *TravelerSuite) TestCarbon_AddMonths() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0001-03-01", NewCarbon().AddMonths(2).ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddMonths(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -862,6 +1002,10 @@ func (s *TravelerSuite) TestCarbon_AddMonthsNoOverflow() {
 		s.Equal("0001-03-01", NewCarbon().AddMonthsNoOverflow(2).ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddMonthsNoOverflow(2).ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddMonthsNoOverflow(2).ToString())
 	})
@@ -884,6 +1028,10 @@ func (s *TravelerSuite) TestCarbon_AddMonth() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0001-02-01", NewCarbon().AddMonth().ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddMonth().ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -909,6 +1057,10 @@ func (s *TravelerSuite) TestCarbon_AddMonthNoOverflow() {
 		s.Equal("0001-02-01", NewCarbon().AddMonthNoOverflow().ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddMonthNoOverflow().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddMonthNoOverflow().ToString())
 	})
@@ -930,6 +1082,10 @@ func (s *TravelerSuite) TestCarbon_SubMonths() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0000-11-01", NewCarbon().SubMonths(2).ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubMonths(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -956,6 +1112,10 @@ func (s *TravelerSuite) TestCarbon_SubMonthsNoOverflow() {
 		s.Equal("0000-11-01", NewCarbon().SubMonthsNoOverflow(2).ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubMonthsNoOverflow(2).ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubMonthsNoOverflow(2).ToString())
 	})
@@ -978,6 +1138,10 @@ func (s *TravelerSuite) TestCarbon_SubMonth() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0000-12-01", NewCarbon().SubMonth().ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubMonth().ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1003,6 +1167,10 @@ func (s *TravelerSuite) TestCarbon_SubMonthNoOverflow() {
 		s.Equal("0000-12-01", NewCarbon().SubMonthNoOverflow().ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubMonthNoOverflow().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubMonthNoOverflow().ToString())
 	})
@@ -1024,6 +1192,10 @@ func (s *TravelerSuite) TestCarbon_AddWeeks() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0001-01-15", NewCarbon().AddWeeks(2).ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddWeeks(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1050,6 +1222,10 @@ func (s *TravelerSuite) TestCarbon_AddWeek() {
 		s.Equal("0001-01-08", NewCarbon().AddWeek().ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddWeek().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddWeek().ToString())
 	})
@@ -1071,6 +1247,10 @@ func (s *TravelerSuite) TestCarbon_SubWeeks() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0000-12-18", NewCarbon().SubWeeks(2).ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubWeeks(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1097,6 +1277,10 @@ func (s *TravelerSuite) TestCarbon_SubWeek() {
 		s.Equal("0000-12-25", NewCarbon().SubWeek().ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubWeek().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubWeek().ToString())
 	})
@@ -1118,6 +1302,10 @@ func (s *TravelerSuite) TestCarbon_AddDays() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0001-01-03", NewCarbon().AddDays(2).ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddDays(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1144,6 +1332,10 @@ func (s *TravelerSuite) TestCarbon_AddDay() {
 		s.Equal("0001-01-02", NewCarbon().AddDay().ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddDay().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddDay().ToString())
 	})
@@ -1165,6 +1357,10 @@ func (s *TravelerSuite) TestCarbon_SubDays() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0000-12-30", NewCarbon().SubDays(2).ToDateString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubDays(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1191,6 +1387,10 @@ func (s *TravelerSuite) TestCarbon_SubDay() {
 		s.Equal("0000-12-31", NewCarbon().SubDay().ToDateString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubDay().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubDay().ToString())
 	})
@@ -1212,6 +1412,10 @@ func (s *TravelerSuite) TestCarbon_AddHours() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0001-01-01 02:00:00 +0000 UTC", NewCarbon().AddHours(2).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddHours(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1236,6 +1440,10 @@ func (s *TravelerSuite) TestCarbon_AddHour() {
 		s.Equal("0001-01-01 01:00:00 +0000 UTC", NewCarbon().AddHour().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddHour().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddHour().ToString())
 	})
@@ -1254,6 +1462,10 @@ func (s *TravelerSuite) TestCarbon_SubHours() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0000-12-31 22:00:00 +0000 UTC", NewCarbon().SubHours(2).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubHours(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1278,6 +1490,10 @@ func (s *TravelerSuite) TestCarbon_SubHour() {
 		s.Equal("0000-12-31 23:00:00 +0000 UTC", NewCarbon().SubHour().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubHour().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubHour().ToString())
 	})
@@ -1296,6 +1512,10 @@ func (s *TravelerSuite) TestCarbon_AddMinutes() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0001-01-01 00:02:00 +0000 UTC", NewCarbon().AddMinutes(2).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddMinutes(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1320,6 +1540,10 @@ func (s *TravelerSuite) TestCarbon_AddMinute() {
 		s.Equal("0001-01-01 00:01:00 +0000 UTC", NewCarbon().AddMinute().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddMinute().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddMinute().ToString())
 	})
@@ -1340,6 +1564,10 @@ func (s *TravelerSuite) TestCarbon_SubMinutes() {
 		s.Equal("0000-12-31 23:58:00 +0000 UTC", NewCarbon().SubMinutes(2).ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubMinutes(2).ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubMinutes(2).ToString())
 	})
@@ -1352,8 +1580,18 @@ func (s *TravelerSuite) TestCarbon_SubMinutes() {
 }
 
 func (s *TravelerSuite) TestCarbon_SubMinute() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.Empty(c.SubMinute().ToString())
+	})
+
 	s.Run("zero carbon", func() {
 		s.Equal("0000-12-31 23:59:00 +0000 UTC", NewCarbon().SubMinute().ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubMinute().ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1374,6 +1612,10 @@ func (s *TravelerSuite) TestCarbon_AddSeconds() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0001-01-01 00:00:02 +0000 UTC", NewCarbon().AddSeconds(2).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddSeconds(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1398,6 +1640,10 @@ func (s *TravelerSuite) TestCarbon_AddSecond() {
 		s.Equal("0001-01-01 00:00:01 +0000 UTC", NewCarbon().AddSecond().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddSecond().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddSecond().ToString())
 	})
@@ -1416,6 +1662,10 @@ func (s *TravelerSuite) TestCarbon_SubSeconds() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0000-12-31 23:59:58 +0000 UTC", NewCarbon().SubSeconds(2).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubSeconds(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1440,6 +1690,10 @@ func (s *TravelerSuite) TestCarbon_SubSecond() {
 		s.Equal("0000-12-31 23:59:59 +0000 UTC", NewCarbon().SubSecond().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubSecond().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubSecond().ToString())
 	})
@@ -1458,6 +1712,10 @@ func (s *TravelerSuite) TestCarbon_AddMilliseconds() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0001-01-01 00:00:00.002 +0000 UTC", NewCarbon().AddMilliseconds(2).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddMilliseconds(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1482,6 +1740,10 @@ func (s *TravelerSuite) TestCarbon_AddMillisecond() {
 		s.Equal("0001-01-01 00:00:00.001 +0000 UTC", NewCarbon().AddMillisecond().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddMillisecond().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddMillisecond().ToString())
 	})
@@ -1500,6 +1762,10 @@ func (s *TravelerSuite) TestCarbon_SubMilliseconds() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0000-12-31 23:59:59.998 +0000 UTC", NewCarbon().SubMilliseconds(2).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubMilliseconds(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1524,6 +1790,10 @@ func (s *TravelerSuite) TestCarbon_SubMillisecond() {
 		s.Equal("0000-12-31 23:59:59.999 +0000 UTC", NewCarbon().SubMillisecond().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubMillisecond().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubMillisecond().ToString())
 	})
@@ -1542,6 +1812,10 @@ func (s *TravelerSuite) TestCarbon_AddMicroseconds() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0001-01-01 00:00:00.000002 +0000 UTC", NewCarbon().AddMicroseconds(2).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddMicroseconds(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1566,6 +1840,10 @@ func (s *TravelerSuite) TestCarbon_AddMicrosecond() {
 		s.Equal("0001-01-01 00:00:00.000001 +0000 UTC", NewCarbon().AddMicrosecond().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddMicrosecond().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddMicrosecond().ToString())
 	})
@@ -1584,6 +1862,10 @@ func (s *TravelerSuite) TestCarbon_SubMicroseconds() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0000-12-31 23:59:59.999998 +0000 UTC", NewCarbon().SubMicroseconds(2).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubMicroseconds(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1608,6 +1890,10 @@ func (s *TravelerSuite) TestCarbon_SubMicrosecond() {
 		s.Equal("0000-12-31 23:59:59.999999 +0000 UTC", NewCarbon().SubMicrosecond().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubMicrosecond().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").SubMicrosecond().ToString())
 	})
@@ -1626,6 +1912,10 @@ func (s *TravelerSuite) TestCarbon_AddNanoseconds() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0001-01-01 00:00:00.000000002 +0000 UTC", NewCarbon().AddNanoseconds(2).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddNanoseconds(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1650,6 +1940,10 @@ func (s *TravelerSuite) TestCarbon_AddNanosecond() {
 		s.Equal("0001-01-01 00:00:00.000000001 +0000 UTC", NewCarbon().AddNanosecond().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").AddNanosecond().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Empty(Parse("xxx").AddNanosecond().ToString())
 	})
@@ -1668,6 +1962,10 @@ func (s *TravelerSuite) TestCarbon_SubNanoseconds() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0000-12-31 23:59:59.999999998 +0000 UTC", NewCarbon().SubNanoseconds(2).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubNanoseconds(2).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -1690,6 +1988,10 @@ func (s *TravelerSuite) TestCarbon_SubNanosecond() {
 
 	s.Run("zero carbon", func() {
 		s.Equal("0000-12-31 23:59:59.999999999 +0000 UTC", NewCarbon().SubNanosecond().ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Empty(Parse("").SubNanosecond().ToString())
 	})
 
 	s.Run("error carbon", func() {

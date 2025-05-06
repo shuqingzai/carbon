@@ -38,6 +38,13 @@ func (s *DifferenceSuite) TestCarbon_DiffInYears() {
 		s.Equal(int64(0), c.DiffInYears(c))
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffInYears())
+		s.Zero(Now().DiffInYears(c))
+		s.Zero(c.DiffInYears(c))
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 		s.Zero(c.DiffInYears())
@@ -72,6 +79,13 @@ func (s *DifferenceSuite) TestCarbon_DiffAbsInYears() {
 		s.Equal(int64(2019), c.DiffAbsInYears())
 		s.Equal(int64(2019), Now().DiffAbsInYears(c))
 		s.Equal(int64(0), c.DiffAbsInYears(c))
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffAbsInYears())
+		s.Zero(Now().DiffAbsInYears(c))
+		s.Zero(c.DiffAbsInYears(c))
 	})
 
 	s.Run("error carbon", func() {
@@ -110,6 +124,13 @@ func (s *DifferenceSuite) TestCarbon_DiffInMonths() {
 		s.Equal(int64(0), c.DiffInMonths(c))
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffInMonths())
+		s.Zero(Now().DiffInMonths(c))
+		s.Zero(c.DiffInMonths(c))
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 		s.Zero(c.DiffInMonths())
@@ -144,6 +165,13 @@ func (s *DifferenceSuite) TestCarbon_DiffAbsInMonths() {
 		s.Equal(int64(24235), c.DiffAbsInMonths())
 		s.Equal(int64(24235), Now().DiffAbsInMonths(c))
 		s.Equal(int64(0), c.DiffAbsInMonths(c))
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffAbsInMonths())
+		s.Zero(Now().DiffAbsInMonths(c))
+		s.Zero(c.DiffAbsInMonths(c))
 	})
 
 	s.Run("error carbon", func() {
@@ -182,6 +210,13 @@ func (s *DifferenceSuite) TestCarbon_DiffInWeeks() {
 		s.Equal(int64(0), c.DiffInWeeks(c))
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffInWeeks())
+		s.Zero(Now().DiffInWeeks(c))
+		s.Zero(c.DiffInWeeks(c))
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 		s.Zero(c.DiffInWeeks())
@@ -216,6 +251,13 @@ func (s *DifferenceSuite) TestCarbon_DiffAbsInWeeks() {
 		s.Equal(int64(0), c.DiffAbsInWeeks(c))
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffAbsInWeeks())
+		s.Zero(Now().DiffAbsInWeeks(c))
+		s.Zero(c.DiffAbsInWeeks(c))
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 		s.Zero(c.DiffAbsInWeeks())
@@ -248,6 +290,13 @@ func (s *DifferenceSuite) TestCarbon_DiffInDays() {
 		s.Equal(int64(737641), c.DiffInDays())
 		s.Equal(int64(-737641), Now().DiffInDays(c))
 		s.Equal(int64(0), c.DiffInDays(c))
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffInDays())
+		s.Zero(Now().DiffInDays(c))
+		s.Zero(c.DiffInDays(c))
 	})
 
 	s.Run("error carbon", func() {
@@ -286,6 +335,13 @@ func (s *DifferenceSuite) TestCarbon_DiffAbsInDays() {
 		s.Equal(int64(0), c.DiffAbsInDays(c))
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffAbsInDays())
+		s.Zero(Now().DiffAbsInDays(c))
+		s.Zero(c.DiffAbsInDays(c))
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 		s.Zero(c.DiffAbsInDays())
@@ -320,6 +376,13 @@ func (s *DifferenceSuite) TestCarbon_DiffInHours() {
 		s.Equal(int64(17703397), c.DiffInHours())
 		s.Equal(int64(-17703397), Now().DiffInHours(c))
 		s.Equal(int64(0), c.DiffInHours(c))
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffInHours())
+		s.Zero(Now().DiffInHours(c))
+		s.Zero(c.DiffInHours(c))
 	})
 
 	s.Run("error carbon", func() {
@@ -358,6 +421,13 @@ func (s *DifferenceSuite) TestCarbon_DiffAbsInHours() {
 		s.Equal(int64(0), c.DiffAbsInHours(c))
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffAbsInHours())
+		s.Zero(Now().DiffAbsInHours(c))
+		s.Zero(c.DiffAbsInHours(c))
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 		s.Zero(c.DiffAbsInHours())
@@ -392,6 +462,13 @@ func (s *DifferenceSuite) TestCarbon_DiffInMinutes() {
 		s.Equal(int64(1062203834), c.DiffInMinutes())
 		s.Equal(int64(-1062203834), Now().DiffInMinutes(c))
 		s.Equal(int64(0), c.DiffInMinutes(c))
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffInMinutes())
+		s.Zero(Now().DiffInMinutes(c))
+		s.Zero(c.DiffInMinutes(c))
 	})
 
 	s.Run("error carbon", func() {
@@ -430,6 +507,13 @@ func (s *DifferenceSuite) TestCarbon_DiffAbsInMinutes() {
 		s.Equal(int64(0), c.DiffAbsInMinutes(c))
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffAbsInMinutes())
+		s.Zero(Now().DiffAbsInMinutes(c))
+		s.Zero(c.DiffAbsInMinutes(c))
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 		s.Zero(c.DiffAbsInMinutes())
@@ -464,6 +548,13 @@ func (s *DifferenceSuite) TestCarbon_DiffInSeconds() {
 		s.Equal(int64(63732230055), c.DiffInSeconds())
 		s.Equal(int64(-63732230055), Now().DiffInSeconds(c))
 		s.Equal(int64(0), c.DiffInSeconds(c))
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffInSeconds())
+		s.Zero(Now().DiffInSeconds(c))
+		s.Zero(c.DiffInSeconds(c))
 	})
 
 	s.Run("error carbon", func() {
@@ -502,6 +593,13 @@ func (s *DifferenceSuite) TestCarbon_DiffAbsInSeconds() {
 		s.Equal(int64(0), c.DiffAbsInSeconds(c))
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffAbsInSeconds())
+		s.Zero(Now().DiffAbsInSeconds(c))
+		s.Zero(c.DiffAbsInSeconds(c))
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 		s.Zero(c.DiffAbsInSeconds())
@@ -536,6 +634,13 @@ func (s *DifferenceSuite) TestCarbon_DiffInString() {
 		s.Equal("2019 years", c.DiffInString())
 		s.Equal("-2019 years", Now().DiffInString(c))
 		s.Equal("just now", c.DiffInString(c))
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffInString())
+		s.Zero(Now().DiffInString(c))
+		s.Zero(c.DiffInString(c))
 	})
 
 	s.Run("error carbon", func() {
@@ -596,6 +701,13 @@ func (s *DifferenceSuite) TestCarbon_DiffAbsInString() {
 		s.Equal("just now", c.DiffAbsInString(c))
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffAbsInString())
+		s.Zero(Now().DiffAbsInString(c))
+		s.Zero(c.DiffAbsInString(c))
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 		s.Zero(c.DiffAbsInString())
@@ -650,6 +762,13 @@ func (s *DifferenceSuite) TestCarbon_DiffInDuration() {
 		s.Equal("0s", c.DiffInDuration(c).String())
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffInDuration())
+		s.Zero(Now().DiffInDuration(c))
+		s.Zero(c.DiffInDuration(c))
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 		s.Zero(c.DiffInDuration())
@@ -692,6 +811,13 @@ func (s *DifferenceSuite) TestCarbon_DiffAbsInDuration() {
 		s.Equal("0s", c.DiffAbsInDuration(c).String())
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(c.DiffAbsInDuration())
+		s.Zero(Now().DiffAbsInDuration(c))
+		s.Zero(c.DiffAbsInDuration(c))
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 		s.Zero(c.DiffAbsInDuration())
@@ -732,6 +858,13 @@ func (s *DifferenceSuite) TestCarbon_DiffForHumans() {
 		s.Equal("2019 years ago", c.DiffForHumans())
 		s.Equal("2019 years after", Now().DiffForHumans(c))
 		s.Equal("just now", c.DiffForHumans(c))
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Empty(c.DiffForHumans())
+		s.Empty(Now().DiffForHumans(c))
+		s.Empty(c.DiffForHumans(c))
 	})
 
 	s.Run("error carbon", func() {
@@ -778,6 +911,13 @@ func (s *DifferenceSuite) TestCarbon_getDiffInMonths() {
 		s.Equal(int64(-24236), getDiffInMonths(Now(), c))
 		s.Equal(int64(24235), getDiffInMonths(c, Now()))
 		s.Equal(int64(0), getDiffInMonths(c, c))
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Zero(getDiffInMonths(Now(), c))
+		s.Zero(getDiffInMonths(c, Now()))
+		s.Zero(getDiffInMonths(c, c))
 	})
 
 	s.Run("error carbon", func() {

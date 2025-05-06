@@ -50,6 +50,13 @@ func (s *ExtremumSuite) TestMax() {
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", Max(c, c).ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Error(Max(c, Now()).Error)
+		s.Error(Max(Now(), c).Error)
+		s.Error(Max(c, c).Error)
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 		s.Error(Max(c, Now()).Error)
@@ -78,6 +85,13 @@ func (s *ExtremumSuite) TestMin() {
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", Min(c, Parse("2020-08-06")).ToString())
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", Min(Parse("2020-08-05"), c).ToString())
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", Min(c, c).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Error(Min(c, Now()).Error)
+		s.Error(Min(Now(), c).Error)
+		s.Error(Min(c, c).Error)
 	})
 
 	s.Run("error carbon", func() {
@@ -110,6 +124,13 @@ func (s *ExtremumSuite) TestCarbon_Closest() {
 		s.Equal("2020-08-06 00:00:00 +0000 UTC", Parse("2020-08-05").Closest(Parse("2020-08-06"), c).ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Empty(c.Closest(Now(), Now()).ToString())
+		s.Empty(Now().Closest(c, Now()).ToString())
+		s.Empty(Now().Closest(Now(), c).ToString())
+	})
+
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
 		s.Empty(c.Closest(Now(), Now()).ToString())
@@ -139,6 +160,13 @@ func (s *ExtremumSuite) TestCarbon_Farthest() {
 		s.Equal("2020-08-06 00:00:00 +0000 UTC", c.Farthest(Parse("2020-08-05"), Parse("2020-08-06")).ToString())
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", Parse("2020-08-05").Farthest(c, Parse("2020-08-06")).ToString())
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", Parse("2020-08-05").Farthest(Parse("2020-08-06"), c).ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		s.Empty(c.Farthest(Now(), Now()).ToString())
+		s.Empty(Now().Farthest(c, Now()).ToString())
+		s.Empty(Now().Farthest(Now(), c).ToString())
 	})
 
 	s.Run("error carbon", func() {
