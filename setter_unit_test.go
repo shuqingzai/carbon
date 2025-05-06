@@ -686,6 +686,12 @@ func (s *SetterSuite) TestCarbon_SetLanguage() {
 		s.Empty(NewCarbon().SetLanguage(lang).ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		lang := NewLanguage()
+		lang.SetLocale("en")
+		s.Empty(Parse("").SetLanguage(lang).ToString())
+	})
+
 	s.Run("error carbon", func() {
 		lang := NewLanguage()
 		lang.SetLocale("en")
