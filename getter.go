@@ -437,7 +437,7 @@ func (c *Carbon) CurrentLayout() string {
 	if c.IsInvalid() {
 		return ""
 	}
-	return c.layout
+	return c.currentLayout
 }
 
 // Age gets age like 18.

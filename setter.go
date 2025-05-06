@@ -80,7 +80,7 @@ func (c *Carbon) SetLayout(layout string) *Carbon {
 	if c.IsInvalid() {
 		return c
 	}
-	c.layout = layout
+	c.currentLayout = layout
 	return c
 }
 
@@ -93,7 +93,7 @@ func (c *Carbon) SetFormat(format string) *Carbon {
 	if c.IsInvalid() {
 		return c
 	}
-	c.layout = format2layout(format)
+	c.currentLayout = format2layout(format)
 	return c
 }
 
@@ -160,7 +160,7 @@ func (c *Carbon) SetWeekendDays(weekDays []Weekday) *Carbon {
 // SetLanguage sets language.
 // 设置语言对象
 func (c *Carbon) SetLanguage(lang *Language) *Carbon {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.isEmpty {
 		return c
 	}
 	if lang == nil {
