@@ -15,15 +15,19 @@ func TestParserSuite(t *testing.T) {
 }
 
 func (s *ParserSuite) TestParse() {
+	s.Run("empty value", func() {
+		s.NoError(Parse("").Error)
+	})
+
 	s.Run("error value", func() {
-		s.Error(Parse("").Error)
-		s.Error(Parse("0").Error)
 		s.Error(Parse("xxx").Error)
 	})
 
-	s.Run("error timezone", func() {
+	s.Run("empty timezone", func() {
 		s.Error(Parse("2020-08-05", "").Error)
-		s.Error(Parse("2020-08-05", "0").Error)
+	})
+
+	s.Run("error timezone", func() {
 		s.Error(Parse("2020-08-05", "xxx").Error)
 	})
 
@@ -72,21 +76,27 @@ func (s *ParserSuite) TestParse() {
 }
 
 func (s *ParserSuite) TestParseByFormat() {
+	s.Run("empty value", func() {
+		s.NoError(ParseByFormat("", DateFormat).Error)
+	})
+
 	s.Run("error value", func() {
-		s.Error(ParseByFormat("", DateFormat).Error)
-		s.Error(ParseByFormat("0", DateFormat).Error)
 		s.Error(ParseByFormat("xxx", DateFormat).Error)
 	})
 
-	s.Run("error format", func() {
+	s.Run("empty format", func() {
 		s.Error(ParseByFormat("2020-08-05", "").Error)
-		s.Error(ParseByFormat("2020-08-05", "0").Error)
+	})
+
+	s.Run("error format", func() {
 		s.Error(ParseByFormat("2020-08-05", "xxx").Error)
 	})
 
-	s.Run("error timezone", func() {
+	s.Run("empty timezone", func() {
 		s.Error(ParseByFormat("2020-08-05", DateFormat, "").Error)
-		s.Error(ParseByFormat("2020-08-05", DateFormat, "0").Error)
+	})
+
+	s.Run("error timezone", func() {
 		s.Error(ParseByFormat("2020-08-05", DateFormat, "xxx").Error)
 	})
 
@@ -127,27 +137,27 @@ func (s *ParserSuite) TestParseByFormat() {
 }
 
 func (s *ParserSuite) TestParseByLayout() {
+	s.Run("empty value", func() {
+		s.NoError(ParseByLayout("", DateFormat).Error)
+	})
+
 	s.Run("error value", func() {
-		s.Error(ParseByLayout("", DateFormat, PRC).Error)
-		s.Error(ParseByLayout("0", DateFormat, PRC).Error)
 		s.Error(ParseByLayout("xxx", DateFormat, PRC).Error)
 	})
 
-	s.Run("error layout", func() {
+	s.Run("empty layout", func() {
 		s.Error(ParseByLayout("2020-08-05", "").Error)
-		s.Error(ParseByLayout("2020-08-05", "0").Error)
-		s.Error(ParseByLayout("2020-08-05", "xxx").Error)
 	})
 
 	s.Run("error layout", func() {
-		s.Error(ParseByLayout("2020-08-05", "").Error)
-		s.Error(ParseByLayout("2020-08-05", "0").Error)
 		s.Error(ParseByLayout("2020-08-05", "xxx").Error)
+	})
+
+	s.Run("empty timezone", func() {
+		s.Error(ParseByLayout("2020-08-05", DateLayout, "").Error)
 	})
 
 	s.Run("error timezone", func() {
-		s.Error(ParseByLayout("2020-08-05", DateLayout, "").Error)
-		s.Error(ParseByLayout("2020-08-05", DateLayout, "0").Error)
 		s.Error(ParseByLayout("2020-08-05", DateLayout, "xxx").Error)
 	})
 
@@ -180,15 +190,19 @@ func (s *ParserSuite) TestParseByLayout() {
 }
 
 func (s *ParserSuite) TestParseWithLayouts() {
+	s.Run("empty value", func() {
+		s.NoError(ParseWithLayouts("", []string{DateTimeLayout}).Error)
+	})
+
 	s.Run("error value", func() {
-		s.Error(ParseWithLayouts("", []string{DateTimeLayout}).Error)
-		s.Error(ParseWithLayouts("0", []string{DateTimeLayout}).Error)
 		s.Error(ParseWithLayouts("xxx", []string{DateTimeLayout}).Error)
 	})
 
-	s.Run("error timezone", func() {
+	s.Run("empty timezone", func() {
 		s.Error(ParseWithLayouts("2020-08-05 13:14:15", []string{DateLayout}, "").Error)
-		s.Error(ParseWithLayouts("2020-08-05 13:14:15", []string{DateLayout}, "0").Error)
+	})
+
+	s.Run("error timezone", func() {
 		s.Error(ParseWithLayouts("2020-08-05 13:14:15", []string{DateLayout}, "xxx").Error)
 	})
 
@@ -211,15 +225,19 @@ func (s *ParserSuite) TestParseWithLayouts() {
 }
 
 func (s *ParserSuite) TestParseWithFormats() {
+	s.Run("empty value", func() {
+		s.NoError(ParseWithFormats("", []string{DateTimeLayout}).Error)
+	})
+
 	s.Run("error value", func() {
-		s.Error(ParseWithFormats("", []string{DateTimeLayout}).Error)
-		s.Error(ParseWithFormats("0", []string{DateTimeLayout}).Error)
 		s.Error(ParseWithFormats("xxx", []string{DateTimeLayout}).Error)
 	})
 
-	s.Run("error timezone", func() {
+	s.Run("empty timezone", func() {
 		s.Error(ParseWithFormats("2020-08-05 13:14:15", []string{DateFormat}, "").Error)
-		s.Error(ParseWithFormats("2020-08-05 13:14:15", []string{DateFormat}, "0").Error)
+	})
+
+	s.Run("error timezone", func() {
 		s.Error(ParseWithFormats("2020-08-05 13:14:15", []string{DateFormat}, "xxx").Error)
 	})
 

@@ -9,7 +9,7 @@ import (
 // 将标准格式时间字符串解析成 Carbon 实例
 func Parse(value string, timezone ...string) *Carbon {
 	if value == "" {
-		return &Carbon{Error: ErrFailedParse(value)}
+		return &Carbon{isEmpty: true}
 	}
 	var (
 		tz  string
@@ -37,7 +37,7 @@ func Parse(value string, timezone ...string) *Carbon {
 	for i := range defaultLayouts {
 		if tt, err = time.ParseInLocation(defaultLayouts[i], value, loc); err == nil {
 			c.time = tt
-			c.layout = defaultLayouts[i]
+			c.currentLayout = defaultLayouts[i]
 			return c
 		}
 	}
@@ -49,7 +49,7 @@ func Parse(value string, timezone ...string) *Carbon {
 // 通过一个确认的 布局模板 将时间字符串解析成 Carbon 实例
 func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 	if value == "" {
-		return &Carbon{Error: ErrFailedParse(value)}
+		return &Carbon{isEmpty: true}
 	}
 	if layout == "" {
 		return &Carbon{Error: ErrEmptyLayout()}
@@ -102,7 +102,7 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 	c := NewCarbon()
 	c.loc = loc
 	c.time = tt
-	c.layout = layout
+	c.currentLayout = layout
 	return c
 }
 
@@ -110,7 +110,7 @@ func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 // 通过一个确认的 格式模板 将时间字符串解析成 Carbon 实例
 func ParseByFormat(value, format string, timezone ...string) *Carbon {
 	if value == "" {
-		return &Carbon{Error: ErrFailedParse(value)}
+		return &Carbon{isEmpty: true}
 	}
 	if format == "" {
 		return &Carbon{Error: ErrEmptyFormat()}
@@ -126,7 +126,7 @@ func ParseByFormat(value, format string, timezone ...string) *Carbon {
 // 通过多个模糊的 布局模板 将时间字符串解析成 Carbon 实例
 func ParseWithLayouts(value string, layouts []string, timezone ...string) *Carbon {
 	if value == "" {
-		return &Carbon{Error: ErrFailedParse(value)}
+		return &Carbon{isEmpty: true}
 	}
 	if len(layouts) == 0 {
 		return Parse(value, timezone...)
@@ -149,7 +149,7 @@ func ParseWithLayouts(value string, layouts []string, timezone ...string) *Carbo
 	for i := range layouts {
 		if tt, err = time.ParseInLocation(layouts[i], value, loc); err == nil {
 			c.time = tt
-			c.layout = layouts[i]
+			c.currentLayout = layouts[i]
 			return c
 		}
 	}
@@ -161,7 +161,7 @@ func ParseWithLayouts(value string, layouts []string, timezone ...string) *Carbo
 // 通过多个模糊的 格式模板 将时间字符串解析成 Carbon 实例
 func ParseWithFormats(value string, formats []string, timezone ...string) *Carbon {
 	if value == "" {
-		return &Carbon{Error: ErrFailedParse(value)}
+		return &Carbon{isEmpty: true}
 	}
 	if len(formats) == 0 {
 		return Parse(value, timezone...)
