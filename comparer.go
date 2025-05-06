@@ -19,10 +19,19 @@ func (c *Carbon) IsNil() bool {
 	return c == nil
 }
 
+// IsEmpty reports whether is empty value.
+// 是否是空值
+func (c *Carbon) IsEmpty() bool {
+	if c.IsNil() || c.HasError() {
+		return false
+	}
+	return c.isEmpty
+}
+
 // IsZero reports whether is a zero time(0001-01-01 00:00:00 +0000 UTC).
 // 是否是零值时间(0001-01-01 00:00:00 +0000 UTC)
 func (c *Carbon) IsZero() bool {
-	if c.IsNil() || c.HasError() {
+	if c.IsNil() || c.IsEmpty() || c.HasError() {
 		return false
 	}
 	return c.time.IsZero()
@@ -31,7 +40,7 @@ func (c *Carbon) IsZero() bool {
 // IsEpoch reports whether is a unix epoch time(1970-01-01 00:00:00 +0000 UTC).
 // 是否是 UNIX 纪元时间(1970-01-01 00:00:00 +0000 UTC)
 func (c *Carbon) IsEpoch() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.StdTime().Equal(time.Date(EpochYear, 1, 1, 0, 0, 0, 0, time.UTC))
@@ -40,7 +49,7 @@ func (c *Carbon) IsEpoch() bool {
 // IsValid reports whether is a valid time.
 // 是否是有效时间
 func (c *Carbon) IsValid() bool {
-	if !c.IsNil() && !c.HasError() {
+	if !c.IsNil() && !c.HasError() && !c.IsEmpty() {
 		return true
 	}
 	return false
@@ -55,7 +64,7 @@ func (c *Carbon) IsInvalid() bool {
 // IsDST reports whether is a daylight saving time.
 // 是否是夏令时
 func (c *Carbon) IsDST() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.StdTime().IsDST()
@@ -64,7 +73,7 @@ func (c *Carbon) IsDST() bool {
 // IsAM reports whether is before noon.
 // 是否是上午
 func (c *Carbon) IsAM() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.Format("a") == "am"
@@ -73,7 +82,7 @@ func (c *Carbon) IsAM() bool {
 // IsPM reports whether is after noon.
 // 是否是下午
 func (c *Carbon) IsPM() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.Format("a") == "pm"
@@ -82,7 +91,7 @@ func (c *Carbon) IsPM() bool {
 // IsLeapYear reports whether is a leap year.
 // 是否是闰年
 func (c *Carbon) IsLeapYear() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	year := c.Year()
@@ -95,7 +104,7 @@ func (c *Carbon) IsLeapYear() bool {
 // IsLongYear reports whether is a long year, see https://en.wikipedia.org/wiki/ISO_8601#Week_dates.
 // 是否是长年
 func (c *Carbon) IsLongYear() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	_, w := time.Date(c.Year(), 12, 31, 0, 0, 0, 0, c.loc).ISOWeek()
@@ -105,7 +114,7 @@ func (c *Carbon) IsLongYear() bool {
 // IsJanuary reports whether is January.
 // 是否是一月
 func (c *Carbon) IsJanuary() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.Month() == int(time.January)
@@ -114,7 +123,7 @@ func (c *Carbon) IsJanuary() bool {
 // IsFebruary reports whether is February.
 // 是否是二月
 func (c *Carbon) IsFebruary() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.Month() == int(time.February)
@@ -123,7 +132,7 @@ func (c *Carbon) IsFebruary() bool {
 // IsMarch reports whether is March.
 // 是否是三月
 func (c *Carbon) IsMarch() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.Month() == int(time.March)
@@ -132,7 +141,7 @@ func (c *Carbon) IsMarch() bool {
 // IsApril reports whether is April.
 // 是否是四月
 func (c *Carbon) IsApril() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.Month() == int(time.April)
@@ -141,7 +150,7 @@ func (c *Carbon) IsApril() bool {
 // IsMay reports whether is May.
 // 是否是五月
 func (c *Carbon) IsMay() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.Month() == int(time.May)
@@ -150,7 +159,7 @@ func (c *Carbon) IsMay() bool {
 // IsJune reports whether is June.
 // 是否是六月
 func (c *Carbon) IsJune() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.Month() == int(time.June)
@@ -159,7 +168,7 @@ func (c *Carbon) IsJune() bool {
 // IsJuly reports whether is July.
 // 是否是七月
 func (c *Carbon) IsJuly() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.Month() == int(time.July)
@@ -168,7 +177,7 @@ func (c *Carbon) IsJuly() bool {
 // IsAugust reports whether is August.
 // 是否是八月
 func (c *Carbon) IsAugust() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.Month() == int(time.August)
@@ -177,7 +186,7 @@ func (c *Carbon) IsAugust() bool {
 // IsSeptember reports whether is September.
 // 是否是九月
 func (c *Carbon) IsSeptember() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.Month() == int(time.September)
@@ -186,7 +195,7 @@ func (c *Carbon) IsSeptember() bool {
 // IsOctober reports whether is October.
 // 是否是十月
 func (c *Carbon) IsOctober() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.Month() == int(time.October)
@@ -195,7 +204,7 @@ func (c *Carbon) IsOctober() bool {
 // IsNovember reports whether is November.
 // 是否是十一月
 func (c *Carbon) IsNovember() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.Month() == int(time.November)
@@ -204,7 +213,7 @@ func (c *Carbon) IsNovember() bool {
 // IsDecember reports whether is December.
 // 是否是十二月
 func (c *Carbon) IsDecember() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.Month() == int(time.December)
@@ -213,7 +222,7 @@ func (c *Carbon) IsDecember() bool {
 // IsMonday reports whether is Monday.
 // 是否是周一
 func (c *Carbon) IsMonday() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.StdTime().Weekday() == time.Monday
@@ -222,7 +231,7 @@ func (c *Carbon) IsMonday() bool {
 // IsTuesday reports whether is Tuesday.
 // 是否是周二
 func (c *Carbon) IsTuesday() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.StdTime().Weekday() == time.Tuesday
@@ -231,7 +240,7 @@ func (c *Carbon) IsTuesday() bool {
 // IsWednesday reports whether is Wednesday.
 // 是否是周三
 func (c *Carbon) IsWednesday() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.StdTime().Weekday() == time.Wednesday
@@ -240,7 +249,7 @@ func (c *Carbon) IsWednesday() bool {
 // IsThursday reports whether is Thursday.
 // 是否是周四
 func (c *Carbon) IsThursday() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.StdTime().Weekday() == time.Thursday
@@ -249,7 +258,7 @@ func (c *Carbon) IsThursday() bool {
 // IsFriday reports whether is Friday.
 // 是否是周五
 func (c *Carbon) IsFriday() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.StdTime().Weekday() == time.Friday
@@ -258,7 +267,7 @@ func (c *Carbon) IsFriday() bool {
 // IsSaturday reports whether is Saturday.
 // 是否是周六
 func (c *Carbon) IsSaturday() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.StdTime().Weekday() == time.Saturday
@@ -267,7 +276,7 @@ func (c *Carbon) IsSaturday() bool {
 // IsSunday reports whether is Sunday.
 // 是否是周日
 func (c *Carbon) IsSunday() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.StdTime().Weekday() == time.Sunday
@@ -276,7 +285,7 @@ func (c *Carbon) IsSunday() bool {
 // IsWeekday reports whether is weekday.
 // 是否是工作日
 func (c *Carbon) IsWeekday() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return !c.IsWeekend()
@@ -285,7 +294,7 @@ func (c *Carbon) IsWeekday() bool {
 // IsWeekend reports whether is weekend.
 // 是否是周末
 func (c *Carbon) IsWeekend() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	d := c.StdTime().Weekday()
@@ -300,7 +309,7 @@ func (c *Carbon) IsWeekend() bool {
 // IsNow reports whether is now time.
 // 是否是当前时间
 func (c *Carbon) IsNow() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.Timestamp() == Now().SetLocation(c.loc).Timestamp()
@@ -309,7 +318,7 @@ func (c *Carbon) IsNow() bool {
 // IsFuture reports whether is future time.
 // 是否是未来时间
 func (c *Carbon) IsFuture() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	if c.IsZero() {
@@ -321,7 +330,7 @@ func (c *Carbon) IsFuture() bool {
 // IsPast reports whether is past time.
 // 是否是过去时间
 func (c *Carbon) IsPast() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	if c.IsZero() {
@@ -333,7 +342,7 @@ func (c *Carbon) IsPast() bool {
 // IsYesterday reports whether is yesterday.
 // 是否是昨天
 func (c *Carbon) IsYesterday() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.ToDateString() == Yesterday().SetLocation(c.loc).ToDateString()
@@ -342,7 +351,7 @@ func (c *Carbon) IsYesterday() bool {
 // IsToday reports whether is today.
 // 是否是今天
 func (c *Carbon) IsToday() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.ToDateString() == Now().SetLocation(c.loc).ToDateString()
@@ -351,7 +360,7 @@ func (c *Carbon) IsToday() bool {
 // IsTomorrow reports whether is tomorrow.
 // 是否是明天
 func (c *Carbon) IsTomorrow() bool {
-	if c.IsInvalid() {
+	if c.IsInvalid() || c.IsEmpty() {
 		return false
 	}
 	return c.ToDateString() == Tomorrow().SetLocation(c.loc).ToDateString()

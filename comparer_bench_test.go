@@ -20,6 +20,14 @@ func BenchmarkCarbon_IsNil(b *testing.B) {
 	}
 }
 
+func BenchmarkCarbon_IsEmpty(b *testing.B) {
+	c := Now()
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.IsEmpty()
+	}
+}
+
 func BenchmarkCarbon_IsZero(b *testing.B) {
 	c := Now()
 	b.ResetTimer()
