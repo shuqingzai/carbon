@@ -99,7 +99,7 @@ func (t *FormatType[T]) UnmarshalJSON(src []byte) error {
 // String implements Stringer interface for FormatType generic struct.
 // 实现 Stringer 接口
 func (t *FormatType[T]) String() string {
-	if t == nil || t.IsInvalid() || t.IsZero() || t.IsEmpty() {
+	if t == nil || t.IsInvalid() || t.IsZero() {
 		return ""
 	}
 	return t.Format(t.getFormat())

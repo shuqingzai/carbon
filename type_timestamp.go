@@ -168,7 +168,7 @@ func (t *TimestampType[T]) String() string {
 	if t == nil {
 		return "0"
 	}
-	if t.IsInvalid() || t.IsZero() || t.IsEmpty() {
+	if t.IsInvalid() || t.IsZero() {
 		return "0"
 	}
 	return strconv.FormatInt(t.Int64(), 10)
@@ -177,7 +177,7 @@ func (t *TimestampType[T]) String() string {
 // Int64 returns the timestamp value.
 // 返回时间戳
 func (t *TimestampType[T]) Int64() (ts int64) {
-	if t == nil || t.IsInvalid() || t.IsZero() || t.IsEmpty() {
+	if t == nil || t.IsInvalid() || t.IsZero() {
 		return
 	}
 	switch t.getPrecision() {

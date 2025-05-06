@@ -76,7 +76,7 @@ func (c *Carbon) UnmarshalJSON(src []byte) error {
 // String implements the interface Stringer for Carbon struct.
 // 实现 Stringer 接口
 func (c *Carbon) String() string {
-	if c.IsInvalid() || c.IsZero() || c.IsEmpty() {
+	if c.IsInvalid() || c.IsZero() {
 		return ""
 	}
 	return c.Layout(c.currentLayout)
