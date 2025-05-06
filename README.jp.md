@@ -671,6 +671,20 @@ carbon.Parse("2020-08-05 00:00:00").IsZero() // false
 carbon.Parse("2020-08-05").IsZero() // false
 carbon.Parse("2020-08-05").SetTimezone("xxx").IsZero() // false
 
+// NULLかどうか
+carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsEmpty() // true
+carbon.NewCarbon().IsEmpty() // false
+carbon.CreateFromTimestamp(0).IsEmpty() // false
+carbon.Parse("").IsEmpty() // true
+carbon.Parse("xxx").IsEmpty() // false
+carbon.Parse("0").IsEmpty() // false
+carbon.Parse("0000-00-00 00:00:00").IsEmpty() // false
+carbon.Parse("0000-00-00").IsEmpty() // false
+carbon.Parse("00:00:00").IsEmpty() // false
+carbon.Parse("2020-08-05 00:00:00").IsEmpty() // false
+carbon.Parse("2020-08-05").IsEmpty() // false
+carbon.Parse("2020-08-05").SetTimezone("xxx").IsEmpty() // false
+
 // UNIX 紀元時間かどうか（1970-01-01 00:00:00 +0000 UTC）
 carbon.Parse("1970-01-01 00:00:00 +0000 UTC").IsEpoch() // true
 carbon.CreateFromTimestamp(0).IsEpoch() // true
