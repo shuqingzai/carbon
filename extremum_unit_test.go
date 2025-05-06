@@ -52,9 +52,9 @@ func (s *ExtremumSuite) TestMax() {
 
 	s.Run("empty carbon", func() {
 		c := Parse("")
-		s.Error(Max(c, Now()).Error)
-		s.Error(Max(Now(), c).Error)
-		s.Error(Max(c, c).Error)
+		s.Empty(Max(c, Now()).ToString())
+		s.Empty(Max(Now(), c).ToString())
+		s.Empty(Max(c, c).ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -89,9 +89,9 @@ func (s *ExtremumSuite) TestMin() {
 
 	s.Run("empty carbon", func() {
 		c := Parse("")
-		s.Error(Min(c, Now()).Error)
-		s.Error(Min(Now(), c).Error)
-		s.Error(Min(c, c).Error)
+		s.Empty(Min(c, Now()).ToString())
+		s.Empty(Min(Now(), c).ToString())
+		s.Empty(Min(c, c).ToString())
 	})
 
 	s.Run("error carbon", func() {

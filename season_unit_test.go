@@ -71,7 +71,7 @@ func (s *SeasonSuite) TestStartOfSeason() {
 	})
 
 	s.Run("empty carbon", func() {
-		s.Error(Parse("").StartOfSeason().Error)
+		s.Empty(Parse("").StartOfSeason().ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -106,7 +106,7 @@ func (s *SeasonSuite) TestEndOfSeason() {
 	})
 
 	s.Run("empty carbon", func() {
-		s.Error(Parse("").EndOfSeason().Error)
+		s.Empty(Parse("").EndOfSeason().ToString())
 	})
 
 	s.Run("error carbon", func() {
