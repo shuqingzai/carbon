@@ -1,9 +1,9 @@
 package carbon
 
 import (
-	"gitee.com/golang-package/carbon/v2/calendar/julian"
-	"gitee.com/golang-package/carbon/v2/calendar/lunar"
-	"gitee.com/golang-package/carbon/v2/calendar/persian"
+	"github.com/dromara/carbon/v2/calendar/julian"
+	"github.com/dromara/carbon/v2/calendar/lunar"
+	"github.com/dromara/carbon/v2/calendar/persian"
 )
 
 // Lunar converts Carbon instance to Lunar instance.
