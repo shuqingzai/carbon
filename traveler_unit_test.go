@@ -21,6 +21,7 @@ func (s *TravelerSuite) TearDownTest() {
 
 func (s *TravelerSuite) TestNow() {
 	s.Run("error timezone", func() {
+		s.Error(Now("xxx").Error)
 		s.Empty(Now("xxx").ToString())
 	})
 
@@ -37,6 +38,7 @@ func (s *TravelerSuite) TestNow() {
 
 func (s *TravelerSuite) TestTomorrow() {
 	s.Run("error timezone", func() {
+		s.Error(Tomorrow("xxx").Error)
 		s.Empty(Tomorrow("xxx").ToString())
 	})
 
@@ -53,6 +55,7 @@ func (s *TravelerSuite) TestTomorrow() {
 
 func (s *TravelerSuite) TestYesterday() {
 	s.Run("error timezone", func() {
+		s.Error(Yesterday("xxx").Error)
 		s.Empty(Yesterday("xxx").ToString())
 	})
 

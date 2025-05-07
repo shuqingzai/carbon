@@ -23,6 +23,7 @@ func (s *CalendarSuite) TestCarbon_Julian() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon()
+		s.Nil(Parse("").Lunar().Error)
 		s.Equal(1.7214235e+06, c.Julian().JD())
 		s.Equal(float64(-678577), c.Julian().MJD())
 	})
@@ -79,15 +80,18 @@ func (s *CalendarSuite) TestCarbon_Lunar() {
 	})
 
 	s.Run("zero carbon", func() {
+		s.Nil(NewCarbon().Lunar().Error)
 		s.Empty(NewCarbon().Lunar().String())
 	})
 
 	s.Run("empty carbon", func() {
+		s.Nil(Parse("").Lunar().Error)
 		s.Empty(Parse("").Lunar().String())
 	})
 
 	s.Run("error carbon", func() {
 		s.Error(Parse("xxx").Lunar().Error)
+		s.Empty(Parse("xxx").Lunar().String())
 	})
 
 	s.Run("valid carbon", func() {
@@ -117,15 +121,18 @@ func (s *CalendarSuite) TestCarbon_Persian() {
 	})
 
 	s.Run("zero carbon", func() {
+		s.Nil(NewCarbon().Persian().Error)
 		s.Empty(NewCarbon().Persian().String())
 	})
 
 	s.Run("empty carbon", func() {
+		s.Nil(Parse("").Persian().Error)
 		s.Empty(Parse("").Persian().String())
 	})
 
 	s.Run("error carbon", func() {
 		s.Error(Parse("xxx").Persian().Error)
+		s.Empty(Parse("xxx").Persian().String())
 	})
 
 	s.Run("valid carbon", func() {

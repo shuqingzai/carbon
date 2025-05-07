@@ -176,6 +176,11 @@ func (s *BoundarySuite) TestCarbon_EndOfYear() {
 		s.Equal("0001-12-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfYear().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Nil(Parse("").EndOfYear().Error)
+		s.Empty(Parse("").EndOfYear().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Error(Parse("xxx").EndOfYear().Error)
 		s.Empty(Parse("xxx").EndOfYear().ToString())
@@ -199,6 +204,11 @@ func (s *BoundarySuite) TestCarbon_StartOfQuarter() {
 	s.Run("zero carbon", func() {
 		s.Nil(NewCarbon().StartOfQuarter().Error)
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfQuarter().ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Nil(Parse("").StartOfQuarter().Error)
+		s.Empty(Parse("").StartOfQuarter().ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -226,6 +236,11 @@ func (s *BoundarySuite) TestCarbon_EndOfQuarter() {
 		s.Equal("0001-03-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfQuarter().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Nil(Parse("").EndOfQuarter().Error)
+		s.Empty(Parse("").EndOfQuarter().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Error(Parse("xxx").EndOfQuarter().Error)
 		s.Empty(Parse("xxx").EndOfQuarter().ToString())
@@ -249,6 +264,11 @@ func (s *BoundarySuite) TestCarbon_StartOfMonth() {
 	s.Run("zero carbon", func() {
 		s.Nil(NewCarbon().StartOfMonth().Error)
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfMonth().ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Nil(Parse("").StartOfMonth().Error)
+		s.Empty(Parse("").StartOfMonth().ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -276,6 +296,11 @@ func (s *BoundarySuite) TestCarbon_EndOfMonth() {
 		s.Equal("0001-01-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfMonth().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Nil(Parse("").EndOfMonth().Error)
+		s.Empty(Parse("").EndOfMonth().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Error(Parse("xxx").EndOfMonth().Error)
 		s.Empty(Parse("xxx").EndOfMonth().ToString())
@@ -299,6 +324,11 @@ func (s *BoundarySuite) TestCarbon_StartOfWeek() {
 	s.Run("zero carbon", func() {
 		s.Nil(NewCarbon().StartOfWeek().Error)
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfWeek().ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Nil(Parse("").StartOfWeek().Error)
+		s.Empty(Parse("").StartOfWeek().ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -327,6 +357,11 @@ func (s *BoundarySuite) TestCarbon_EndOfWeek() {
 		s.Equal("0001-01-07 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfWeek().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Nil(Parse("").EndOfWeek().Error)
+		s.Empty(Parse("").EndOfWeek().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Error(Parse("xxx").EndOfWeek().Error)
 		s.Empty(Parse("xxx").EndOfWeek().ToString())
@@ -351,6 +386,11 @@ func (s *BoundarySuite) TestCarbon_StartOfDay() {
 	s.Run("zero carbon", func() {
 		s.Nil(NewCarbon().StartOfDay().Error)
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfDay().ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Nil(Parse("").StartOfDay().Error)
+		s.Empty(Parse("").StartOfDay().ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -378,6 +418,11 @@ func (s *BoundarySuite) TestCarbon_EndOfDay() {
 		s.Equal("0001-01-01 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfDay().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Nil(Parse("").EndOfDay().Error)
+		s.Empty(Parse("").EndOfDay().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Error(Parse("xxx").EndOfDay().Error)
 		s.Empty(Parse("xxx").EndOfDay().ToString())
@@ -401,6 +446,11 @@ func (s *BoundarySuite) TestCarbon_StartOfHour() {
 	s.Run("zero carbon", func() {
 		s.Nil(NewCarbon().StartOfHour().Error)
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfHour().ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Nil(Parse("").StartOfHour().Error)
+		s.Empty(Parse("").StartOfHour().ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -428,6 +478,11 @@ func (s *BoundarySuite) TestCarbon_EndOfHour() {
 		s.Equal("0001-01-01 00:59:59.999999999 +0000 UTC", NewCarbon().EndOfHour().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Nil(Parse("").EndOfHour().Error)
+		s.Empty(Parse("").EndOfHour().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Error(Parse("xxx").EndOfHour().Error)
 		s.Empty(Parse("xxx").EndOfHour().ToString())
@@ -451,6 +506,11 @@ func (s *BoundarySuite) TestCarbon_StartOfMinute() {
 	s.Run("zero carbon", func() {
 		s.Nil(NewCarbon().StartOfMinute().Error)
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfMinute().ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Nil(Parse("").StartOfMinute().Error)
+		s.Empty(Parse("").StartOfMinute().ToString())
 	})
 
 	s.Run("error carbon", func() {
@@ -478,6 +538,11 @@ func (s *BoundarySuite) TestCarbon_EndOfMinute() {
 		s.Equal("0001-01-01 00:00:59.999999999 +0000 UTC", NewCarbon().EndOfMinute().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Nil(Parse("").EndOfMinute().Error)
+		s.Empty(Parse("").EndOfMinute().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Error(Parse("xxx").EndOfMinute().Error)
 		s.Empty(Parse("xxx").EndOfMinute().ToString())
@@ -503,6 +568,11 @@ func (s *BoundarySuite) TestCarbon_StartOfSecond() {
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfSecond().ToString())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Nil(Parse("").StartOfSecond().Error)
+		s.Empty(Parse("").StartOfSecond().ToString())
+	})
+
 	s.Run("error carbon", func() {
 		s.Error(Parse("xxx").StartOfSecond().Error)
 		s.Empty(Parse("xxx").StartOfSecond().ToString())
@@ -526,6 +596,11 @@ func (s *BoundarySuite) TestCarbon_EndOfSecond() {
 	s.Run("zero carbon", func() {
 		s.Nil(NewCarbon().EndOfSecond().Error)
 		s.Equal("0001-01-01 00:00:00.999999999 +0000 UTC", NewCarbon().EndOfSecond().ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		s.Nil(Parse("").EndOfSecond().Error)
+		s.Empty(Parse("").EndOfSecond().ToString())
 	})
 
 	s.Run("error carbon", func() {

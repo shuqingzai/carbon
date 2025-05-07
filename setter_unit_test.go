@@ -196,7 +196,6 @@ func (s *SetterSuite) TestSetLocation() {
 func (s *SetterSuite) TestSetLocale() {
 	s.Run("zero carbon", func() {
 		SetLocale("zh-CN")
-
 		s.Equal("zh-CN", DefaultLocale)
 		s.Equal("zh-CN", NewCarbon().Locale())
 		s.Equal("摩羯座", NewCarbon().Constellation())
@@ -207,7 +206,6 @@ func (s *SetterSuite) TestSetLocale() {
 		s.Equal("周一", NewCarbon().ToShortWeekString())
 
 		SetLocale("en")
-
 		s.Equal("en", DefaultLocale)
 		s.Equal("en", NewCarbon().Locale())
 		s.Equal("Capricorn", NewCarbon().Constellation())
@@ -713,6 +711,7 @@ func (s *SetterSuite) TestCarbon_SetWeekendDays() {
 		s.True(Parse("2025-04-13").SetWeekendDays(wd2).IsWeekend())
 	})
 }
+
 func (s *SetterSuite) TestCarbon_SetLanguage() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
@@ -742,8 +741,6 @@ func (s *SetterSuite) TestCarbon_SetLanguage() {
 	s.Run("error carbon", func() {
 		lang := NewLanguage()
 		lang.SetLocale("en")
-		s.Empty(Parse("").SetLanguage(lang).ToString())
-		s.Empty(Parse("0").SetLanguage(lang).ToString())
 		s.Empty(Parse("xxx").SetLanguage(lang).ToString())
 	})
 

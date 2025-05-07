@@ -61,28 +61,28 @@ func (s *CarbonTypeSuite) TestCarbonType_Scan() {
 
 func (s *CarbonTypeSuite) TestCarbonType_Value() {
 	s.Run("zero carbon", func() {
-		v, err := NewCarbon().Value()
+		v, e := NewCarbon().Value()
 		s.Nil(v)
-		s.Nil(err)
+		s.Nil(e)
 	})
 
 	s.Run("error carbon", func() {
-		v, err := Parse("xxx").Value()
+		v, e := Parse("xxx").Value()
 		s.Nil(v)
-		s.Error(err)
+		s.Error(e)
 	})
 
 	s.Run("empty carbon", func() {
-		v, err := Parse("").Value()
+		v, e := Parse("").Value()
 		s.Empty(v)
-		s.Nil(err)
+		s.Nil(e)
 	})
 
 	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05")
-		v, err := c.Value()
+		v, e := c.Value()
 		s.Equal(c.StdTime(), v)
-		s.Nil(err)
+		s.Nil(e)
 	})
 }
 
@@ -406,9 +406,9 @@ func (s *BuiltinTypeSuite) TestBuiltinType_MarshalJSON() {
 	var model builtinTypeModel
 
 	s.Run("unset carbon", func() {
-		data, err := json.Marshal(&model)
-		s.Nil(err)
-		s.Equal(`{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`, string(v))
 	})
 
 	s.Run("nil carbon", func() {
@@ -436,9 +436,9 @@ func (s *BuiltinTypeSuite) TestBuiltinType_MarshalJSON() {
 		model.UpdatedAt = NewDateTime(nil)
 		model.DeletedAt = NewTimestamp(nil)
 
-		data, err := json.Marshal(&model)
-		s.Nil(err)
-		s.Equal(`{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`, string(v))
 	})
 
 	s.Run("zero carbon", func() {
@@ -468,9 +468,9 @@ func (s *BuiltinTypeSuite) TestBuiltinType_MarshalJSON() {
 		model.UpdatedAt = NewDateTime(c)
 		model.DeletedAt = NewTimestamp(c)
 
-		data, err := json.Marshal(&model)
-		s.Nil(err)
-		s.Equal(`{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`, string(v))
 	})
 
 	s.Run("empty carbon", func() {
@@ -500,9 +500,9 @@ func (s *BuiltinTypeSuite) TestBuiltinType_MarshalJSON() {
 		model.UpdatedAt = NewDateTime(c)
 		model.DeletedAt = NewTimestamp(c)
 
-		data, err := json.Marshal(&model)
-		s.Nil(err)
-		s.Equal(`{"date":"","date_milli":"","date_micro":"","date_nano":"","time":"","time_milli":"","time_micro":"","time_nano":"","date_time":"","date_time_milli":"","date_time_micro":"","date_time_nano":"","created_at":"","updated_at":"","timestamp":0,"timestamp_milli":0,"timestamp_micro":0,"timestamp_nano":0,"deleted_at":0}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"date":"","date_milli":"","date_micro":"","date_nano":"","time":"","time_milli":"","time_micro":"","time_nano":"","date_time":"","date_time_milli":"","date_time_micro":"","date_time_nano":"","created_at":"","updated_at":"","timestamp":0,"timestamp_milli":0,"timestamp_micro":0,"timestamp_nano":0,"deleted_at":0}`, string(v))
 	})
 
 	s.Run("error carbon", func() {
@@ -533,9 +533,9 @@ func (s *BuiltinTypeSuite) TestBuiltinType_MarshalJSON() {
 		model1.CreatedAt = NewDateTime(c)
 		model1.UpdatedAt = NewDateTime(c)
 
-		data1, err1 := json.Marshal(&model1)
-		s.Error(err1)
-		s.Empty(string(data1))
+		v1, e1 := json.Marshal(&model1)
+		s.Error(e1)
+		s.Empty(string(v1))
 
 		var model2 builtinTypeModel
 
@@ -546,9 +546,9 @@ func (s *BuiltinTypeSuite) TestBuiltinType_MarshalJSON() {
 
 		model2.DeletedAt = NewTimestamp(c)
 
-		data2, err2 := json.Marshal(&model2)
-		s.Error(err2)
-		s.Empty(string(data2))
+		v2, e2 := json.Marshal(&model2)
+		s.Error(e2)
+		s.Empty(string(v2))
 	})
 
 	s.Run("valid carbon", func() {
@@ -578,9 +578,9 @@ func (s *BuiltinTypeSuite) TestBuiltinType_MarshalJSON() {
 		model.UpdatedAt = NewDateTime(c)
 		model.DeletedAt = NewTimestamp(c)
 
-		data, err := json.Marshal(&model)
-		s.Nil(err)
-		s.Equal(`{"date":"2020-08-05","date_milli":"2020-08-05.999","date_micro":"2020-08-05.999999","date_nano":"2020-08-05.999999999","time":"13:14:15","time_milli":"13:14:15.999","time_micro":"13:14:15.999999","time_nano":"13:14:15.999999999","date_time":"2020-08-05 13:14:15","date_time_milli":"2020-08-05 13:14:15.999","date_time_micro":"2020-08-05 13:14:15.999999","date_time_nano":"2020-08-05 13:14:15.999999999","created_at":"2020-08-05 13:14:15","updated_at":"2020-08-05 13:14:15","timestamp":1596633255,"timestamp_milli":1596633255999,"timestamp_micro":1596633255999999,"timestamp_nano":1596633255999999999,"deleted_at":1596633255}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"date":"2020-08-05","date_milli":"2020-08-05.999","date_micro":"2020-08-05.999999","date_nano":"2020-08-05.999999999","time":"13:14:15","time_milli":"13:14:15.999","time_micro":"13:14:15.999999","time_nano":"13:14:15.999999999","date_time":"2020-08-05 13:14:15","date_time_milli":"2020-08-05 13:14:15.999","date_time_micro":"2020-08-05 13:14:15.999999","date_time_nano":"2020-08-05 13:14:15.999999999","created_at":"2020-08-05 13:14:15","updated_at":"2020-08-05 13:14:15","timestamp":1596633255,"timestamp_milli":1596633255999,"timestamp_micro":1596633255999999,"timestamp_nano":1596633255999999999,"deleted_at":1596633255}`, string(v))
 	})
 }
 
@@ -942,9 +942,9 @@ func (s *CustomerTypeSuite) TestCustomerType_MarshalJSON() {
 		model.CreatedAt = NewFormatType[iso8601Type](nil)
 		model.UpdatedAt = NewLayoutType[rfc3339Type](nil)
 
-		data, err := json.Marshal(&model)
-		s.Nil(err)
-		s.Equal(`{"customer1":null,"customer2":null,"created_at":null,"updated_at":null}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"customer1":null,"customer2":null,"created_at":null,"updated_at":null}`, string(v))
 	})
 
 	s.Run("zero carbon", func() {
@@ -956,9 +956,9 @@ func (s *CustomerTypeSuite) TestCustomerType_MarshalJSON() {
 		model.CreatedAt = NewFormatType[iso8601Type](c)
 		model.UpdatedAt = NewLayoutType[rfc3339Type](c)
 
-		data, err := json.Marshal(&model)
-		s.Nil(err)
-		s.Equal(`{"customer1":null,"customer2":null,"created_at":null,"updated_at":null}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"customer1":null,"customer2":null,"created_at":null,"updated_at":null}`, string(v))
 	})
 
 	s.Run("empty carbon", func() {
@@ -970,9 +970,9 @@ func (s *CustomerTypeSuite) TestCustomerType_MarshalJSON() {
 		model.CreatedAt = NewFormatType[iso8601Type](c)
 		model.UpdatedAt = NewLayoutType[rfc3339Type](c)
 
-		data, err := json.Marshal(&model)
-		s.Nil(err)
-		s.Equal(`{"customer1":"","customer2":"","created_at":"","updated_at":""}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"customer1":"","customer2":"","created_at":"","updated_at":""}`, string(v))
 	})
 
 	s.Run("error carbon", func() {
@@ -984,9 +984,9 @@ func (s *CustomerTypeSuite) TestCustomerType_MarshalJSON() {
 		model.CreatedAt = NewFormatType[iso8601Type](c)
 		model.UpdatedAt = NewLayoutType[rfc3339Type](c)
 
-		data, err := json.Marshal(&model)
-		s.Error(err)
-		s.Empty(string(data))
+		v, e := json.Marshal(&model)
+		s.Error(e)
+		s.Empty(string(v))
 	})
 
 	s.Run("valid carbon", func() {
@@ -998,9 +998,9 @@ func (s *CustomerTypeSuite) TestCustomerType_MarshalJSON() {
 		model.CreatedAt = NewFormatType[iso8601Type](c)
 		model.UpdatedAt = NewLayoutType[rfc3339Type](c)
 
-		data, err := json.Marshal(&model)
-		s.Nil(err)
-		s.Equal(`{"customer1":"2020-08-05T13:14:15+00:00","customer2":"2020-08-05T13:14:15Z","created_at":"2020-08-05T13:14:15+00:00","updated_at":"2020-08-05T13:14:15Z"}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"customer1":"2020-08-05T13:14:15+00:00","customer2":"2020-08-05T13:14:15Z","created_at":"2020-08-05T13:14:15+00:00","updated_at":"2020-08-05T13:14:15Z"}`, string(v))
 	})
 }
 
