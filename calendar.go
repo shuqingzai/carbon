@@ -1,9 +1,9 @@
 package carbon
 
 import (
-	"github.com/dromara/carbon/v2/calendar/julian"
-	"github.com/dromara/carbon/v2/calendar/lunar"
-	"github.com/dromara/carbon/v2/calendar/persian"
+	"gitee.com/golang-package/carbon/v2/calendar/julian"
+	"gitee.com/golang-package/carbon/v2/calendar/lunar"
+	"gitee.com/golang-package/carbon/v2/calendar/persian"
 )
 
 // Lunar converts Carbon instance to Lunar instance.
@@ -12,13 +12,11 @@ func (c *Carbon) Lunar() *lunar.Lunar {
 	if c.IsNil() {
 		return nil
 	}
-	if c.IsEmpty() {
+	if c.IsZero() || c.IsEmpty() {
 		return &lunar.Lunar{}
 	}
 	if c.HasError() {
-		l := new(lunar.Lunar)
-		l.Error = c.Error
-		return l
+		return &lunar.Lunar{Error: c.Error}
 	}
 	return lunar.FromStdTime(c.StdTime())
 }
@@ -43,7 +41,7 @@ func (c *Carbon) Julian() *julian.Julian {
 		return &julian.Julian{}
 	}
 	if c.HasError() {
-		return new(julian.Julian)
+		return &julian.Julian{}
 	}
 	return julian.FromStdTime(c.StdTime())
 }
@@ -60,13 +58,11 @@ func (c *Carbon) Persian() *persian.Persian {
 	if c.IsNil() {
 		return nil
 	}
-	if c.IsEmpty() {
+	if c.IsZero() || c.IsEmpty() {
 		return &persian.Persian{}
 	}
 	if c.HasError() {
-		p := new(persian.Persian)
-		p.Error = c.Error
-		return p
+		return &persian.Persian{Error: c.Error}
 	}
 	return persian.FromStdTime(c.StdTime())
 }
