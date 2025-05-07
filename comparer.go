@@ -528,10 +528,10 @@ func (c *Carbon) Lte(t *Carbon) bool {
 // Between reports whether between two times, excluded the start and end time.
 // 是否在两个时间之间(不包括这两个时间)
 func (c *Carbon) Between(start *Carbon, end *Carbon) bool {
-	if c.IsInvalid() || start.IsInvalid() || end.IsInvalid() {
+	if start.Gt(end) {
 		return false
 	}
-	if start.Gt(end) {
+	if c.IsInvalid() || start.IsInvalid() || end.IsInvalid() {
 		return false
 	}
 	if c.Gt(start) && c.Lt(end) {
@@ -543,13 +543,13 @@ func (c *Carbon) Between(start *Carbon, end *Carbon) bool {
 // BetweenIncludedStart reports whether between two times, included the start time.
 // 是否在两个时间之间(包括开始时间)
 func (c *Carbon) BetweenIncludedStart(start *Carbon, end *Carbon) bool {
+	if start.Gt(end) {
+		return false
+	}
 	if c.IsZero() && start.IsZero() {
 		return true
 	}
 	if c.IsInvalid() || start.IsInvalid() || end.IsInvalid() {
-		return false
-	}
-	if start.Gt(end) {
 		return false
 	}
 	if c.Gte(start) && c.Lt(end) {
@@ -561,13 +561,13 @@ func (c *Carbon) BetweenIncludedStart(start *Carbon, end *Carbon) bool {
 // BetweenIncludedEnd reports whether between two times, included the end time.
 // 是否在两个时间之间(包括结束时间)
 func (c *Carbon) BetweenIncludedEnd(start *Carbon, end *Carbon) bool {
+	if start.Gt(end) {
+		return false
+	}
 	if c.IsZero() && end.IsZero() {
 		return true
 	}
 	if c.IsInvalid() || start.IsInvalid() || end.IsInvalid() {
-		return false
-	}
-	if start.Gt(end) {
 		return false
 	}
 	if c.Gt(start) && c.Lte(end) {
@@ -579,13 +579,13 @@ func (c *Carbon) BetweenIncludedEnd(start *Carbon, end *Carbon) bool {
 // BetweenIncludedBoth reports whether between two times, included the start and end time.
 // 是否在两个时间之间(包括这两个时间)
 func (c *Carbon) BetweenIncludedBoth(start *Carbon, end *Carbon) bool {
+	if start.Gt(end) {
+		return false
+	}
 	if (c.IsZero() && start.IsZero()) || (c.IsZero() && end.IsZero()) {
 		return true
 	}
 	if c.IsInvalid() || start.IsInvalid() || end.IsInvalid() {
-		return false
-	}
-	if start.Gt(end) {
 		return false
 	}
 	if c.Gte(start) && c.Lte(end) {

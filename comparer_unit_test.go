@@ -23,18 +23,15 @@ func (s *ComparerSuite) TestCarbon_HasError() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.HasError())
+		s.False(NewCarbon().HasError())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.HasError())
+		s.False(Parse("").HasError())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.True(c.HasError())
+		s.True(Parse("xxx").HasError())
 	})
 
 	s.Run("valid carbon", func() {
@@ -50,22 +47,43 @@ func (s *ComparerSuite) TestCarbon_IsNil() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsNil())
+		s.False(NewCarbon().IsNil())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsNil())
+		s.False(Parse("").IsNil())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsNil())
+		s.False(Parse("xxx").IsNil())
 	})
 
 	s.Run("valid carbon", func() {
 		s.False(Parse("2020-08-05").IsNil())
+	})
+}
+
+func (s *ComparerSuite) TestCarbon_IsEmpty() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		s.False(c.IsEmpty())
+	})
+
+	s.Run("zero carbon", func() {
+		s.False(NewCarbon().IsEmpty())
+	})
+
+	s.Run("empty carbon", func() {
+		s.True(Parse("").IsEmpty())
+	})
+
+	s.Run("error carbon", func() {
+		s.False(Parse("xxx").IsEmpty())
+	})
+
+	s.Run("valid carbon", func() {
+		s.False(Parse("2020-08-05").IsEmpty())
 	})
 }
 
@@ -89,13 +107,11 @@ func (s *ComparerSuite) TestCarbon_IsZero() {
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsZero())
+		s.False(Parse("").IsZero())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsZero())
+		s.False(Parse("xxx").IsZero())
 	})
 
 	s.Run("valid carbon", func() {
@@ -113,18 +129,15 @@ func (s *ComparerSuite) TestCarbon_IsEpoch() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsEpoch())
+		s.False(NewCarbon().IsEpoch())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsEpoch())
+		s.False(Parse("").IsEpoch())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsEpoch())
+		s.False(Parse("xxx").IsEpoch())
 	})
 
 	s.Run("valid carbon", func() {
@@ -143,18 +156,15 @@ func (s *ComparerSuite) TestCarbon_IsValid() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.True(c.IsValid())
+		s.True(NewCarbon().IsValid())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsValid())
+		s.False(Parse("").IsValid())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsValid())
+		s.False(Parse("xxx").IsValid())
 	})
 
 	s.Run("valid carbon", func() {
@@ -170,18 +180,15 @@ func (s *ComparerSuite) TestCarbon_IsInvalid() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsInvalid())
+		s.False(NewCarbon().IsInvalid())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.True(c.IsInvalid())
+		s.True(Parse("").IsInvalid())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.True(c.IsInvalid())
+		s.True(Parse("xxx").IsInvalid())
 	})
 
 	s.Run("valid carbon", func() {
@@ -197,13 +204,11 @@ func (s *ComparerSuite) TestCarbon_IsDST() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsDST())
+		s.False(NewCarbon().IsDST())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsDST())
+		s.False(Parse("xxx").IsDST())
 	})
 
 	s.Run("empty carbon", func() {
@@ -226,18 +231,15 @@ func (s *ComparerSuite) TestCarbon_IsAM() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.True(c.IsAM())
+		s.True(NewCarbon().IsAM())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsAM())
+		s.False(Parse("").IsAM())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsAM())
+		s.False(Parse("xxx").IsAM())
 	})
 
 	s.Run("valid carbon", func() {
@@ -255,18 +257,15 @@ func (s *ComparerSuite) TestCarbon_IsPM() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsPM())
+		s.False(NewCarbon().IsPM())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsPM())
+		s.False(Parse("").IsPM())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsPM())
+		s.False(Parse("xxx").IsPM())
 	})
 
 	s.Run("valid carbon", func() {
@@ -284,18 +283,15 @@ func (s *ComparerSuite) TestCarbon_IsLeapYear() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsLeapYear())
+		s.False(NewCarbon().IsLeapYear())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsLeapYear())
+		s.False(Parse("").IsLeapYear())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsLeapYear())
+		s.False(Parse("xxx").IsLeapYear())
 	})
 
 	s.Run("valid carbon", func() {
@@ -312,18 +308,15 @@ func (s *ComparerSuite) TestCarbon_IsLongYear() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsLongYear())
+		s.False(NewCarbon().IsLongYear())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsLongYear())
+		s.False(Parse("").IsLongYear())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsLongYear())
+		s.False(Parse("xxx").IsLongYear())
 	})
 
 	s.Run("valid carbon", func() {
@@ -340,18 +333,15 @@ func (s *ComparerSuite) TestCarbon_IsJanuary() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.True(c.IsJanuary())
+		s.True(NewCarbon().IsJanuary())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsJanuary())
+		s.False(Parse("").IsJanuary())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsJanuary())
+		s.False(Parse("xxx").IsJanuary())
 	})
 
 	s.Run("valid carbon", func() {
@@ -368,18 +358,15 @@ func (s *ComparerSuite) TestCarbon_IsFebruary() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsFebruary())
+		s.False(NewCarbon().IsFebruary())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsFebruary())
+		s.False(Parse("").IsFebruary())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsFebruary())
+		s.False(Parse("xxx").IsFebruary())
 	})
 
 	s.Run("valid carbon", func() {
@@ -396,18 +383,15 @@ func (s *ComparerSuite) TestCarbon_IsMarch() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsMarch())
+		s.False(NewCarbon().IsMarch())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsMarch())
+		s.False(Parse("").IsMarch())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsMarch())
+		s.False(Parse("xxx").IsMarch())
 	})
 
 	s.Run("valid carbon", func() {
@@ -424,18 +408,15 @@ func (s *ComparerSuite) TestCarbon_IsApril() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsApril())
+		s.False(NewCarbon().IsApril())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsApril())
+		s.False(Parse("").IsApril())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsApril())
+		s.False(Parse("xxx").IsApril())
 	})
 
 	s.Run("valid carbon", func() {
@@ -452,18 +433,15 @@ func (s *ComparerSuite) TestCarbon_IsMay() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsMay())
+		s.False(NewCarbon().IsMay())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsMay())
+		s.False(Parse("").IsMay())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsMay())
+		s.False(Parse("xxx").IsMay())
 	})
 
 	s.Run("valid carbon", func() {
@@ -480,18 +458,15 @@ func (s *ComparerSuite) TestCarbon_IsJune() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsJune())
+		s.False(NewCarbon().IsJune())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsJune())
+		s.False(Parse("").IsJune())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsJune())
+		s.False(Parse("xxx").IsJune())
 	})
 
 	s.Run("valid carbon", func() {
@@ -508,18 +483,15 @@ func (s *ComparerSuite) TestCarbon_IsJuly() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsJuly())
+		s.False(NewCarbon().IsJuly())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsJuly())
+		s.False(Parse("").IsJuly())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsJuly())
+		s.False(Parse("xxx").IsJuly())
 	})
 
 	s.Run("valid carbon", func() {
@@ -536,18 +508,15 @@ func (s *ComparerSuite) TestCarbon_IsAugust() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsAugust())
+		s.False(NewCarbon().IsAugust())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsAugust())
+		s.False(Parse("").IsAugust())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsAugust())
+		s.False(Parse("xxx").IsAugust())
 	})
 
 	s.Run("valid carbon", func() {
@@ -564,18 +533,15 @@ func (s *ComparerSuite) TestCarbon_IsSeptember() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsSeptember())
+		s.False(NewCarbon().IsSeptember())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsSeptember())
+		s.False(Parse("").IsSeptember())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsSeptember())
+		s.False(Parse("xxx").IsSeptember())
 	})
 
 	s.Run("valid carbon", func() {
@@ -592,18 +558,15 @@ func (s *ComparerSuite) TestCarbon_IsOctober() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsOctober())
+		s.False(NewCarbon().IsOctober())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsOctober())
+		s.False(Parse("").IsOctober())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsOctober())
+		s.False(Parse("xxx").IsOctober())
 	})
 
 	s.Run("valid carbon", func() {
@@ -620,8 +583,7 @@ func (s *ComparerSuite) TestCarbon_IsNovember() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsNovember())
+		s.False(NewCarbon().IsNovember())
 	})
 
 	s.Run("empty carbon", func() {
@@ -630,8 +592,7 @@ func (s *ComparerSuite) TestCarbon_IsNovember() {
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsNovember())
+		s.False(Parse("xxx").IsNovember())
 	})
 
 	s.Run("valid carbon", func() {
@@ -648,18 +609,15 @@ func (s *ComparerSuite) TestCarbon_IsDecember() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsDecember())
+		s.False(NewCarbon().IsDecember())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsDecember())
+		s.False(Parse("").IsDecember())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsDecember())
+		s.False(Parse("xxx").IsDecember())
 	})
 
 	s.Run("valid carbon", func() {
@@ -676,18 +634,15 @@ func (s *ComparerSuite) TestCarbon_IsMonday() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.True(c.IsMonday())
+		s.True(NewCarbon().IsMonday())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsMonday())
+		s.False(Parse("").IsMonday())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsMonday())
+		s.False(Parse("xxx").IsMonday())
 	})
 
 	s.Run("valid carbon", func() {
@@ -704,18 +659,15 @@ func (s *ComparerSuite) TestCarbon_IsTuesday() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsTuesday())
+		s.False(NewCarbon().IsTuesday())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsTuesday())
+		s.False(Parse("").IsTuesday())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsTuesday())
+		s.False(Parse("xxx").IsTuesday())
 	})
 
 	s.Run("valid carbon", func() {
@@ -732,18 +684,15 @@ func (s *ComparerSuite) TestCarbon_IsWednesday() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsWednesday())
+		s.False(NewCarbon().IsWednesday())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsWednesday())
+		s.False(Parse("").IsWednesday())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsWednesday())
+		s.False(Parse("xxx").IsWednesday())
 	})
 
 	s.Run("valid carbon", func() {
@@ -760,18 +709,15 @@ func (s *ComparerSuite) TestCarbon_IsThursday() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsThursday())
+		s.False(NewCarbon().IsThursday())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsThursday())
+		s.False(Parse("").IsThursday())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsThursday())
+		s.False(Parse("xxx").IsThursday())
 	})
 
 	s.Run("valid carbon", func() {
@@ -788,18 +734,15 @@ func (s *ComparerSuite) TestCarbon_IsFriday() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsFriday())
+		s.False(NewCarbon().IsFriday())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsFriday())
+		s.False(Parse("").IsFriday())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsFriday())
+		s.False(Parse("xxx").IsFriday())
 	})
 
 	s.Run("valid carbon", func() {
@@ -816,18 +759,15 @@ func (s *ComparerSuite) TestCarbon_IsSaturday() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsSaturday())
+		s.False(NewCarbon().IsSaturday())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsSaturday())
+		s.False(Parse("").IsSaturday())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsSaturday())
+		s.False(Parse("xxx").IsSaturday())
 	})
 
 	s.Run("valid carbon", func() {
@@ -844,18 +784,15 @@ func (s *ComparerSuite) TestCarbon_IsSunday() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsSunday())
+		s.False(NewCarbon().IsSunday())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsSunday())
+		s.False(Parse("").IsSunday())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsSunday())
+		s.False(Parse("xxx").IsSunday())
 	})
 
 	s.Run("valid carbon", func() {
@@ -872,18 +809,15 @@ func (s *ComparerSuite) TestCarbon_IsWeekday() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.True(c.IsWeekday())
+		s.True(NewCarbon().IsWeekday())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsWeekday())
+		s.False(Parse("").IsWeekday())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsWeekday())
+		s.False(Parse("xxx").IsWeekday())
 	})
 
 	s.Run("valid carbon", func() {
@@ -901,18 +835,15 @@ func (s *ComparerSuite) TestCarbon_IsWeekend() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsWeekend())
+		s.False(NewCarbon().IsWeekend())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsWeekend())
+		s.False(Parse("").IsWeekend())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsWeekend())
+		s.False(Parse("xxx").IsWeekend())
 	})
 
 	s.Run("valid carbon", func() {
@@ -930,18 +861,15 @@ func (s *ComparerSuite) TestCarbon_IsNow() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsNow())
+		s.False(NewCarbon().IsNow())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsNow())
+		s.False(Parse("").IsNow())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsNow())
+		s.False(Parse("xxx").IsNow())
 	})
 
 	s.Run("valid carbon", func() {
@@ -960,18 +888,15 @@ func (s *ComparerSuite) TestCarbon_IsFuture() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsFuture())
+		s.False(NewCarbon().IsFuture())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsFuture())
+		s.False(Parse("").IsFuture())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsFuture())
+		s.False(Parse("xxx").IsFuture())
 	})
 
 	s.Run("valid carbon", func() {
@@ -990,18 +915,15 @@ func (s *ComparerSuite) TestCarbon_IsPast() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.True(c.IsPast())
+		s.True(NewCarbon().IsPast())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsPast())
+		s.False(Parse("").IsPast())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsPast())
+		s.False(Parse("xxx").IsPast())
 	})
 
 	s.Run("valid carbon", func() {
@@ -1020,18 +942,15 @@ func (s *ComparerSuite) TestCarbon_IsYesterday() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsYesterday())
+		s.False(NewCarbon().IsYesterday())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsYesterday())
+		s.False(Parse("").IsYesterday())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsYesterday())
+		s.False(Parse("xxx").IsYesterday())
 	})
 
 	s.Run("valid carbon", func() {
@@ -1050,18 +969,15 @@ func (s *ComparerSuite) TestCarbon_IsToday() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsToday())
+		s.False(NewCarbon().IsToday())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsToday())
+		s.False(Parse("").IsToday())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsToday())
+		s.False(Parse("xxx").IsToday())
 	})
 
 	s.Run("valid carbon", func() {
@@ -1080,18 +996,15 @@ func (s *ComparerSuite) TestCarbon_IsTomorrow() {
 	})
 
 	s.Run("zero carbon", func() {
-		c := NewCarbon()
-		s.False(c.IsTomorrow())
+		s.False(NewCarbon().IsTomorrow())
 	})
 
 	s.Run("empty carbon", func() {
-		c := Parse("")
-		s.False(c.IsTomorrow())
+		s.False(Parse("").IsTomorrow())
 	})
 
 	s.Run("error carbon", func() {
-		c := Parse("xxx")
-		s.False(c.IsTomorrow())
+		s.False(Parse("xxx").IsTomorrow())
 	})
 
 	s.Run("valid carbon", func() {
