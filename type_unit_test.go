@@ -149,7 +149,7 @@ func (s *CarbonTypeSuite) TestCarbonType_UnmarshalJSON() {
 
 	s.Run("empty value", func() {
 		value := `{"carbon1":"","carbon2":""}`
-		s.NoError(json.Unmarshal([]byte(value), &model))
+		s.Nil(json.Unmarshal([]byte(value), &model))
 
 		s.Empty(model.Carbon1.String())
 		s.Empty(model.Carbon2.String())
@@ -157,19 +157,19 @@ func (s *CarbonTypeSuite) TestCarbonType_UnmarshalJSON() {
 
 	s.Run("null value", func() {
 		value1 := `{"carbon1":null,"carbon2":null}`
-		s.NoError(json.Unmarshal([]byte(value1), &model))
+		s.Nil(json.Unmarshal([]byte(value1), &model))
 		s.Empty(model.Carbon1.String())
 		s.Empty(model.Carbon2.String())
 
 		value2 := `{"carbon1":"null","carbon2":"null"}`
-		s.NoError(json.Unmarshal([]byte(value2), &model))
+		s.Nil(json.Unmarshal([]byte(value2), &model))
 		s.Empty(model.Carbon1.String())
 		s.Empty(model.Carbon2.String())
 	})
 
 	s.Run("valid value", func() {
 		value := `{"carbon1":"2020-08-05 13:14:15","carbon2":"2020-08-05 13:14:15"}`
-		s.NoError(json.Unmarshal([]byte(value), &model))
+		s.Nil(json.Unmarshal([]byte(value), &model))
 
 		s.Equal("2020-08-05 13:14:15", model.Carbon1.String())
 		s.Equal("2020-08-05 13:14:15", model.Carbon2.String())
@@ -589,7 +589,7 @@ func (s *BuiltinTypeSuite) TestBuiltinType_UnmarshalJSON() {
 
 	s.Run("empty value", func() {
 		value := `{"date":"","date_milli":"","date_micro":"","date_nano":"","time":"","time_milli":"","time_micro":"","time_nano":"","date_time":"","date_time_milli":"","date_time_micro":"","date_time_nano":"","created_at":"","updated_at":"","timestamp":"","timestamp_milli":"","timestamp_micro":"","timestamp_nano":"","deleted_at":""}`
-		s.NoError(json.Unmarshal([]byte(value), &model))
+		s.Nil(json.Unmarshal([]byte(value), &model))
 
 		s.Empty(model.Date.String())
 		s.Empty(model.DateMilli.String())
@@ -624,7 +624,7 @@ func (s *BuiltinTypeSuite) TestBuiltinType_UnmarshalJSON() {
 
 	s.Run("null value", func() {
 		value1 := `{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`
-		s.NoError(json.Unmarshal([]byte(value1), &model))
+		s.Nil(json.Unmarshal([]byte(value1), &model))
 
 		s.Empty(model.Date.String())
 		s.Empty(model.DateMilli.String())
@@ -657,7 +657,7 @@ func (s *BuiltinTypeSuite) TestBuiltinType_UnmarshalJSON() {
 		s.Equal(int64(0), model.DeletedAt.Int64())
 
 		value2 := `{"date":"null","date_milli":"null","date_micro":"null","date_nano":"null","time":"null","time_milli":"null","time_micro":"null","time_nano":"null","date_time":"null","date_time_milli":"null","date_time_micro":"null","date_time_nano":"null","created_at":"null","updated_at":"null","timestamp":"null","timestamp_milli":"null","timestamp_micro":"null","timestamp_nano":"null","deleted_at":"null"}`
-		s.NoError(json.Unmarshal([]byte(value2), &model))
+		s.Nil(json.Unmarshal([]byte(value2), &model))
 
 		s.Empty(model.Date.String())
 		s.Empty(model.DateMilli.String())
@@ -734,7 +734,7 @@ func (s *BuiltinTypeSuite) TestBuiltinType_UnmarshalJSON() {
 
 	s.Run("valid value", func() {
 		value := `{"date":"2020-08-05","date_milli":"2020-08-05.999","date_micro":"2020-08-05.999999","date_nano":"2020-08-05.999999999","time":"13:14:15","time_milli":"13:14:15.999","time_micro":"13:14:15.999999","time_nano":"13:14:15.999999999","date_time":"2020-08-05 13:14:15","date_time_milli":"2020-08-05 13:14:15.999","date_time_micro":"2020-08-05 13:14:15.999999","date_time_nano":"2020-08-05 13:14:15.999999999","created_at":"2020-08-05 13:14:15","updated_at":"2020-08-05 13:14:15","timestamp":1596633255,"timestamp_milli":1596633255999,"timestamp_micro":1596633255999999,"timestamp_nano":1596633255999999999,"deleted_at":1596633255}`
-		s.NoError(json.Unmarshal([]byte(value), &model))
+		s.Nil(json.Unmarshal([]byte(value), &model))
 
 		s.Equal("2020-08-05", model.Date.String())
 		s.Equal("2020-08-05.999", model.DateMilli.String())
@@ -1009,7 +1009,7 @@ func (s *CustomerTypeSuite) TestCustomerType_UnmarshalJSON() {
 
 	s.Run("empty value", func() {
 		value := `{"customer1":"","customer2":"","created_at":"","updated_at":""}`
-		s.NoError(json.Unmarshal([]byte(value), &model))
+		s.Nil(json.Unmarshal([]byte(value), &model))
 
 		s.Empty(model.Customer1.String())
 		s.Empty(model.Customer2.String())
@@ -1019,7 +1019,7 @@ func (s *CustomerTypeSuite) TestCustomerType_UnmarshalJSON() {
 
 	s.Run("null value", func() {
 		value1 := `{"customer1":null,"customer2":null,"created_at":null,"updated_at":null}`
-		s.NoError(json.Unmarshal([]byte(value1), &model))
+		s.Nil(json.Unmarshal([]byte(value1), &model))
 
 		s.Empty(model.Customer1.String())
 		s.Empty(model.Customer2.String())
@@ -1027,7 +1027,7 @@ func (s *CustomerTypeSuite) TestCustomerType_UnmarshalJSON() {
 		s.Empty(model.UpdatedAt.String())
 
 		value2 := `{"customer1":"null","customer2":"null","created_at":"null","updated_at":"null"}`
-		s.NoError(json.Unmarshal([]byte(value2), &model))
+		s.Nil(json.Unmarshal([]byte(value2), &model))
 
 		s.Empty(model.Customer1.String())
 		s.Empty(model.Customer2.String())
@@ -1047,7 +1047,7 @@ func (s *CustomerTypeSuite) TestCustomerType_UnmarshalJSON() {
 
 	s.Run("valid value", func() {
 		value := `{"customer1":"2020-08-05T13:14:15+00:00","customer2":"2020-08-05T13:14:15Z","created_at":"2020-08-05T13:14:15+00:00","updated_at":"2020-08-05T13:14:15Z"}`
-		s.NoError(json.Unmarshal([]byte(value), &model))
+		s.Nil(json.Unmarshal([]byte(value), &model))
 
 		s.Equal("2020-08-05T13:14:15+00:00", model.Customer1.String())
 		s.Equal("2020-08-05T13:14:15Z", model.Customer2.String())

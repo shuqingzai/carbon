@@ -23,12 +23,12 @@ func (s *BoundarySuite) TestCarbon_StartOfCentury() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().StartOfCentury().Error)
+		s.Nil(NewCarbon().StartOfCentury().Error)
 		s.Equal("0000-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfCentury().ToString())
 	})
 
 	s.Run("empty carbon", func() {
-		s.NoError(Parse("").StartOfCentury().Error)
+		s.Nil(Parse("").StartOfCentury().Error)
 		s.Empty(Parse("").StartOfCentury().ToString())
 	})
 
@@ -53,12 +53,12 @@ func (s *BoundarySuite) TestCarbon_EndOfCentury() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().EndOfCentury().Error)
+		s.Nil(NewCarbon().EndOfCentury().Error)
 		s.Equal("0099-12-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfCentury().ToString())
 	})
 
 	s.Run("empty carbon", func() {
-		s.NoError(NewCarbon().EndOfCentury().Error)
+		s.Nil(NewCarbon().EndOfCentury().Error)
 		s.Empty(Parse("").EndOfCentury().String())
 	})
 
@@ -83,12 +83,12 @@ func (s *BoundarySuite) TestCarbon_StartOfDecade() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().StartOfDecade().Error)
+		s.Nil(NewCarbon().StartOfDecade().Error)
 		s.Equal("0000-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfDecade().ToString())
 	})
 
 	s.Run("empty carbon", func() {
-		s.NoError(NewCarbon().StartOfDecade().Error)
+		s.Nil(NewCarbon().StartOfDecade().Error)
 		s.Empty(Parse("").StartOfDecade().ToString())
 	})
 
@@ -113,12 +113,12 @@ func (s *BoundarySuite) TestCarbon_EndOfDecade() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().EndOfDecade().Error)
+		s.Nil(NewCarbon().EndOfDecade().Error)
 		s.Equal("0009-12-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfDecade().ToString())
 	})
 
 	s.Run("empty carbon", func() {
-		s.NoError(NewCarbon().EndOfDecade().Error)
+		s.Nil(NewCarbon().EndOfDecade().Error)
 		s.Empty(Parse("").EndOfDecade().String())
 	})
 
@@ -147,7 +147,7 @@ func (s *BoundarySuite) TestCarbon_StartOfYear() {
 	})
 
 	s.Run("empty carbon", func() {
-		s.NoError(Parse("").StartOfYear().Error)
+		s.Nil(Parse("").StartOfYear().Error)
 		s.Empty(Parse("").StartOfYear().ToString())
 	})
 
@@ -172,7 +172,7 @@ func (s *BoundarySuite) TestCarbon_EndOfYear() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().EndOfYear().Error)
+		s.Nil(NewCarbon().EndOfYear().Error)
 		s.Equal("0001-12-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfYear().ToString())
 	})
 
@@ -197,7 +197,7 @@ func (s *BoundarySuite) TestCarbon_StartOfQuarter() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().StartOfQuarter().Error)
+		s.Nil(NewCarbon().StartOfQuarter().Error)
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfQuarter().ToString())
 	})
 
@@ -222,7 +222,7 @@ func (s *BoundarySuite) TestCarbon_EndOfQuarter() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().EndOfQuarter().Error)
+		s.Nil(NewCarbon().EndOfQuarter().Error)
 		s.Equal("0001-03-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfQuarter().ToString())
 	})
 
@@ -247,7 +247,7 @@ func (s *BoundarySuite) TestCarbon_StartOfMonth() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().StartOfMonth().Error)
+		s.Nil(NewCarbon().StartOfMonth().Error)
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfMonth().ToString())
 	})
 
@@ -272,7 +272,7 @@ func (s *BoundarySuite) TestCarbon_EndOfMonth() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().EndOfMonth().Error)
+		s.Nil(NewCarbon().EndOfMonth().Error)
 		s.Equal("0001-01-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfMonth().ToString())
 	})
 
@@ -297,7 +297,7 @@ func (s *BoundarySuite) TestCarbon_StartOfWeek() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().StartOfWeek().Error)
+		s.Nil(NewCarbon().StartOfWeek().Error)
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfWeek().ToString())
 	})
 
@@ -323,7 +323,7 @@ func (s *BoundarySuite) TestCarbon_EndOfWeek() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().EndOfWeek().Error)
+		s.Nil(NewCarbon().EndOfWeek().Error)
 		s.Equal("0001-01-07 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfWeek().ToString())
 	})
 
@@ -349,7 +349,7 @@ func (s *BoundarySuite) TestCarbon_StartOfDay() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().StartOfDay().Error)
+		s.Nil(NewCarbon().StartOfDay().Error)
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfDay().ToString())
 	})
 
@@ -374,7 +374,7 @@ func (s *BoundarySuite) TestCarbon_EndOfDay() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().EndOfDay().Error)
+		s.Nil(NewCarbon().EndOfDay().Error)
 		s.Equal("0001-01-01 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfDay().ToString())
 	})
 
@@ -399,7 +399,7 @@ func (s *BoundarySuite) TestCarbon_StartOfHour() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().StartOfHour().Error)
+		s.Nil(NewCarbon().StartOfHour().Error)
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfHour().ToString())
 	})
 
@@ -424,7 +424,7 @@ func (s *BoundarySuite) TestCarbon_EndOfHour() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().EndOfHour().Error)
+		s.Nil(NewCarbon().EndOfHour().Error)
 		s.Equal("0001-01-01 00:59:59.999999999 +0000 UTC", NewCarbon().EndOfHour().ToString())
 	})
 
@@ -449,7 +449,7 @@ func (s *BoundarySuite) TestCarbon_StartOfMinute() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().StartOfMinute().Error)
+		s.Nil(NewCarbon().StartOfMinute().Error)
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfMinute().ToString())
 	})
 
@@ -474,7 +474,7 @@ func (s *BoundarySuite) TestCarbon_EndOfMinute() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().EndOfMinute().Error)
+		s.Nil(NewCarbon().EndOfMinute().Error)
 		s.Equal("0001-01-01 00:00:59.999999999 +0000 UTC", NewCarbon().EndOfMinute().ToString())
 	})
 
@@ -499,7 +499,7 @@ func (s *BoundarySuite) TestCarbon_StartOfSecond() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().StartOfSecond().Error)
+		s.Nil(NewCarbon().StartOfSecond().Error)
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfSecond().ToString())
 	})
 
@@ -524,7 +524,7 @@ func (s *BoundarySuite) TestCarbon_EndOfSecond() {
 	})
 
 	s.Run("zero carbon", func() {
-		s.NoError(NewCarbon().EndOfSecond().Error)
+		s.Nil(NewCarbon().EndOfSecond().Error)
 		s.Equal("0001-01-01 00:00:00.999999999 +0000 UTC", NewCarbon().EndOfSecond().ToString())
 	})
 

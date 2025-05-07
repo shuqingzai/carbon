@@ -16,7 +16,7 @@ func TestParserSuite(t *testing.T) {
 
 func (s *ParserSuite) TestParse() {
 	s.Run("empty value", func() {
-		s.NoError(Parse("").Error)
+		s.Nil(Parse("").Error)
 	})
 
 	s.Run("error value", func() {
@@ -77,7 +77,7 @@ func (s *ParserSuite) TestParse() {
 
 func (s *ParserSuite) TestParseByFormat() {
 	s.Run("empty value", func() {
-		s.NoError(ParseByFormat("", DateFormat).Error)
+		s.Nil(ParseByFormat("", DateFormat).Error)
 	})
 
 	s.Run("error value", func() {
@@ -138,7 +138,7 @@ func (s *ParserSuite) TestParseByFormat() {
 
 func (s *ParserSuite) TestParseByLayout() {
 	s.Run("empty value", func() {
-		s.NoError(ParseByLayout("", DateFormat).Error)
+		s.Nil(ParseByLayout("", DateFormat).Error)
 	})
 
 	s.Run("error value", func() {
@@ -191,7 +191,7 @@ func (s *ParserSuite) TestParseByLayout() {
 
 func (s *ParserSuite) TestParseWithLayouts() {
 	s.Run("empty value", func() {
-		s.NoError(ParseWithLayouts("", []string{DateTimeLayout}).Error)
+		s.Nil(ParseWithLayouts("", []string{DateTimeLayout}).Error)
 	})
 
 	s.Run("error value", func() {
@@ -226,7 +226,7 @@ func (s *ParserSuite) TestParseWithLayouts() {
 
 func (s *ParserSuite) TestParseWithFormats() {
 	s.Run("empty value", func() {
-		s.NoError(ParseWithFormats("", []string{DateTimeLayout}).Error)
+		s.Nil(ParseWithFormats("", []string{DateTimeLayout}).Error)
 	})
 
 	s.Run("error value", func() {
