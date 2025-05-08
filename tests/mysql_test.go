@@ -19,7 +19,7 @@ func TestMySQLSuite(t *testing.T) {
 func (s *MySQLSuite) SetupSuite() {
 	carbon.SetTimezone(carbon.PRC)
 	carbon.SetTestNow(carbon.Parse("2020-08-05 13:14:15"))
-	db = connect("mysql")
+	db = connect(driverMySQL)
 	if err := db.AutoMigrate(&MySQLModel1{}); err != nil {
 		panic(err)
 	}

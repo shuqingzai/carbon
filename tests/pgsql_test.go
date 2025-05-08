@@ -19,7 +19,7 @@ func TestPgSQLSuite(t *testing.T) {
 func (s *PgSQLSuite) SetupSuite() {
 	carbon.SetTimezone(carbon.PRC)
 	carbon.SetTestNow(carbon.Parse("2020-08-05 13:14:15"))
-	db = connect("pgsql")
+	db = connect(driverPgSQL)
 	if err := db.AutoMigrate(&PgSQLModel1{}); err != nil {
 		panic(err)
 	}
