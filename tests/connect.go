@@ -19,8 +19,7 @@ var (
 
 func connect(driver string) *gorm.DB {
 	if err := godotenv.Load(".env"); err != nil {
-		fmt.Printf("`.env` file does not exist, please copy `.env.example` file to `.env` file")
-		os.Exit(1)
+		panic("`.env` file does not exist, please copy `.env.example` file to `.env` file")
 	}
 
 	switch driver {
@@ -35,8 +34,7 @@ func connect(driver string) *gorm.DB {
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
-		fmt.Printf("failed to connect database, dsn:%s", dsn)
-		os.Exit(1)
+		panic(fmt.Sprintf("failed to connect database, dsn:%s", dsn))
 	}
 	return db
 }
