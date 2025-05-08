@@ -190,6 +190,12 @@ func (t *TimestampType[T]) Int64() (ts int64) {
 	return
 }
 
+// GormDataType sets gorm data type for TimestampType generic struct.
+// 设置 gorm 数据类型
+func (t TimestampType[T]) GormDataType() string {
+	return "time"
+}
+
 // getPrecision returns the set timestamp precision.
 // 返回设置的时间戳精度
 func (t TimestampType[T]) getPrecision() int64 {
