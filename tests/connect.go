@@ -2,9 +2,9 @@ package tests
 
 import (
 	"fmt"
-	"github.com/joho/godotenv"
 	"os"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

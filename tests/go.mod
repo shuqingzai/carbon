@@ -3,7 +3,7 @@ module tests
 go 1.24.0
 
 require (
-	gitee.com/golang-package/carbon/v2 v2.6.6
+	github.com/dromara/carbon/v2 v2.6.5
 	github.com/joho/godotenv v1.5.1
 	github.com/stretchr/testify v1.10.0
 	gorm.io/driver/mysql v1.5.7
