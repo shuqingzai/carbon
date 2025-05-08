@@ -84,14 +84,11 @@ func (t *TimestampType[T]) Scan(src any) (err error) {
 // Value implements driver.Valuer interface for TimestampType generic struct.
 // 实现 driver.Valuer 接口
 func (t TimestampType[T]) Value() (driver.Value, error) {
-	if t.IsNil() || t.IsZero() {
+	if t.IsNil() || t.IsZero() || t.IsEmpty() {
 		return nil, nil
 	}
 	if t.HasError() {
 		return nil, t.Error
-	}
-	if t.IsEmpty() {
-		return 0, nil
 	}
 	var ts int64
 	switch t.getPrecision() {
@@ -191,12 +188,6 @@ func (t *TimestampType[T]) Int64() (ts int64) {
 		ts = t.TimestampNano()
 	}
 	return
-}
-
-// GormDataType sets gorm data type for TimestampType generic struct.
-// 设置 gorm 数据类型
-func (t TimestampType[T]) GormDataType() string {
-	return "time"
 }
 
 // getPrecision returns the set timestamp precision.

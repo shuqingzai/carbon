@@ -53,14 +53,11 @@ func (t *FormatType[T]) Scan(src any) error {
 // Value implements driver.Valuer interface for FormatType generic struct.
 // 实现 driver.Valuer 接口
 func (t FormatType[T]) Value() (driver.Value, error) {
-	if t.IsNil() || t.IsZero() {
+	if t.IsNil() || t.IsZero() || t.IsEmpty() {
 		return nil, nil
 	}
 	if t.HasError() {
 		return nil, t.Error
-	}
-	if t.IsEmpty() {
-		return "", nil
 	}
 	return t.StdTime(), nil
 }
@@ -103,12 +100,6 @@ func (t *FormatType[T]) String() string {
 		return ""
 	}
 	return t.Format(t.getFormat())
-}
-
-// GormDataType sets gorm data type for FormatType generic struct.
-// 设置 gorm 数据类型
-func (t FormatType[T]) GormDataType() string {
-	return "time"
 }
 
 // getFormat returns the set format.

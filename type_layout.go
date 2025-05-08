@@ -53,14 +53,11 @@ func (t *LayoutType[T]) Scan(src any) error {
 // Value implements driver.Valuer interface for LayoutType generic struct.
 // 实现 driver.Valuer 接口
 func (t LayoutType[T]) Value() (driver.Value, error) {
-	if t.IsNil() || t.IsZero() {
+	if t.IsNil() || t.IsZero() || t.IsEmpty() {
 		return nil, nil
 	}
 	if t.HasError() {
 		return nil, t.Error
-	}
-	if t.isEmpty {
-		return "", nil
 	}
 	return t.StdTime(), nil
 }
@@ -103,12 +100,6 @@ func (t *LayoutType[T]) String() string {
 		return ""
 	}
 	return t.Layout(t.getLayout())
-}
-
-// GormDataType sets gorm data type for LayoutType generic struct.
-// 设置 gorm 数据类型
-func (t *LayoutType[T]) GormDataType() string {
-	return "time"
 }
 
 // getLayout returns the set layout.

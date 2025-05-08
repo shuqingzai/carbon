@@ -30,14 +30,11 @@ func (c *Carbon) Scan(src any) error {
 // Value implements driver.Valuer interface for Carbon struct.
 // 实现 driver.Valuer 接口
 func (c Carbon) Value() (driver.Value, error) {
-	if c.IsNil() || c.IsZero() {
+	if c.IsNil() || c.IsZero() || c.IsEmpty() {
 		return nil, nil
 	}
 	if c.HasError() {
 		return nil, c.Error
-	}
-	if c.IsEmpty() {
-		return "", nil
 	}
 	return c.StdTime(), nil
 }
@@ -80,10 +77,4 @@ func (c *Carbon) String() string {
 		return ""
 	}
 	return c.Layout(c.currentLayout)
-}
-
-// GormDataType sets gorm data type for Carbon struct.
-// 设置 gorm 数据类型
-func (c Carbon) GormDataType() string {
-	return "time"
 }
