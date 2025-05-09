@@ -66,7 +66,8 @@ var defaultLayouts = []string{
 	ISO8601MilliLayout, ISO8601MicroLayout, ISO8601NanoLayout,
 	RFC3339MilliLayout, RFC3339MicroLayout, RFC3339NanoLayout,
 
-	"15:04:05-07", "2006-01-02 15:04:05-07", // postgres time with timezone
+	"15:04:05-07", "2006-01-02 15:04:05-07", // postgres
+	"2006-01-02 15:04:05-07:00", // sqlite
 	"2006",
 	"2006-1-2 15:4:5 -0700 MST", "2006-1-2 3:4:5 -0700 MST",
 	"2006-1", "2006-1-2", "2006-1-2 15", "2006-1-2 15:4", "2006-1-2 15:4:5", "2006-1-2 15:4:5.999999999",
