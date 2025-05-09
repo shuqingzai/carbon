@@ -104,7 +104,7 @@ func (t *FormatType[T]) String() string {
 
 // getFormat returns the set format.
 // 返回设置的格式模板
-func (t FormatType[T]) getFormat() string {
+func (t *FormatType[T]) getFormat() string {
 	var typer T
 	return typer.Format()
 }

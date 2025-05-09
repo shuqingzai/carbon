@@ -192,7 +192,7 @@ func (t *TimestampType[T]) Int64() (ts int64) {
 
 // getPrecision returns the set timestamp precision.
 // 返回设置的时间戳精度
-func (t TimestampType[T]) getPrecision() int64 {
+func (t *TimestampType[T]) getPrecision() int64 {
 	var typer T
 	return typer.Precision()
 }
