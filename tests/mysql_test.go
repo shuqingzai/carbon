@@ -30,8 +30,8 @@ func (s *MySQLSuite) SetupSuite() {
 
 func (s *MySQLSuite) TearDownSuite() {
 	carbon.CleanTestNow()
-	db.Unscoped().Where("1 = 1").Delete(&MySQLModel1{})
-	db.Unscoped().Where("1 = 1").Delete(&MySQLModel2{})
+	//db.Unscoped().Where("1 = 1").Delete(&MySQLModel1{})
+	//db.Unscoped().Where("1 = 1").Delete(&MySQLModel2{})
 }
 
 func (s *MySQLSuite) TestCurd1() {
@@ -49,7 +49,7 @@ func (s *MySQLSuite) TestCurd1() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"date_time_carbon1":null,"date_time_carbon2":null,"date_time_carbon3":null,"date_time_layout1":null,"date_time_layout2":null,"date_time_layout3":null,"date_time_format1":null,"date_time_format2":null,"date_time_format3":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"carbon3":null,"date_time1":null,"date_time2":null,"date_time3":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"rfc3339_layout3":null,"iso8601_format1":null,"iso8601_format2":null,"iso8601_format3":null,"timestamp1":null}`, string(data1))
 
 		// delete
 		db.Delete(&model2)
@@ -61,13 +61,17 @@ func (s *MySQLSuite) TestCurd1() {
 		var c *carbon.Carbon
 		c = nil
 
-		model1.DateTimeLayout1 = *carbon.NewDateTime(c)
-		model1.DateTimeLayout2 = *carbon.NewDateTime(c)
-		model1.DateTimeLayout3 = *carbon.NewDateTime(c)
+		model1.DateTime1 = *carbon.NewDateTime(c)
+		model1.DateTime2 = *carbon.NewDateTime(c)
+		model1.DateTime3 = *carbon.NewDateTime(c)
 
-		model1.DateTimeFormat1 = *carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat2 = *carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat3 = *carbon.NewFormatType[ISO8601Type](c)
+		model1.RFC3339Layout1 = *carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout2 = *carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout3 = *carbon.NewLayoutType[RFC3339Layout](c)
+
+		model1.ISO8601Format1 = *carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format2 = *carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format3 = *carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = *carbon.NewTimestamp(c)
 
@@ -82,7 +86,7 @@ func (s *MySQLSuite) TestCurd1() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"date_time_carbon1":null,"date_time_carbon2":null,"date_time_carbon3":null,"date_time_layout1":null,"date_time_layout2":null,"date_time_layout3":null,"date_time_format1":null,"date_time_format2":null,"date_time_format3":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"carbon3":null,"date_time1":null,"date_time2":null,"date_time3":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"rfc3339_layout3":null,"iso8601_format1":null,"iso8601_format2":null,"iso8601_format3":null,"timestamp1":null}`, string(data1))
 
 		// delete
 		db.Delete(&model2)
@@ -93,17 +97,21 @@ func (s *MySQLSuite) TestCurd1() {
 
 		c := carbon.NewCarbon()
 
-		model1.DateTimeCarbon1 = *c
-		model1.DateTimeCarbon2 = *c
-		model1.DateTimeCarbon3 = *c
+		model1.Carbon1 = *c
+		model1.Carbon2 = *c
+		model1.Carbon3 = *c
 
-		model1.DateTimeLayout1 = *carbon.NewDateTime(c)
-		model1.DateTimeLayout2 = *carbon.NewDateTime(c)
-		model1.DateTimeLayout3 = *carbon.NewDateTime(c)
+		model1.DateTime1 = *carbon.NewDateTime(c)
+		model1.DateTime2 = *carbon.NewDateTime(c)
+		model1.DateTime3 = *carbon.NewDateTime(c)
 
-		model1.DateTimeFormat1 = *carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat2 = *carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat3 = *carbon.NewFormatType[ISO8601Type](c)
+		model1.RFC3339Layout1 = *carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout2 = *carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout3 = *carbon.NewLayoutType[RFC3339Layout](c)
+
+		model1.ISO8601Format1 = *carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format2 = *carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format3 = *carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = *carbon.NewTimestamp(c)
 
@@ -118,7 +126,7 @@ func (s *MySQLSuite) TestCurd1() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"date_time_carbon1":null,"date_time_carbon2":null,"date_time_carbon3":null,"date_time_layout1":null,"date_time_layout2":null,"date_time_layout3":null,"date_time_format1":null,"date_time_format2":null,"date_time_format3":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"carbon3":null,"date_time1":null,"date_time2":null,"date_time3":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"rfc3339_layout3":null,"iso8601_format1":null,"iso8601_format2":null,"iso8601_format3":null,"timestamp1":null}`, string(data1))
 
 		// delete
 		db.Delete(&model2)
@@ -129,17 +137,21 @@ func (s *MySQLSuite) TestCurd1() {
 
 		c := carbon.Parse("")
 
-		model1.DateTimeCarbon1 = *c
-		model1.DateTimeCarbon2 = *c
-		model1.DateTimeCarbon3 = *c
+		model1.Carbon1 = *c
+		model1.Carbon2 = *c
+		model1.Carbon3 = *c
 
-		model1.DateTimeLayout1 = *carbon.NewDateTime(c)
-		model1.DateTimeLayout2 = *carbon.NewDateTime(c)
-		model1.DateTimeLayout3 = *carbon.NewDateTime(c)
+		model1.DateTime1 = *carbon.NewDateTime(c)
+		model1.DateTime2 = *carbon.NewDateTime(c)
+		model1.DateTime3 = *carbon.NewDateTime(c)
 
-		model1.DateTimeFormat1 = *carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat2 = *carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat3 = *carbon.NewFormatType[ISO8601Type](c)
+		model1.RFC3339Layout1 = *carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout2 = *carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout3 = *carbon.NewLayoutType[RFC3339Layout](c)
+
+		model1.ISO8601Format1 = *carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format2 = *carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format3 = *carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = *carbon.NewTimestamp(c)
 
@@ -154,7 +166,7 @@ func (s *MySQLSuite) TestCurd1() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"date_time_carbon1":null,"date_time_carbon2":null,"date_time_carbon3":null,"date_time_layout1":null,"date_time_layout2":null,"date_time_layout3":null,"date_time_format1":null,"date_time_format2":null,"date_time_format3":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"carbon3":null,"date_time1":null,"date_time2":null,"date_time3":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"rfc3339_layout3":null,"iso8601_format1":null,"iso8601_format2":null,"iso8601_format3":null,"timestamp1":null}`, string(data1))
 
 		// delete
 		db.Delete(&model2)
@@ -165,17 +177,21 @@ func (s *MySQLSuite) TestCurd1() {
 
 		c := carbon.Now()
 
-		model1.DateTimeCarbon1 = *c
-		model1.DateTimeCarbon2 = *c
-		model1.DateTimeCarbon3 = *c
+		model1.Carbon1 = *c
+		model1.Carbon2 = *c
+		model1.Carbon3 = *c
 
-		model1.DateTimeLayout1 = *carbon.NewDateTime(c)
-		model1.DateTimeLayout2 = *carbon.NewDateTime(c)
-		model1.DateTimeLayout3 = *carbon.NewDateTime(c)
+		model1.DateTime1 = *carbon.NewDateTime(c)
+		model1.DateTime2 = *carbon.NewDateTime(c)
+		model1.DateTime3 = *carbon.NewDateTime(c)
 
-		model1.DateTimeFormat1 = *carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat2 = *carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat3 = *carbon.NewFormatType[ISO8601Type](c)
+		model1.RFC3339Layout1 = *carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout2 = *carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout3 = *carbon.NewLayoutType[RFC3339Layout](c)
+
+		model1.ISO8601Format1 = *carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format2 = *carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format3 = *carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = *carbon.NewTimestamp(c)
 
@@ -190,28 +206,34 @@ func (s *MySQLSuite) TestCurd1() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"date_time_carbon1":"2020-08-05 13:14:15","date_time_carbon2":"2020-08-05 13:14:15","date_time_carbon3":"2020-08-05 13:14:15","date_time_layout1":"2020-08-05 13:14:15","date_time_layout2":"2020-08-05 13:14:15","date_time_layout3":"2020-08-05 13:14:15","date_time_format1":"2020-08-05T13:14:15+08:00","date_time_format2":"2020-08-05T13:14:15+08:00","date_time_format3":"2020-08-05T13:14:15+08:00","timestamp1":1596604455}`, string(data1))
+		s.Equal(`{"carbon1":"2020-08-05 13:14:15","carbon2":"2020-08-05 13:14:15","carbon3":"2020-08-05 13:14:15","date_time1":"2020-08-05 13:14:15","date_time2":"2020-08-05 13:14:15","date_time3":"2020-08-05 13:14:15","rfc3339_layout1":"2020-08-05T13:14:15+08:00","rfc3339_layout2":"2020-08-05T13:14:15+08:00","rfc3339_layout3":"2020-08-05T13:14:15+08:00","iso8601_format1":"2020-08-05T13:14:15+08:00","iso8601_format2":"2020-08-05T13:14:15+08:00","iso8601_format3":"2020-08-05T13:14:15+08:00","timestamp1":1596604455}`, string(data1))
 
-		model2.DateTimeCarbon1 = *c.Copy().AddDay()
-		model2.DateTimeCarbon2 = *c.Copy().AddDay()
-		model2.DateTimeCarbon3 = *c.Copy().AddDay()
+		c = c.Copy().AddDay()
 
-		model2.DateTimeLayout1 = *carbon.NewDateTime(c.Copy().AddDay())
-		model2.DateTimeLayout2 = *carbon.NewDateTime(c.Copy().AddDay())
-		model2.DateTimeLayout3 = *carbon.NewDateTime(c.Copy().AddDay())
+		model2.Carbon1 = *c
+		model2.Carbon2 = *c
+		model2.Carbon3 = *c
 
-		model2.DateTimeFormat1 = *carbon.NewFormatType[ISO8601Type](c.Copy().AddDay())
-		model2.DateTimeFormat2 = *carbon.NewFormatType[ISO8601Type](c.Copy().AddDay())
-		model2.DateTimeFormat3 = *carbon.NewFormatType[ISO8601Type](c.Copy().AddDay())
+		model2.DateTime1 = *carbon.NewDateTime(c)
+		model2.DateTime2 = *carbon.NewDateTime(c)
+		model2.DateTime3 = *carbon.NewDateTime(c)
 
-		model2.Timestamp1 = *carbon.NewTimestamp(c.Copy().AddDay())
+		model2.RFC3339Layout1 = *carbon.NewLayoutType[RFC3339Layout](c)
+		model2.RFC3339Layout2 = *carbon.NewLayoutType[RFC3339Layout](c)
+		model2.RFC3339Layout3 = *carbon.NewLayoutType[RFC3339Layout](c)
+
+		model2.ISO8601Format1 = *carbon.NewFormatType[ISO8601Format](c)
+		model2.ISO8601Format2 = *carbon.NewFormatType[ISO8601Format](c)
+		model2.ISO8601Format3 = *carbon.NewFormatType[ISO8601Format](c)
+
+		model2.Timestamp1 = *carbon.NewTimestamp(c)
 
 		// update
 		db.Save(&model2)
 
 		data2, err2 := json.Marshal(&model2)
 		s.Nil(err2)
-		s.Equal(`{"date_time_carbon1":"2020-08-06 13:14:15","date_time_carbon2":"2020-08-06 13:14:15","date_time_carbon3":"2020-08-06 13:14:15","date_time_layout1":"2020-08-06 13:14:15","date_time_layout2":"2020-08-06 13:14:15","date_time_layout3":"2020-08-06 13:14:15","date_time_format1":"2020-08-06T13:14:15+08:00","date_time_format2":"2020-08-06T13:14:15+08:00","date_time_format3":"2020-08-06T13:14:15+08:00","timestamp1":1596690855}`, string(data2))
+		s.Equal(`{"carbon1":"2020-08-06 13:14:15","carbon2":"2020-08-06 13:14:15","carbon3":"2020-08-06 13:14:15","date_time1":"2020-08-06 13:14:15","date_time2":"2020-08-06 13:14:15","date_time3":"2020-08-06 13:14:15","rfc3339_layout1":"2020-08-06T13:14:15+08:00","rfc3339_layout2":"2020-08-06T13:14:15+08:00","rfc3339_layout3":"2020-08-06T13:14:15+08:00","iso8601_format1":"2020-08-06T13:14:15+08:00","iso8601_format2":"2020-08-06T13:14:15+08:00","iso8601_format3":"2020-08-06T13:14:15+08:00","timestamp1":1596690855}`, string(data2))
 
 		// delete
 		db.Delete(&model2)
@@ -233,7 +255,7 @@ func (s *MySQLSuite) TestCurd2() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"date_time_carbon1":null,"date_time_carbon2":null,"date_time_carbon3":null,"date_time_layout1":null,"date_time_layout2":null,"date_time_layout3":null,"date_time_format1":null,"date_time_format2":null,"date_time_format3":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"carbon3":null,"date_time1":null,"date_time2":null,"date_time3":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"rfc3339_layout3":null,"iso8601_format1":null,"iso8601_format2":null,"iso8601_format3":null,"timestamp1":null}`, string(data1))
 
 		// delete
 		db.Delete(&model2)
@@ -245,17 +267,21 @@ func (s *MySQLSuite) TestCurd2() {
 		var c *carbon.Carbon
 		c = nil
 
-		model1.DateTimeCarbon1 = c
-		model1.DateTimeCarbon2 = c
-		model1.DateTimeCarbon3 = c
+		model1.Carbon1 = c
+		model1.Carbon2 = c
+		model1.Carbon3 = c
 
-		model1.DateTimeLayout1 = carbon.NewDateTime(c)
-		model1.DateTimeLayout2 = carbon.NewDateTime(c)
-		model1.DateTimeLayout3 = carbon.NewDateTime(c)
+		model1.DateTime1 = carbon.NewDateTime(c)
+		model1.DateTime2 = carbon.NewDateTime(c)
+		model1.DateTime3 = carbon.NewDateTime(c)
 
-		model1.DateTimeFormat1 = carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat2 = carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat3 = carbon.NewFormatType[ISO8601Type](c)
+		model1.RFC3339Layout1 = carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout2 = carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout3 = carbon.NewLayoutType[RFC3339Layout](c)
+
+		model1.ISO8601Format1 = carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format2 = carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format3 = carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = carbon.NewTimestamp(c)
 
@@ -270,7 +296,7 @@ func (s *MySQLSuite) TestCurd2() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"date_time_carbon1":null,"date_time_carbon2":null,"date_time_carbon3":null,"date_time_layout1":null,"date_time_layout2":null,"date_time_layout3":null,"date_time_format1":null,"date_time_format2":null,"date_time_format3":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"carbon3":null,"date_time1":null,"date_time2":null,"date_time3":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"rfc3339_layout3":null,"iso8601_format1":null,"iso8601_format2":null,"iso8601_format3":null,"timestamp1":null}`, string(data1))
 
 		// delete
 		db.Delete(&model2)
@@ -281,17 +307,21 @@ func (s *MySQLSuite) TestCurd2() {
 
 		c := carbon.NewCarbon()
 
-		model1.DateTimeCarbon1 = c
-		model1.DateTimeCarbon2 = c
-		model1.DateTimeCarbon3 = c
+		model1.Carbon1 = c
+		model1.Carbon2 = c
+		model1.Carbon3 = c
 
-		model1.DateTimeLayout1 = carbon.NewDateTime(c)
-		model1.DateTimeLayout2 = carbon.NewDateTime(c)
-		model1.DateTimeLayout3 = carbon.NewDateTime(c)
+		model1.DateTime1 = carbon.NewDateTime(c)
+		model1.DateTime2 = carbon.NewDateTime(c)
+		model1.DateTime3 = carbon.NewDateTime(c)
 
-		model1.DateTimeFormat1 = carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat2 = carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat3 = carbon.NewFormatType[ISO8601Type](c)
+		model1.RFC3339Layout1 = carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout2 = carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout3 = carbon.NewLayoutType[RFC3339Layout](c)
+
+		model1.ISO8601Format1 = carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format2 = carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format3 = carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = carbon.NewTimestamp(c)
 
@@ -306,7 +336,7 @@ func (s *MySQLSuite) TestCurd2() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"date_time_carbon1":null,"date_time_carbon2":null,"date_time_carbon3":null,"date_time_layout1":null,"date_time_layout2":null,"date_time_layout3":null,"date_time_format1":null,"date_time_format2":null,"date_time_format3":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"carbon3":null,"date_time1":null,"date_time2":null,"date_time3":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"rfc3339_layout3":null,"iso8601_format1":null,"iso8601_format2":null,"iso8601_format3":null,"timestamp1":null}`, string(data1))
 
 		// delete
 		db.Delete(&model2)
@@ -317,17 +347,21 @@ func (s *MySQLSuite) TestCurd2() {
 
 		c := carbon.Parse("")
 
-		model1.DateTimeCarbon1 = c
-		model1.DateTimeCarbon2 = c
-		model1.DateTimeCarbon3 = c
+		model1.Carbon1 = c
+		model1.Carbon2 = c
+		model1.Carbon3 = c
 
-		model1.DateTimeLayout1 = carbon.NewDateTime(c)
-		model1.DateTimeLayout2 = carbon.NewDateTime(c)
-		model1.DateTimeLayout3 = carbon.NewDateTime(c)
+		model1.DateTime1 = carbon.NewDateTime(c)
+		model1.DateTime2 = carbon.NewDateTime(c)
+		model1.DateTime3 = carbon.NewDateTime(c)
 
-		model1.DateTimeFormat1 = carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat2 = carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat3 = carbon.NewFormatType[ISO8601Type](c)
+		model1.RFC3339Layout1 = carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout2 = carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout3 = carbon.NewLayoutType[RFC3339Layout](c)
+
+		model1.ISO8601Format1 = carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format2 = carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format3 = carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = carbon.NewTimestamp(c)
 
@@ -342,7 +376,7 @@ func (s *MySQLSuite) TestCurd2() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"date_time_carbon1":null,"date_time_carbon2":null,"date_time_carbon3":null,"date_time_layout1":null,"date_time_layout2":null,"date_time_layout3":null,"date_time_format1":null,"date_time_format2":null,"date_time_format3":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"carbon3":null,"date_time1":null,"date_time2":null,"date_time3":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"rfc3339_layout3":null,"iso8601_format1":null,"iso8601_format2":null,"iso8601_format3":null,"timestamp1":null}`, string(data1))
 
 		// delete
 		db.Delete(&model2)
@@ -353,17 +387,21 @@ func (s *MySQLSuite) TestCurd2() {
 
 		c := carbon.Now()
 
-		model1.DateTimeCarbon1 = c
-		model1.DateTimeCarbon2 = c
-		model1.DateTimeCarbon3 = c
+		model1.Carbon1 = c
+		model1.Carbon2 = c
+		model1.Carbon3 = c
 
-		model1.DateTimeLayout1 = carbon.NewDateTime(c)
-		model1.DateTimeLayout2 = carbon.NewDateTime(c)
-		model1.DateTimeLayout3 = carbon.NewDateTime(c)
+		model1.DateTime1 = carbon.NewDateTime(c)
+		model1.DateTime2 = carbon.NewDateTime(c)
+		model1.DateTime3 = carbon.NewDateTime(c)
 
-		model1.DateTimeFormat1 = carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat2 = carbon.NewFormatType[ISO8601Type](c)
-		model1.DateTimeFormat3 = carbon.NewFormatType[ISO8601Type](c)
+		model1.RFC3339Layout1 = carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout2 = carbon.NewLayoutType[RFC3339Layout](c)
+		model1.RFC3339Layout3 = carbon.NewLayoutType[RFC3339Layout](c)
+
+		model1.ISO8601Format1 = carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format2 = carbon.NewFormatType[ISO8601Format](c)
+		model1.ISO8601Format3 = carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = carbon.NewTimestamp(c)
 
@@ -378,28 +416,34 @@ func (s *MySQLSuite) TestCurd2() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"date_time_carbon1":"2020-08-05 13:14:15","date_time_carbon2":"2020-08-05 13:14:15","date_time_carbon3":"2020-08-05 13:14:15","date_time_layout1":"2020-08-05 13:14:15","date_time_layout2":"2020-08-05 13:14:15","date_time_layout3":"2020-08-05 13:14:15","date_time_format1":"2020-08-05T13:14:15+08:00","date_time_format2":"2020-08-05T13:14:15+08:00","date_time_format3":"2020-08-05T13:14:15+08:00","timestamp1":1596604455}`, string(data1))
+		s.Equal(`{"carbon1":"2020-08-05 13:14:15","carbon2":"2020-08-05 13:14:15","carbon3":"2020-08-05 13:14:15","date_time1":"2020-08-05 13:14:15","date_time2":"2020-08-05 13:14:15","date_time3":"2020-08-05 13:14:15","rfc3339_layout1":"2020-08-05T13:14:15+08:00","rfc3339_layout2":"2020-08-05T13:14:15+08:00","rfc3339_layout3":"2020-08-05T13:14:15+08:00","iso8601_format1":"2020-08-05T13:14:15+08:00","iso8601_format2":"2020-08-05T13:14:15+08:00","iso8601_format3":"2020-08-05T13:14:15+08:00","timestamp1":1596604455}`, string(data1))
 
-		model2.DateTimeCarbon1 = c.Copy().AddDay()
-		model2.DateTimeCarbon2 = c.Copy().AddDay()
-		model2.DateTimeCarbon3 = c.Copy().AddDay()
+		c = c.Copy().AddDay()
 
-		model2.DateTimeLayout1 = carbon.NewDateTime(c.Copy().AddDay())
-		model2.DateTimeLayout2 = carbon.NewDateTime(c.Copy().AddDay())
-		model2.DateTimeLayout3 = carbon.NewDateTime(c.Copy().AddDay())
+		model2.Carbon1 = c
+		model2.Carbon2 = c
+		model2.Carbon3 = c
 
-		model2.DateTimeFormat1 = carbon.NewFormatType[ISO8601Type](c.Copy().AddDay())
-		model2.DateTimeFormat2 = carbon.NewFormatType[ISO8601Type](c.Copy().AddDay())
-		model2.DateTimeFormat3 = carbon.NewFormatType[ISO8601Type](c.Copy().AddDay())
+		model2.DateTime1 = carbon.NewDateTime(c)
+		model2.DateTime2 = carbon.NewDateTime(c)
+		model2.DateTime3 = carbon.NewDateTime(c)
 
-		model2.Timestamp1 = carbon.NewTimestamp(c.Copy().AddDay())
+		model2.RFC3339Layout1 = carbon.NewLayoutType[RFC3339Layout](c)
+		model2.RFC3339Layout2 = carbon.NewLayoutType[RFC3339Layout](c)
+		model2.RFC3339Layout3 = carbon.NewLayoutType[RFC3339Layout](c)
+
+		model2.ISO8601Format1 = carbon.NewFormatType[ISO8601Format](c)
+		model2.ISO8601Format2 = carbon.NewFormatType[ISO8601Format](c)
+		model2.ISO8601Format3 = carbon.NewFormatType[ISO8601Format](c)
+
+		model2.Timestamp1 = carbon.NewTimestamp(c)
 
 		// update
 		db.Save(&model2)
 
 		data2, err2 := json.Marshal(&model2)
 		s.Nil(err2)
-		s.Equal(`{"date_time_carbon1":"2020-08-06 13:14:15","date_time_carbon2":"2020-08-06 13:14:15","date_time_carbon3":"2020-08-06 13:14:15","date_time_layout1":"2020-08-06 13:14:15","date_time_layout2":"2020-08-06 13:14:15","date_time_layout3":"2020-08-06 13:14:15","date_time_format1":"2020-08-06T13:14:15+08:00","date_time_format2":"2020-08-06T13:14:15+08:00","date_time_format3":"2020-08-06T13:14:15+08:00","timestamp1":1596690855}`, string(data2))
+		s.Equal(`{"carbon1":"2020-08-06 13:14:15","carbon2":"2020-08-06 13:14:15","carbon3":"2020-08-06 13:14:15","date_time1":"2020-08-06 13:14:15","date_time2":"2020-08-06 13:14:15","date_time3":"2020-08-06 13:14:15","rfc3339_layout1":"2020-08-06T13:14:15+08:00","rfc3339_layout2":"2020-08-06T13:14:15+08:00","rfc3339_layout3":"2020-08-06T13:14:15+08:00","iso8601_format1":"2020-08-06T13:14:15+08:00","iso8601_format2":"2020-08-06T13:14:15+08:00","iso8601_format3":"2020-08-06T13:14:15+08:00","timestamp1":1596690855}`, string(data2))
 
 		// delete
 		db.Delete(&model2)
