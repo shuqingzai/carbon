@@ -7,13 +7,15 @@ import (
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
 
 const (
-	driverMySQL = "mysql"
-	driverPgSQL = "postgres"
+	driverMySQL  = "mysql"
+	driverPgSQL  = "postgres"
+	driverSQLite = "sqlite"
 )
 
 var (
@@ -34,6 +36,8 @@ func connect(driver string) *gorm.DB {
 	case driverPgSQL:
 		dsn = fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable TimeZone=Asia/Shanghai", os.Getenv("PgSQL_DB_HOST"), os.Getenv("PgSQL_DB_PORT"), os.Getenv("PgSQL_DB_USERNAME"), os.Getenv("PgSQL_DB_DATABASE"), os.Getenv("PgSQL_DB_PASSWORD"))
 		dia = postgres.Open(dsn)
+	case driverSQLite:
+		dia = sqlite.Open("file::memory:")
 	}
 	db, err := gorm.Open(dia, &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),

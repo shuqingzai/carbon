@@ -154,3 +154,53 @@ type PgSQLModel2 struct {
 func (PgSQLModel2) TableName() string {
 	return "carbon_pgsql2"
 }
+
+type SQLiteModel1 struct {
+	ID uint64 `json:"-" gorm:"column:id;primaryKey"`
+
+	Carbon carbon.Carbon `gorm:"column:carbon;type:text;" json:"carbon"`
+
+	Date carbon.Date `gorm:"column:date;type:text;" json:"date"`
+
+	Time carbon.Time `gorm:"column:time;type:text;" json:"time"`
+
+	DateTime carbon.DateTime `gorm:"column:date_time;type:text;" json:"date_time"`
+
+	RFC3339Layout carbon.LayoutType[RFC3339Layout] `gorm:"column:rfc3339_layout1;type:text;" json:"rfc3339_layout"`
+	ISO8601Format carbon.FormatType[ISO8601Format] `gorm:"column:iso8601_format1;type:text;" json:"iso8601_format"`
+
+	Timestamp carbon.Timestamp `gorm:"column:timestamp;type:integer;" json:"timestamp"`
+
+	CreatedAt carbon.DateTime `gorm:"column:created_at;type:timestamp with time zone;" json:"-"`
+	UpdatedAt carbon.DateTime `gorm:"column:updated_at;type:timestamp with time zone;" json:"-"`
+	DeletedAt gorm.DeletedAt  `gorm:"column:deleted_at;type:timestamp with time zone;" json:"-"`
+}
+
+func (SQLiteModel1) TableName() string {
+	return "carbon_sqlite1"
+}
+
+type SQLiteModel2 struct {
+	ID uint64 `json:"-" gorm:"column:id;primaryKey"`
+
+	Carbon *carbon.Carbon `gorm:"column:carbon;type:text;" json:"carbon"`
+
+	Date *carbon.Date `gorm:"column:date;type:text;" json:"date"`
+
+	Time *carbon.Time `gorm:"column:time;type:text;" json:"time"`
+
+	DateTime *carbon.DateTime `gorm:"column:date_time;type:text;" json:"date_time"`
+
+	RFC3339Layout *carbon.LayoutType[RFC3339Layout] `gorm:"column:rfc3339_layout1;type:text;" json:"rfc3339_layout"`
+	ISO8601Format *carbon.FormatType[ISO8601Format] `gorm:"column:iso8601_format1;type:text;" json:"iso8601_format"`
+
+	Timestamp *carbon.Timestamp `gorm:"column:timestamp;type:integer;" json:"timestamp"`
+
+	CreatedAt *carbon.DateTime `gorm:"column:created_at;type:timestamp with time zone;" json:"-"`
+	UpdatedAt *carbon.DateTime `gorm:"column:updated_at;type:timestamp with time zone;" json:"-"`
+	DeletedAt *gorm.DeletedAt  `gorm:"column:deleted_at;type:timestamp with time zone;" json:"-"`
+}
+
+func (SQLiteModel2) TableName() string {
+	return "carbon_sqlite2"
+}
