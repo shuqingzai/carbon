@@ -78,9 +78,3 @@ func (c *Carbon) String() string {
 	}
 	return c.Layout(c.currentLayout)
 }
-
-// GormDataType sets gorm data type for Carbon struct.
-// 设置 gorm 数据类型
-func (c Carbon) GormDataType() string {
-	return "time"
-}

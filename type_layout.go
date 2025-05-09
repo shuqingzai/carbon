@@ -102,12 +102,6 @@ func (t *LayoutType[T]) String() string {
 	return t.Layout(t.getLayout())
 }
 
-// GormDataType sets gorm data type for LayoutType generic struct.
-// 设置 gorm 数据类型
-func (t LayoutType[T]) GormDataType() string {
-	return "time"
-}
-
 // getLayout returns the set layout.
 // 返回设置的布局模板
 func (t *LayoutType[T]) getLayout() string {

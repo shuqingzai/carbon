@@ -176,10 +176,6 @@ func (s *CarbonTypeSuite) TestCarbonType_UnmarshalJSON() {
 	})
 }
 
-func (s *CarbonTypeSuite) TestCarbonType_GormDataType() {
-	s.Equal("time", Now().GormDataType())
-}
-
 type builtinTypeModel struct {
 	Date      Date      `json:"date"`
 	DateMilli DateMilli `json:"date_milli"`
@@ -768,31 +764,6 @@ func (s *BuiltinTypeSuite) TestBuiltinType_UnmarshalJSON() {
 	})
 }
 
-func (s *BuiltinTypeSuite) TestBuiltinType_GormDataType() {
-	c := Now()
-	dataType := "time"
-
-	s.Equal(dataType, NewDate(c).GormDataType())
-	s.Equal(dataType, NewDateMilli(c).GormDataType())
-	s.Equal(dataType, NewDateMicro(c).GormDataType())
-	s.Equal(dataType, NewDateNano(c).GormDataType())
-
-	s.Equal(dataType, NewTime(c).GormDataType())
-	s.Equal(dataType, NewTimeMilli(c).GormDataType())
-	s.Equal(dataType, NewTimeMicro(c).GormDataType())
-	s.Equal(dataType, NewTimeNano(c).GormDataType())
-
-	s.Equal(dataType, NewDateTime(c).GormDataType())
-	s.Equal(dataType, NewDateTimeMilli(c).GormDataType())
-	s.Equal(dataType, NewDateTimeMicro(c).GormDataType())
-	s.Equal(dataType, NewDateTimeNano(c).GormDataType())
-
-	s.Equal(dataType, NewTimestamp(c).GormDataType())
-	s.Equal(dataType, NewTimestampMilli(c).GormDataType())
-	s.Equal(dataType, NewTimestampMicro(c).GormDataType())
-	s.Equal(dataType, NewTimestampNano(c).GormDataType())
-}
-
 type CustomerTypeModel struct {
 	Customer1 FormatType[iso8601Type] `json:"customer1"`
 	Customer2 LayoutType[rfc3339Type] `json:"customer2"`
@@ -1054,12 +1025,4 @@ func (s *CustomerTypeSuite) TestCustomerType_UnmarshalJSON() {
 		s.Equal("2020-08-05T13:14:15+00:00", model.CreatedAt.String())
 		s.Equal("2020-08-05T13:14:15Z", model.UpdatedAt.String())
 	})
-}
-
-func (s *CustomerTypeSuite) TestCustomerType_GormDataType() {
-	c := Now()
-	dataType := "time"
-
-	s.Equal(dataType, NewFormatType[iso8601Type](c).GormDataType())
-	s.Equal(dataType, NewLayoutType[rfc3339Type](c).GormDataType())
 }

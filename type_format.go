@@ -102,12 +102,6 @@ func (t *FormatType[T]) String() string {
 	return t.Format(t.getFormat())
 }
 
-// GormDataType sets gorm data type for FormatType generic struct.
-// 设置 gorm 数据类型
-func (t FormatType[T]) GormDataType() string {
-	return "time"
-}
-
 // getFormat returns the set format.
 // 返回设置的格式模板
 func (t FormatType[T]) getFormat() string {
