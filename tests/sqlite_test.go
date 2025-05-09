@@ -177,6 +177,7 @@ func (s *SQLiteSuite) TestCurd1() {
 		// read
 		var model2 SQLiteModel1
 		db.Last(&model2)
+
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
 		s.Equal(`{"carbon":"2020-08-05 13:14:15","date":"2020-08-05","time":"13:14:15","date_time":"2020-08-05 13:14:15","rfc3339_layout":"2020-08-05T13:14:15+08:00","iso8601_format":"2020-08-05T13:14:15+08:00","timestamp":1596604455}`, string(data1))

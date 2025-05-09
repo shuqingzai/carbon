@@ -208,6 +208,7 @@ func (s *PgSQLSuite) TestCurd1() {
 		// read
 		var model2 PgSQLModel1
 		db.Last(&model2)
+
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
 		s.Equal(`{"carbon1":"2020-08-05 21:14:15","carbon2":"2020-08-05 13:14:15","date1":"2020-08-05","time1":"13:14:15","time2":"13:19:58","date_time1":"2020-08-05 21:14:15","date_time2":"2020-08-05 13:14:15","rfc3339_layout1":"2020-08-05T21:14:15+08:00","rfc3339_layout2":"2020-08-05T13:14:15+08:00","iso8601_format1":"2020-08-05T21:14:15+08:00","iso8601_format2":"2020-08-05T13:14:15+08:00","timestamp1":1596604455}`, string(data1))
