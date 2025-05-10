@@ -59,6 +59,45 @@ func (s *ParserSuite) TestParse() {
 		s.Equal(Parse("2022-03-08T03:01:14-07:00", PRC).ToString(), Parse("2022-03-08T10:01:14Z", PRC).ToString())
 	})
 
+	s.Run("postgres time type", func() {
+		// date type
+		s.Equal("2020-08-05 00:00:00 +0000 UTC", Parse("2020-08-05").ToString())
+
+		// time
+		s.Equal("0000-01-01 13:14:15 +0000 UTC", Parse("13:14:15").ToString())
+		// timetz
+		s.Equal("0000-01-01 05:14:15 +0000 UTC", Parse("13:14:15+08").ToString())
+
+		// timestamp
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", Parse("2020-08-05 13:14:15").ToString())
+		// timestamptz
+		s.Equal("2020-08-05 05:14:15 +0000 UTC", Parse("2020-08-05 13:14:15+08").ToString())
+	})
+
+	s.Run("sqlserver time type", func() {
+		// time type
+		s.Equal("0000-01-01 13:14:15 +0000 UTC", Parse("13:14:15.0000000").ToString())
+		s.Equal("0000-01-01 13:14:15.9999999 +0000 UTC", Parse("13:14:15.9999999").ToString())
+
+		// date type
+		s.Equal("2020-08-05 00:00:00 +0000 UTC", Parse("2020-08-05").ToString())
+
+		// smalldatetime type
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", Parse("2020-08-05 13:14:15").ToString())
+
+		// datetime type
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", Parse("2020-08-05 13:14:15.000").ToString())
+		s.Equal("2020-08-05 13:14:15.999 +0000 UTC", Parse("2020-08-05 13:14:15.999").ToString())
+
+		// datetime2 type
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", Parse("2020-08-05 13:14:15.0000000").ToString())
+		s.Equal("2020-08-05 13:14:15.9999999 +0000 UTC", Parse("2020-08-05 13:14:15.9999999").ToString())
+
+		// datetimeoffset type
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", Parse("2020-08-05 13:14:15.0000000 +00:00").ToString())
+		s.Equal("2020-08-05 05:14:15.9999999 +0000 UTC", Parse("2020-08-05 13:14:15.9999999 +08:00").ToString())
+	})
+
 	// https://github.com/dromara/carbon/issues/202
 	s.Run("issue202", func() {
 		s.Equal("2023-01-08 09:02:48 +0000 UTC", Parse("2023-01-08T09:02:48").ToString())
