@@ -11,10 +11,12 @@ func ExampleNow() {
 
 	carbon.SetTestNow(carbon.Parse("2020-08-05"))
 
-	fmt.Println(carbon.Now(carbon.UTC).ToString())
+	fmt.Println(carbon.Now().ToString())
+	fmt.Println(carbon.Now(carbon.PRC).ToString())
 
 	// Output:
 	// 2020-08-05 00:00:00 +0000 UTC
+	// 2020-08-05 08:00:00 +0800 CST
 }
 
 func ExampleTomorrow() {
@@ -22,10 +24,12 @@ func ExampleTomorrow() {
 
 	carbon.SetTestNow(carbon.Parse("2020-08-05"))
 
-	fmt.Println(carbon.Tomorrow(carbon.UTC).ToString())
+	fmt.Println(carbon.Tomorrow().ToString())
+	fmt.Println(carbon.Tomorrow(carbon.PRC).ToString())
 
 	// Output:
 	// 2020-08-06 00:00:00 +0000 UTC
+	// 2020-08-06 08:00:00 +0800 CST
 }
 
 func ExampleYesterday() {
@@ -33,10 +37,12 @@ func ExampleYesterday() {
 
 	carbon.SetTestNow(carbon.Parse("2020-08-05"))
 
-	fmt.Println(carbon.Yesterday(carbon.UTC).ToString())
+	fmt.Println(carbon.Yesterday().ToString())
+	fmt.Println(carbon.Yesterday(carbon.PRC).ToString())
 
 	// Output:
 	// 2020-08-04 00:00:00 +0000 UTC
+	// 2020-08-04 08:00:00 +0800 CST
 }
 
 func ExampleCarbon_AddDuration() {
