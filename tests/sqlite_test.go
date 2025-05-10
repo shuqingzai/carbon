@@ -29,7 +29,7 @@ func (s *SQLiteSuite) SetupSuite() {
 }
 
 func (s *SQLiteSuite) TearDownSuite() {
-	carbon.CleanTestNow()
+	carbon.ClearTestNow()
 	db.Unscoped().Where("1 = 1").Delete(&SQLiteModel1{})
 	db.Unscoped().Where("1 = 1").Delete(&SQLiteModel2{})
 }

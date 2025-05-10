@@ -7,7 +7,7 @@ import (
 )
 
 func ExampleNow() {
-	defer carbon.CleanTestNow()
+	defer carbon.ClearTestNow()
 
 	carbon.SetTestNow(carbon.Parse("2020-08-05"))
 
@@ -20,7 +20,7 @@ func ExampleNow() {
 }
 
 func ExampleTomorrow() {
-	defer carbon.CleanTestNow()
+	defer carbon.ClearTestNow()
 
 	carbon.SetTestNow(carbon.Parse("2020-08-05"))
 
@@ -33,7 +33,7 @@ func ExampleTomorrow() {
 }
 
 func ExampleYesterday() {
-	defer carbon.CleanTestNow()
+	defer carbon.ClearTestNow()
 
 	carbon.SetTestNow(carbon.Parse("2020-08-05"))
 
@@ -94,7 +94,7 @@ func ExampleCarbon_AddCenturiesNoOverflow() {
 }
 
 func ExampleCarbon_AddCentury() {
-	defer carbon.CleanTestNow()
+	defer carbon.ClearTestNow()
 
 	fmt.Println(carbon.Parse("2020-01-01 13:14:15").AddCentury().ToString())
 

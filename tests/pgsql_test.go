@@ -29,7 +29,7 @@ func (s *PgSQLSuite) SetupSuite() {
 }
 
 func (s *PgSQLSuite) TearDownSuite() {
-	carbon.CleanTestNow()
+	carbon.ClearTestNow()
 	db.Unscoped().Where("1 = 1").Delete(&PgSQLModel1{})
 	db.Unscoped().Where("1 = 1").Delete(&PgSQLModel2{})
 }

@@ -16,7 +16,7 @@ func TestTravelerSuite(t *testing.T) {
 }
 
 func (s *TravelerSuite) TearDownTest() {
-	CleanTestNow()
+	ClearTestNow()
 }
 
 func (s *TravelerSuite) TestNow() {

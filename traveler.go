@@ -17,11 +17,11 @@ func Now(timezone ...string) *Carbon {
 	} else {
 		tz = DefaultTimezone
 	}
-	if IsTestNow() {
-		return frozenNow.testNow.Copy().SetTimezone(tz)
-	}
 	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
+	}
+	if IsTestNow() {
+		return frozenNow.testNow.Copy().SetLocation(loc)
 	}
 	return CreateFromStdTime(time.Now().In(loc))
 }

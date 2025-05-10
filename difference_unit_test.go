@@ -19,7 +19,7 @@ func (s *DifferenceSuite) SetupTest() {
 }
 
 func (s *DifferenceSuite) TearDownTest() {
-	CleanTestNow()
+	ClearTestNow()
 }
 
 func (s *DifferenceSuite) TestCarbon_DiffInYears() {
