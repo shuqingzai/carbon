@@ -5,24 +5,51 @@ import (
 )
 
 func BenchmarkNow(b *testing.B) {
-	b.ResetTimer()
-	for n := 0; n < b.N; n++ {
-		Now()
-	}
+	b.Run("without timezone", func(b *testing.B) {
+		b.ResetTimer()
+		for n := 0; n < b.N; n++ {
+			Now()
+		}
+	})
+
+	b.Run("with timezone", func(b *testing.B) {
+		b.ResetTimer()
+		for n := 0; n < b.N; n++ {
+			Now(PRC)
+		}
+	})
 }
 
 func BenchmarkTomorrow(b *testing.B) {
-	b.ResetTimer()
-	for n := 0; n < b.N; n++ {
-		Tomorrow()
-	}
+	b.Run("without timezone", func(b *testing.B) {
+		b.ResetTimer()
+		for n := 0; n < b.N; n++ {
+			Tomorrow()
+		}
+	})
+
+	b.Run("with timezone", func(b *testing.B) {
+		b.ResetTimer()
+		for n := 0; n < b.N; n++ {
+			Tomorrow(PRC)
+		}
+	})
 }
 
 func BenchmarkYesterday(b *testing.B) {
-	b.ResetTimer()
-	for n := 0; n < b.N; n++ {
-		Yesterday()
-	}
+	b.Run("without timezone", func(b *testing.B) {
+		b.ResetTimer()
+		for n := 0; n < b.N; n++ {
+			Yesterday()
+		}
+	})
+
+	b.Run("with timezone", func(b *testing.B) {
+		b.ResetTimer()
+		for n := 0; n < b.N; n++ {
+			Yesterday(PRC)
+		}
+	})
 }
 
 func BenchmarkCarbon_AddDuration(b *testing.B) {

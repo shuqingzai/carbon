@@ -32,7 +32,8 @@ func (s *TravelerSuite) TestNow() {
 
 	s.Run("frozen time", func() {
 		SetTestNow(Parse("2020-08-05"))
-		s.Equal("2020-08-05", Now(UTC).Layout(DateLayout))
+		s.Equal("2020-08-05 00:00:00 +0000 UTC", Now().ToString())
+		s.Equal("2020-08-05 08:00:00 +0800 CST", Now(PRC).ToString())
 	})
 }
 
@@ -49,7 +50,8 @@ func (s *TravelerSuite) TestTomorrow() {
 
 	s.Run("frozen time", func() {
 		SetTestNow(Parse("2020-08-05"))
-		s.Equal("2020-08-06", Tomorrow(UTC).Layout(DateLayout))
+		s.Equal("2020-08-06 00:00:00 +0000 UTC", Tomorrow().ToString())
+		s.Equal("2020-08-06 08:00:00 +0800 CST", Tomorrow(PRC).ToString())
 	})
 }
 
@@ -66,7 +68,8 @@ func (s *TravelerSuite) TestYesterday() {
 
 	s.Run("frozen time", func() {
 		SetTestNow(Parse("2020-08-05"))
-		s.Equal("2020-08-04", Yesterday(UTC).Layout(DateLayout))
+		s.Equal("2020-08-04 00:00:00 +0000 UTC", Yesterday().ToString())
+		s.Equal("2020-08-04 08:00:00 +0800 CST", Yesterday(PRC).ToString())
 	})
 }
 
