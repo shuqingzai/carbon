@@ -185,7 +185,7 @@ func ExampleCarbon_DiffAbsInSeconds() {
 }
 
 func ExampleCarbon_DiffInString() {
-	defer carbon.CleanTestNow()
+	defer carbon.ClearTestNow()
 	now := carbon.Parse("2020-08-05 13:14:15")
 	carbon.SetTestNow(now)
 
@@ -224,7 +224,7 @@ func ExampleCarbon_DiffInString() {
 }
 
 func ExampleCarbon_DiffAbsInString() {
-	defer carbon.CleanTestNow()
+	defer carbon.ClearTestNow()
 	now := carbon.Parse("2020-08-05 13:14:15")
 	carbon.SetTestNow(now)
 
@@ -263,7 +263,7 @@ func ExampleCarbon_DiffAbsInString() {
 }
 
 func ExampleCarbon_DiffInDuration() {
-	defer carbon.CleanTestNow()
+	defer carbon.ClearTestNow()
 	now := carbon.Parse("2020-08-05 13:14:15")
 	carbon.SetTestNow(now)
 
@@ -286,7 +286,7 @@ func ExampleCarbon_DiffInDuration() {
 }
 
 func ExampleCarbon_DiffAbsInDuration() {
-	defer carbon.CleanTestNow()
+	defer carbon.ClearTestNow()
 	now := carbon.Parse("2020-08-05 13:14:15")
 	carbon.SetTestNow(now)
 
@@ -309,7 +309,7 @@ func ExampleCarbon_DiffAbsInDuration() {
 }
 
 func ExampleCarbon_DiffForHumans() {
-	defer carbon.CleanTestNow()
+	defer carbon.ClearTestNow()
 	now := carbon.Parse("2020-08-05 13:14:15")
 	carbon.SetTestNow(now)
 

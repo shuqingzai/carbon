@@ -16,57 +16,69 @@ func TestTravelerSuite(t *testing.T) {
 }
 
 func (s *TravelerSuite) TearDownTest() {
-	CleanTestNow()
+	ClearTestNow()
 }
 
 func (s *TravelerSuite) TestNow() {
+	s.Run("without timezone", func() {
+		s.Equal(time.Now().Format(DateLayout), Now().Layout(DateLayout, Local))
+	})
+
 	s.Run("error timezone", func() {
 		s.Error(Now("xxx").Error)
 		s.Empty(Now("xxx").ToString())
 	})
 
 	s.Run("valid timezone", func() {
-		s.Equal(time.Now().Format(DateLayout), Now().Layout(DateLayout, Local))
 		s.Equal(time.Now().In(time.UTC).Format(DateLayout), Now(UTC).Layout(DateLayout))
 	})
 
 	s.Run("frozen time", func() {
 		SetTestNow(Parse("2020-08-05"))
-		s.Equal("2020-08-05", Now(UTC).Layout(DateLayout))
+		s.Equal("2020-08-05 00:00:00 +0000 UTC", Now().ToString())
+		s.Equal("2020-08-05 08:00:00 +0800 CST", Now(PRC).ToString())
 	})
 }
 
 func (s *TravelerSuite) TestTomorrow() {
+	s.Run("without timezone", func() {
+		s.Equal(time.Now().Add(time.Hour*24).Format(DateLayout), Tomorrow().Layout(DateLayout, Local))
+	})
+
 	s.Run("error timezone", func() {
 		s.Error(Tomorrow("xxx").Error)
 		s.Empty(Tomorrow("xxx").ToString())
 	})
 
 	s.Run("valid timezone", func() {
-		s.Equal(time.Now().Add(time.Hour*24).Format(DateLayout), Tomorrow().Layout(DateLayout, Local))
 		s.Equal(time.Now().Add(time.Hour*24).In(time.UTC).Format(DateLayout), Tomorrow(UTC).Layout(DateLayout))
 	})
 
 	s.Run("frozen time", func() {
 		SetTestNow(Parse("2020-08-05"))
-		s.Equal("2020-08-06", Tomorrow(UTC).Layout(DateLayout))
+		s.Equal("2020-08-06 00:00:00 +0000 UTC", Tomorrow().ToString())
+		s.Equal("2020-08-06 08:00:00 +0800 CST", Tomorrow(PRC).ToString())
 	})
 }
 
 func (s *TravelerSuite) TestYesterday() {
+	s.Run("without timezone", func() {
+		s.Equal(time.Now().Add(time.Hour*-24).Format(DateLayout), Yesterday().Layout(DateLayout, Local))
+	})
+
 	s.Run("error timezone", func() {
 		s.Error(Yesterday("xxx").Error)
 		s.Empty(Yesterday("xxx").ToString())
 	})
 
 	s.Run("valid timezone", func() {
-		s.Equal(time.Now().Add(time.Hour*-24).Format(DateLayout), Yesterday().Layout(DateLayout, Local))
 		s.Equal(time.Now().Add(time.Hour*-24).In(time.UTC).Format(DateLayout), Yesterday(UTC).Layout(DateLayout))
 	})
 
 	s.Run("frozen time", func() {
 		SetTestNow(Parse("2020-08-05"))
-		s.Equal("2020-08-04", Yesterday(UTC).Layout(DateLayout))
+		s.Equal("2020-08-04 00:00:00 +0000 UTC", Yesterday().ToString())
+		s.Equal("2020-08-04 08:00:00 +0800 CST", Yesterday(PRC).ToString())
 	})
 }
 

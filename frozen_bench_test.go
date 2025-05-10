@@ -5,7 +5,7 @@ import (
 )
 
 func BenchmarkSetTestNow(b *testing.B) {
-	defer CleanTestNow()
+	defer ClearTestNow()
 
 	c := Now()
 	b.ResetTimer()
@@ -14,10 +14,10 @@ func BenchmarkSetTestNow(b *testing.B) {
 	}
 }
 
-func BenchmarkCleanTestNow(b *testing.B) {
+func BenchmarkClearTestNow(b *testing.B) {
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		CleanTestNow()
+		ClearTestNow()
 	}
 }
 

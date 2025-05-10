@@ -29,7 +29,7 @@ func (s *MySQLSuite) SetupSuite() {
 }
 
 func (s *MySQLSuite) TearDownSuite() {
-	carbon.CleanTestNow()
+	carbon.ClearTestNow()
 	db.Unscoped().Where("1 = 1").Delete(&MySQLModel1{})
 	db.Unscoped().Where("1 = 1").Delete(&MySQLModel2{})
 }

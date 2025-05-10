@@ -7,9 +7,6 @@ import (
 // Now returns a Carbon instance for now.
 // 当前
 func Now(timezone ...string) *Carbon {
-	if IsTestNow() {
-		return frozenNow.testNow.Copy()
-	}
 	var (
 		tz  string
 		loc *Location
@@ -22,6 +19,9 @@ func Now(timezone ...string) *Carbon {
 	}
 	if loc, err = parseTimezone(tz); err != nil {
 		return &Carbon{Error: err}
+	}
+	if IsTestNow() {
+		return frozenNow.testNow.Copy().SetLocation(loc)
 	}
 	return CreateFromStdTime(time.Now().In(loc))
 }

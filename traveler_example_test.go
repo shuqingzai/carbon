@@ -7,36 +7,42 @@ import (
 )
 
 func ExampleNow() {
-	defer carbon.CleanTestNow()
+	defer carbon.ClearTestNow()
 
 	carbon.SetTestNow(carbon.Parse("2020-08-05"))
 
-	fmt.Println(carbon.Now(carbon.UTC).ToString())
+	fmt.Println(carbon.Now().ToString())
+	fmt.Println(carbon.Now(carbon.PRC).ToString())
 
 	// Output:
 	// 2020-08-05 00:00:00 +0000 UTC
+	// 2020-08-05 08:00:00 +0800 CST
 }
 
 func ExampleTomorrow() {
-	defer carbon.CleanTestNow()
+	defer carbon.ClearTestNow()
 
 	carbon.SetTestNow(carbon.Parse("2020-08-05"))
 
-	fmt.Println(carbon.Tomorrow(carbon.UTC).ToString())
+	fmt.Println(carbon.Tomorrow().ToString())
+	fmt.Println(carbon.Tomorrow(carbon.PRC).ToString())
 
 	// Output:
 	// 2020-08-06 00:00:00 +0000 UTC
+	// 2020-08-06 08:00:00 +0800 CST
 }
 
 func ExampleYesterday() {
-	defer carbon.CleanTestNow()
+	defer carbon.ClearTestNow()
 
 	carbon.SetTestNow(carbon.Parse("2020-08-05"))
 
-	fmt.Println(carbon.Yesterday(carbon.UTC).ToString())
+	fmt.Println(carbon.Yesterday().ToString())
+	fmt.Println(carbon.Yesterday(carbon.PRC).ToString())
 
 	// Output:
 	// 2020-08-04 00:00:00 +0000 UTC
+	// 2020-08-04 08:00:00 +0800 CST
 }
 
 func ExampleCarbon_AddDuration() {
@@ -88,7 +94,7 @@ func ExampleCarbon_AddCenturiesNoOverflow() {
 }
 
 func ExampleCarbon_AddCentury() {
-	defer carbon.CleanTestNow()
+	defer carbon.ClearTestNow()
 
 	fmt.Println(carbon.Parse("2020-01-01 13:14:15").AddCentury().ToString())
 
