@@ -76,6 +76,7 @@ func SetWeekendDays(weekDays []Weekday) *Carbon {
 func (c *Carbon) SetLayout(layout string) *Carbon {
 	if layout == "" {
 		c.Error = ErrEmptyLayout()
+		return c
 	}
 	if c.IsInvalid() {
 		return c
@@ -89,6 +90,7 @@ func (c *Carbon) SetLayout(layout string) *Carbon {
 func (c *Carbon) SetFormat(format string) *Carbon {
 	if format == "" {
 		c.Error = ErrEmptyFormat()
+		return c
 	}
 	if c.IsInvalid() {
 		return c
@@ -102,6 +104,7 @@ func (c *Carbon) SetFormat(format string) *Carbon {
 func (c *Carbon) SetTimezone(name string) *Carbon {
 	if name == "" {
 		c.Error = ErrEmptyTimezone()
+		return c
 	}
 	if c.IsInvalid() {
 		return c
@@ -115,6 +118,7 @@ func (c *Carbon) SetTimezone(name string) *Carbon {
 func (c *Carbon) SetLocation(loc *Location) *Carbon {
 	if loc == nil {
 		c.Error = ErrNilLocation()
+		return c
 	}
 	if c.IsInvalid() {
 		return c
@@ -128,6 +132,7 @@ func (c *Carbon) SetLocation(loc *Location) *Carbon {
 func (c *Carbon) SetLocale(locale string) *Carbon {
 	if locale == "" {
 		c.Error = ErrEmptyLocale()
+		return c
 	}
 	if c.IsInvalid() {
 		return c
