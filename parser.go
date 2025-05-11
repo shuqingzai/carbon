@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-// Parse parses a standard time string as a Carbon instance.
-// 将标准格式时间字符串解析成 Carbon 实例
+// Parse parses a standard time string as a Carbon instance by default layouts.
+// 通过默认的 布局模板 将时间字符串解析成 Carbon 实例
 func Parse(value string, timezone ...string) *Carbon {
 	if value == "" {
 		return &Carbon{isEmpty: true}
