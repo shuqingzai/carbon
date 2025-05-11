@@ -18,8 +18,9 @@ func (s *BoundarySuite) TestCarbon_StartOfCentury() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.StartOfCentury())
-		s.Empty(c.StartOfCentury().ToString())
+		c = c.StartOfCentury()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -51,8 +52,9 @@ func (s *BoundarySuite) TestCarbon_EndOfCentury() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.EndOfCentury())
-		s.Empty(c.EndOfCentury().ToString())
+		c = c.EndOfCentury()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -84,8 +86,9 @@ func (s *BoundarySuite) TestCarbon_StartOfDecade() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.StartOfDecade())
-		s.Empty(c.StartOfDecade().ToString())
+		c = c.StartOfDecade()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -117,8 +120,9 @@ func (s *BoundarySuite) TestCarbon_EndOfDecade() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.EndOfDecade())
-		s.Empty(c.EndOfDecade().ToString())
+		c = c.EndOfDecade()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -150,8 +154,9 @@ func (s *BoundarySuite) TestCarbon_StartOfYear() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.StartOfYear())
-		s.Empty(c.StartOfYear().ToString())
+		c = c.StartOfYear()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -183,8 +188,9 @@ func (s *BoundarySuite) TestCarbon_EndOfYear() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.EndOfYear())
-		s.Empty(c.EndOfYear().ToString())
+		c = c.EndOfYear()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -216,8 +222,9 @@ func (s *BoundarySuite) TestCarbon_StartOfQuarter() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.StartOfQuarter())
-		s.Empty(c.StartOfQuarter().ToString())
+		c = c.StartOfQuarter()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -249,8 +256,9 @@ func (s *BoundarySuite) TestCarbon_EndOfQuarter() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.EndOfQuarter())
-		s.Empty(c.EndOfQuarter().ToString())
+		c = c.EndOfQuarter()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -282,8 +290,9 @@ func (s *BoundarySuite) TestCarbon_StartOfMonth() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.StartOfMonth())
-		s.Empty(c.StartOfMonth().ToString())
+		c = c.StartOfMonth()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -315,8 +324,9 @@ func (s *BoundarySuite) TestCarbon_EndOfMonth() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.EndOfMonth())
-		s.Empty(c.EndOfMonth().ToString())
+		c = c.EndOfMonth()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -348,8 +358,9 @@ func (s *BoundarySuite) TestCarbon_StartOfWeek() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.StartOfWeek())
-		s.Empty(c.StartOfWeek().ToString())
+		c = c.StartOfWeek()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -382,8 +393,9 @@ func (s *BoundarySuite) TestCarbon_EndOfWeek() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.EndOfWeek())
-		s.Empty(c.EndOfWeek().ToString())
+		c = c.EndOfWeek()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -416,8 +428,9 @@ func (s *BoundarySuite) TestCarbon_StartOfDay() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.StartOfDay())
-		s.Empty(c.StartOfDay().ToString())
+		c = c.StartOfDay()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -449,8 +462,9 @@ func (s *BoundarySuite) TestCarbon_EndOfDay() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.EndOfDay())
-		s.Empty(c.EndOfDay().ToString())
+		c = c.EndOfDay()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -482,8 +496,9 @@ func (s *BoundarySuite) TestCarbon_StartOfHour() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.StartOfHour())
-		s.Empty(c.StartOfHour().ToString())
+		c = c.StartOfHour()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -515,8 +530,9 @@ func (s *BoundarySuite) TestCarbon_EndOfHour() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.EndOfHour())
-		s.Empty(c.EndOfHour().ToString())
+		c = c.EndOfHour()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -548,8 +564,9 @@ func (s *BoundarySuite) TestCarbon_StartOfMinute() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.StartOfMinute())
-		s.Empty(c.StartOfMinute().ToString())
+		c = c.StartOfMinute()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -581,8 +598,9 @@ func (s *BoundarySuite) TestCarbon_EndOfMinute() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.EndOfMinute())
-		s.Empty(c.EndOfMinute().ToString())
+		c = c.EndOfMinute()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -614,8 +632,9 @@ func (s *BoundarySuite) TestCarbon_StartOfSecond() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.StartOfSecond())
-		s.Empty(c.StartOfSecond().ToString())
+		c = c.StartOfSecond()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {
@@ -647,8 +666,9 @@ func (s *BoundarySuite) TestCarbon_EndOfSecond() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(c.EndOfSecond())
-		s.Empty(c.EndOfSecond().ToString())
+		c = c.EndOfSecond()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {

@@ -685,11 +685,11 @@ func (s *SetterSuite) TestCarbon_SetWeekStartsAt() {
 
 	s.Run("zero carbon", func() {
 		c1 := NewCarbon().SetWeekStartsAt(Sunday)
-		s.Nil(c1.Error)
+		s.False(c1.HasError())
 		s.Equal("0000-12-31 00:00:00 +0000 UTC", c1.StartOfWeek().ToString())
 
 		c2 := NewCarbon().SetWeekStartsAt(Monday)
-		s.Nil(c2.Error)
+		s.False(c2.HasError())
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", c2.StartOfWeek().ToString())
 	})
 
