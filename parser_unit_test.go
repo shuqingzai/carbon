@@ -200,15 +200,15 @@ func (s *ParserSuite) TestParseByLayouts() {
 	})
 
 	s.Run("without timezone", func() {
-		c := ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"})
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", c.ToString())
-		s.Equal("2006|01|02 15|04|05", c.CurrentLayout())
+		c := ParseByLayouts("2020|8|5 1|2|3", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"})
+		s.Equal("2020-08-05 01:02:03 +0000 UTC", c.ToString())
+		s.Equal("2006|1|2 3|4|5", c.CurrentLayout())
 	})
 
 	s.Run("with timezone", func() {
-		c := ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"}, PRC)
-		s.Equal("2020-08-05 13:14:15 +0800 CST", c.ToString())
-		s.Equal("2006|01|02 15|04|05", c.CurrentLayout())
+		c := ParseByLayouts("2020|8|5 1|2|3", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"}, PRC)
+		s.Equal("2020-08-05 01:02:03 +0800 CST", c.ToString())
+		s.Equal("2006|1|2 3|4|5", c.CurrentLayout())
 	})
 }
 
@@ -307,19 +307,15 @@ func (s *ParserSuite) TestParseByFormats() {
 	})
 
 	s.Run("without timezone", func() {
-		c1 := ParseByFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"})
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", c1.ToString())
-		s.Equal("2006|01|02 15|04|05", c1.CurrentLayout())
-
-		c2 := ParseByFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d H|i|s", "y|m|d h|i|s"})
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", c2.ToString())
-		s.Equal("2006|01|02 15|04|05", c2.CurrentLayout())
+		c := ParseByFormats("2020|8|5 01|02|03", []string{"Y|m|d H|i|s", "Y|n|j h|i|s"})
+		s.Equal("2020-08-05 01:02:03 +0000 UTC", c.ToString())
+		s.Equal("2006|1|2 03|04|05", c.CurrentLayout())
 	})
 
 	s.Run("with timezone", func() {
-		c := ParseByFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"}, PRC)
-		s.Equal("2020-08-05 13:14:15 +0800 CST", c.ToString())
-		s.Equal("2006|01|02 15|04|05", c.CurrentLayout())
+		c := ParseByFormats("2020|8|5 01|02|03", []string{"Y|m|d H|i|s", "Y|n|j h|i|s"}, PRC)
+		s.Equal("2020-08-05 01:02:03 +0800 CST", c.ToString())
+		s.Equal("2006|1|2 03|04|05", c.CurrentLayout())
 	})
 }
 
@@ -382,19 +378,15 @@ func (s *ParserSuite) TestParseWithFormats() {
 	})
 
 	s.Run("without timezone", func() {
-		c1 := ParseWithFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"})
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", c1.ToString())
-		s.Equal("2006|01|02 15|04|05", c1.CurrentLayout())
-
-		c2 := ParseWithFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d H|i|s", "y|m|d h|i|s"})
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", c2.ToString())
-		s.Equal("2006|01|02 15|04|05", c2.CurrentLayout())
+		c := ParseWithFormats("2020|8|5 01|02|03", []string{"Y|m|d H|i|s", "Y|n|j h|i|s"})
+		s.Equal("2020-08-05 01:02:03 +0000 UTC", c.ToString())
+		s.Equal("2006|1|2 03|04|05", c.CurrentLayout())
 	})
 
 	s.Run("with timezone", func() {
-		c := ParseWithFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"}, PRC)
-		s.Equal("2020-08-05 13:14:15 +0800 CST", c.ToString())
-		s.Equal("2006|01|02 15|04|05", c.CurrentLayout())
+		c := ParseWithFormats("2020|8|5 01|02|03", []string{"Y|m|d H|i|s", "Y|n|j h|i|s"}, PRC)
+		s.Equal("2020-08-05 01:02:03 +0800 CST", c.ToString())
+		s.Equal("2006|1|2 03|04|05", c.CurrentLayout())
 	})
 }
 
