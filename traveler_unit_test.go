@@ -24,9 +24,16 @@ func (s *TravelerSuite) TestNow() {
 		s.Equal(time.Now().Format(DateLayout), Now().Layout(DateLayout, Local))
 	})
 
+	s.Run("empty timezone", func() {
+		c := Now("")
+		s.Error(c.Error)
+		s.Empty(c.ToString())
+	})
+
 	s.Run("error timezone", func() {
-		s.Error(Now("xxx").Error)
-		s.Empty(Now("xxx").ToString())
+		c := Now("xxx")
+		s.Error(c.Error)
+		s.Empty(c.ToString())
 	})
 
 	s.Run("valid timezone", func() {
@@ -45,9 +52,16 @@ func (s *TravelerSuite) TestTomorrow() {
 		s.Equal(time.Now().Add(time.Hour*24).Format(DateLayout), Tomorrow().Layout(DateLayout, Local))
 	})
 
+	s.Run("empty timezone", func() {
+		c := Tomorrow("")
+		s.Error(c.Error)
+		s.Empty(c.ToString())
+	})
+
 	s.Run("error timezone", func() {
-		s.Error(Tomorrow("xxx").Error)
-		s.Empty(Tomorrow("xxx").ToString())
+		c := Tomorrow("xxx")
+		s.Error(c.Error)
+		s.Empty(c.ToString())
 	})
 
 	s.Run("valid timezone", func() {
@@ -66,9 +80,16 @@ func (s *TravelerSuite) TestYesterday() {
 		s.Equal(time.Now().Add(time.Hour*-24).Format(DateLayout), Yesterday().Layout(DateLayout, Local))
 	})
 
+	s.Run("empty timezone", func() {
+		c := Yesterday("")
+		s.Error(c.Error)
+		s.Empty(c.ToString())
+	})
+
 	s.Run("error timezone", func() {
-		s.Error(Yesterday("xxx").Error)
-		s.Empty(Yesterday("xxx").ToString())
+		c := Yesterday("xxx")
+		s.Error(c.Error)
+		s.Empty(c.ToString())
 	})
 
 	s.Run("valid timezone", func() {
@@ -326,7 +347,9 @@ func (s *TravelerSuite) TestCarbon_SubCenturyNoOverflow() {
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Empty(c.SubCenturyNoOverflow().ToString())
+		c = c.SubCenturyNoOverflow()
+		s.Nil(c)
+		s.Empty(c.ToString())
 	})
 
 	s.Run("zero carbon", func() {

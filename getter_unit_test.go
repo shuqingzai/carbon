@@ -26,6 +26,14 @@ func (s *GetterSuite) TestCarbon_StdTime() {
 		s.Equal(time.Time{}, NewCarbon().StdTime())
 	})
 
+	s.Run("empty carbon", func() {
+		s.Equal(time.Time{}, Parse("").StdTime())
+	})
+
+	s.Run("error carbon", func() {
+		s.Equal(time.Time{}, Parse("xxx").StdTime())
+	})
+
 	s.Run("nil location", func() {
 		c := Parse("2020-08-05").SetTimezone(PRC)
 		s.Equal("2020-08-05 08:00:00 +0800 CST", c.StdTime().String())
