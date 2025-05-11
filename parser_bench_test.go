@@ -25,16 +25,16 @@ func BenchmarkParseByFormat(b *testing.B) {
 	}
 }
 
-func BenchmarkParseWithLayouts(b *testing.B) {
+func BenchmarkParseByLayouts(b *testing.B) {
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		ParseWithLayouts("2020-08-05 13:14:15", []string{DateLayout, DateTimeLayout})
+		ParseByLayouts("2020-08-05 13:14:15", []string{DateLayout, DateTimeLayout})
 	}
 }
 
-func BenchmarkParseWithFormats(b *testing.B) {
+func BenchmarkParseByFormats(b *testing.B) {
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		ParseWithFormats("2020-08-05 13:14:15", []string{DateFormat, DateTimeFormat})
+		ParseByFormats("2020-08-05 13:14:15", []string{DateFormat, DateTimeFormat})
 	}
 }

@@ -75,12 +75,12 @@ func (s *ParserSuite) TestParse() {
 	})
 
 	s.Run("sqlserver time type", func() {
+		// date type
+		s.Equal("2020-08-05 00:00:00 +0000 UTC", Parse("2020-08-05").ToString())
+
 		// time type
 		s.Equal("0000-01-01 13:14:15 +0000 UTC", Parse("13:14:15.0000000").ToString())
 		s.Equal("0000-01-01 13:14:15.9999999 +0000 UTC", Parse("13:14:15.9999999").ToString())
-
-		// date type
-		s.Equal("2020-08-05 00:00:00 +0000 UTC", Parse("2020-08-05").ToString())
 
 		// smalldatetime type
 		s.Equal("2020-08-05 13:14:15 +0000 UTC", Parse("2020-08-05 13:14:15").ToString())
@@ -111,67 +111,6 @@ func (s *ParserSuite) TestParse() {
 		s.Equal("0000-01-01 00:00:00 +0000 UTC", Parse("0000-01-01 00:00:00").ToString())
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", Parse("0001-01-01 00:00:00").ToString())
 		s.Equal("", Parse("0001-00-00 00:00:00").ToString())
-	})
-}
-
-func (s *ParserSuite) TestParseByFormat() {
-	s.Run("empty value", func() {
-		s.Nil(ParseByFormat("", DateFormat).Error)
-	})
-
-	s.Run("error value", func() {
-		s.Error(ParseByFormat("xxx", DateFormat).Error)
-	})
-
-	s.Run("empty format", func() {
-		s.Error(ParseByFormat("2020-08-05", "").Error)
-	})
-
-	s.Run("error format", func() {
-		s.Error(ParseByFormat("2020-08-05", "xxx").Error)
-	})
-
-	s.Run("empty timezone", func() {
-		s.Error(ParseByFormat("2020-08-05", DateFormat, "").Error)
-	})
-
-	s.Run("error timezone", func() {
-		s.Error(ParseByFormat("2020-08-05", DateFormat, "xxx").Error)
-	})
-
-	s.Run("error timestamp", func() {
-		s.Error(ParseByFormat("2020-08-05", TimestampFormat).Error)
-		s.Error(ParseByFormat("2020-08-05", TimestampMilliFormat).Error)
-		s.Error(ParseByFormat("2020-08-05", TimestampMicroFormat).Error)
-		s.Error(ParseByFormat("2020-08-05", TimestampNanoFormat).Error)
-	})
-
-	s.Run("without timezone", func() {
-		s.Equal("2020-08-05 00:00:00 +0000 UTC", ParseByFormat("2020-08-05", DateFormat).ToString())
-		s.Equal("0000-01-01 13:14:15 +0000 UTC", ParseByFormat("13:14:15", TimeFormat).ToString())
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByFormat("2020-08-05 13:14:15", DateTimeFormat).ToString())
-
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByFormat("2020|08|05 13:14:15", "Y|m|d H:i:s").ToString())
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByFormat("It is 2020-08-05 13:14:15", "\\I\\t \\i\\s Y-m-d H:i:s").ToString())
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByFormat("今天是 2020年08月05日13时14分15秒", "今天是 Y年m月d日H时i分s秒").ToString())
-	})
-
-	s.Run("with timezone", func() {
-		s.Equal("2020-08-05 00:00:00 +0800 CST", ParseByFormat("2020-08-05", DateFormat, PRC).ToString())
-		s.Equal("0000-01-01 13:14:15 +0805 LMT", ParseByFormat("13:14:15", TimeFormat, PRC).ToString())
-		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByFormat("2020-08-05 13:14:15", DateTimeFormat, PRC).ToString())
-
-		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByFormat("2020|08|05 13:14:15", "Y|m|d H:i:s", PRC).ToString())
-		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByFormat("It is 2020-08-05 13:14:15", "\\I\\t \\i\\s Y-m-d H:i:s", PRC).ToString())
-		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByFormat("今天是 2020年08月05日13时14分15秒", "今天是 Y年m月d日H时i分s秒", PRC).ToString())
-	})
-
-	// https://github.com/dromara/carbon/issues/206
-	s.Run("issue206", func() {
-		s.Equal("2023-11-11 04:34:00 +0000 UTC", ParseByFormat("1699677240", TimestampFormat).ToString())
-		s.Equal("2023-11-11 04:34:00.666 +0000 UTC", ParseByFormat("1699677240666", TimestampMilliFormat).ToString())
-		s.Equal("2023-11-11 04:34:00.666666 +0000 UTC", ParseByFormat("1699677240666666", TimestampMicroFormat).ToString())
-		s.Equal("2023-11-11 04:34:00.666666666 +0000 UTC", ParseByFormat("1699677240666666666", TimestampNanoFormat).ToString())
 	})
 }
 
@@ -215,6 +154,11 @@ func (s *ParserSuite) TestParseByLayout() {
 		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByLayout("2020|08|05 13:14:15", "2006|01|02 15:04:05").ToString())
 		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByLayout("It is 2020-08-05 13:14:15", "It is 2006-01-02 15:04:05").ToString())
 		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByLayout("今天是 2020年08月05日13时14分15秒", "今天是 2006年01月02日15时04分05秒").ToString())
+
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByLayout("1596633255", TimestampLayout).ToString())
+		s.Equal("2020-08-05 13:14:15.999 +0000 UTC", ParseByLayout("1596633255999", TimestampMilliLayout).ToString())
+		s.Equal("2020-08-05 13:14:15.999999 +0000 UTC", ParseByLayout("1596633255999999", TimestampMicroLayout).ToString())
+		s.Equal("2020-08-05 13:14:15.999999999 +0000 UTC", ParseByLayout("1596633255999999999", TimestampNanoLayout).ToString())
 	})
 
 	s.Run("with timezone", func() {
@@ -225,6 +169,157 @@ func (s *ParserSuite) TestParseByLayout() {
 		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByFormat("It is 2020-08-05 13:14:15", "\\I\\t \\i\\s 2006-01-02 15:04:05", PRC).ToString())
 		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByLayout("2020|08|05 13:14:15", "2006|01|02 15:04:05", PRC).ToString())
 		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByLayout("今天是 2020年08月05日13时14分15秒", "今天是 2006年01月02日15时04分05秒", PRC).ToString())
+
+		s.Equal("2020-08-05 21:14:15 +0800 CST", ParseByLayout("1596633255", TimestampLayout, PRC).ToString())
+		s.Equal("2020-08-05 21:14:15.999 +0800 CST", ParseByLayout("1596633255999", TimestampMilliLayout, PRC).ToString())
+		s.Equal("2020-08-05 21:14:15.999999 +0800 CST", ParseByLayout("1596633255999999", TimestampMicroLayout, PRC).ToString())
+		s.Equal("2020-08-05 21:14:15.999999999 +0800 CST", ParseByLayout("1596633255999999999", TimestampNanoLayout, PRC).ToString())
+	})
+}
+
+func (s *ParserSuite) TestParseByLayouts() {
+	s.Run("empty value", func() {
+		s.Nil(ParseByLayouts("", []string{DateTimeLayout}).Error)
+	})
+
+	s.Run("error value", func() {
+		s.Error(ParseByLayouts("xxx", []string{DateTimeLayout}).Error)
+	})
+
+	s.Run("empty timezone", func() {
+		s.Error(ParseByLayouts("2020-08-05 13:14:15", []string{DateLayout}, "").Error)
+	})
+
+	s.Run("error timezone", func() {
+		s.Error(ParseByLayouts("2020-08-05 13:14:15", []string{DateLayout}, "xxx").Error)
+	})
+
+	s.Run("empty layouts", func() {
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByLayouts("2020-08-05 13:14:15", []string{}).ToString())
+		s.Equal("2006-01-02 15:04:05", ParseByLayouts("2020-08-05 13:14:15", []string{}).CurrentLayout())
+	})
+
+	s.Run("without timezone", func() {
+		c := ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"})
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", c.ToString())
+		s.Equal("2006|01|02 15|04|05", c.CurrentLayout())
+	})
+
+	s.Run("with timezone", func() {
+		c := ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"}, PRC)
+		s.Equal("2020-08-05 13:14:15 +0800 CST", c.ToString())
+		s.Equal("2006|01|02 15|04|05", c.CurrentLayout())
+	})
+}
+
+func (s *ParserSuite) TestParseByFormat() {
+	s.Run("empty value", func() {
+		s.Nil(ParseByFormat("", DateFormat).Error)
+	})
+
+	s.Run("error value", func() {
+		s.Error(ParseByFormat("xxx", DateFormat).Error)
+	})
+
+	s.Run("empty format", func() {
+		s.Error(ParseByFormat("2020-08-05", "").Error)
+	})
+
+	s.Run("error format", func() {
+		s.Error(ParseByFormat("2020-08-05", "xxx").Error)
+	})
+
+	s.Run("empty timezone", func() {
+		s.Error(ParseByFormat("2020-08-05", DateFormat, "").Error)
+	})
+
+	s.Run("error timezone", func() {
+		s.Error(ParseByFormat("2020-08-05", DateFormat, "xxx").Error)
+	})
+
+	s.Run("error timestamp", func() {
+		s.Error(ParseByFormat("2020-08-05", TimestampFormat).Error)
+		s.Error(ParseByFormat("2020-08-05", TimestampMilliFormat).Error)
+		s.Error(ParseByFormat("2020-08-05", TimestampMicroFormat).Error)
+		s.Error(ParseByFormat("2020-08-05", TimestampNanoFormat).Error)
+	})
+
+	s.Run("without timezone", func() {
+		s.Equal("2020-08-05 00:00:00 +0000 UTC", ParseByFormat("2020-08-05", DateFormat).ToString())
+		s.Equal("0000-01-01 13:14:15 +0000 UTC", ParseByFormat("13:14:15", TimeFormat).ToString())
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByFormat("2020-08-05 13:14:15", DateTimeFormat).ToString())
+
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByFormat("2020|08|05 13:14:15", "Y|m|d H:i:s").ToString())
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByFormat("It is 2020-08-05 13:14:15", "\\I\\t \\i\\s Y-m-d H:i:s").ToString())
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByFormat("今天是 2020年08月05日13时14分15秒", "今天是 Y年m月d日H时i分s秒").ToString())
+
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByFormat("1596633255", TimestampFormat).ToString())
+		s.Equal("2020-08-05 13:14:15.999 +0000 UTC", ParseByFormat("1596633255999", TimestampMilliFormat).ToString())
+		s.Equal("2020-08-05 13:14:15.999999 +0000 UTC", ParseByFormat("1596633255999999", TimestampMicroFormat).ToString())
+		s.Equal("2020-08-05 13:14:15.999999999 +0000 UTC", ParseByFormat("1596633255999999999", TimestampNanoFormat).ToString())
+	})
+
+	s.Run("with timezone", func() {
+		s.Equal("2020-08-05 00:00:00 +0800 CST", ParseByFormat("2020-08-05", DateFormat, PRC).ToString())
+		s.Equal("0000-01-01 13:14:15 +0805 LMT", ParseByFormat("13:14:15", TimeFormat, PRC).ToString())
+		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByFormat("2020-08-05 13:14:15", DateTimeFormat, PRC).ToString())
+
+		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByFormat("2020|08|05 13:14:15", "Y|m|d H:i:s", PRC).ToString())
+		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByFormat("It is 2020-08-05 13:14:15", "\\I\\t \\i\\s Y-m-d H:i:s", PRC).ToString())
+		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByFormat("今天是 2020年08月05日13时14分15秒", "今天是 Y年m月d日H时i分s秒", PRC).ToString())
+
+		s.Equal("2020-08-05 21:14:15 +0800 CST", ParseByFormat("1596633255", TimestampFormat, PRC).ToString())
+		s.Equal("2020-08-05 21:14:15.999 +0800 CST", ParseByFormat("1596633255999", TimestampMilliFormat, PRC).ToString())
+		s.Equal("2020-08-05 21:14:15.999999 +0800 CST", ParseByFormat("1596633255999999", TimestampMicroFormat, PRC).ToString())
+		s.Equal("2020-08-05 21:14:15.999999999 +0800 CST", ParseByFormat("1596633255999999999", TimestampNanoFormat, PRC).ToString())
+	})
+
+	// https://github.com/dromara/carbon/issues/206
+	s.Run("issue206", func() {
+		s.Equal("2023-11-11 04:34:00 +0000 UTC", ParseByFormat("1699677240", TimestampFormat).ToString())
+		s.Equal("2023-11-11 04:34:00.666 +0000 UTC", ParseByFormat("1699677240666", TimestampMilliFormat).ToString())
+		s.Equal("2023-11-11 04:34:00.666666 +0000 UTC", ParseByFormat("1699677240666666", TimestampMicroFormat).ToString())
+		s.Equal("2023-11-11 04:34:00.666666666 +0000 UTC", ParseByFormat("1699677240666666666", TimestampNanoFormat).ToString())
+	})
+}
+
+func (s *ParserSuite) TestParseByFormats() {
+	s.Run("empty value", func() {
+		s.Nil(ParseByFormats("", []string{DateTimeLayout}).Error)
+	})
+
+	s.Run("error value", func() {
+		s.Error(ParseByFormats("xxx", []string{DateTimeLayout}).Error)
+	})
+
+	s.Run("empty timezone", func() {
+		s.Error(ParseByFormats("2020-08-05 13:14:15", []string{DateFormat}, "").Error)
+	})
+
+	s.Run("error timezone", func() {
+		s.Error(ParseByFormats("2020-08-05 13:14:15", []string{DateFormat}, "xxx").Error)
+		s.Error(ParseByFormats("2020-08-05 13:14:15", []string{DateFormat, DateTimeLayout}, "xxx").Error)
+	})
+
+	s.Run("empty layouts", func() {
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByFormats("2020-08-05 13:14:15", []string{}).ToString())
+		s.Equal("2006-01-02 15:04:05", ParseByFormats("2020-08-05 13:14:15", []string{}).CurrentLayout())
+	})
+
+	s.Run("without timezone", func() {
+		c1 := ParseByFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"})
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", c1.ToString())
+		s.Equal("2006|01|02 15|04|05", c1.CurrentLayout())
+
+		c2 := ParseByFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d H|i|s", "y|m|d h|i|s"})
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", c2.ToString())
+		s.Equal("2006|01|02 15|04|05", c2.CurrentLayout())
+	})
+
+	s.Run("with timezone", func() {
+		c := ParseByFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"}, PRC)
+		s.Equal("2020-08-05 13:14:15 +0800 CST", c.ToString())
+		s.Equal("2006|01|02 15|04|05", c.CurrentLayout())
 	})
 }
 
@@ -278,6 +373,7 @@ func (s *ParserSuite) TestParseWithFormats() {
 
 	s.Run("error timezone", func() {
 		s.Error(ParseWithFormats("2020-08-05 13:14:15", []string{DateFormat}, "xxx").Error)
+		s.Error(ParseWithFormats("2020-08-05 13:14:15", []string{DateFormat, DateTimeLayout}, "xxx").Error)
 	})
 
 	s.Run("empty layouts", func() {
@@ -286,9 +382,13 @@ func (s *ParserSuite) TestParseWithFormats() {
 	})
 
 	s.Run("without timezone", func() {
-		c := ParseWithFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"})
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", c.ToString())
-		s.Equal("2006|01|02 15|04|05", c.CurrentLayout())
+		c1 := ParseWithFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"})
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", c1.ToString())
+		s.Equal("2006|01|02 15|04|05", c1.CurrentLayout())
+
+		c2 := ParseWithFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d H|i|s", "y|m|d h|i|s"})
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", c2.ToString())
+		s.Equal("2006|01|02 15|04|05", c2.CurrentLayout())
 	})
 
 	s.Run("with timezone", func() {

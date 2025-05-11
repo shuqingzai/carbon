@@ -1090,13 +1090,13 @@ carbon.Parse("2020-08-05 13:14:15.999").Microsecond() // 999000
 carbon.Parse("2020-08-05 13:14:15.999").Nanosecond() // 999000000
 
 // Get timestamp with second precision
-carbon.Parse("2020-08-05 13:14:15").Timestamp() // 1596604455
+carbon.Parse("2020-08-05 13:14:15").Timestamp() // 1596633255
 // Get timestamp with millisecond precision
-carbon.Parse("2020-08-05 13:14:15").TimestampMilli() // 1596604455000
+carbon.Parse("2020-08-05 13:14:15.999").TimestampMilli() // 1596633255999
 // Get timestamp with microsecond precision
-carbon.Parse("2020-08-05 13:14:15").TimestampMicro() // 1596604455000000
+carbon.Parse("2020-08-05 13:14:15.999999").TimestampMicro() // 1596633255999999
 // Get timestamp with nanosecond precision
-carbon.Parse("2020-08-05 13:14:15").TimestampNano() // 1596604455000000000
+carbon.Parse("2020-08-05 13:14:15.999999999").TimestampNano() // 1596633255999999999
 
 // Get timezone location
 carbon.SetTimezone(carbon.PRC).Timezone() // PRC
