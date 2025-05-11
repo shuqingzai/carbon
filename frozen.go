@@ -14,8 +14,8 @@ var frozenNow = &FrozenNow{
 	rw: new(sync.RWMutex),
 }
 
-// SetTestNow sets a test Carbon instance for now, remember to clear after use.
-// 设置当前测试时间，使用完别忘清除
+// SetTestNow sets a test Carbon instance for now.
+// 设置当前测试时间
 func SetTestNow(c *Carbon) {
 	frozenNow.rw.Lock()
 	defer frozenNow.rw.Unlock()
