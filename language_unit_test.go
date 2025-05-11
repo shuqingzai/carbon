@@ -1,7 +1,6 @@
 package carbon
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/suite"
@@ -77,7 +76,6 @@ func (s *LanguageSuite) TestLanguage_SetLocale() {
 	s.Run("empty locale", func() {
 		lang := NewLanguage()
 		lang.SetLocale("")
-		fmt.Println("lang", lang.locale)
 		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
