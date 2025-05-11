@@ -23,7 +23,7 @@ func (s *CarbonSuite) TestNewCarbon() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon()
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.True(c.IsZero())
 	})
 

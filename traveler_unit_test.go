@@ -26,13 +26,13 @@ func (s *TravelerSuite) TestNow() {
 
 	s.Run("empty timezone", func() {
 		c := Now("")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := Now("xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -54,13 +54,13 @@ func (s *TravelerSuite) TestTomorrow() {
 
 	s.Run("empty timezone", func() {
 		c := Tomorrow("")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := Tomorrow("xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -82,13 +82,13 @@ func (s *TravelerSuite) TestYesterday() {
 
 	s.Run("empty timezone", func() {
 		c := Yesterday("")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := Yesterday("xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 

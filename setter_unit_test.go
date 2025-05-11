@@ -320,27 +320,27 @@ func (s *SetterSuite) TestCarbon_SetLayout() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetLayout(DateLayout)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal(DateLayout, c.CurrentLayout())
 		s.Equal("0001-01-01 00:00:00 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetLayout(DateLayout)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.String())
 	})
 
 	s.Run("empty layout", func() {
 		c := Now().SetLayout("")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.CurrentLayout())
 		s.Empty(c.String())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetLayout(DateLayout)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.String())
 	})
 
@@ -367,27 +367,27 @@ func (s *SetterSuite) TestCarbon_SetFormat() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetFormat(DateFormat)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal(DateLayout, c.CurrentLayout())
 	})
 
 	s.Run("empty layout", func() {
 		c := Now().SetFormat("")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.CurrentLayout())
 		s.Empty(c.String())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetFormat(DateFormat)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.CurrentLayout())
 		s.Empty(c.String())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetFormat(DateFormat)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.CurrentLayout())
 		s.Empty(c.String())
 	})
@@ -433,25 +433,25 @@ func (s *SetterSuite) TestCarbon_SetLocale() {
 
 	s.Run("empty locale", func() {
 		c := Now().SetLocale("")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error locale", func() {
 		c := Now().SetLocale("xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetLocale("en")
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetLocale("en")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -530,25 +530,25 @@ func (s *SetterSuite) TestCarbon_SetTimezone() {
 
 	s.Run("empty timezone", func() {
 		c := Parse("2020-08-05").SetTimezone("")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := Parse("2020-08-05").SetTimezone("XXX")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetTimezone(PRC)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetTimezone(PRC)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -629,7 +629,7 @@ func (s *SetterSuite) TestCarbon_SetLocation() {
 
 	s.Run("nil location", func() {
 		c := Parse("2020-08-05").SetLocation(nil)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.Timezone())
 		s.Empty(c.ZoneName())
 		s.Empty(c.ZoneOffset())
@@ -638,13 +638,13 @@ func (s *SetterSuite) TestCarbon_SetLocation() {
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetLocation(time.UTC)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetLocation(time.UTC)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -695,13 +695,13 @@ func (s *SetterSuite) TestCarbon_SetWeekStartsAt() {
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetWeekStartsAt(Sunday)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetWeekStartsAt(Sunday)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -734,7 +734,7 @@ func (s *SetterSuite) TestCarbon_SetWeekendDays() {
 			Saturday, Sunday,
 		}
 		c := NewCarbon().SetWeekendDays(wd)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.True(c.IsWeekday())
 		s.False(c.IsWeekend())
 	})
@@ -744,7 +744,7 @@ func (s *SetterSuite) TestCarbon_SetWeekendDays() {
 			Saturday, Sunday,
 		}
 		c := Parse("").SetWeekendDays(wd)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -753,7 +753,7 @@ func (s *SetterSuite) TestCarbon_SetWeekendDays() {
 			Saturday, Sunday,
 		}
 		c := Parse("xxx").SetWeekendDays(wd)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -785,7 +785,7 @@ func (s *SetterSuite) TestCarbon_SetLanguage() {
 		lang := NewLanguage()
 		lang.SetLocale("en")
 		c := NewCarbon().SetLanguage(lang)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("en", c.Locale())
 	})
 
@@ -793,7 +793,7 @@ func (s *SetterSuite) TestCarbon_SetLanguage() {
 		lang := NewLanguage()
 		lang = nil
 		c := NewCarbon().SetLanguage(lang)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -801,7 +801,7 @@ func (s *SetterSuite) TestCarbon_SetLanguage() {
 		lang := NewLanguage()
 		lang.SetLocale("en")
 		c := Parse("").SetLanguage(lang)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -833,25 +833,25 @@ func (s *SetterSuite) TestCarbon_SetDateTime() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetDateTime(2020, 8, 5, 13, 14, 15)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 13:14:15 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetDateTime(2020, 8, 5, 13, 14, 15)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetDateTime(2020, 8, 5, 13, 14, 15)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05").SetDateTime(2020, 8, 5, 13, 14, 15)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 13:14:15 +0000 UTC", c.ToString())
 	})
 }
@@ -867,25 +867,25 @@ func (s *SetterSuite) TestCarbon_SetDateTimeMilli() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetDateTimeMilli(2020, 8, 5, 13, 14, 15, 999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 13:14:15.999 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetDateTimeMilli(2020, 8, 5, 13, 14, 15, 999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetDateTimeMilli(2020, 8, 5, 13, 14, 15, 999)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05").SetDateTimeMilli(2020, 8, 5, 13, 14, 15, 999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 13:14:15.999 +0000 UTC", c.ToString())
 	})
 }
@@ -901,13 +901,13 @@ func (s *SetterSuite) TestCarbon_SetDateTimeMicro() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetDateTimeMicro(2020, 8, 5, 13, 14, 15, 999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 13:14:15.999999 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetDateTimeMicro(2020, 8, 5, 13, 14, 15, 999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -917,7 +917,7 @@ func (s *SetterSuite) TestCarbon_SetDateTimeMicro() {
 
 	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05").SetDateTimeMicro(2020, 8, 5, 13, 14, 15, 999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 13:14:15.999999 +0000 UTC", c.ToString())
 	})
 }
@@ -933,25 +933,25 @@ func (s *SetterSuite) TestCarbon_SetDateTimeNano() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetDateTimeNano(2020, 8, 5, 13, 14, 15, 999999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 13:14:15.999999999 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetDateTimeNano(2020, 8, 5, 13, 14, 15, 999999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetDateTimeNano(2020, 8, 5, 13, 14, 15, 999999999)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05").SetDateTimeNano(2020, 8, 5, 13, 14, 15, 999999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 13:14:15.999999999 +0000 UTC", c.ToString())
 	})
 }
@@ -967,13 +967,13 @@ func (s *SetterSuite) TestCarbon_SetDate() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetDate(2020, 8, 5)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 00:00:00 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetDate(2020, 8, 5)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -983,7 +983,7 @@ func (s *SetterSuite) TestCarbon_SetDate() {
 
 	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05").SetDate(2020, 8, 5)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 00:00:00 +0000 UTC", c.ToString())
 	})
 }
@@ -999,13 +999,13 @@ func (s *SetterSuite) TestCarbon_SetDateMilli() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetDateMilli(2020, 8, 5, 999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 00:00:00.999 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetDateMilli(2020, 8, 5, 999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -1015,7 +1015,7 @@ func (s *SetterSuite) TestCarbon_SetDateMilli() {
 
 	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05").SetDateMilli(2020, 8, 5, 999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 00:00:00.999 +0000 UTC", c.ToString())
 	})
 }
@@ -1031,25 +1031,25 @@ func (s *SetterSuite) TestCarbon_SetDateMicro() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetDateMicro(2020, 8, 5, 999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 00:00:00.999999 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetDateMicro(2020, 8, 5, 999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetDateMicro(2020, 8, 5, 999999)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05").SetDateMicro(2020, 8, 5, 999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 00:00:00.999999 +0000 UTC", c.ToString())
 	})
 }
@@ -1065,25 +1065,25 @@ func (s *SetterSuite) TestCarbon_SetDateNano() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetDateNano(2020, 8, 5, 999999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 00:00:00.999999999 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetDateNano(2020, 8, 5, 999999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetDateNano(2020, 8, 5, 999999999)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05").SetDateNano(2020, 8, 5, 999999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 00:00:00.999999999 +0000 UTC", c.ToString())
 	})
 }
@@ -1099,19 +1099,19 @@ func (s *SetterSuite) TestCarbon_SetTime() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetTime(13, 14, 15)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("0001-01-01 13:14:15 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetTime(13, 14, 15)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetTime(13, 14, 15)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -1132,25 +1132,25 @@ func (s *SetterSuite) TestCarbon_SetTimeMilli() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetTimeMilli(13, 14, 15, 999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("0001-01-01 13:14:15.999 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetTimeMilli(13, 14, 15, 999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetTimeMilli(13, 14, 15, 999)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05").SetTimeMilli(13, 14, 15, 999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 13:14:15.999 +0000 UTC", c.ToString())
 	})
 }
@@ -1166,25 +1166,25 @@ func (s *SetterSuite) TestCarbon_SetTimeMicro() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetTimeMicro(13, 14, 15, 999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("0001-01-01 13:14:15.999999 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetTimeMicro(13, 14, 15, 9999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetTimeMicro(13, 14, 15, 9999999)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05").SetTimeMicro(13, 14, 15, 999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 13:14:15.999999 +0000 UTC", c.ToString())
 	})
 }
@@ -1200,25 +1200,25 @@ func (s *SetterSuite) TestCarbon_SetTimeNano() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetTimeNano(13, 14, 15, 999999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("0001-01-01 13:14:15.999999999 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetTimeNano(13, 14, 15, 999999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetTimeNano(13, 14, 15, 999999999)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05").SetTimeNano(13, 14, 15, 999999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-08-05 13:14:15.999999999 +0000 UTC", c.ToString())
 	})
 }
@@ -1234,19 +1234,19 @@ func (s *SetterSuite) TestCarbon_SetYear() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetYear(2020)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-01-01 00:00:00 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetYear(2020)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetYear(2020)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -1268,19 +1268,19 @@ func (s *SetterSuite) TestCarbon_SetYearNoOverflow() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetYearNoOverflow(2020)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("2020-01-01 00:00:00 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetYearNoOverflow(2020)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetYearNoOverflow(2020)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -1302,19 +1302,19 @@ func (s *SetterSuite) TestCarbon_SetMonth() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetMonth(2)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("0001-02-01 00:00:00 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetMonth(2)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetMonth(2)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -1336,19 +1336,19 @@ func (s *SetterSuite) TestCarbon_SetMonthNoOverflow() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetMonthNoOverflow(2)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("0001-02-01 00:00:00 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetMonthNoOverflow(2)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetMonthNoOverflow(2)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -1370,19 +1370,19 @@ func (s *SetterSuite) TestCarbon_SetDay() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetDay(31)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("0001-01-31 00:00:00 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetDay(31)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetDay(31)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -1404,19 +1404,19 @@ func (s *SetterSuite) TestCarbon_SetHour() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetHour(10)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("0001-01-01 10:00:00 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetHour(31)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetHour(31)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -1438,19 +1438,19 @@ func (s *SetterSuite) TestCarbon_SetMinute() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetMinute(10)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("0001-01-01 00:10:00 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetMinute(31)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetMinute(31)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -1472,19 +1472,19 @@ func (s *SetterSuite) TestCarbon_SetSecond() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetSecond(10)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("0001-01-01 00:00:10 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetSecond(31)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetSecond(31)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -1506,19 +1506,19 @@ func (s *SetterSuite) TestCarbon_SetMillisecond() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetMillisecond(999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("0001-01-01 00:00:00.999 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetMillisecond(999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetMillisecond(999)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -1539,19 +1539,19 @@ func (s *SetterSuite) TestCarbon_SetMicrosecond() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetMicrosecond(999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("0001-01-01 00:00:00.999999 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetMicrosecond(999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetMicrosecond(999999)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -1572,19 +1572,19 @@ func (s *SetterSuite) TestCarbon_SetNanosecond() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon().SetNanosecond(999999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Equal("0001-01-01 00:00:00.999999999 +0000 UTC", c.ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("").SetNanosecond(999999999)
-		s.Nil(c.Error)
+		s.False(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx").SetNanosecond(999999999)
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 

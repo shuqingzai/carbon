@@ -18,13 +18,13 @@ func TestCreatorSuite(t *testing.T) {
 func (s *CreatorSuite) TestCreateFromStdTime() {
 	s.Run("empty timezone", func() {
 		c := CreateFromStdTime(time.Now(), "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromStdTime(time.Now(), "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -44,13 +44,13 @@ func (s *CreatorSuite) TestCreateFromStdTime() {
 func (s *CreatorSuite) TestCreateFromTimestamp() {
 	s.Run("empty timezone", func() {
 		c := CreateFromTimestamp(0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromTimestamp(0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -72,13 +72,13 @@ func (s *CreatorSuite) TestCreateFromTimestamp() {
 func (s *CreatorSuite) TestCreateFromTimestampMilli() {
 	s.Run("empty timezone", func() {
 		c := CreateFromTimestampMilli(0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromTimestampMilli(0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -100,13 +100,13 @@ func (s *CreatorSuite) TestCreateFromTimestampMilli() {
 func (s *CreatorSuite) TestCreateFromTimestampMicro() {
 	s.Run("empty timezone", func() {
 		c := CreateFromTimestampMicro(0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromTimestampMicro(0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -128,13 +128,13 @@ func (s *CreatorSuite) TestCreateFromTimestampMicro() {
 func (s *CreatorSuite) TestCreateFromTimestampNano() {
 	s.Run("empty timezone", func() {
 		c := CreateFromTimestampNano(0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromTimestampNano(0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -156,13 +156,13 @@ func (s *CreatorSuite) TestCreateFromTimestampNano() {
 func (s *CreatorSuite) TestCreateFromDateTime() {
 	s.Run("empty timezone", func() {
 		c := CreateFromDateTime(0, 0, 0, 0, 0, 0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromDateTime(0, 0, 0, 0, 0, 0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -180,13 +180,13 @@ func (s *CreatorSuite) TestCreateFromDateTime() {
 func (s *CreatorSuite) TestCreateFromDateTimeMilli() {
 	s.Run("empty timezone", func() {
 		c := CreateFromDateTimeMilli(0, 0, 0, 0, 0, 0, 0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromDateTimeMilli(0, 0, 0, 0, 0, 0, 0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -204,13 +204,13 @@ func (s *CreatorSuite) TestCreateFromDateTimeMilli() {
 func (s *CreatorSuite) TestCreateFromDateTimeMicro() {
 	s.Run("empty timezone", func() {
 		c := CreateFromDateTimeMicro(0, 0, 0, 0, 0, 0, 0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromDateTimeMicro(0, 0, 0, 0, 0, 0, 0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -228,13 +228,13 @@ func (s *CreatorSuite) TestCreateFromDateTimeMicro() {
 func (s *CreatorSuite) TestCreateFromDateTimeNano() {
 	s.Run("empty timezone", func() {
 		c := CreateFromDateTimeNano(0, 0, 0, 0, 0, 0, 0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromDateTimeNano(0, 0, 0, 0, 0, 0, 0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -252,13 +252,13 @@ func (s *CreatorSuite) TestCreateFromDateTimeNano() {
 func (s *CreatorSuite) TestCreateFromDate() {
 	s.Run("empty timezone", func() {
 		c := CreateFromDate(0, 0, 0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromDate(0, 0, 0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -276,13 +276,13 @@ func (s *CreatorSuite) TestCreateFromDate() {
 func (s *CreatorSuite) TestCreateFromDateMilli() {
 	s.Run("empty timezone", func() {
 		c := CreateFromDateMilli(0, 0, 0, 0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromDateMilli(0, 0, 0, 0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -300,13 +300,13 @@ func (s *CreatorSuite) TestCreateFromDateMilli() {
 func (s *CreatorSuite) TestCreateFromDateMicro() {
 	s.Run("empty timezone", func() {
 		c := CreateFromDateMicro(0, 0, 0, 0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromDateMicro(0, 0, 0, 0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -324,13 +324,13 @@ func (s *CreatorSuite) TestCreateFromDateMicro() {
 func (s *CreatorSuite) TestCreateFromDateNano() {
 	s.Run("empty timezone", func() {
 		c := CreateFromDateNano(0, 0, 0, 0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromDateNano(0, 0, 0, 0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -348,13 +348,13 @@ func (s *CreatorSuite) TestCreateFromDateNano() {
 func (s *CreatorSuite) TestCreateFromTime() {
 	s.Run("empty timezone", func() {
 		c := CreateFromTime(0, 0, 0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromTime(0, 0, 0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -372,13 +372,13 @@ func (s *CreatorSuite) TestCreateFromTime() {
 func (s *CreatorSuite) TestCreateFromTimeMilli() {
 	s.Run("empty timezone", func() {
 		c := CreateFromTimeMilli(0, 0, 0, 0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromTimeMilli(0, 0, 0, 0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -396,13 +396,13 @@ func (s *CreatorSuite) TestCreateFromTimeMilli() {
 func (s *CreatorSuite) TestCreateFromTimeMicro() {
 	s.Run("empty timezone", func() {
 		c := CreateFromTimeMicro(0, 0, 0, 0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromTimeMicro(0, 0, 0, 0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
@@ -420,13 +420,13 @@ func (s *CreatorSuite) TestCreateFromTimeMicro() {
 func (s *CreatorSuite) TestCreateFromTimeNano() {
 	s.Run("empty timezone", func() {
 		c := CreateFromTimeNano(0, 0, 0, 0, "")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
 	s.Run("error timezone", func() {
 		c := CreateFromTimeNano(0, 0, 0, 0, "xxx")
-		s.Error(c.Error)
+		s.True(c.HasError())
 		s.Empty(c.ToString())
 	})
 
