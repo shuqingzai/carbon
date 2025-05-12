@@ -79,10 +79,9 @@ func (s *ConstellationSuite) TestCarbon_Constellation() {
 		s.Empty(Parse("2020-08-05").SetLanguage(lang1).Constellation())
 
 		lang2 := NewLanguage()
-		resources := map[string]string{
+		lang2.SetResources(map[string]string{
 			"constellations": "xxx",
-		}
-		lang2.SetResources(resources)
+		})
 		c := Parse("2020-01-05").SetLanguage(lang2)
 		s.Empty(c.Constellation())
 	})
