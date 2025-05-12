@@ -70,12 +70,14 @@ func (s *LanguageSuite) TestLanguage_SetLocale() {
 	s.Run("error locale", func() {
 		lang := NewLanguage()
 		lang.SetLocale("xxx")
+		s.Error(lang.Error)
 		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	s.Run("empty locale", func() {
 		lang := NewLanguage()
 		lang.SetLocale("")
+		s.Error(lang.Error)
 		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
@@ -106,27 +108,34 @@ func (s *LanguageSuite) TestLanguage_SetResources() {
 	s.Run("nil language", func() {
 		lang := NewLanguage()
 		lang = nil
-		lang.SetResources(nil)
+		resources := map[string]string{
+			"months":       "Ⅰ月|Ⅱ月|Ⅲ月|Ⅳ月|Ⅴ月|Ⅵ月|Ⅶ月|Ⅷ月|Ⅸ月|Ⅹ月|Ⅺ月|Ⅻ月",
+			"short_months": "Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ",
+		}
+		lang.SetResources(resources)
 		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	s.Run("nil resources", func() {
 		lang := NewLanguage()
 		lang.SetResources(nil)
+		s.Error(lang.Error)
 		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	s.Run("empty resources", func() {
 		lang := NewLanguage()
 		lang.SetResources(map[string]string{})
+		s.Error(lang.Error)
 		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
 	s.Run("error resources", func() {
 		lang := NewLanguage()
 		lang.SetResources(map[string]string{
-			"xxx": "xxx",
+			"xxx": "xxx1",
 		})
+		s.Error(lang.Error)
 		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
@@ -138,6 +147,7 @@ func (s *LanguageSuite) TestLanguage_SetResources() {
 
 		lang := NewLanguage()
 		lang.SetLocale("en").SetResources(resources)
+		s.Nil(lang.Error)
 
 		s.Equal("Leo", Parse("2020-08-05").SetLanguage(lang).Constellation())
 		s.Equal("Summer", Parse("2020-08-05").SetLanguage(lang).Season())
@@ -172,6 +182,7 @@ func (s *LanguageSuite) TestLanguage_SetResources() {
 
 		lang := NewLanguage()
 		lang.SetResources(resources)
+		s.Nil(lang.Error)
 
 		s.Equal("Leo", Parse("2020-08-05").SetLanguage(lang).Constellation())
 		s.Equal("summer", Parse("2020-08-05").SetLanguage(lang).Season())
