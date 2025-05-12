@@ -29,9 +29,12 @@ func (s *CreatorSuite) TestCreateFromStdTime() {
 	})
 
 	s.Run("without timezone", func() {
-		now := time.Now()
-		c := CreateFromStdTime(time.Now())
-		s.Equal(now.Unix(), c.Timestamp())
+		c1 := time.Now()
+		s.Equal(c1.Unix(), CreateFromStdTime(time.Now()).Timestamp())
+
+		c2 := time.Now().In(time.Local)
+		s.Equal(c2.Unix(), CreateFromStdTime(c2).Timestamp())
+		s.Equal(c2.Unix(), CreateFromStdTime(c2, UTC).Timestamp())
 	})
 
 	s.Run("with timezone", func() {

@@ -33,16 +33,6 @@ func (s *ConstellationSuite) TestCarbon_Constellation() {
 		s.Empty(Parse("xxx").Constellation())
 	})
 
-	s.Run("error resources", func() {
-		lang := NewLanguage()
-		resources := map[string]string{
-			"constellations": "xxx",
-		}
-		lang.SetResources(resources)
-		c := Parse("2020-01-05").SetLanguage(lang)
-		s.Empty(c.Constellation())
-	})
-
 	s.Run("valid carbon", func() {
 		s.Equal(Capricorn, Parse("2020-01-05").Constellation())
 		s.Equal(Aquarius, Parse("2020-02-05").Constellation())
@@ -70,6 +60,26 @@ func (s *ConstellationSuite) TestCarbon_Constellation() {
 		s.Equal("天秤座", Parse("2020-10-05").SetLocale("zh-CN").Constellation())
 		s.Equal("天蝎座", Parse("2020-11-05").SetLocale("zh-CN").Constellation())
 		s.Equal("射手座", Parse("2020-12-05").SetLocale("zh-CN").Constellation())
+	})
+
+	s.Run("empty resources", func() {
+		lang := NewLanguage()
+		resources := map[string]string{}
+		lang.SetResources(resources)
+		s.Error(lang.Error)
+		c := Parse("2020-01-05").SetLanguage(lang)
+		s.Empty(c.Constellation())
+	})
+
+	s.Run("error resources", func() {
+		lang := NewLanguage()
+		resources := map[string]string{
+			"xxx": "xxx",
+		}
+		lang.SetResources(resources)
+		s.Error(lang.Error)
+		c := Parse("2020-01-05").SetLanguage(lang)
+		s.Empty(c.Constellation())
 	})
 }
 

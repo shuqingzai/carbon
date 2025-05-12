@@ -34,16 +34,16 @@ func (s *GetterSuite) TestCarbon_StdTime() {
 		s.Equal(time.Time{}, Parse("xxx").StdTime())
 	})
 
+	s.Run("valid carbon", func() {
+		s.Equal("2020-08-05 00:00:00 +0000 UTC", Parse("2020-08-05").StdTime().String())
+		s.Equal("2020-08-05 00:00:00 +0800 CST", Parse("2020-08-05", PRC).StdTime().String())
+	})
+
 	s.Run("nil location", func() {
 		c := Parse("2020-08-05").SetTimezone(PRC)
 		s.Equal("2020-08-05 08:00:00 +0800 CST", c.StdTime().String())
 		c.loc = nil
 		s.Equal("2020-08-05 00:00:00 +0000 UTC", c.StdTime().String())
-	})
-
-	s.Run("valid carbon", func() {
-		s.Equal("2020-08-05 00:00:00 +0000 UTC", Parse("2020-08-05").StdTime().String())
-		s.Equal("2020-08-05 00:00:00 +0800 CST", Parse("2020-08-05", PRC).StdTime().String())
 	})
 
 	// https://github.com/dromara/carbon/issues/294

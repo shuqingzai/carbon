@@ -81,7 +81,7 @@ func (s *LanguageSuite) TestLanguage_SetLocale() {
 		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
-	s.Run("valid time", func() {
+	s.Run("valid carbon", func() {
 		lang := NewLanguage()
 
 		lang.SetLocale("en")
@@ -133,7 +133,7 @@ func (s *LanguageSuite) TestLanguage_SetResources() {
 	s.Run("error resources", func() {
 		lang := NewLanguage()
 		lang.SetResources(map[string]string{
-			"xxx": "xxx1",
+			"xxx": "xxx",
 		})
 		s.Error(lang.Error)
 		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
