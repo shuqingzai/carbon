@@ -2,6 +2,8 @@ package carbon_test
 
 import (
 	"fmt"
+
+	"github.com/dromara/carbon/v2"
 )
 
 func ExampleCarbon_HasError() {
