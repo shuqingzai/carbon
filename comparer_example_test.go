@@ -2,8 +2,6 @@ package carbon_test
 
 import (
 	"fmt"
-
-	"github.com/dromara/carbon/v2"
 )
 
 func ExampleCarbon_HasError() {
@@ -38,21 +36,21 @@ func ExampleCarbon_IsNil() {
 }
 
 func ExampleCarbon_IsEmpty() {
+	var c *carbon.Carbon
+	c = nil
+	fmt.Println(c.IsEmpty())
+
 	fmt.Println(carbon.NewCarbon().IsEmpty())
 	fmt.Println(carbon.Parse("xxx").IsEmpty())
 	fmt.Println(carbon.Now().IsEmpty())
 	fmt.Println(carbon.Parse("").IsEmpty())
 
-	c := carbon.NewCarbon()
-	c = nil
-	fmt.Println(c.IsEmpty())
-
 	// Output:
 	// false
 	// false
 	// false
-	// true
 	// false
+	// true
 }
 
 func ExampleCarbon_IsZero() {
