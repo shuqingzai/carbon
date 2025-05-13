@@ -20,13 +20,13 @@ type Duration = time.Duration
 // Carbon defines a Carbon struct.
 // 定义 Carbon 结构体
 type Carbon struct {
-	isEmpty       bool
-	currentLayout string
 	time          StdTime
 	weekStartsAt  Weekday
 	weekendDays   []Weekday
 	loc           *Location
 	lang          *Language
+	currentLayout string
+	isEmpty       bool
 	Error         error
 }
 
@@ -54,13 +54,13 @@ func (c *Carbon) Copy() *Carbon {
 		return nil
 	}
 	return &Carbon{
-		isEmpty:       c.isEmpty,
-		currentLayout: c.currentLayout,
 		time:          time.Date(c.Year(), time.Month(c.Month()), c.Day(), c.Hour(), c.Minute(), c.Second(), c.Nanosecond(), c.loc),
 		weekStartsAt:  c.weekStartsAt,
 		weekendDays:   c.weekendDays,
 		loc:           c.loc,
 		lang:          c.lang.Copy(),
+		currentLayout: c.currentLayout,
+		isEmpty:       c.isEmpty,
 		Error:         c.Error,
 	}
 }
