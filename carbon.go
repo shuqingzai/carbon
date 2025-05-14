@@ -35,9 +35,9 @@ type Carbon struct {
 func NewCarbon(stdTime ...StdTime) *Carbon {
 	c := new(Carbon)
 	c.lang = NewLanguage().SetLocale(DefaultLocale)
-	c.currentLayout = DefaultLayout
 	c.weekStartsAt = DefaultWeekStartsAt
 	c.weekendDays = DefaultWeekendDays
+	c.currentLayout = DefaultLayout
 	if len(stdTime) > 0 {
 		c.time = stdTime[0]
 		c.loc = c.time.Location()
