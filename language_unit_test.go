@@ -47,13 +47,11 @@ func (s *LanguageSuite) TestLanguage_Copy() {
 	})
 
 	s.Run("copy resources", func() {
-		resources := map[string]string{
+		oldLang := NewLanguage()
+		oldLang.SetLocale("en").SetResources(map[string]string{
 			"months":       "Ⅰ月|Ⅱ月|Ⅲ月|Ⅳ月|Ⅴ月|Ⅵ月|Ⅶ月|Ⅷ月|Ⅸ月|Ⅹ月|Ⅺ月|Ⅻ月",
 			"short_months": "Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ",
-		}
-
-		oldLang := NewLanguage()
-		oldLang.SetLocale("en").SetResources(resources)
+		})
 		newCarbon := oldLang.Copy()
 		s.Equal(oldLang.resources, newCarbon.resources)
 	})
@@ -108,11 +106,10 @@ func (s *LanguageSuite) TestLanguage_SetResources() {
 	s.Run("nil language", func() {
 		lang := NewLanguage()
 		lang = nil
-		resources := map[string]string{
+		lang.SetResources(map[string]string{
 			"months":       "Ⅰ月|Ⅱ月|Ⅲ月|Ⅳ月|Ⅴ月|Ⅵ月|Ⅶ月|Ⅷ月|Ⅸ月|Ⅹ月|Ⅺ月|Ⅻ月",
 			"short_months": "Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ",
-		}
-		lang.SetResources(resources)
+		})
 		s.Empty(Parse("2020-08-05 13:14:15").SetLanguage(lang).ToMonthString())
 	})
 
@@ -140,13 +137,11 @@ func (s *LanguageSuite) TestLanguage_SetResources() {
 	})
 
 	s.Run("set some resources", func() {
-		resources := map[string]string{
+		lang := NewLanguage()
+		lang.SetLocale("en").SetResources(map[string]string{
 			"months":       "Ⅰ月|Ⅱ月|Ⅲ月|Ⅳ月|Ⅴ月|Ⅵ月|Ⅶ月|Ⅷ月|Ⅸ月|Ⅹ月|Ⅺ月|Ⅻ月",
 			"short_months": "Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ",
-		}
-
-		lang := NewLanguage()
-		lang.SetLocale("en").SetResources(resources)
+		})
 		s.Nil(lang.Error)
 
 		s.Equal("Leo", Parse("2020-08-05").SetLanguage(lang).Constellation())
