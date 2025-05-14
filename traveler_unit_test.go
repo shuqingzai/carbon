@@ -1378,6 +1378,15 @@ func (s *TravelerSuite) TestCarbon_AddMonthsNoOverflow() {
 		s.Equal("2020-05-29", Parse("2020-02-29").AddMonthsNoOverflow(3).ToDateString())
 		s.Equal("2020-10-31", Parse("2020-08-31").AddMonthsNoOverflow(2).ToDateString())
 	})
+
+	// https://github.com/dromara/carbon/issues/303
+	s.Run("issue303", func() {
+		c := CreateFromDate(2025, 6, 11, "Asia/Shanghai")
+		c = c.SetWeekStartsAt(time.Sunday)
+		c = c.SubMonthNoOverflow()
+		c = c.StartOfWeek()
+		s.Equal("2025-05-11", c.ToDateString())
+	})
 }
 
 func (s *TravelerSuite) TestCarbon_AddMonth() {

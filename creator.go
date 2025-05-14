@@ -190,3 +190,18 @@ func create(year, month, day, hour, minute, second, nanosecond int, timezone ...
 	}
 	return NewCarbon(time.Date(year, time.Month(month), day, hour, minute, second, nanosecond, loc))
 }
+
+// creates a Carbon instance from a given date, time and nanosecond.
+// 从给定的年、月、日、时、分、秒、纳秒创建 Carbon 实例
+func (c *Carbon) create(year, month, day, hour, minute, second, nanosecond int) *Carbon {
+	return &Carbon{
+		time:          time.Date(year, time.Month(month), day, hour, minute, second, nanosecond, c.loc),
+		weekStartsAt:  c.weekStartsAt,
+		weekendDays:   c.weekendDays,
+		loc:           c.loc,
+		lang:          c.lang.Copy(),
+		currentLayout: c.currentLayout,
+		isEmpty:       c.isEmpty,
+		Error:         c.Error,
+	}
+}
