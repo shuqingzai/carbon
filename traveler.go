@@ -166,7 +166,7 @@ func (c *Carbon) AddYearsNoOverflow(years int) *Carbon {
 	if day > lastDay {
 		day = lastDay
 	}
-	return c.create(lastYear, lastMonth, day, hour, minute, second, nanosecond).SetLocation(c.loc)
+	return c.create(lastYear, lastMonth, day, hour, minute, second, nanosecond)
 }
 
 // AddYear adds one year.
@@ -263,7 +263,7 @@ func (c *Carbon) AddMonthsNoOverflow(months int) *Carbon {
 	if day > lastDay {
 		day = lastDay
 	}
-	return c.create(lastYear, lastMonth, day, hour, minute, second, nanosecond).SetLocation(c.loc)
+	return c.create(lastYear, lastMonth, day, hour, minute, second, nanosecond)
 }
 
 // AddMonth adds one month.
