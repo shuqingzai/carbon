@@ -159,10 +159,7 @@ func (t *TimestampType[T]) UnmarshalJSON(src []byte) error {
 // String implements Stringer interface for TimestampType generic struct.
 // 实现 Stringer 接口
 func (t *TimestampType[T]) String() string {
-	if t == nil {
-		return "0"
-	}
-	if t.IsInvalid() || t.IsZero() {
+	if t == nil || t.IsInvalid() || t.IsZero() {
 		return "0"
 	}
 	return strconv.FormatInt(t.Int64(), 10)
