@@ -26,8 +26,7 @@ func SetTestNow(c *Carbon) {
 
 // CleanTestNow clears the test Carbon instance for now.
 // Deprecated: it will be removed in the future, use ClearTestNow instead.
-// 清除当前测试时间
-// 未来将移除，请用 ClearTestNow 替代
+// 清除当前测试时间(未来将移除，请用 ClearTestNow 替代)
 func CleanTestNow() {
 	ClearTestNow()
 }
