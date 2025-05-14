@@ -314,7 +314,7 @@ func (c *Carbon) Timestamp() int64 {
 	return c.StdTime().Unix()
 }
 
-// TimestampMilli gets timestamp with millisecond precision like 1596604455000.
+// TimestampMilli gets timestamp with millisecond precision like 1596604455999.
 func (c *Carbon) TimestampMilli() int64 {
 	if c.IsInvalid() {
 		return 0
@@ -322,7 +322,7 @@ func (c *Carbon) TimestampMilli() int64 {
 	return c.StdTime().UnixMilli()
 }
 
-// TimestampMicro gets timestamp with microsecond precision like 1596604455000000.
+// TimestampMicro gets timestamp with microsecond precision like 1596604455999999.
 func (c *Carbon) TimestampMicro() int64 {
 	if c.IsInvalid() {
 		return 0
@@ -330,7 +330,7 @@ func (c *Carbon) TimestampMicro() int64 {
 	return c.StdTime().UnixMicro()
 }
 
-// TimestampNano gets timestamp with nanosecond precision like 1596604455000000000.
+// TimestampNano gets timestamp with nanosecond precision like 1596604455999999999.
 func (c *Carbon) TimestampNano() int64 {
 	if c.IsInvalid() {
 		return 0
