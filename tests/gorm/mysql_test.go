@@ -84,7 +84,7 @@ func (s *MySQLSuite) TestCurd1() {
 		model1.Timestamp1 = *carbon.NewTimestamp(c)
 
 		// create
-		if err := db.Create(&model1).Error; err != nil {
+		if err = db.Create(&model1).Error; err != nil {
 			panic(err)
 		}
 
@@ -132,7 +132,7 @@ func (s *MySQLSuite) TestCurd1() {
 		model1.Timestamp1 = *carbon.NewTimestamp(c)
 
 		// create
-		if err := db.Create(&model1).Error; err != nil {
+		if err = db.Create(&model1).Error; err != nil {
 			panic(err)
 		}
 
@@ -180,7 +180,7 @@ func (s *MySQLSuite) TestCurd1() {
 		model1.Timestamp1 = *carbon.NewTimestamp(c)
 
 		// create
-		if err := db.Create(&model1).Error; err != nil {
+		if err = db.Create(&model1).Error; err != nil {
 			panic(err)
 		}
 
@@ -228,7 +228,7 @@ func (s *MySQLSuite) TestCurd1() {
 		model1.Timestamp1 = *carbon.NewTimestamp(c)
 
 		// create
-		if err := db.Create(&model1).Error; err != nil {
+		if err = db.Create(&model1).Error; err != nil {
 			panic(err)
 		}
 
@@ -285,7 +285,7 @@ func (s *MySQLSuite) TestCurd2() {
 		var model1 MySQLModel2
 
 		// create
-		if err := db.Create(&model1).Error; err != nil {
+		if err = db.Create(&model1).Error; err != nil {
 			panic(err)
 		}
 
@@ -334,7 +334,7 @@ func (s *MySQLSuite) TestCurd2() {
 		model1.Timestamp1 = carbon.NewTimestamp(c)
 
 		// create
-		if err := db.Create(&model1).Error; err != nil {
+		if err = db.Create(&model1).Error; err != nil {
 			panic(err)
 		}
 
@@ -382,7 +382,7 @@ func (s *MySQLSuite) TestCurd2() {
 		model1.Timestamp1 = carbon.NewTimestamp(c)
 
 		// create
-		if err := db.Create(&model1).Error; err != nil {
+		if err = db.Create(&model1).Error; err != nil {
 			panic(err)
 		}
 
@@ -430,7 +430,7 @@ func (s *MySQLSuite) TestCurd2() {
 		model1.Timestamp1 = carbon.NewTimestamp(c)
 
 		// create
-		if err := db.Create(&model1).Error; err != nil {
+		if err = db.Create(&model1).Error; err != nil {
 			panic(err)
 		}
 
@@ -478,7 +478,7 @@ func (s *MySQLSuite) TestCurd2() {
 		model1.Timestamp1 = carbon.NewTimestamp(c)
 
 		// create
-		if err := db.Create(&model1).Error; err != nil {
+		if err = db.Create(&model1).Error; err != nil {
 			panic(err)
 		}
 
