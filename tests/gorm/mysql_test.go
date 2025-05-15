@@ -1,4 +1,4 @@
-package tests
+package gorm
 
 import (
 	"encoding/json"
@@ -20,10 +20,10 @@ func (s *MySQLSuite) SetupSuite() {
 	carbon.SetTimezone(carbon.PRC)
 	carbon.SetTestNow(carbon.Parse("2020-08-05 13:14:15"))
 	db = connect(driverMySQL)
-	if err := db.AutoMigrate(&MySQLModel1{}); err != nil {
+	if err = db.AutoMigrate(&MySQLModel1{}); err != nil {
 		panic(err)
 	}
-	if err := db.AutoMigrate(&MySQLModel2{}); err != nil {
+	if err = db.AutoMigrate(&MySQLModel2{}); err != nil {
 		panic(err)
 	}
 }
@@ -39,7 +39,7 @@ func (s *MySQLSuite) TestCurd1() {
 		var model1 MySQLModel1
 
 		// create
-		if err := db.Create(&model1).Error; err != nil {
+		if err = db.Create(&model1).Error; err != nil {
 			panic(err)
 		}
 
