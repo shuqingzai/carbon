@@ -290,7 +290,7 @@ func (s *MySQLSuite) TestCurd2() {
 		}
 
 		// read
-		var model2 MySQLModel1
+		var model2 MySQLModel2
 		db.Last(&model2)
 
 		data1, err1 := json.Marshal(&model2)
@@ -387,7 +387,7 @@ func (s *MySQLSuite) TestCurd2() {
 		}
 
 		// read
-		var model2 MySQLModel1
+		var model2 MySQLModel2
 		db.Last(&model2)
 
 		data1, err1 := json.Marshal(&model2)
@@ -435,7 +435,7 @@ func (s *MySQLSuite) TestCurd2() {
 		}
 
 		// read
-		var model2 MySQLModel1
+		var model2 MySQLModel2
 		db.Last(&model2)
 
 		data1, err1 := json.Marshal(&model2)
