@@ -173,7 +173,7 @@ func (c *Carbon) SetDateTime(year, month, day, hour, minute, second int) *Carbon
 	if c.IsInvalid() {
 		return c
 	}
-	return create(year, month, day, hour, minute, second, c.Nanosecond()).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, c.Nanosecond())
 }
 
 // SetDateTimeMilli sets year, month, day, hour, minute, second and millisecond.
@@ -181,7 +181,7 @@ func (c *Carbon) SetDateTimeMilli(year, month, day, hour, minute, second, millis
 	if c.IsInvalid() {
 		return c
 	}
-	return create(year, month, day, hour, minute, second, millisecond*1e6).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, millisecond*1e6)
 }
 
 // SetDateTimeMicro sets year, month, day, hour, minute, second and microsecond.
@@ -189,7 +189,7 @@ func (c *Carbon) SetDateTimeMicro(year, month, day, hour, minute, second, micros
 	if c.IsInvalid() {
 		return c
 	}
-	return create(year, month, day, hour, minute, second, microsecond*1e3).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, microsecond*1e3)
 }
 
 // SetDateTimeNano sets year, month, day, hour, minute, second and nanosecond.
@@ -197,7 +197,7 @@ func (c *Carbon) SetDateTimeNano(year, month, day, hour, minute, second, nanosec
 	if c.IsInvalid() {
 		return c
 	}
-	return create(year, month, day, hour, minute, second, nanosecond).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, nanosecond)
 }
 
 // SetDate sets year, month and day.
@@ -206,7 +206,7 @@ func (c *Carbon) SetDate(year, month, day int) *Carbon {
 		return c
 	}
 	hour, minute, second := c.Time()
-	return create(year, month, day, hour, minute, second, c.Nanosecond()).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, c.Nanosecond())
 }
 
 // SetDateMilli sets year, month, day and millisecond.
@@ -215,7 +215,7 @@ func (c *Carbon) SetDateMilli(year, month, day, millisecond int) *Carbon {
 		return c
 	}
 	hour, minute, second := c.Time()
-	return create(year, month, day, hour, minute, second, millisecond*1e6).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, millisecond*1e6)
 }
 
 // SetDateMicro sets year, month, day and microsecond.
@@ -224,7 +224,7 @@ func (c *Carbon) SetDateMicro(year, month, day, microsecond int) *Carbon {
 		return c
 	}
 	hour, minute, second := c.Time()
-	return create(year, month, day, hour, minute, second, microsecond*1e3).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, microsecond*1e3)
 }
 
 // SetDateNano sets year, month, day and nanosecond.
@@ -233,7 +233,7 @@ func (c *Carbon) SetDateNano(year, month, day, nanosecond int) *Carbon {
 		return c
 	}
 	hour, minute, second := c.Time()
-	return create(year, month, day, hour, minute, second, nanosecond).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, nanosecond)
 }
 
 // SetTime sets hour, minute and second.
@@ -242,7 +242,7 @@ func (c *Carbon) SetTime(hour, minute, second int) *Carbon {
 		return c
 	}
 	year, month, day := c.Date()
-	return create(year, month, day, hour, minute, second, c.Nanosecond()).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, c.Nanosecond())
 }
 
 // SetTimeMilli sets hour, minute, second and millisecond.
@@ -251,7 +251,7 @@ func (c *Carbon) SetTimeMilli(hour, minute, second, millisecond int) *Carbon {
 		return c
 	}
 	year, month, day := c.Date()
-	return create(year, month, day, hour, minute, second, millisecond*1e6).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, millisecond*1e6)
 }
 
 // SetTimeMicro sets hour, minute, second and microsecond.
@@ -260,7 +260,7 @@ func (c *Carbon) SetTimeMicro(hour, minute, second, microsecond int) *Carbon {
 		return c
 	}
 	year, month, day := c.Date()
-	return create(year, month, day, hour, minute, second, microsecond*1e3).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, microsecond*1e3)
 }
 
 // SetTimeNano sets hour, minute, second and nanosecond.
@@ -269,7 +269,7 @@ func (c *Carbon) SetTimeNano(hour, minute, second, nanosecond int) *Carbon {
 		return c
 	}
 	year, month, day := c.Date()
-	return create(year, month, day, hour, minute, second, nanosecond).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, nanosecond)
 }
 
 // SetYear sets year.
@@ -278,7 +278,7 @@ func (c *Carbon) SetYear(year int) *Carbon {
 		return c
 	}
 	_, month, day, hour, minute, second := c.DateTime()
-	return create(year, month, day, hour, minute, second, c.Nanosecond()).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, c.Nanosecond())
 }
 
 // SetYearNoOverflow sets year without overflowing month.
@@ -295,7 +295,7 @@ func (c *Carbon) SetMonth(month int) *Carbon {
 		return c
 	}
 	year, _, day, hour, minute, second := c.DateTime()
-	return create(year, month, day, hour, minute, second, c.Nanosecond()).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, c.Nanosecond())
 }
 
 // SetMonthNoOverflow sets month without overflowing month.
@@ -312,7 +312,7 @@ func (c *Carbon) SetDay(day int) *Carbon {
 		return c
 	}
 	year, month, _, hour, minute, second := c.DateTime()
-	return create(year, month, day, hour, minute, second, c.Nanosecond()).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, c.Nanosecond())
 }
 
 // SetHour sets hour.
@@ -321,7 +321,7 @@ func (c *Carbon) SetHour(hour int) *Carbon {
 		return c
 	}
 	year, month, day, _, minute, second := c.DateTime()
-	return create(year, month, day, hour, minute, second, c.Nanosecond()).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, c.Nanosecond())
 }
 
 // SetMinute sets minute.
@@ -330,7 +330,7 @@ func (c *Carbon) SetMinute(minute int) *Carbon {
 		return c
 	}
 	year, month, day, hour, _, second := c.DateTime()
-	return create(year, month, day, hour, minute, second, c.Nanosecond()).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, c.Nanosecond())
 }
 
 // SetSecond sets second.
@@ -339,7 +339,7 @@ func (c *Carbon) SetSecond(second int) *Carbon {
 		return c
 	}
 	year, month, day, hour, minute, _ := c.DateTime()
-	return create(year, month, day, hour, minute, second, c.Nanosecond()).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, c.Nanosecond())
 }
 
 // SetMillisecond sets millisecond.
@@ -348,7 +348,7 @@ func (c *Carbon) SetMillisecond(millisecond int) *Carbon {
 		return c
 	}
 	year, month, day, hour, minute, second := c.DateTime()
-	return create(year, month, day, hour, minute, second, millisecond*1e6).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, millisecond*1e6)
 }
 
 // SetMicrosecond sets microsecond.
@@ -357,7 +357,7 @@ func (c *Carbon) SetMicrosecond(microsecond int) *Carbon {
 		return c
 	}
 	year, month, day, hour, minute, second := c.DateTime()
-	return create(year, month, day, hour, minute, second, microsecond*1e3).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, microsecond*1e3)
 }
 
 // SetNanosecond sets nanosecond.
@@ -366,5 +366,5 @@ func (c *Carbon) SetNanosecond(nanosecond int) *Carbon {
 		return c
 	}
 	year, month, day, hour, minute, second := c.DateTime()
-	return create(year, month, day, hour, minute, second, nanosecond).SetLocation(c.loc)
+	return c.create(year, month, day, hour, minute, second, nanosecond)
 }
