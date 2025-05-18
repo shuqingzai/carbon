@@ -256,21 +256,21 @@ carbon.ParseByLayout("今天是 2020年08月05日13时14分15秒", "今天是 20
 carbon.ParseByLayout("2020-08-05 13:14:15", "2006-01-02 15:04:05", carbon.Tokyo).ToDateTimeString() // 2020-08-05 14:14:15
 ```
 
+##### 確認されたフォーマットテンプレートによって時間文字列を `Carbon` インスタンスに解析する
+> 注：使用する文字がフォームテンプレートと競合している場合は、エスケープを使用して文字をエスケープします
+
+```go
+carbon.ParseByFormat("2020|08|05 13|14|15", "Y|m|d H|i|s").ToDateTimeString() // 2020-08-05 13:14:15
+carbon.ParseByFormat("It is 2020-08-05 13:14:15", "\\I\\t \\i\\s Y-m-d H:i:s").ToDateTimeString() // 2020-08-05 13:14:15
+carbon.ParseByFormat("今天是 2020年08月05日13时14分15秒", "今天是 Y年m月d日H时i分s秒").ToDateTimeString() // 2020-08-05 13:14:15
+```
+
 ##### 複数のファジィレイアウトテンプレートによって時間文字列を `Carbon` インスタンスに解析する
 > 注：タイムスタンプ `レイアウトテンプレート` による解析はサポートされていません
 
 ```go
 carbon.ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"}).ToDateTimeString() // 2020-08-05 13:14:15
 carbon.ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"}).CurrentLayout() // 2006|01|02 15|04|05
-```
-
-##### 確認されたフォーマットテンプレートによって時間文字列を `Carbon` インスタンスに解析する
-> 注意：使用する文字がフォームテンプレートと競合している場合は、エスケープを使用して文字をエスケープします
-
-```go
-carbon.ParseByFormat("2020|08|05 13|14|15", "Y|m|d H|i|s").ToDateTimeString() // 2020-08-05 13:14:15
-carbon.ParseByFormat("It is 2020-08-05 13:14:15", "\\I\\t \\i\\s Y-m-d H:i:s").ToDateTimeString() // 2020-08-05 13:14:15
-carbon.ParseByFormat("今天是 2020年08月05日13时14分15秒", "今天是 Y年m月d日H时i分s秒").ToDateTimeString() // 2020-08-05 13:14:15
 ```
 
 ##### 複数のファジィフォーマットテンプレートによって時間文字列を `Carbon` インスタンスに解析する
