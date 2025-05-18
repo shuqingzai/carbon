@@ -261,6 +261,7 @@ carbon.ParseByLayout("2020-08-05 13:14:15", "2006-01-02 15:04:05", carbon.Tokyo)
 ```
 
 ##### 通过多个模糊的 `布局模板` 将时间字符串解析成 `Carbon` 实例
+> 注：该方法不支持通过时间戳 `布局模板` 解析
 
 ```go
 carbon.ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"}).ToDateTimeString() // 2020-08-05 13:14:15
@@ -268,8 +269,7 @@ carbon.ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "20
 ```
 
 ##### 通过一个确认的 `格式模板` 将时间字符串解析成 `Carbon` 实例
-
-> 如果使用的字母与格式模板冲突时，请使用转义符转义该字母
+> 注：如果使用的字母与格式模板冲突时，请使用转义符转义该字母
 
 ```go
 carbon.ParseByFormat("2020|08|05 13|14|15", "Y|m|d H|i|s").ToDateTimeString() // 2020-08-05 13:14:15
@@ -279,6 +279,7 @@ carbon.ParseByFormat("2020-08-05 13:14:15", "Y-m-d H:i:s", carbon.Tokyo).ToDateT
 ```
 
 ##### 通过多个模糊的 `格式模板` 将时间字符串解析成 `Carbon` 实例
+> 注：该方法不支持通过时间戳 `格式模板` 解析
 
 ```go
 carbon.ParseByFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"}).ToDateTimeString() // 2020-08-05 13:14:15
@@ -594,12 +595,12 @@ carbon.Now().SubYearsNoOverflow(1).DiffAbsInString(carbon.Now()) // 1 year
 // 相差时长
 now := carbon.Now()
 now.DiffInDuration(now).String() // 0s
-now.AddHour().DiffInDuration(now).String() // 1h0m0s
-now.SubHour().DiffInDuration(now).String() // -1h0m0s
+now.Copy().AddHour().DiffInDuration(now).String() // 1h0m0s
+now.Copy().SubHour().DiffInDuration(now).String() // -1h0m0s
 // 相差时长（绝对值）
 now.DiffAbsInDuration(now).String() // 0s
-now.AddHour().DiffAbsInDuration(now).String() // 1h0m0s
-now.SubHour().DiffAbsInDuration(now).String() // 1h0m0s
+now.Copy().AddHour().DiffAbsInDuration(now).String() // 1h0m0s
+now.Copy().SubHour().DiffAbsInDuration(now).String() // 1h0m0s
 
 // 对人类友好的可读格式时间差
 carbon.Parse("2020-08-05 13:14:15").DiffForHumans() // just now
@@ -1582,12 +1583,12 @@ now := carbon.Now().SetLanguage(lang)
 
 now.Copy().AddYears(1).DiffForHumans() // 1 year from now
 now.Copy().AddHours(1).DiffForHumans() // 1h from now
-now.Copy().ToMonthString() // August
-now.Copy().ToShortMonthString() // Aug
-now.Copy().ToWeekString() // Tuesday
-now.Copy().ToShortWeekString() // Tue
-now.Copy().Constellation() // Leo
-now.Copy().Season() // Summer
+now.ToMonthString() // August
+now.ToShortMonthString() // Aug
+now.ToWeekString() // Tuesday
+now.ToShortWeekString() // Tue
+now.Constellation() // Leo
+now.Season() // Summer
 ```
 
 ###### 重写全部翻译资源(无需指定 `locale`)
@@ -1621,12 +1622,12 @@ now := carbon.Now().SetLanguage(lang)
 
 now.Copy().AddYears(1).DiffForHumans() // in 1 yr
 now.Copy().AddHours(1).DiffForHumans() // in 1h
-now.Copy().ToMonthString() // august
-now.Copy().ToShortMonthString() // aug
-now.Copy().ToWeekString() // tuesday
-now.Copy().ToShortWeekString() // tue
-now.Copy().Constellation() // leo
-now.Copy().Season() // summer
+now.ToMonthString() // august
+now.ToShortMonthString() // aug
+now.ToWeekString() // tuesday
+now.ToShortWeekString() // tue
+now.Constellation() // leo
+now.Season() // summer
 ```
 
 ##### 错误处理
@@ -1638,7 +1639,7 @@ if c.HasError() {
   log.Fatal(c.Error)
 }
 // 输出
-timezone "xxx" is invalid, please see the file "$GOROOT/lib/time/zoneinfo.zip" for all valid timezones
+invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for all valid timezones
 ```
 
 #### 附录
@@ -1672,10 +1673,10 @@ timezone "xxx" is invalid, please see the file "$GOROOT/lib/time/zoneinfo.zip" f
 | W  |   ISO8601 格式数字表示的年份中的第几周   | 2  |      01-52       |         01          |
 | N  |   ISO8601 格式数字表示的星期中的第几天   | 2  |      01-07       |         02          |
 | L  |    是否为闰年，如果是闰年为 1，否则为 0    | 1  |       0-1        |          0          |
-| S  |           秒精度时间戳            | -  |        -         |     1596604455      |
-| U  |           毫精度时间戳            | -  |        -         |    1596604455666    |
-| V  |           微精度时间戳            | -  |        -         |  1596604455666666   |
-| X  |           纳精度时间戳            | -  |        -         | 1596604455666666666 |
+| S  |           秒精度时间戳           | -  |        -         |     1596604455      |
+| U  |          毫秒精度时间戳           | -  |        -         |    1596604455666    |
+| V  |          微秒精度时间戳           | -  |        -         |  1596604455666666   |
+| X  |          纳秒精度时间戳           | -  |        -         | 1596604455666666666 |
 | u  |             毫秒             | -  |      1-999       |         999         |
 | v  |             微秒             | -  |     1-999999     |       999999        |
 | x  |             纳秒             | -  |   1-999999999    |      999999999      |

@@ -257,6 +257,7 @@ carbon.ParseByLayout("2020-08-05 13:14:15", "2006-01-02 15:04:05", carbon.Tokyo)
 ```
 
 ##### 複数のファジィレイアウトテンプレートによって時間文字列を `Carbon` インスタンスに解析する
+> 注：タイムスタンプ `レイアウトテンプレート` による解析はサポートされていません
 
 ```go
 carbon.ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"}).ToDateTimeString() // 2020-08-05 13:14:15
@@ -264,6 +265,7 @@ carbon.ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "20
 ```
 
 ##### 確認されたフォーマットテンプレートによって時間文字列を `Carbon` インスタンスに解析する
+> 注意：使用する文字がフォームテンプレートと競合している場合は、エスケープを使用して文字をエスケープします
 
 ```go
 carbon.ParseByFormat("2020|08|05 13|14|15", "Y|m|d H|i|s").ToDateTimeString() // 2020-08-05 13:14:15
@@ -272,6 +274,7 @@ carbon.ParseByFormat("今天是 2020年08月05日13时14分15秒", "今天是 Y�
 ```
 
 ##### 複数のファジィフォーマットテンプレートによって時間文字列を `Carbon` インスタンスに解析する
+> 注：この方法では、タイムスタンプ `フォーマットテンプレート` による解析はサポートされていません
 
 ```go
 carbon.ParseByFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"}).ToDateTimeString() // 2020-08-05 13:14:15
@@ -587,12 +590,12 @@ carbon.Now().SubYearsNoOverflow(1).DiffAbsInString(carbon.Now()) // 1 year
 // 継続時間差
 now := carbon.Now()
 now.DiffInDuration(now).String() // 0s
-now.AddHour().DiffInDuration(now).String() // 1h0m0s
-now.SubHour().DiffInDuration(now).String() // -1h0m0s
+now.Copy().AddHour().DiffInDuration(now).String() // 1h0m0s
+now.Copy().SubHour().DiffInDuration(now).String() // -1h0m0s
 // 継続時間差（絶対値）
 now.DiffAbsInDuration(now).String() // 0s
-now.AddHour().DiffAbsInDuration(now).String() // 1h0m0s
-now.SubHour().DiffAbsInDuration(now).String() // 1h0m0s
+now.Copy().AddHour().DiffAbsInDuration(now).String() // 1h0m0s
+now.Copy().SubHour().DiffAbsInDuration(now).String() // 1h0m0s
 
 // 人が読みやすいフォーマットで時間差を取得
 carbon.Parse("2020-08-05 13:14:15").DiffForHumans() // just now
@@ -1574,12 +1577,12 @@ now := carbon.Now().SetLanguage(lang)
 
 now.Copy().AddYears(1).DiffForHumans() // 1 year from now
 now.Copy().AddHours(1).DiffForHumans() // 1h from now
-now.Copy().ToMonthString() // August
-now.Copy().ToShortMonthString() // Aug
-now.Copy().ToWeekString() // Tuesday
-now.Copy().ToShortWeekString() // Tue
-now.Copy().Constellation() // Leo
-now.Copy().Season() // Summer
+now.ToMonthString() // August
+now.ToShortMonthString() // Aug
+now.ToWeekString() // Tuesday
+now.ToShortWeekString() // Tue
+now.Constellation() // Leo
+now.Season() // Summer
 ```
 
 ###### すべての翻訳リソースを書き換える
@@ -1613,12 +1616,12 @@ now := carbon.Now().SetLanguage(lang)
 
 now.Copy().AddYears(1).DiffForHumans() // in 1 yr
 now.Copy().AddHours(1).DiffForHumans() // in 1h
-now.Copy().ToMonthString() // august
-now.Copy().ToShortMonthString() // aug
-now.Copy().ToWeekString() // tuesday
-now.Copy().ToShortWeekString() // tue
-now.Copy().Constellation() // leo
-now.Copy().Season() // summer
+now.ToMonthString() // august
+now.ToShortMonthString() // aug
+now.ToWeekString() // tuesday
+now.ToShortWeekString() // tue
+now.Constellation() // leo
+now.Season() // summer
 ```
 
 ##### エラー処理
@@ -1630,7 +1633,7 @@ if c.HasError() {
   log.Fatal(c.Error)
 }
 // 出力
-timezone "xxx" is invalid, please see the file "$GOROOT/lib/time/zoneinfo.zip" for all valid timezones
+invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for all valid timezones
 ```
 
 #### 付録
