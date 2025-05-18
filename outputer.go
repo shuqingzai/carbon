@@ -775,7 +775,7 @@ func (c *Carbon) Format(format string, timezone ...string) string {
 			case 'W': // week number of the year in ISO-8601 format, ranging from 01-52
 				week := fmt.Sprintf("%02d", c.WeekOfYear())
 				buffer.WriteString(week)
-			case 'N': // day of the week as a number in ISO-8601 format, ranging from 01-7
+			case 'N': // day of the week as a number in ISO-8601 format, ranging from 01-07
 				week := fmt.Sprintf("%02d", c.DayOfWeek())
 				buffer.WriteString(week)
 			case 'K': // abbreviated suffix for the day of the month, such as st, nd, rd, th

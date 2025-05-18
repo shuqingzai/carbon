@@ -121,7 +121,7 @@ func ParseByFormat(value, format string, timezone ...string) *Carbon {
 
 // ParseByLayouts parses a time string as a Carbon instance by multiple fuzzy layouts.
 //
-// Notice: it doesn't support timestamp layouts parsing
+// Note: it doesn't support timestamp layouts parsing
 func ParseByLayouts(value string, layouts []string, timezone ...string) *Carbon {
 	if value == "" {
 		return &Carbon{isEmpty: true}
@@ -157,7 +157,7 @@ func ParseByLayouts(value string, layouts []string, timezone ...string) *Carbon 
 
 // ParseByFormats parses a time string as a Carbon instance by multiple fuzzy formats.
 //
-// Notice: it doesn't support timestamp formats parsing
+// Note: it doesn't support timestamp formats parsing
 func ParseByFormats(value string, formats []string, timezone ...string) *Carbon {
 	if value == "" {
 		return &Carbon{isEmpty: true}
