@@ -245,15 +245,6 @@ func (s *BuiltinTypeSuite) TestBuiltinType_Scan() {
 		s.Error(ts4.Scan("xxx"))
 	})
 
-	s.Run("int64 type", func() {
-		s.Nil(NewDateTime(c).Scan(c.Timestamp()))
-
-		s.Nil(NewTimestamp(c).Scan(c.Timestamp()))
-		s.Nil(NewTimestampMilli(c).Scan(c.TimestampMilli()))
-		s.Nil(NewTimestampMicro(c).Scan(c.TimestampMicro()))
-		s.Nil(NewTimestampNano(c).Scan(c.TimestampNano()))
-	})
-
 	s.Run("time type", func() {
 		tt := time.Now()
 		s.Nil(NewDateTime(c).Scan(tt))

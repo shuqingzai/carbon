@@ -36,42 +36,21 @@ func NewTimestampType[T TimestampTyper](c *Carbon) *TimestampType[T] {
 // Scan implements driver.Scanner interface for TimestampType generic struct.
 func (t *TimestampType[T]) Scan(src any) (err error) {
 	var (
-		ts int64
-		c  *Carbon
+		c *Carbon
 	)
 	switch v := src.(type) {
 	case nil:
 		return nil
 	case []byte:
 		c = Parse(string(v))
-		*t = *NewTimestampType[T](c)
-		return t.Error
 	case string:
 		c = Parse(v)
-		*t = *NewTimestampType[T](c)
-		return t.Error
-	case int64:
-		ts = v
 	case StdTime:
 		c = CreateFromStdTime(v, DefaultTimezone)
-		*t = *NewTimestampType[T](c)
-		return t.Error
 	case *StdTime:
 		c = CreateFromStdTime(*v, DefaultTimezone)
-		*t = *NewTimestampType[T](c)
-		return t.Error
 	default:
 		return ErrFailedScan(src)
-	}
-	switch t.getPrecision() {
-	case PrecisionSecond:
-		c = CreateFromTimestamp(ts, DefaultTimezone)
-	case PrecisionMillisecond:
-		c = CreateFromTimestampMilli(ts, DefaultTimezone)
-	case PrecisionMicrosecond:
-		c = CreateFromTimestampMicro(ts, DefaultTimezone)
-	case PrecisionNanosecond:
-		c = CreateFromTimestampNano(ts, DefaultTimezone)
 	}
 	*t = *NewTimestampType[T](c)
 	return t.Error
