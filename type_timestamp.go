@@ -8,17 +8,17 @@ import (
 
 // timestamp precision constants
 const (
-	PrecisionSecond      = 9
-	PrecisionMillisecond = 999
-	PrecisionMicrosecond = 999999
-	PrecisionNanosecond  = 999999999
+	PrecisionSecond      = "second"
+	PrecisionMillisecond = "millisecond"
+	PrecisionMicrosecond = "microsecond"
+	PrecisionNanosecond  = "nanosecond"
 )
 
 // TimestampTyper defines a TimestampTyper interface.
 type TimestampTyper interface {
 	~int64
 	DataType() string
-	Precision() int64
+	Precision() string
 }
 
 // TimestampType defines a TimestampType generic struct.
@@ -157,7 +157,7 @@ func (t *TimestampType[T]) getDataType() string {
 }
 
 // getPrecision returns precision of TimestampType generic struct.
-func (t *TimestampType[T]) getPrecision() int64 {
+func (t *TimestampType[T]) getPrecision() string {
 	var typer T
 	return typer.Precision()
 }
