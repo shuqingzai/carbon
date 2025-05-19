@@ -2,7 +2,6 @@ package carbon
 
 import (
 	"encoding/json"
-	"strconv"
 	"testing"
 	"time"
 
@@ -219,19 +218,15 @@ func (s *BuiltinTypeSuite) TestBuiltinType_Scan() {
 
 		ts1 := NewTimestamp(c)
 		s.Error(ts1.Scan([]byte("xxx")))
-		s.Nil(ts1.Scan([]byte(strconv.Itoa(int(ts1.Timestamp())))))
 
 		ts2 := NewTimestampMilli(c)
 		s.Error(ts2.Scan([]byte("xxx")))
-		s.Nil(ts2.Scan([]byte(strconv.Itoa(int(ts2.TimestampMilli())))))
 
 		ts3 := NewTimestampMicro(c)
 		s.Error(ts3.Scan([]byte("xxx")))
-		s.Nil(ts3.Scan([]byte(strconv.Itoa(int(ts3.TimestampMicro())))))
 
 		ts4 := NewTimestampNano(c)
 		s.Error(ts4.Scan([]byte("xxx")))
-		s.Nil(ts4.Scan([]byte(strconv.Itoa(int(ts3.TimestampNano())))))
 	})
 
 	s.Run("string type", func() {
@@ -239,19 +234,15 @@ func (s *BuiltinTypeSuite) TestBuiltinType_Scan() {
 
 		ts1 := NewTimestamp(c)
 		s.Error(ts1.Scan("xxx"))
-		s.Nil(ts1.Scan(strconv.Itoa(int(ts1.Timestamp()))))
 
 		ts2 := NewTimestampMilli(c)
 		s.Error(ts2.Scan("xxx"))
-		s.Nil(ts2.Scan(strconv.Itoa(int(ts2.TimestampMilli()))))
 
 		ts3 := NewTimestampMicro(c)
 		s.Error(ts3.Scan("xxx"))
-		s.Nil(ts3.Scan(strconv.Itoa(int(ts3.TimestampMicro()))))
 
 		ts4 := NewTimestampNano(c)
 		s.Error(ts4.Scan("xxx"))
-		s.Nil(ts4.Scan(strconv.Itoa(int(ts4.TimestampNano()))))
 	})
 
 	s.Run("int64 type", func() {
@@ -381,19 +372,19 @@ func (s *BuiltinTypeSuite) TestBuiltinType_Value() {
 		s.Nil(e1)
 
 		v2, e2 := NewTimestamp(c).Value()
-		s.Equal(c.Timestamp(), v2)
+		s.Equal(c.StdTime(), v2)
 		s.Nil(e2)
 
 		v3, e3 := NewTimestampMilli(c).Value()
-		s.Equal(c.TimestampMilli(), v3)
+		s.Equal(c.StdTime(), v3)
 		s.Nil(e3)
 
 		v4, e4 := NewTimestampMicro(c).Value()
-		s.Equal(c.TimestampMicro(), v4)
+		s.Equal(c.StdTime(), v4)
 		s.Nil(e4)
 
 		v5, e5 := NewTimestampNano(c).Value()
-		s.Equal(c.TimestampNano(), v5)
+		s.Equal(c.StdTime(), v5)
 		s.Nil(e5)
 	})
 }
@@ -764,6 +755,35 @@ func (s *BuiltinTypeSuite) TestBuiltinType_UnmarshalJSON() {
 	})
 }
 
+func (s *BuiltinTypeSuite) TestBuiltinType_GormDataType() {
+	var model builtinTypeModel
+
+	s.Equal("date", model.Date.GormDataType())
+	s.Equal("timestamp", model.DateMilli.GormDataType())
+	s.Equal("timestamp", model.DateMicro.GormDataType())
+	s.Equal("timestamp", model.DateNano.GormDataType())
+
+	s.Equal("time", model.Time.GormDataType())
+	s.Equal("timestamp", model.TimeMilli.GormDataType())
+	s.Equal("timestamp", model.TimeMicro.GormDataType())
+	s.Equal("timestamp", model.TimeNano.GormDataType())
+
+	s.Equal("datetime", model.DateTime.GormDataType())
+	s.Equal("timestamp", model.DateTimeMilli.GormDataType())
+	s.Equal("timestamp", model.DateTimeMicro.GormDataType())
+	s.Equal("timestamp", model.DateTimeNano.GormDataType())
+
+	s.Equal("timestamp", model.Timestamp.GormDataType())
+	s.Equal("timestamp", model.TimestampMilli.GormDataType())
+	s.Equal("timestamp", model.TimestampMicro.GormDataType())
+	s.Equal("timestamp", model.TimestampNano.GormDataType())
+
+	s.Equal("datetime", model.CreatedAt.GormDataType())
+	s.Equal("datetime", model.UpdatedAt.GormDataType())
+	s.Equal("timestamp", model.DeletedAt.GormDataType())
+	s.Equal("timestamp", model.DeletedAt.GormDataType())
+}
+
 type CustomerTypeModel struct {
 	Customer1 FormatType[iso8601Type] `json:"customer1"`
 	Customer2 LayoutType[rfc3339Type] `json:"customer2"`
@@ -782,12 +802,18 @@ func TestCustomerTypeSuite(t *testing.T) {
 
 type iso8601Type string
 
+func (t iso8601Type) DataType() string {
+	return "timestamp"
+}
 func (t iso8601Type) Format() string {
 	return ISO8601Format
 }
 
 type rfc3339Type string
 
+func (t rfc3339Type) DataType() string {
+	return "timestamp"
+}
 func (t rfc3339Type) Layout() string {
 	return RFC3339Layout
 }
@@ -1025,4 +1051,13 @@ func (s *CustomerTypeSuite) TestCustomerType_UnmarshalJSON() {
 		s.Equal("2020-08-05T13:14:15+00:00", model.CreatedAt.String())
 		s.Equal("2020-08-05T13:14:15Z", model.UpdatedAt.String())
 	})
+}
+
+func (s *CustomerTypeSuite) TestBuiltinType_GormDataType() {
+	var model CustomerTypeModel
+
+	s.Equal("timestamp", model.Customer1.GormDataType())
+	s.Equal("timestamp", model.Customer2.GormDataType())
+	s.Equal("timestamp", model.CreatedAt.GormDataType())
+	s.Equal("timestamp", model.UpdatedAt.GormDataType())
 }
