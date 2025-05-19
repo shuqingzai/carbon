@@ -32,10 +32,6 @@ func (s *CarbonTypeSuite) TestCarbonType_Scan() {
 		s.Nil(c.Scan(c.ToDateString()))
 	})
 
-	s.Run("int64 type", func() {
-		s.Nil(c.Scan(c.Timestamp()))
-	})
-
 	s.Run("time type", func() {
 		tt := time.Now()
 		s.Nil(c.Scan(tt))
@@ -52,6 +48,7 @@ func (s *CarbonTypeSuite) TestCarbonType_Scan() {
 
 	s.Run("unsupported type", func() {
 		s.Error(c.Scan(true))
+		s.Error(c.Scan(int64(0)))
 		s.Error(c.Scan(func() {}))
 		s.Error(c.Scan(float64(0)))
 		s.Error(c.Scan(map[string]string{}))
@@ -245,15 +242,6 @@ func (s *BuiltinTypeSuite) TestBuiltinType_Scan() {
 		s.Error(ts4.Scan("xxx"))
 	})
 
-	s.Run("int64 type", func() {
-		s.Nil(NewDateTime(c).Scan(c.Timestamp()))
-
-		s.Nil(NewTimestamp(c).Scan(c.Timestamp()))
-		s.Nil(NewTimestampMilli(c).Scan(c.TimestampMilli()))
-		s.Nil(NewTimestampMicro(c).Scan(c.TimestampMicro()))
-		s.Nil(NewTimestampNano(c).Scan(c.TimestampNano()))
-	})
-
 	s.Run("time type", func() {
 		tt := time.Now()
 		s.Nil(NewDateTime(c).Scan(tt))
@@ -307,11 +295,13 @@ func (s *BuiltinTypeSuite) TestBuiltinType_Scan() {
 	s.Run("unsupported type", func() {
 		s.Error(NewDateTime(c).Scan(true))
 		s.Error(NewDateTime(c).Scan(func() {}))
+		s.Error(NewDateTime(c).Scan(int64(0)))
 		s.Error(NewDateTime(c).Scan(float64(0)))
 		s.Error(NewDateTime(c).Scan(map[string]string{}))
 
 		s.Error(NewTimestamp(c).Scan(true))
 		s.Error(NewTimestamp(c).Scan(func() {}))
+		s.Error(NewTimestamp(c).Scan(int64(0)))
 		s.Error(NewTimestamp(c).Scan(float64(0)))
 		s.Error(NewTimestamp(c).Scan(map[string]string{}))
 	})
@@ -834,11 +824,6 @@ func (s *CustomerTypeSuite) TestCustomerType_Scan() {
 		s.Nil(t2.Scan(c.ToDateString()))
 	})
 
-	s.Run("int64 type", func() {
-		s.Nil(t1.Scan(c.Timestamp()))
-		s.Nil(t2.Scan(c.Timestamp()))
-	})
-
 	s.Run("time type", func() {
 		tt := time.Now()
 		s.Nil(t1.Scan(tt))
@@ -859,11 +844,13 @@ func (s *CustomerTypeSuite) TestCustomerType_Scan() {
 	s.Run("unsupported type", func() {
 		s.Error(t1.Scan(true))
 		s.Error(t1.Scan(func() {}))
+		s.Error(t1.Scan(int64(0)))
 		s.Error(t1.Scan(float64(0)))
 		s.Error(t1.Scan(map[string]string{}))
 
 		s.Error(t2.Scan(true))
 		s.Error(t2.Scan(func() {}))
+		s.Error(t2.Scan(int64(0)))
 		s.Error(t2.Scan(float64(0)))
 		s.Error(t2.Scan(map[string]string{}))
 	})
