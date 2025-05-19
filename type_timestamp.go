@@ -8,15 +8,16 @@ import (
 
 // timestamp precision constants
 const (
-	precisionSecond      = 9
-	precisionMillisecond = 999
-	precisionMicrosecond = 999999
-	precisionNanosecond  = 999999999
+	PrecisionSecond      = 9
+	PrecisionMillisecond = 999
+	PrecisionMicrosecond = 999999
+	PrecisionNanosecond  = 999999999
 )
 
 // TimestampTyper defines a TimestampTyper interface.
 type TimestampTyper interface {
-	~int64
+	~int64 | ~string
+	DataType() string
 	Precision() int64
 }
 
@@ -42,13 +43,13 @@ func (t *TimestampType[T]) Scan(src any) (err error) {
 	case nil:
 		return nil
 	case []byte:
-		if ts, err = parseTimestamp(string(v)); err != nil {
-			return err
-		}
+		c = Parse(string(v))
+		*t = *NewTimestampType[T](c)
+		return t.Error
 	case string:
-		if ts, err = parseTimestamp(v); err != nil {
-			return err
-		}
+		c = Parse(v)
+		*t = *NewTimestampType[T](c)
+		return t.Error
 	case int64:
 		ts = v
 	case StdTime:
@@ -63,13 +64,13 @@ func (t *TimestampType[T]) Scan(src any) (err error) {
 		return ErrFailedScan(src)
 	}
 	switch t.getPrecision() {
-	case precisionSecond:
+	case PrecisionSecond:
 		c = CreateFromTimestamp(ts, DefaultTimezone)
-	case precisionMillisecond:
+	case PrecisionMillisecond:
 		c = CreateFromTimestampMilli(ts, DefaultTimezone)
-	case precisionMicrosecond:
+	case PrecisionMicrosecond:
 		c = CreateFromTimestampMicro(ts, DefaultTimezone)
-	case precisionNanosecond:
+	case PrecisionNanosecond:
 		c = CreateFromTimestampNano(ts, DefaultTimezone)
 	}
 	*t = *NewTimestampType[T](c)
@@ -84,18 +85,7 @@ func (t TimestampType[T]) Value() (driver.Value, error) {
 	if t.HasError() {
 		return nil, t.Error
 	}
-	var ts int64
-	switch t.getPrecision() {
-	case precisionSecond:
-		ts = t.Timestamp()
-	case precisionMillisecond:
-		ts = t.TimestampMilli()
-	case precisionMicrosecond:
-		ts = t.TimestampMicro()
-	case precisionNanosecond:
-		ts = t.TimestampNano()
-	}
-	return ts, nil
+	return t.StdTime(), nil
 }
 
 // MarshalJSON implements json.Marshal interface for TimestampType generic struct.
@@ -108,13 +98,13 @@ func (t TimestampType[T]) MarshalJSON() ([]byte, error) {
 	}
 	var ts int64
 	switch t.getPrecision() {
-	case precisionSecond:
+	case PrecisionSecond:
 		ts = t.Timestamp()
-	case precisionMillisecond:
+	case PrecisionMillisecond:
 		ts = t.TimestampMilli()
-	case precisionMicrosecond:
+	case PrecisionMicrosecond:
 		ts = t.TimestampMicro()
-	case precisionNanosecond:
+	case PrecisionNanosecond:
 		ts = t.TimestampNano()
 	}
 	return []byte(strconv.FormatInt(ts, 10)), nil
@@ -135,13 +125,13 @@ func (t *TimestampType[T]) UnmarshalJSON(src []byte) error {
 	}
 	var c *Carbon
 	switch t.getPrecision() {
-	case precisionSecond:
+	case PrecisionSecond:
 		c = CreateFromTimestamp(ts, DefaultTimezone)
-	case precisionMillisecond:
+	case PrecisionMillisecond:
 		c = CreateFromTimestampMilli(ts, DefaultTimezone)
-	case precisionMicrosecond:
+	case PrecisionMicrosecond:
 		c = CreateFromTimestampMicro(ts, DefaultTimezone)
-	case precisionNanosecond:
+	case PrecisionNanosecond:
 		c = CreateFromTimestampNano(ts, DefaultTimezone)
 	}
 	*t = *NewTimestampType[T](c)
@@ -162,19 +152,30 @@ func (t *TimestampType[T]) Int64() (ts int64) {
 		return
 	}
 	switch t.getPrecision() {
-	case precisionSecond:
+	case PrecisionSecond:
 		ts = t.Timestamp()
-	case precisionMillisecond:
+	case PrecisionMillisecond:
 		ts = t.TimestampMilli()
-	case precisionMicrosecond:
+	case PrecisionMicrosecond:
 		ts = t.TimestampMicro()
-	case precisionNanosecond:
+	case PrecisionNanosecond:
 		ts = t.TimestampNano()
 	}
 	return
 }
 
-// getPrecision returns the set timestamp precision.
+// GormDataType implements GormDataType interface for TimestampType generic struct.
+func (t *TimestampType[T]) GormDataType() string {
+	return t.getDataType()
+}
+
+// getDataType returns data type of TimestampType generic struct.
+func (t *TimestampType[T]) getDataType() string {
+	var typer T
+	return typer.DataType()
+}
+
+// getPrecision returns precision of TimestampType generic struct.
 func (t *TimestampType[T]) getPrecision() int64 {
 	var typer T
 	return typer.Precision()
