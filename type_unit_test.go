@@ -1044,7 +1044,7 @@ func (s *CustomerTypeSuite) TestCustomerType_UnmarshalJSON() {
 	})
 }
 
-func (s *CustomerTypeSuite) TestBuiltinType_GormDataType() {
+func (s *CustomerTypeSuite) TestCustomerType_GormDataType() {
 	var model CustomerTypeModel
 
 	s.Equal("timestamp", model.Customer1.GormDataType())
