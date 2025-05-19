@@ -6,11 +6,20 @@ import (
 
 type RFC3339Layout string
 
+func (t RFC3339Layout) DataType() string {
+	return "timestamp"
+}
+
 func (t RFC3339Layout) Layout() string {
 	return carbon.RFC3339Layout
 }
 
 type ISO8601Format string
+
+func (t ISO8601Format) DataType() string
+	return "timestamp"
+    return "timestamp"
+}
 
 func (t ISO8601Format) Format() string {
 	return carbon.ISO8601Format
@@ -43,7 +52,8 @@ type MySQLModel1 struct {
 	ISO8601Format2 carbon.FormatType[ISO8601Format] `xorm:"datetime iso8601_format2" json:"iso8601_format2"`
 	ISO8601Format3 carbon.FormatType[ISO8601Format] `xorm:"timestamp iso8601_format3" json:"iso8601_format3"`
 
-	Timestamp1 carbon.Timestamp `xorm:"bigint timestamp1" json:"timestamp1"`
+	Timestamp1 carbon.Timestamp `xorm:"timestamp timestamp1" json:"timestamp1"`
+	Timestamp2 carbon.Timestamp `xorm:"timestamp timestamp2" json:"timestamp2"`
 
 	CreatedAt carbon.DateTime `xorm:"created created_at" json:"-"`
 	UpdatedAt carbon.DateTime `xorm:"updated updated_at" json:"-"`
@@ -81,7 +91,8 @@ type MySQLModel2 struct {
 	ISO8601Format2 *carbon.FormatType[ISO8601Format] `xorm:"datetime iso8601_format2" json:"iso8601_format2"`
 	ISO8601Format3 *carbon.FormatType[ISO8601Format] `xorm:"timestamp iso8601_format3" json:"iso8601_format3"`
 
-	Timestamp1 *carbon.Timestamp `xorm:"bigint timestamp1" json:"timestamp1"`
+	Timestamp2 *carbon.Timestamp `xorm:"timestamp timestamp2" json:"timestamp2"`
+    Timestamp2 *carbon.Timestamp `xorm:"timestamp timestamp2" json:"timestamp2"`
 
 	CreatedAt *carbon.DateTime `xorm:"created created_at" json:"-"`
 	UpdatedAt *carbon.DateTime `xorm:"updated updated_at" json:"-"`
@@ -112,7 +123,8 @@ type PgSQLModel1 struct {
 	ISO8601Format1 carbon.FormatType[ISO8601Format] `gorm:"timestamp iso8601_format1" json:"iso8601_format1"`
 	ISO8601Format2 carbon.FormatType[ISO8601Format] `gorm:"timestamptz iso8601_format2" json:"iso8601_format2"`
 
-	Timestamp1 carbon.Timestamp `gorm:"int4 timestamp1" json:"timestamp1"`
+	Timestamp1 carbon.Timestamp `gorm:"timestamp timestamp1" json:"timestamp1"`
+	Timestamp2 carbon.Timestamp `gorm:"timestamptz timestamp2" json:"timestamp2"`
 
 	CreatedAt carbon.DateTime `xorm:"created created_at" json:"-"`
 	UpdatedAt carbon.DateTime `xorm:"updated updated_at" json:"-"`
@@ -142,8 +154,9 @@ type PgSQLModel2 struct {
 
 	ISO8601Format1 *carbon.FormatType[ISO8601Format] `gorm:"timestamp iso8601_format1" json:"iso8601_format1"`
 	ISO8601Format2 *carbon.FormatType[ISO8601Format] `gorm:"timestamptz iso8601_format2" json:"iso8601_format2"`
-
-	Timestamp1 *carbon.Timestamp `gorm:"int4 timestamp1" json:"timestamp1"`
+	Timestamp1 *carbon.Timestamp `gorm:"timestamp timestamp1" json:"timestamp1"`
+	Timestamp2 *carbon.Timestamp `gorm:"timestamptz timestamp2" json:"timestamp2"`
+    Timestamp2 *carbon.Timestamp `gorm:"timestamptz timestamp2" json:"timestamp2"`
 
 	CreatedAt *carbon.DateTime `xorm:"created created_at" json:"-"`
 	UpdatedAt *carbon.DateTime `xorm:"updated updated_at" json:"-"`
@@ -168,7 +181,7 @@ type SQLiteModel1 struct {
 	RFC3339Layout carbon.LayoutType[RFC3339Layout] `xorm:"text rfc3339_layout" json:"rfc3339_layout"`
 	ISO8601Format carbon.FormatType[ISO8601Format] `xorm:"text iso8601_format" json:"iso8601_format"`
 
-	Timestamp carbon.Timestamp `xorm:"integer timestamp" json:"timestamp"`
+	Timestamp carbon.Timestamp `xorm:"text timestamp" json:"timestamp"`
 
 	CreatedAt carbon.DateTime `xorm:"created created_at" json:"-"`
 	UpdatedAt carbon.DateTime `xorm:"updated updated_at" json:"-"`
@@ -193,7 +206,7 @@ type SQLiteModel2 struct {
 	RFC3339Layout *carbon.LayoutType[RFC3339Layout] `xorm:"text rfc3339_layout" json:"rfc3339_layout"`
 	ISO8601Format *carbon.FormatType[ISO8601Format] `xorm:"text iso8601_format" json:"iso8601_format"`
 
-	Timestamp *carbon.Timestamp `xorm:"integer timestamp" json:"timestamp"`
+	Timestamp *carbon.Timestamp `xorm:"text timestamp" json:"timestamp"`
 
 	CreatedAt *carbon.DateTime `xorm:"created created_at" json:"-"`
 	UpdatedAt *carbon.DateTime `xorm:"updated updated_at" json:"-"`

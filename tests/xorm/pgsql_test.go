@@ -53,7 +53,7 @@ func (s *PgSQLSuite) TestCurd1() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null,"timestamp2":null}`, string(data1))
 
 		// delete
 		_, err = db.Delete(model2)
@@ -81,6 +81,7 @@ func (s *PgSQLSuite) TestCurd1() {
 		model1.ISO8601Format2 = *carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = *carbon.NewTimestamp(c)
+		model1.Timestamp2 = *carbon.NewTimestamp(c)
 
 		// create
 		_, err = db.Insert(model1)
@@ -93,7 +94,7 @@ func (s *PgSQLSuite) TestCurd1() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null,"timestamp2":null}`, string(data1))
 
 		// delete
 		_, err = db.Delete(model2)
@@ -123,6 +124,7 @@ func (s *PgSQLSuite) TestCurd1() {
 		model1.ISO8601Format2 = *carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = *carbon.NewTimestamp(c)
+		model1.Timestamp2 = *carbon.NewTimestamp(c)
 
 		// create
 		_, err = db.Insert(model1)
@@ -135,7 +137,7 @@ func (s *PgSQLSuite) TestCurd1() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null,"timestamp2":null}`, string(data1))
 
 		// delete
 		_, err = db.Delete(model2)
@@ -165,6 +167,7 @@ func (s *PgSQLSuite) TestCurd1() {
 		model1.ISO8601Format2 = *carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = *carbon.NewTimestamp(c)
+		model1.Timestamp2 = *carbon.NewTimestamp(c)
 
 		// create
 		_, err = db.Insert(model1)
@@ -177,7 +180,7 @@ func (s *PgSQLSuite) TestCurd1() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null,"timestamp2":null}`, string(data1))
 
 		// delete
 		_, err = db.Delete(model2)
@@ -207,6 +210,7 @@ func (s *PgSQLSuite) TestCurd1() {
 		model1.ISO8601Format2 = *carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = *carbon.NewTimestamp(c)
+		model1.Timestamp2 = *carbon.NewTimestamp(c)
 
 		// create
 		_, err = db.Insert(model1)
@@ -219,7 +223,7 @@ func (s *PgSQLSuite) TestCurd1() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"carbon1":"2020-08-05 13:14:15","carbon2":"2020-08-05 13:14:15","date1":"2020-08-05","time1":"13:14:15","time2":"13:14:15","date_time1":"2020-08-05 13:14:15","date_time2":"2020-08-05 13:14:15","rfc3339_layout1":"2020-08-05T13:14:15+08:00","rfc3339_layout2":"2020-08-05T13:14:15+08:00","iso8601_format1":"2020-08-05T13:14:15+08:00","iso8601_format2":"2020-08-05T13:14:15+08:00","timestamp1":1596604455}`, string(data1))
+		s.Equal(`{"carbon1":"2020-08-05 13:14:15","carbon2":"2020-08-05 13:14:15","date1":"2020-08-05","time1":"13:14:15","time2":"13:14:15","date_time1":"2020-08-05 13:14:15","date_time2":"2020-08-05 13:14:15","rfc3339_layout1":"2020-08-05T13:14:15+08:00","rfc3339_layout2":"2020-08-05T13:14:15+08:00","iso8601_format1":"2020-08-05T13:14:15+08:00","iso8601_format2":"2020-08-05T13:14:15+08:00","timestamp1":1596604455,"timestamp2":1596604455}`, string(data1))
 
 		c = c.Copy().AddDay()
 
@@ -241,6 +245,7 @@ func (s *PgSQLSuite) TestCurd1() {
 		model2.ISO8601Format2 = *carbon.NewFormatType[ISO8601Format](c)
 
 		model2.Timestamp1 = *carbon.NewTimestamp(c)
+		model2.Timestamp2 = *carbon.NewTimestamp(c)
 
 		// update
 		_, err = db.Update(model2)
@@ -248,7 +253,7 @@ func (s *PgSQLSuite) TestCurd1() {
 
 		data2, err2 := json.Marshal(&model2)
 		s.Nil(err2)
-		s.Equal(`{"carbon1":"2020-08-06 13:14:15","carbon2":"2020-08-06 13:14:15","date1":"2020-08-06","time1":"13:14:15","time2":"13:14:15","date_time1":"2020-08-06 13:14:15","date_time2":"2020-08-06 13:14:15","rfc3339_layout1":"2020-08-06T13:14:15+08:00","rfc3339_layout2":"2020-08-06T13:14:15+08:00","iso8601_format1":"2020-08-06T13:14:15+08:00","iso8601_format2":"2020-08-06T13:14:15+08:00","timestamp1":1596690855}`, string(data2))
+		s.Equal(`{"carbon1":"2020-08-06 13:14:15","carbon2":"2020-08-06 13:14:15","date1":"2020-08-06","time1":"13:14:15","time2":"13:14:15","date_time1":"2020-08-06 13:14:15","date_time2":"2020-08-06 13:14:15","rfc3339_layout1":"2020-08-06T13:14:15+08:00","rfc3339_layout2":"2020-08-06T13:14:15+08:00","iso8601_format1":"2020-08-06T13:14:15+08:00","iso8601_format2":"2020-08-06T13:14:15+08:00","timestamp1":1596690855,"timestamp2":1596690855}`, string(data2))
 
 		// delete
 		_, err = db.Delete(model2)
@@ -271,7 +276,7 @@ func (s *PgSQLSuite) TestCurd2() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null,"timestamp2":null}`, string(data1))
 
 		// delete
 		_, err = db.Delete(model2)
@@ -302,6 +307,7 @@ func (s *PgSQLSuite) TestCurd2() {
 		model1.ISO8601Format2 = carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = carbon.NewTimestamp(c)
+		model1.Timestamp2 = carbon.NewTimestamp(c)
 
 		// create
 		_, err = db.Insert(model1)
@@ -314,7 +320,7 @@ func (s *PgSQLSuite) TestCurd2() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null,"timestamp2":null}`, string(data1))
 
 		// delete
 		_, err = db.Delete(model2)
@@ -344,6 +350,7 @@ func (s *PgSQLSuite) TestCurd2() {
 		model1.ISO8601Format2 = carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = carbon.NewTimestamp(c)
+		model1.Timestamp2 = carbon.NewTimestamp(c)
 
 		// create
 		_, err = db.Insert(model1)
@@ -356,7 +363,7 @@ func (s *PgSQLSuite) TestCurd2() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null,"timestamp2":null}`, string(data1))
 
 		// delete
 		_, err = db.Delete(model2)
@@ -386,6 +393,7 @@ func (s *PgSQLSuite) TestCurd2() {
 		model1.ISO8601Format2 = carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = carbon.NewTimestamp(c)
+		model1.Timestamp2 = carbon.NewTimestamp(c)
 
 		// create
 		_, err = db.Insert(model1)
@@ -398,7 +406,7 @@ func (s *PgSQLSuite) TestCurd2() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null}`, string(data1))
+		s.Equal(`{"carbon1":null,"carbon2":null,"date1":null,"time1":null,"time2":null,"date_time1":null,"date_time2":null,"rfc3339_layout1":null,"rfc3339_layout2":null,"iso8601_format1":null,"iso8601_format2":null,"timestamp1":null,"timestamp2":null}`, string(data1))
 
 		// delete
 		_, err = db.Delete(model2)
@@ -428,6 +436,7 @@ func (s *PgSQLSuite) TestCurd2() {
 		model1.ISO8601Format2 = carbon.NewFormatType[ISO8601Format](c)
 
 		model1.Timestamp1 = carbon.NewTimestamp(c)
+		model1.Timestamp2 = carbon.NewTimestamp(c)
 
 		// create
 		_, err = db.Insert(model1)
@@ -440,7 +449,7 @@ func (s *PgSQLSuite) TestCurd2() {
 
 		data1, err1 := json.Marshal(&model2)
 		s.Nil(err1)
-		s.Equal(`{"carbon1":"2020-08-05 13:14:15","carbon2":"2020-08-05 13:14:15","date1":"2020-08-05","time1":"13:14:15","time2":"13:14:15","date_time1":"2020-08-05 13:14:15","date_time2":"2020-08-05 13:14:15","rfc3339_layout1":"2020-08-05T13:14:15+08:00","rfc3339_layout2":"2020-08-05T13:14:15+08:00","iso8601_format1":"2020-08-05T13:14:15+08:00","iso8601_format2":"2020-08-05T13:14:15+08:00","timestamp1":1596604455}`, string(data1))
+		s.Equal(`{"carbon1":"2020-08-05 13:14:15","carbon2":"2020-08-05 13:14:15","date1":"2020-08-05","time1":"13:14:15","time2":"13:14:15","date_time1":"2020-08-05 13:14:15","date_time2":"2020-08-05 13:14:15","rfc3339_layout1":"2020-08-05T13:14:15+08:00","rfc3339_layout2":"2020-08-05T13:14:15+08:00","iso8601_format1":"2020-08-05T13:14:15+08:00","iso8601_format2":"2020-08-05T13:14:15+08:00","timestamp1":1596604455,"timestamp2":1596604455}`, string(data1))
 
 		c = c.Copy().AddDay()
 
@@ -462,6 +471,7 @@ func (s *PgSQLSuite) TestCurd2() {
 		model2.ISO8601Format2 = carbon.NewFormatType[ISO8601Format](c)
 
 		model2.Timestamp1 = carbon.NewTimestamp(c)
+		model2.Timestamp2 = carbon.NewTimestamp(c)
 
 		// update
 		_, err = db.Update(model2)
@@ -469,7 +479,7 @@ func (s *PgSQLSuite) TestCurd2() {
 
 		data2, err2 := json.Marshal(&model2)
 		s.Nil(err2)
-		s.Equal(`{"carbon1":"2020-08-06 13:14:15","carbon2":"2020-08-06 13:14:15","date1":"2020-08-06","time1":"13:14:15","time2":"13:14:15","date_time1":"2020-08-06 13:14:15","date_time2":"2020-08-06 13:14:15","rfc3339_layout1":"2020-08-06T13:14:15+08:00","rfc3339_layout2":"2020-08-06T13:14:15+08:00","iso8601_format1":"2020-08-06T13:14:15+08:00","iso8601_format2":"2020-08-06T13:14:15+08:00","timestamp1":1596690855}`, string(data2))
+		s.Equal(`{"carbon1":"2020-08-06 13:14:15","carbon2":"2020-08-06 13:14:15","date1":"2020-08-06","time1":"13:14:15","time2":"13:14:15","date_time1":"2020-08-06 13:14:15","date_time2":"2020-08-06 13:14:15","rfc3339_layout1":"2020-08-06T13:14:15+08:00","rfc3339_layout2":"2020-08-06T13:14:15+08:00","iso8601_format1":"2020-08-06T13:14:15+08:00","iso8601_format2":"2020-08-06T13:14:15+08:00","timestamp1":1596690855,"timestamp2":1596690855}`, string(data2))
 
 		// delete
 		_, err = db.Delete(model2)

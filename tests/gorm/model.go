@@ -7,12 +7,18 @@ import (
 
 type RFC3339Layout string
 
+func (t RFC3339Layout) DataType() string {
+	return "timestamp"
+}
 func (t RFC3339Layout) Layout() string {
 	return carbon.RFC3339Layout
 }
 
 type ISO8601Format string
 
+func (t ISO8601Format) DataType() string {
+	return "timestamp"
+}
 func (t ISO8601Format) Format() string {
 	return carbon.ISO8601Format
 }
@@ -44,7 +50,8 @@ type MySQLModel1 struct {
 	ISO8601Format2 carbon.FormatType[ISO8601Format] `gorm:"column:iso8601_format2;type:datetime;" json:"iso8601_format2"`
 	ISO8601Format3 carbon.FormatType[ISO8601Format] `gorm:"column:iso8601_format3;type:timestamp;" json:"iso8601_format3"`
 
-	Timestamp1 carbon.Timestamp `gorm:"column:timestamp1;type:bigint;" json:"timestamp1"`
+	Timestamp1 carbon.Timestamp `gorm:"column:timestamp1;type:timestamp;" json:"timestamp1"`
+	Timestamp2 carbon.Timestamp `gorm:"column:timestamp2;type:datetime;" json:"timestamp2"`
 
 	CreatedAt carbon.DateTime `gorm:"autoCreateTime;column:created_at;type:timestamp;" json:"-"`
 	UpdatedAt carbon.DateTime `gorm:"autoUpdateTime;column:updated_at;type:timestamp;" json:"-"`
@@ -82,7 +89,8 @@ type MySQLModel2 struct {
 	ISO8601Format2 *carbon.FormatType[ISO8601Format] `gorm:"column:iso8601_format2;type:datetime;" json:"iso8601_format2"`
 	ISO8601Format3 *carbon.FormatType[ISO8601Format] `gorm:"column:iso8601_format3;type:timestamp;" json:"iso8601_format3"`
 
-	Timestamp1 *carbon.Timestamp `gorm:"column:timestamp1;type:bigint;" json:"timestamp1"`
+	Timestamp1 *carbon.Timestamp `gorm:"column:timestamp1;type:timestamp;" json:"timestamp1"`
+	Timestamp2 *carbon.Timestamp `gorm:"column:timestamp2;type:datetime;" json:"timestamp2"`
 
 	CreatedAt *carbon.DateTime `gorm:"autoCreateTime;column:created_at;type:timestamp;" json:"-"`
 	UpdatedAt *carbon.DateTime `gorm:"autoUpdateTime;column:updated_at;type:timestamp;" json:"-"`
@@ -113,7 +121,8 @@ type PgSQLModel1 struct {
 	ISO8601Format1 carbon.FormatType[ISO8601Format] `gorm:"column:iso8601_format1;type:timestamp without time zone;" json:"iso8601_format1"`
 	ISO8601Format2 carbon.FormatType[ISO8601Format] `gorm:"column:iso8601_format2;type:timestamp with time zone;" json:"iso8601_format2"`
 
-	Timestamp1 carbon.Timestamp `gorm:"column:timestamp1;type:int4;" json:"timestamp1"`
+	Timestamp1 carbon.Timestamp `gorm:"column:timestamp1;type:timestamp without time zone;" json:"timestamp1"`
+	Timestamp2 carbon.Timestamp `gorm:"column:timestamp2;type:timestamp with time zone;" json:"timestamp2"`
 
 	CreatedAt carbon.DateTime `gorm:"autoCreateTime;column:created_at;type:timestamp with time zone;" json:"-"`
 	UpdatedAt carbon.DateTime `gorm:"autoUpdateTime;column:updated_at;type:timestamp with time zone;" json:"-"`
@@ -144,7 +153,8 @@ type PgSQLModel2 struct {
 	ISO8601Format1 *carbon.FormatType[ISO8601Format] `gorm:"column:iso8601_format1;type:timestamp without time zone;" json:"iso8601_format1"`
 	ISO8601Format2 *carbon.FormatType[ISO8601Format] `gorm:"column:iso8601_format2;type:timestamp with time zone;" json:"iso8601_format2"`
 
-	Timestamp1 *carbon.Timestamp `gorm:"column:timestamp1;type:int4;" json:"timestamp1"`
+	Timestamp1 *carbon.Timestamp `gorm:"column:timestamp1;type:timestamp without time zone;" json:"timestamp1"`
+	Timestamp2 *carbon.Timestamp `gorm:"column:timestamp2;type:timestamp with time zone;" json:"timestamp2"`
 
 	CreatedAt *carbon.DateTime `gorm:"autoCreateTime;column:created_at;type:timestamp with time zone;" json:"-"`
 	UpdatedAt *carbon.DateTime `gorm:"autoUpdateTime;column:updated_at;type:timestamp with time zone;" json:"-"`
@@ -169,7 +179,7 @@ type SQLiteModel1 struct {
 	RFC3339Layout carbon.LayoutType[RFC3339Layout] `gorm:"column:rfc3339_layout1;type:text;" json:"rfc3339_layout"`
 	ISO8601Format carbon.FormatType[ISO8601Format] `gorm:"column:iso8601_format1;type:text;" json:"iso8601_format"`
 
-	Timestamp carbon.Timestamp `gorm:"column:timestamp;type:integer;" json:"timestamp"`
+	Timestamp carbon.Timestamp `gorm:"column:timestamp;type:text;" json:"timestamp"`
 
 	CreatedAt carbon.DateTime `gorm:"autoCreateTime;column:created_at;type:text;" json:"-"`
 	UpdatedAt carbon.DateTime `gorm:"autoUpdateTime;column:updated_at;type:text;" json:"-"`
@@ -194,7 +204,7 @@ type SQLiteModel2 struct {
 	RFC3339Layout *carbon.LayoutType[RFC3339Layout] `gorm:"column:rfc3339_layout1;type:text;" json:"rfc3339_layout"`
 	ISO8601Format *carbon.FormatType[ISO8601Format] `gorm:"column:iso8601_format1;type:text;" json:"iso8601_format"`
 
-	Timestamp *carbon.Timestamp `gorm:"column:timestamp;type:integer;" json:"timestamp"`
+	Timestamp *carbon.Timestamp `gorm:"column:timestamp;type:text;" json:"timestamp"`
 
 	CreatedAt *carbon.DateTime `gorm:"autoCreateTime;column:created_at;type:text;" json:"-"`
 	UpdatedAt *carbon.DateTime `gorm:"autoUpdateTime;column:updated_at;type:text;" json:"-"`
