@@ -256,7 +256,7 @@ carbon.ParseByLayout("今天是 2020年08月05日13时14分15秒", "今天是 20
 ```
 
 ##### Parse a time string as a `Carbon` instance by a confirmed format
-> Note: If the letter used conflicts with the format sign, please use the escape character "\\" to escape the letter
+> Note: If the letter used conflicts with the format sign, please use the escape character "\" to escape the letter
 
 ```go
 carbon.ParseByFormat("2020|08|05 13|14|15", "Y|m|d H|i|s").ToDateTimeString() // 2020-08-05 13:14:15
@@ -1448,11 +1448,17 @@ person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 Da
 
 ```go
 type RFC3339Type string
+func (t RFC3339Type) DataType() string {
+  return "timestamp"
+}
 func (t RFC3339Type) Layout() string {
   return carbon.RFC3339Layout
 }
 
 type ISO8601Type string
+func (t ISO8601Type) DataType() string {
+  return "timestamp"
+}
 func (t ISO8601Type) Format() string {
   return carbon.ISO8601Format
 }

@@ -257,7 +257,7 @@ carbon.ParseByLayout("2020-08-05 13:14:15", "2006-01-02 15:04:05", carbon.Tokyo)
 ```
 
 ##### 確認されたフォーマットテンプレートによって時間文字列を `Carbon` インスタンスに解析する
-> 注：使用している文字がフォームテンプレートと競合している場合は、エスケープ文字 "\\" を使用して文字をエスケープします
+> 注：使用している文字がフォームテンプレートと競合している場合は、エスケープ文字 "/" を使用して文字をエスケープします
 
 ```go
 carbon.ParseByFormat("2020|08|05 13|14|15", "Y|m|d H|i|s").ToDateTimeString() // 2020-08-05 13:14:15
@@ -1451,11 +1451,17 @@ person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 Da
 
 ```go
 type RFC3339Type string
+func (t RFC3339Type) DataType() string {
+  return "timestamp"
+}
 func (t RFC3339Type) Layout() string {
   return carbon.RFC3339Layout
 }
 
 type ISO8601Type string
+func (t ISO8601Type) DataType() string {
+  return "timestamp"
+}
 func (t ISO8601Type) Format() string {
   return carbon.ISO8601Format
 }
