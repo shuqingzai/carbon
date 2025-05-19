@@ -45,6 +45,8 @@ func (t *TimestampType[T]) Scan(src any) (err error) {
 		c = Parse(string(v))
 	case string:
 		c = Parse(v)
+	case int64:
+		c = CreateFromTimestamp(v, DefaultTimezone)
 	case StdTime:
 		c = CreateFromStdTime(v, DefaultTimezone)
 	case *StdTime:
