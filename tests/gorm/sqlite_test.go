@@ -18,7 +18,7 @@ func TestSQLiteSuite(t *testing.T) {
 
 func (s *SQLiteSuite) SetupSuite() {
 	carbon.SetTimezone(carbon.PRC)
-	carbon.SetTestNow(carbon.Parse("2020-08-05 13:14:15"))
+	carbon.SetTestNow(carbon.Parse("2020-08-05 13:14:15.111111111"))
 	db = connect(driverSQLite)
 	if err = db.AutoMigrate(&SQLiteModel1{}); err != nil {
 		panic(err)
