@@ -79,7 +79,6 @@ type timestampType int64
 func (t timestampType) DataType() string {
 	return "timestamp"
 }
-
 func (t timestampType) Precision() int64 {
 	return PrecisionSecond
 }
