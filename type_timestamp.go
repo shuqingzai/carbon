@@ -16,7 +16,7 @@ const (
 
 // TimestampTyper defines a TimestampTyper interface.
 type TimestampTyper interface {
-	~int64 | ~string
+	~int64
 	DataType() string
 	Precision() int64
 }
