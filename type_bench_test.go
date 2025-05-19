@@ -120,6 +120,14 @@ func BenchmarkBuiltinType_String(b *testing.B) {
 	}
 }
 
+func BenchmarkBuiltinType_GormDataType(b *testing.B) {
+	t := NewDateTime(Now())
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_ = t.GormDataType()
+	}
+}
+
 func BenchmarkCustomerType_Scan(b *testing.B) {
 	t := NewFormatType[iso8601Type](Parse("2020-08-05"))
 	b.ResetTimer()
@@ -168,5 +176,13 @@ func BenchmarkCustomerType_String(b *testing.B) {
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		_ = t.String()
+	}
+}
+
+func BenchmarkCustomerType_GormDataType(b *testing.B) {
+	t := NewFormatType[iso8601Type](Parse("2020-08-05"))
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_ = t.GormDataType()
 	}
 }
