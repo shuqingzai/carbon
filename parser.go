@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// Parse parses a standard time string as a Carbon instance by default layouts.
+// Parse parses a time string as a Carbon instance by default layouts.
 func Parse(value string, timezone ...string) *Carbon {
 	if value == "" {
 		return &Carbon{isEmpty: true}
