@@ -1673,8 +1673,8 @@ invalid timezone "xxx", please see the file "$GOROOT/lib/time/zoneinfo.zip" for 
 |  O   |               Difference to Greenwich time (GMT) without colon between hours and minutes               |   -    |        -         |        -0700        |
 |  P   |                Difference to Greenwich time (GMT) with colon between hours and minutes                 |   -    |        -         |       -07:00        |
 |  Z   |                                               Zone name                                                |   -    |        -         |         MST         |
-|  W   |                               week of the year                                                         |   2    |       1-52       |          1          |
-|  N   |                                            day of the week                                             |   2    |       1-7        |          2          |
+|  W   |                               week of the year                                                         |  1-2   |       1-52       |          1          |
+|  N   |                                            day of the week                                             |   1    |       1-7        |          2          |
 |  L   |                                        Whether it's a leap year                                        |   1    |       0-1        |          0          |
 |  S   |                                       Unix timestamp with second                                       |   -    |        -         |     1596604455      |
 |  U   |                               Unix timestamp with millisecond precision                                |   -    |        -         |    1596604455666    |
