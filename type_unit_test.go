@@ -749,24 +749,24 @@ func (s *BuiltinTypeSuite) TestBuiltinType_GormDataType() {
 	var model builtinTypeModel
 
 	s.Equal("date", model.Date.GormDataType())
-	s.Equal("timestamp", model.DateMilli.GormDataType())
-	s.Equal("timestamp", model.DateMicro.GormDataType())
-	s.Equal("timestamp", model.DateNano.GormDataType())
+	s.Equal("datetime(6)", model.DateMilli.GormDataType())
+	s.Equal("datetime(6)", model.DateMicro.GormDataType())
+	s.Equal("datetime(6)", model.DateNano.GormDataType())
 
 	s.Equal("time", model.Time.GormDataType())
-	s.Equal("timestamp", model.TimeMilli.GormDataType())
-	s.Equal("timestamp", model.TimeMicro.GormDataType())
-	s.Equal("timestamp", model.TimeNano.GormDataType())
+	s.Equal("datetime(6)", model.TimeMilli.GormDataType())
+	s.Equal("datetime(6)", model.TimeMicro.GormDataType())
+	s.Equal("datetime(6)", model.TimeNano.GormDataType())
 
 	s.Equal("datetime", model.DateTime.GormDataType())
-	s.Equal("timestamp", model.DateTimeMilli.GormDataType())
-	s.Equal("timestamp", model.DateTimeMicro.GormDataType())
-	s.Equal("timestamp", model.DateTimeNano.GormDataType())
+	s.Equal("datetime(6)", model.DateTimeMilli.GormDataType())
+	s.Equal("datetime(6)", model.DateTimeMicro.GormDataType())
+	s.Equal("datetime(6)", model.DateTimeNano.GormDataType())
 
 	s.Equal("timestamp", model.Timestamp.GormDataType())
-	s.Equal("timestamp", model.TimestampMilli.GormDataType())
-	s.Equal("timestamp", model.TimestampMicro.GormDataType())
-	s.Equal("timestamp", model.TimestampNano.GormDataType())
+	s.Equal("timestamp(6)", model.TimestampMilli.GormDataType())
+	s.Equal("timestamp(6)", model.TimestampMicro.GormDataType())
+	s.Equal("timestamp(6)", model.TimestampNano.GormDataType())
 
 	s.Equal("datetime", model.CreatedAt.GormDataType())
 	s.Equal("datetime", model.UpdatedAt.GormDataType())
@@ -793,7 +793,7 @@ func TestCustomerTypeSuite(t *testing.T) {
 type iso8601Type string
 
 func (t iso8601Type) DataType() string {
-	return "timestamp"
+	return "datetime"
 }
 func (t iso8601Type) Format() string {
 	return ISO8601Format
@@ -802,7 +802,7 @@ func (t iso8601Type) Format() string {
 type rfc3339Type string
 
 func (t rfc3339Type) DataType() string {
-	return "timestamp"
+	return "datetime"
 }
 func (t rfc3339Type) Layout() string {
 	return RFC3339Layout
@@ -1043,8 +1043,8 @@ func (s *CustomerTypeSuite) TestCustomerType_UnmarshalJSON() {
 func (s *CustomerTypeSuite) TestCustomerType_GormDataType() {
 	var model CustomerTypeModel
 
-	s.Equal("timestamp", model.Customer1.GormDataType())
-	s.Equal("timestamp", model.Customer2.GormDataType())
-	s.Equal("timestamp", model.CreatedAt.GormDataType())
-	s.Equal("timestamp", model.UpdatedAt.GormDataType())
+	s.Equal("datetime", model.Customer1.GormDataType())
+	s.Equal("datetime", model.Customer2.GormDataType())
+	s.Equal("datetime", model.CreatedAt.GormDataType())
+	s.Equal("datetime", model.UpdatedAt.GormDataType())
 }
