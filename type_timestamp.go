@@ -35,9 +35,7 @@ func NewTimestampType[T TimestampTyper](c *Carbon) *TimestampType[T] {
 
 // Scan implements driver.Scanner interface for TimestampType generic struct.
 func (t *TimestampType[T]) Scan(src any) (err error) {
-	var (
-		c *Carbon
-	)
+	var c *Carbon
 	switch v := src.(type) {
 	case nil:
 		return nil
