@@ -24,7 +24,7 @@ func NewLayoutType[T LayoutTyper](c *Carbon) *LayoutType[T] {
 	}
 }
 
-// Scan implements driver.Scanner interface for LayoutType generic struct.
+// Scan implements "driver.Scanner" interface for LayoutType generic struct.
 func (t *LayoutType[T]) Scan(src any) error {
 	var c *Carbon
 	switch v := src.(type) {
@@ -45,7 +45,7 @@ func (t *LayoutType[T]) Scan(src any) error {
 	return t.Error
 }
 
-// Value implements driver.Valuer interface for LayoutType generic struct.
+// Value implements "driver.Valuer" interface for LayoutType generic struct.
 func (t LayoutType[T]) Value() (driver.Value, error) {
 	if t.IsNil() || t.IsZero() || t.IsEmpty() {
 		return nil, nil
@@ -56,7 +56,7 @@ func (t LayoutType[T]) Value() (driver.Value, error) {
 	return t.StdTime(), nil
 }
 
-// MarshalJSON implements json.Marshal interface for LayoutType generic struct.
+// MarshalJSON implements "json.Marshal" interface for LayoutType generic struct.
 func (t LayoutType[T]) MarshalJSON() ([]byte, error) {
 	if t.IsNil() || t.IsZero() || t.IsEmpty() {
 		return []byte(`null`), nil
@@ -72,7 +72,7 @@ func (t LayoutType[T]) MarshalJSON() ([]byte, error) {
 	return b, nil
 }
 
-// UnmarshalJSON implements json.Unmarshal interface for LayoutType generic struct.
+// UnmarshalJSON implements "json.Unmarshal" interface for LayoutType generic struct.
 func (t *LayoutType[T]) UnmarshalJSON(src []byte) error {
 	v := string(bytes.Trim(src, `"`))
 	if v == "" || v == "null" {
@@ -82,7 +82,7 @@ func (t *LayoutType[T]) UnmarshalJSON(src []byte) error {
 	return t.Error
 }
 
-// String implements Stringer interface for LayoutType generic struct.
+// String implements "Stringer" interface for LayoutType generic struct.
 func (t *LayoutType[T]) String() string {
 	if t == nil || t.IsInvalid() || t.IsZero() {
 		return ""
@@ -90,7 +90,7 @@ func (t *LayoutType[T]) String() string {
 	return t.Layout(t.getLayout())
 }
 
-// GormDataType implements GormDataType interface for LayoutType generic struct.
+// GormDataType implements "GormDataType" interface for LayoutType generic struct.
 func (t *LayoutType[T]) GormDataType() string {
 	return t.getDataType()
 }

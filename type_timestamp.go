@@ -33,7 +33,7 @@ func NewTimestampType[T TimestampTyper](c *Carbon) *TimestampType[T] {
 	}
 }
 
-// Scan implements driver.Scanner interface for TimestampType generic struct.
+// Scan implements "driver.Scanner" interface for TimestampType generic struct.
 func (t *TimestampType[T]) Scan(src any) (err error) {
 	var c *Carbon
 	switch v := src.(type) {
@@ -54,7 +54,7 @@ func (t *TimestampType[T]) Scan(src any) (err error) {
 	return t.Error
 }
 
-// Value implements driver.Valuer interface for TimestampType generic struct.
+// Value implements "driver.Valuer" interface for TimestampType generic struct.
 func (t TimestampType[T]) Value() (driver.Value, error) {
 	if t.IsNil() || t.IsZero() || t.IsEmpty() {
 		return nil, nil
@@ -65,7 +65,7 @@ func (t TimestampType[T]) Value() (driver.Value, error) {
 	return t.StdTime(), nil
 }
 
-// MarshalJSON implements json.Marshal interface for TimestampType generic struct.
+// MarshalJSON implements "json.Marshal" interface for TimestampType generic struct.
 func (t TimestampType[T]) MarshalJSON() ([]byte, error) {
 	if t.IsNil() || t.IsZero() || t.IsEmpty() {
 		return []byte(`null`), nil
@@ -87,7 +87,7 @@ func (t TimestampType[T]) MarshalJSON() ([]byte, error) {
 	return []byte(strconv.FormatInt(ts, 10)), nil
 }
 
-// UnmarshalJSON implements json.Unmarshal interface for TimestampType generic struct.
+// UnmarshalJSON implements "json.Unmarshal" interface for TimestampType generic struct.
 func (t *TimestampType[T]) UnmarshalJSON(src []byte) error {
 	v := string(bytes.Trim(src, `"`))
 	if v == "" || v == "null" {
@@ -115,7 +115,7 @@ func (t *TimestampType[T]) UnmarshalJSON(src []byte) error {
 	return t.Error
 }
 
-// String implements Stringer interface for TimestampType generic struct.
+// String implements "Stringer" interface for TimestampType generic struct.
 func (t *TimestampType[T]) String() string {
 	if t == nil || t.IsInvalid() || t.IsZero() {
 		return "0"
@@ -141,7 +141,7 @@ func (t *TimestampType[T]) Int64() (ts int64) {
 	return
 }
 
-// GormDataType implements GormDataType interface for TimestampType generic struct.
+// GormDataType implements "GormDataType" interface for TimestampType generic struct.
 func (t *TimestampType[T]) GormDataType() string {
 	return t.getDataType()
 }
