@@ -47,7 +47,7 @@ func NewCarbon(stdTime ...StdTime) *Carbon {
 
 // Copy returns a copy of the Carbon instance.
 func (c *Carbon) Copy() *Carbon {
-	if c == nil {
+	if c.IsNil() {
 		return nil
 	}
 	return &Carbon{
