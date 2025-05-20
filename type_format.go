@@ -5,13 +5,6 @@ import (
 	"database/sql/driver"
 )
 
-// FormatTyper defines a FormatTyper interface.
-type FormatTyper interface {
-	~string
-	DataType() string
-	Format() string
-}
-
 // FormatType defines a FormatType generic struct.
 type FormatType[T FormatTyper] struct {
 	*Carbon
@@ -98,7 +91,10 @@ func (t *FormatType[T]) GormDataType() string {
 // getDataType returns the data type of FormatType generic struct.
 func (t *FormatType[T]) getDataType() string {
 	var typer T
-	return typer.DataType()
+	if v, ok := any(typer).(DataTyper); ok {
+		return v.DataType()
+	}
+	return "datetime"
 }
 
 // getFormat returns the format of FormatType generic struct.

@@ -5,13 +5,6 @@ import (
 	"database/sql/driver"
 )
 
-// LayoutTyper defines a LayoutTyper interface
-type LayoutTyper interface {
-	~string
-	DataType() string
-	Layout() string
-}
-
 // LayoutType defines a LayoutType generic struct
 type LayoutType[T LayoutTyper] struct {
 	*Carbon
@@ -98,7 +91,10 @@ func (t *LayoutType[T]) GormDataType() string {
 // getDataType returns the data type of LayoutType generic struct.
 func (t *LayoutType[T]) getDataType() string {
 	var typer T
-	return typer.DataType()
+	if v, ok := any(typer).(DataTyper); ok {
+		return v.DataType()
+	}
+	return "datetime"
 }
 
 // getLayout returns the layout of LayoutType generic struct.

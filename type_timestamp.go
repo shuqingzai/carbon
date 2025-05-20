@@ -14,13 +14,6 @@ const (
 	PrecisionNanosecond  = "nanosecond"
 )
 
-// TimestampTyper defines a TimestampTyper interface.
-type TimestampTyper interface {
-	~int64
-	DataType() string
-	Precision() string
-}
-
 // TimestampType defines a TimestampType generic struct.
 type TimestampType[T TimestampTyper] struct {
 	*Carbon
@@ -149,7 +142,10 @@ func (t *TimestampType[T]) GormDataType() string {
 // getDataType returns data type of TimestampType generic struct.
 func (t *TimestampType[T]) getDataType() string {
 	var typer T
-	return typer.DataType()
+	if v, ok := any(typer).(DataTyper); ok {
+		return v.DataType()
+	}
+	return "timestamp"
 }
 
 // getPrecision returns precision of TimestampType generic struct.
