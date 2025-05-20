@@ -53,9 +53,6 @@ func ExampleCarbon_String() {
 
 type W3CType string
 
-func (t W3CType) DataType() string {
-	return "timestamp"
-}
 func (W3CType) Layout() string {
 	return carbon.W3cLayout
 }
@@ -150,9 +147,6 @@ func ExampleLayoutType_String() {
 
 type RFC3339Type string
 
-func (t RFC3339Type) DataType() string {
-	return "timestamp"
-}
 func (RFC3339Type) Format() string {
 	return carbon.RFC3339Format
 }
