@@ -83,7 +83,7 @@ func (t *FormatType[T]) String() string {
 	return t.Format(t.getFormat())
 }
 
-// GormDataType implements "GormDataType" interface for FormatType generic struct.
+// GormDataType implements "GormDataTypeInterface.GormDataType" interface for FormatType generic struct.
 func (t *FormatType[T]) GormDataType() string {
 	return t.getDataType()
 }

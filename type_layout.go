@@ -83,7 +83,7 @@ func (t *LayoutType[T]) String() string {
 	return t.Layout(t.getLayout())
 }
 
-// GormDataType implements "GormDataType" interface for LayoutType generic struct.
+// GormDataType implements "GormDataTypeInterface.GormDataType" interface for LayoutType generic struct.
 func (t *LayoutType[T]) GormDataType() string {
 	return t.getDataType()
 }

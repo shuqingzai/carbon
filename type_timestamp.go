@@ -134,7 +134,7 @@ func (t *TimestampType[T]) Int64() (ts int64) {
 	return
 }
 
-// GormDataType implements "GormDataType" interface for TimestampType generic struct.
+// GormDataType implements "GormDataTypeInterface.GormDataType" interface for TimestampType generic struct.
 func (t *TimestampType[T]) GormDataType() string {
 	return t.getDataType()
 }
