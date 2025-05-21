@@ -1450,22 +1450,17 @@ person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 Da
 ```
 
 ###### Customize type
+> You can implement the `DataType` method of the `carbon.DataTyper` interface to reset database field type
 
 ```go
 type RFC3339Type string
 func (t RFC3339Type) Layout() string {
   return carbon.RFC3339Layout
 }
-func (t RFC3339Type) DataType() string {
-  return "datetime"
-}
 
 type ISO8601Type string
 func (t ISO8601Type) Format() string {
   return carbon.ISO8601Format
-}
-func (t ISO8601Type) DataType() string {
-  return "datetime"
 }
 
 type User struct {

@@ -1458,22 +1458,17 @@ person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 Da
 ```
 
 ###### 自定义字段类型
+> 你可以实现 `carbon.DataTyper` 接口的 `DataType` 方法来重置数据库字段类型
 
 ```go
 type RFC3339Type string
 func (t RFC3339Type) Layout() string {
   return carbon.RFC3339Layout
 }
-func (t RFC3339Type) DataType() string {
-  return "datetime"
-}
 
 type ISO8601Type string
 func (t ISO8601Type) Format() string {
   return carbon.ISO8601Format
-}
-func (t ISO8601Type) DataType() string {
-  return "datetime"
 }
 
 type User struct {
