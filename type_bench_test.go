@@ -149,8 +149,10 @@ func BenchmarkCustomerType_MarshalJSON(b *testing.B) {
 
 	c := Parse("2020-08-05 13:14:15.999999999")
 
-	model.Customer1 = *NewFormatType[iso8601Type](c)
-	model.Customer2 = *NewLayoutType[rfc3339Type](c)
+	model.Customer1 = *NewLayoutType[rfc3339Type](c)
+	model.Customer2 = *NewLayoutType[w3cType](c)
+	model.Customer3 = *NewFormatType[iso8601Type](c)
+	model.Customer4 = *NewFormatType[rssType](c)
 
 	model.CreatedAt = NewFormatType[iso8601Type](c)
 	model.UpdatedAt = NewLayoutType[rfc3339Type](c)
