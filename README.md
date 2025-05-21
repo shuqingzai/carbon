@@ -1450,7 +1450,7 @@ person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 Da
 ```
 
 ###### Customize type
-> You can implement the `DataType` method of the `carbon.DataTyper` interface to reset database field type
+> You can implement `DataType` method of the `carbon.DataTyper` interface to reset database field type
 
 ```go
 type RFC3339Type string
