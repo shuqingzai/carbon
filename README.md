@@ -627,6 +627,11 @@ carbon.Max(yesterday, today, tomorrow) // tomorrow
 // Return the minimum Carbon instance
 carbon.Min(yesterday, today, tomorrow) // yesterday
 
+// Return a zero value Carbon
+carbon.ZeroValue().ToString() // 0001-01-01 00:00:00 +0000 UTC
+// Return a linux epoch value Carbon
+carbon.EpochValue().ToString() // 1970-01-01 00:00:00 +0000 UTC
+
 // Return a Carbon instance for the greatest supported date
 carbon.MaxValue().ToString() // 9999-12-31 23:59:59.999999999 +0000 UTC
 // Return a Carbon instance for the lowest supported date
@@ -1448,17 +1453,11 @@ person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 Da
 
 ```go
 type RFC3339Type string
-func (t RFC3339Type) DataType() string {
-  return "datetime"
-}
 func (t RFC3339Type) Layout() string {
   return carbon.RFC3339Layout
 }
 
 type ISO8601Type string
-func (t ISO8601Type) DataType() string {
-  return "datetime"
-}
 func (t ISO8601Type) Format() string {
   return carbon.ISO8601Format
 }

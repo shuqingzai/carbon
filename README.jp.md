@@ -620,6 +620,11 @@ carbon.Parse("2023-04-01").Closest(c1, c2) // c1
 // 遠いCarbonインスタンスを返す
 carbon.Parse("2023-04-01").Farthest(c1, c2) // c2
 
+// ゼロ値 Carbon を戻す
+carbon.ZeroValue().ToString() // 0001-01-01 00:00:00 +0000 UTC
+// linux 紀元値 Carbon を戻す
+carbon.EpochValue().ToString() // 1970-01-01 00:00:00 +0000 UTC
+
 yesterday := carbon.Yesterday()
 today     := carbon.Now()
 tomorrow  := carbon.Tomorrow()
@@ -1451,17 +1456,11 @@ person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 Da
 
 ```go
 type RFC3339Type string
-func (t RFC3339Type) DataType() string {
-  return "datetime"
-}
 func (t RFC3339Type) Layout() string {
   return carbon.RFC3339Layout
 }
 
 type ISO8601Type string
-func (t ISO8601Type) DataType() string {
-  return "datetime"
-}
 func (t ISO8601Type) Format() string {
   return carbon.ISO8601Format
 }
