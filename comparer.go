@@ -38,7 +38,7 @@ func (c *Carbon) IsEpoch() bool {
 	if c.IsInvalid() {
 		return false
 	}
-	return c.StdTime().Equal(time.Date(EpochYear, 1, 1, 0, 0, 0, 0, time.UTC))
+	return c.Eq(EpochValue())
 }
 
 // IsValid reports whether is a valid time.
