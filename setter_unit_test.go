@@ -25,13 +25,13 @@ func (s *SetterSuite) TestSetLayout() {
 		c1 := NewCarbon()
 		s.Equal(DateLayout, DefaultLayout)
 		s.Equal(DateLayout, c1.CurrentLayout())
-		s.Empty(c1.String())
+		s.Equal("0001-01-01", c1.String())
 
 		SetLayout(DateTimeLayout)
 		c2 := NewCarbon()
 		s.Equal(DateTimeLayout, DefaultLayout)
 		s.Equal(DateTimeLayout, c2.CurrentLayout())
-		s.Empty(c2.String())
+		s.Equal("0001-01-01 00:00:00", c2.String())
 	})
 
 	s.Run("valid carbon", func() {
@@ -55,13 +55,13 @@ func (s *SetterSuite) TestSetFormat() {
 		c1 := NewCarbon()
 		s.Equal(DateLayout, DefaultLayout)
 		s.Equal(DateLayout, c1.CurrentLayout())
-		s.Empty(c1.String())
+		s.Equal("0001-01-01", c1.String())
 
 		SetFormat(DateTimeFormat)
 		c2 := NewCarbon()
 		s.Equal(DateTimeLayout, DefaultLayout)
 		s.Equal(DateTimeLayout, c2.CurrentLayout())
-		s.Empty(c2.String())
+		s.Equal("0001-01-01 00:00:00", c2.String())
 	})
 
 	s.Run("valid carbon", func() {
@@ -195,7 +195,7 @@ func (s *SetterSuite) TestSetLocation() {
 
 func (s *SetterSuite) TestSetLocale() {
 	s.Run("zero carbon", func() {
-		s.Nil(SetLocale("zh-CN").Error)
+		SetLocale("zh-CN")
 		s.Equal("zh-CN", DefaultLocale)
 		s.Equal("zh-CN", NewCarbon().Locale())
 		s.Equal("摩羯座", NewCarbon().Constellation())
@@ -205,7 +205,7 @@ func (s *SetterSuite) TestSetLocale() {
 		s.Equal("星期一", NewCarbon().ToWeekString())
 		s.Equal("周一", NewCarbon().ToShortWeekString())
 
-		s.Nil(SetLocale("en").Error)
+		SetLocale("en")
 		s.Equal("en", DefaultLocale)
 		s.Equal("en", NewCarbon().Locale())
 		s.Equal("Capricorn", NewCarbon().Constellation())
@@ -217,7 +217,7 @@ func (s *SetterSuite) TestSetLocale() {
 	})
 
 	s.Run("valid carbon", func() {
-		s.Nil(SetLocale("zh-CN").Error)
+		SetLocale("zh-CN")
 		c1 := Parse("2020-08-05")
 		s.Equal("zh-CN", DefaultLocale)
 		s.Equal("zh-CN", c1.Locale())
@@ -228,7 +228,7 @@ func (s *SetterSuite) TestSetLocale() {
 		s.Equal("星期三", c1.ToWeekString())
 		s.Equal("周三", c1.ToShortWeekString())
 
-		s.Nil(SetLocale("en").Error)
+		SetLocale("en")
 		c2 := Parse("2020-08-05")
 		s.Equal("en", DefaultLocale)
 		s.Equal("en", c2.Locale())

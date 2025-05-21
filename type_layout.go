@@ -77,7 +77,7 @@ func (t *LayoutType[T]) UnmarshalJSON(src []byte) error {
 
 // String implements "Stringer" interface for LayoutType generic struct.
 func (t *LayoutType[T]) String() string {
-	if t == nil || t.IsInvalid() || t.IsZero() {
+	if t == nil || t.IsInvalid() {
 		return ""
 	}
 	return t.Layout(t.getLayout())
