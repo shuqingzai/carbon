@@ -30,8 +30,8 @@ func (s *MySQLSuite) SetupSuite() {
 
 func (s *MySQLSuite) TearDownSuite() {
 	carbon.ClearTestNow()
-	db.Unscoped().Where("1 = 1").Delete(&MySQLModel1{})
-	db.Unscoped().Where("1 = 1").Delete(&MySQLModel2{})
+	//db.Unscoped().Where("1 = 1").Delete(&MySQLModel1{})
+	//db.Unscoped().Where("1 = 1").Delete(&MySQLModel2{})
 }
 
 func (s *MySQLSuite) TestCurd1() {

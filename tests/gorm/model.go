@@ -7,18 +7,12 @@ import (
 
 type RFC3339Layout string
 
-func (t RFC3339Layout) DataType() string {
-	return "timestamp"
-}
 func (t RFC3339Layout) Layout() string {
 	return carbon.RFC3339Layout
 }
 
 type ISO8601Format string
 
-func (t ISO8601Format) DataType() string {
-	return "timestamp"
-}
 func (t ISO8601Format) Format() string {
 	return carbon.ISO8601Format
 }
