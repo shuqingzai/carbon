@@ -33,13 +33,13 @@ func (t *TimestampType[T]) Scan(src any) (err error) {
 	case nil:
 		return nil
 	case []byte:
-		c = Parse(string(v), DefaultTimezone)
+		c = Parse(string(v))
 	case string:
-		c = Parse(v, DefaultTimezone)
+		c = Parse(v)
 	case StdTime:
-		c = CreateFromStdTime(v, DefaultTimezone)
+		c = CreateFromStdTime(v)
 	case *StdTime:
-		c = CreateFromStdTime(*v, DefaultTimezone)
+		c = CreateFromStdTime(*v)
 	default:
 		return ErrFailedScan(src)
 	}
