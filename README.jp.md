@@ -1459,10 +1459,16 @@ type RFC3339Type string
 func (t RFC3339Type) Layout() string {
   return carbon.RFC3339Layout
 }
+func (t RFC3339Type) DataType() string {
+  return "datetime"
+}
 
 type ISO8601Type string
 func (t ISO8601Type) Format() string {
   return carbon.ISO8601Format
+}
+func (t ISO8601Type) DataType() string {
+  return "datetime"
 }
 
 type User struct {
