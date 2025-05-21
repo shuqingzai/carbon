@@ -76,9 +76,6 @@ func NewTimeNano(c *Carbon) *TimeNano {
 
 type timestampType int64
 
-func (t timestampType) DataType() string {
-	return "timestamp"
-}
 func (t timestampType) Precision() string {
 	return PrecisionSecond
 }
