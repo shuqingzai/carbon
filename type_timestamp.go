@@ -58,7 +58,7 @@ func (t TimestampType[T]) Value() (driver.Value, error) {
 	return t.StdTime(), nil
 }
 
-// MarshalJSON implements "json.Marshal" interface for TimestampType generic struct.
+// MarshalJSON implements "json.Marshaler" interface for TimestampType generic struct.
 func (t TimestampType[T]) MarshalJSON() ([]byte, error) {
 	if t.IsNil() || t.IsZero() || t.IsEmpty() {
 		return []byte(`null`), nil
@@ -80,7 +80,7 @@ func (t TimestampType[T]) MarshalJSON() ([]byte, error) {
 	return []byte(strconv.FormatInt(ts, 10)), nil
 }
 
-// UnmarshalJSON implements "json.Unmarshal" interface for TimestampType generic struct.
+// UnmarshalJSON implements "json.Unmarshaler" interface for TimestampType generic struct.
 func (t *TimestampType[T]) UnmarshalJSON(src []byte) error {
 	v := string(bytes.Trim(src, `"`))
 	if v == "" || v == "null" {
@@ -134,7 +134,7 @@ func (t *TimestampType[T]) Int64() (ts int64) {
 	return
 }
 
-// GormDataType implements "GormDataTypeInterface.GormDataType" interface for TimestampType generic struct.
+// GormDataType implements "gorm.GormDataTypeInterface" interface for TimestampType generic struct.
 func (t *TimestampType[T]) GormDataType() string {
 	return t.getDataType()
 }

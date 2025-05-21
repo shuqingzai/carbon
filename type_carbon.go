@@ -35,7 +35,7 @@ func (c Carbon) Value() (driver.Value, error) {
 	return c.StdTime(), nil
 }
 
-// MarshalJSON implements "json.Marshal" interface for Carbon struct.
+// MarshalJSON implements "json.Marshaler" interface for Carbon struct.
 func (c Carbon) MarshalJSON() ([]byte, error) {
 	if c.IsNil() || c.IsZero() || c.IsEmpty() {
 		return []byte(`null`), nil
@@ -51,7 +51,7 @@ func (c Carbon) MarshalJSON() ([]byte, error) {
 	return b, nil
 }
 
-// UnmarshalJSON implements "json.Unmarshal" interface for Carbon struct.
+// UnmarshalJSON implements "json.Unmarshaler" interface for Carbon struct.
 func (c *Carbon) UnmarshalJSON(src []byte) error {
 	v := string(bytes.Trim(src, `"`))
 	if v == "" || v == "null" {

@@ -49,7 +49,7 @@ func (t LayoutType[T]) Value() (driver.Value, error) {
 	return t.StdTime(), nil
 }
 
-// MarshalJSON implements "json.Marshal" interface for LayoutType generic struct.
+// MarshalJSON implements "json.Marshaler" interface for LayoutType generic struct.
 func (t LayoutType[T]) MarshalJSON() ([]byte, error) {
 	if t.IsNil() || t.IsZero() || t.IsEmpty() {
 		return []byte(`null`), nil
@@ -65,7 +65,7 @@ func (t LayoutType[T]) MarshalJSON() ([]byte, error) {
 	return b, nil
 }
 
-// UnmarshalJSON implements "json.Unmarshal" interface for LayoutType generic struct.
+// UnmarshalJSON implements "json.Unmarshaler" interface for LayoutType generic struct.
 func (t *LayoutType[T]) UnmarshalJSON(src []byte) error {
 	v := string(bytes.Trim(src, `"`))
 	if v == "" || v == "null" {
@@ -83,7 +83,7 @@ func (t *LayoutType[T]) String() string {
 	return t.Layout(t.getLayout())
 }
 
-// GormDataType implements "GormDataTypeInterface.GormDataType" interface for LayoutType generic struct.
+// GormDataType implements "gorm.GormDataTypeInterface" interface for LayoutType generic struct.
 func (t *LayoutType[T]) GormDataType() string {
 	return t.getDataType()
 }

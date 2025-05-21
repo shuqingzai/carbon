@@ -49,7 +49,7 @@ func (t FormatType[T]) Value() (driver.Value, error) {
 	return t.StdTime(), nil
 }
 
-// MarshalJSON implements "json.Marshal" interface for FormatType generic struct.
+// MarshalJSON implements "json.Unmarshaler" interface for FormatType generic struct.
 func (t FormatType[T]) MarshalJSON() ([]byte, error) {
 	if t.IsNil() || t.IsZero() || t.IsEmpty() {
 		return []byte(`null`), nil
@@ -65,7 +65,7 @@ func (t FormatType[T]) MarshalJSON() ([]byte, error) {
 	return b, nil
 }
 
-// UnmarshalJSON implements "json.Unmarshal" interface for FormatType generic struct.
+// UnmarshalJSON implements "json.Unmarshaler" interface for FormatType generic struct.
 func (t *FormatType[T]) UnmarshalJSON(src []byte) error {
 	v := string(bytes.Trim(src, `"`))
 	if v == "" || v == "null" {
@@ -83,7 +83,7 @@ func (t *FormatType[T]) String() string {
 	return t.Format(t.getFormat())
 }
 
-// GormDataType implements "GormDataTypeInterface.GormDataType" interface for FormatType generic struct.
+// GormDataType implements "gorm.GormDataTypeInterface" interface for FormatType generic struct.
 func (t *FormatType[T]) GormDataType() string {
 	return t.getDataType()
 }
