@@ -1457,12 +1457,12 @@ person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 Da
 
 ```go
 type RFC3339Type string
-func (t RFC3339Type) Layout() string {
+func (RFC3339Type) Layout() string {
   return carbon.RFC3339Layout
 }
 
 type ISO8601Type string
-func (t ISO8601Type) Format() string {
+func (ISO8601Type) Format() string {
   return carbon.ISO8601Format
 }
 
