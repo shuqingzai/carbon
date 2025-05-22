@@ -49,7 +49,7 @@ func (t FormatType[T]) Value() (driver.Value, error) {
 	return t.StdTime(), nil
 }
 
-// MarshalJSON implements "json.Unmarshaler" interface for FormatType generic struct.
+// MarshalJSON implements "json.Marshaler" interface for FormatType generic struct.
 func (t FormatType[T]) MarshalJSON() ([]byte, error) {
 	if t.IsNil() || t.IsZero() || t.IsEmpty() {
 		return []byte(`null`), nil
