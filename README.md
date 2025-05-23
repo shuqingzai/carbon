@@ -1456,7 +1456,7 @@ type RFC3339Type string
 func (RFC3339Type) Layout() string {
   return carbon.RFC3339Layout
 }
-// implement "carbon.DataTyper" interface (not required)
+// implement "carbon.DataTyper" interface (not required, default data type is datetime)
 func (RFC3339Type) DataType() string {
   return "datetime"
 }
@@ -1466,7 +1466,7 @@ type ISO8601Type string
 func (ISO8601Type) Format() string {
   return carbon.ISO8601Format
 }
-// implement "carbon.DataTyper" interface (not required)
+// implement "carbon.DataTyper" interface (not required, default data type is datetime)
 func (RFC3339Type) DataType() string {
   return "datetime"
 }

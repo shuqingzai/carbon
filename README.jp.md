@@ -1459,7 +1459,7 @@ type RFC3339Type string
 func (RFC3339Type) Layout() string {
   return carbon.RFC3339Layout
 }
-// "carbon.DataTyper" インタフェースの実装（必須ではありません）
+// "carbon.DataTyper" インタフェースの実装（必須ではなく、デフォルトのデータ型は datetime）
 func (RFC3339Type) DataType() string {
   return "datetime"
 }
@@ -1469,7 +1469,7 @@ type ISO8601Type string
 func (ISO8601Type) Format() string {
   return carbon.ISO8601Format
 }
-// "carbon.DataTyper" インタフェースの実装（必須ではありません）
+// "carbon.DataTyper" インタフェースの実装（必須ではなく、デフォルトのデータ型は datetime）
 func (RFC3339Type) DataType() string {
   return "datetime"
 }
