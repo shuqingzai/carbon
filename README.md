@@ -622,19 +622,19 @@ carbon.Parse("2023-04-01").Farthest(c1, c2) // c2
 yesterday := carbon.Yesterday()
 today     := carbon.Now()
 tomorrow  := carbon.Tomorrow()
-// Return the maximum Carbon instance
+// Return the maximum Carbon instance from some given Carbon instances
 carbon.Max(yesterday, today, tomorrow) // tomorrow
-// Return the minimum Carbon instance
+// Return the minimum Carbon instance from some given Carbon instances
 carbon.Min(yesterday, today, tomorrow) // yesterday
 
-// Return a zero value Carbon
+// Return the zero value Carbon instance
 carbon.ZeroValue().ToString() // 0001-01-01 00:00:00 +0000 UTC
-// Return a linux epoch value Carbon
+// Return the unix epoch value Carbon instance
 carbon.EpochValue().ToString() // 1970-01-01 00:00:00 +0000 UTC
 
-// Return a Carbon instance for the greatest supported date
+// Return the maximum value Carbon instance
 carbon.MaxValue().ToString() // 9999-12-31 23:59:59.999999999 +0000 UTC
-// Return a Carbon instance for the lowest supported date
+// Return the maximum Carbon instance
 carbon.MinValue().ToString() // 0001-01-01 00:00:00 +0000 UTC
 
 // Return the maximum duration
