@@ -7,22 +7,22 @@ const (
 	maxDuration Duration = 1<<63 - 1
 )
 
-// ZeroValue returns a zero Carbon instance.
+// ZeroValue returns the zero value Carbon instance.
 func ZeroValue() *Carbon {
 	return MinValue()
 }
 
-// EpochValue returns a unix epoch Carbon instance.
+// EpochValue returns the unix epoch value Carbon instance.
 func EpochValue() *Carbon {
-	return NewCarbon(time.Date(EpochYear, 1, 1, 0, 0, 0, 0, time.UTC))
+	return NewCarbon(time.Date(EpochYear, time.January, 1, 0, 0, 0, 0, time.UTC))
 }
 
-// MaxValue returns a Carbon instance for the greatest supported date.
+// MaxValue returns the maximum value Carbon instance.
 func MaxValue() *Carbon {
 	return NewCarbon(time.Date(9999, time.December, 31, 23, 59, 59, 999999999, time.UTC))
 }
 
-// MinValue returns a Carbon instance for the lowest supported date.
+// MinValue returns the maximum Carbon instance.
 func MinValue() *Carbon {
 	return NewCarbon(time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC))
 }
@@ -37,7 +37,7 @@ func MinDuration() Duration {
 	return minDuration
 }
 
-// Max returns the maximum Carbon instance from the given Carbon instance.
+// Max returns the maximum Carbon instance from some given Carbon instances.
 func Max(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	c = c1
 	if c.IsInvalid() {
@@ -57,7 +57,7 @@ func Max(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	return
 }
 
-// Min returns the minimum Carbon instance from the given Carbon instance.
+// Min returns the minimum Carbon instance from some given Carbon instances.
 func Min(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	c = c1
 	if c.IsInvalid() {
@@ -77,7 +77,7 @@ func Min(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	return
 }
 
-// Closest returns the closest Carbon instance from the given Carbon instance.
+// Closest returns the closest Carbon instance between c1 and c2.
 func (c *Carbon) Closest(c1 *Carbon, c2 *Carbon) *Carbon {
 	if c.IsInvalid() {
 		return c
@@ -94,7 +94,7 @@ func (c *Carbon) Closest(c1 *Carbon, c2 *Carbon) *Carbon {
 	return c2
 }
 
-// Farthest returns the farthest Carbon instance from the given Carbon instance.
+// Farthest returns the farthest Carbon instance between c1 and c2.
 func (c *Carbon) Farthest(c1 *Carbon, c2 *Carbon) *Carbon {
 	if c.IsInvalid() {
 		return c
