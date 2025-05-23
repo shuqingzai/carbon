@@ -1453,17 +1453,25 @@ person: {Date:2020-08-05 DateMilli:2020-08-05.999 DateMicro:2020-08-05.999999 Da
 ```
 
 ###### カスタムフィールドタイプ
-> データベースフィールドタイプをリセットするには、`carbon.DataTyper` インタフェースの `DataType` メソッドを実装できます
-
 ```go
 type RFC3339Type string
+// "carbon.LayoutTyper" インタフェースの実装
 func (RFC3339Type) Layout() string {
   return carbon.RFC3339Layout
 }
+// "carbon.DataTyper" インタフェースの実装（必須ではありません）
+func (RFC3339Type) DataType() string {
+  return "datetime"
+}
 
 type ISO8601Type string
+// "carbon.FormatTyper" インタフェースの実装
 func (ISO8601Type) Format() string {
   return carbon.ISO8601Format
+}
+// "carbon.DataTyper" インタフェースの実装（必須ではありません）
+func (RFC3339Type) DataType() string {
+  return "datetime"
 }
 
 type User struct {
