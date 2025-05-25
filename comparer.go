@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// HasError reports whether it has error.
+// HasError reports whether has error.
 func (c *Carbon) HasError() bool {
 	if c.IsNil() {
 		return false

@@ -6,6 +6,8 @@ import (
 )
 
 // Parse parses a time string as a Carbon instance by default layouts.
+//
+// Note: it doesn't support parsing timestamp string.
 func Parse(value string, timezone ...string) *Carbon {
 	if value == "" {
 		return &Carbon{isEmpty: true}
@@ -123,7 +125,7 @@ func ParseByFormat(value, format string, timezone ...string) *Carbon {
 
 // ParseByLayouts parses a time string as a Carbon instance by multiple fuzzy layouts.
 //
-// Note: it doesn't support parsing by timestamp layouts.
+// Note: it doesn't support parsing timestamp string.
 func ParseByLayouts(value string, layouts []string, timezone ...string) *Carbon {
 	if value == "" {
 		return &Carbon{isEmpty: true}
@@ -159,7 +161,7 @@ func ParseByLayouts(value string, layouts []string, timezone ...string) *Carbon 
 
 // ParseByFormats parses a time string as a Carbon instance by multiple fuzzy formats.
 //
-// Note: it doesn't support parsing by timestamp formats.
+// Note: it doesn't support parsing timestamp string.
 func ParseByFormats(value string, formats []string, timezone ...string) *Carbon {
 	if value == "" {
 		return &Carbon{isEmpty: true}
