@@ -195,8 +195,9 @@ carbon.CreateFromTimeMicro(13, 14, 15, 999999).ToString() // 2020-08-05 13:14:15
 carbon.CreateFromTimeNano(13, 14, 15, 999999999).ToString() // 2020-08-05 13:14:15.999999999 +0900 JST
 ```
 
-##### 時間文字列を Carbon インスタンスにパース
-
+##### 時間解析
+> この一連のメソッドは `timestamp` 文字列の解析をサポートしていません。タイムスタンプを解析するには、`CreateFromTimestamp` や `CreateFromTimestampXXX` などのメソッドを使用してください
+###### 時間文字列を `Carbon` インスタンスにパース
 ```go
 carbon.Parse("").ToDateTimeString() // 空の文字列
 carbon.Parse("0").ToDateTimeString() // 空の文字列
@@ -247,8 +248,7 @@ carbon.Parse("2022-03-08T03:01:14-07:00").ToString() // 2022-03-08 19:01:14 +090
 carbon.Parse("2022-03-08T10:01:14Z").ToString() // 2022-03-08 19:01:14 +0900 JST
 ```
 
-##### 確認されたレイアウトテンプレートによって時間文字列を `Carbon` インスタンスに解析する
-
+###### 確認されたレイアウトテンプレートによって時間文字列を `Carbon` インスタンスに解析する
 ```go
 carbon.ParseByLayout("2020|08|05 13|14|15", "2006|01|02 15|04|05").ToDateTimeString() // 2020-08-05 13:14:15
 carbon.ParseByLayout("It is 2020-08-05 13:14:15", "It is 2006-01-02 15:04:05").ToDateTimeString() // 2020-08-05 13:14:15
@@ -256,7 +256,7 @@ carbon.ParseByLayout("今天是 2020年08月05日13时14分15秒", "今天是 20
 carbon.ParseByLayout("2020-08-05 13:14:15", "2006-01-02 15:04:05", carbon.Tokyo).ToDateTimeString() // 2020-08-05 14:14:15
 ```
 
-##### 確認されたフォーマットテンプレートによって時間文字列を `Carbon` インスタンスに解析する
+###### 確認されたフォーマットテンプレートによって時間文字列を `Carbon` インスタンスに解析する
 > 注：使用している文字がフォームテンプレートと競合している場合は、エスケープ文字 "\\" を使用して文字をエスケープします
 
 ```go
@@ -265,16 +265,14 @@ carbon.ParseByFormat("It is 2020-08-05 13:14:15", "\\I\\t \\i\\s Y-m-d H:i:s").T
 carbon.ParseByFormat("今天是 2020年08月05日13时14分15秒", "今天是 Y年m月d日H时i分s秒").ToDateTimeString() // 2020-08-05 13:14:15
 ```
 
-##### 複数のファジィレイアウトテンプレートによって時間文字列を `Carbon` インスタンスに解析する
-> 注：タイムスタンプ `レイアウトテンプレート` による解析はサポートされていません
-
+###### 複数のファジィレイアウトテンプレートによって時間文字列を `Carbon` インスタンスに解析する
 ```go
 carbon.ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"}).ToDateTimeString() // 2020-08-05 13:14:15
 carbon.ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"}).CurrentLayout() // 2006|01|02 15|04|05
 ```
 
-##### 複数のファジィフォーマットテンプレートによって時間文字列を `Carbon` インスタンスに解析する
-> 注：この方法では、タイムスタンプ `フォーマットテンプレート` による解析はサポートされていません
+###### 複数のファジィフォーマットテンプレートによって時間文字列を `Carbon` インスタンスに解析する
+> 注: このメソッドは「タイムスタンプ」文字列の解析をサポートしていません, タイムスタンプを解析するには、`CreateFromTimestamp` や `CreateFromTimestampXXX` などのメソッドを使用してください
 
 ```go
 carbon.ParseByFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"}).ToDateTimeString() // 2020-08-05 13:14:15
@@ -648,70 +646,60 @@ carbon.MinDuration().Seconds() // -9.223372036854776e+09
 
 ```go
 // エラーがありますか
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").HasError() // false
 carbon.NewCarbon().HasError() // false
+carbon.ZeroValue().HasError() // false
+carbon.EpochValue().HasError() // false
+carbon.CreateFromTimestamp(0).HasError() // false
 carbon.Parse("").HasError() // false
 carbon.Parse("0").HasError() // true
 carbon.Parse("xxx").HasError() // true
 carbon.Parse("2020-08-05").HasError() // false
-carbon.CreateFromTimestamp(0).HasError() // false
 
 // nil 時間かどうか
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsNil() // false
 carbon.NewCarbon().IsNil() // false
+carbon.ZeroValue().IsNil() // false
+carbon.EpochValue().IsNil() // false
+carbon.CreateFromTimestamp(0).IsNil() // false
 carbon.Parse("").IsNil() // true
 carbon.Parse("0").IsNil() // false
 carbon.Parse("xxx").IsNil() // false
-carbon.NewCarbon().IsNil() // false
-carbon.CreateFromTimestamp(0).IsNil() // false
+carbon.Parse("2020-08-05").IsNil() // false
 
 // ゼロ値の時間かどうか(0001-01-01 00:00:00 +0000 UTC)
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsZero() // true
 carbon.NewCarbon().IsZero() // true
+carbon.ZeroValue().IsZero() // true
+carbon.EpochValue().IsZero() // false
 carbon.CreateFromTimestamp(0).IsZero() // false
 carbon.Parse("").IsZero() // false
-carbon.Parse("xxx").IsZero() // false
 carbon.Parse("0").IsZero() // false
-carbon.Parse("0000-00-00 00:00:00").IsZero() // false
-carbon.Parse("0000-00-00").IsZero() // false
-carbon.Parse("00:00:00").IsZero() // false
-carbon.Parse("2020-08-05 00:00:00").IsZero() // false
+carbon.Parse("xxx").IsZero() // false
 carbon.Parse("2020-08-05").IsZero() // false
-carbon.Parse("2020-08-05").SetTimezone("xxx").IsZero() // false
 
 // NULLかどうか
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsEmpty() // true
 carbon.NewCarbon().IsEmpty() // false
+carbon.ZeroValue().IsEmpty() // false
+carbon.EpochValue().IsEmpty() // false
 carbon.CreateFromTimestamp(0).IsEmpty() // false
 carbon.Parse("").IsEmpty() // true
-carbon.Parse("xxx").IsEmpty() // false
 carbon.Parse("0").IsEmpty() // false
-carbon.Parse("0000-00-00 00:00:00").IsEmpty() // false
-carbon.Parse("0000-00-00").IsEmpty() // false
-carbon.Parse("00:00:00").IsEmpty() // false
-carbon.Parse("2020-08-05 00:00:00").IsEmpty() // false
+carbon.Parse("xxx").IsEmpty() // false
 carbon.Parse("2020-08-05").IsEmpty() // false
-carbon.Parse("2020-08-05").SetTimezone("xxx").IsEmpty() // false
 
 // UNIX 紀元時間かどうか（1970-01-01 00:00:00 +0000 UTC）
-carbon.Parse("1970-01-01 00:00:00 +0000 UTC").IsEpoch() // true
-carbon.CreateFromTimestamp(0).IsEpoch() // true
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsEpoch() // false
 carbon.NewCarbon().IsEpoch() // false
+carbon.ZeroValue().IsEpoch() // false
+carbon.EpochValue().IsEpoch() // true
+carbon.CreateFromTimestamp(0).IsEpoch() // true
 carbon.Parse("").IsEpoch() // false
 carbon.Parse("0").IsEpoch() // false
 carbon.Parse("xxx").IsEpoch() // false
-carbon.Parse("0000-00-00 00:00:00").IsEpoch() // false
-carbon.Parse("0000-00-00").IsEpoch() // false
-carbon.Parse("00:00:00").IsEpoch() // false
-carbon.Parse("2020-08-05 00:00:00").IsEpoch() // false
 carbon.Parse("2020-08-05").IsEpoch() // false
-carbon.Parse("2020-08-05").SetTimezone("xxx").IsEpoch() // false
 
 // 有効な時間かどうか
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsValid()
-carbon.CreateFromTimestamp(0).IsValid() // true
 carbon.NewCarbon().IsValid() // true
+carbon.ZeroValue().IsValid() // true
+carbon.EpochValue().IsEpoch() // true
+carbon.CreateFromTimestamp(0).IsValid() // true
 carbon.Parse("").IsValid() // false
 carbon.Parse("0").IsValid() // false
 carbon.Parse("xxx").IsValid() // false
@@ -720,13 +708,13 @@ carbon.Parse("0000-00-00").IsValid() // false
 carbon.Parse("00:00:00").IsValid() // false
 carbon.Parse("2020-08-05 00:00:00").IsValid() // true
 carbon.Parse("2020-08-05").IsValid() // true
-carbon.Parse("2020-08-05").SetTimezone("xxx").IsValid() // false
 
 // 無効な時間かどうか
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsInvalid() // false
-carbon.CreateFromTimestamp(0).IsInvalid() // false
 carbon.NewCarbon().IsInvalid() // false
-carbon.Parse("").IsInvalid() // true
+carbon.ZeroValue().IsInvalid() // false
+carbon.EpochValue().IsInvalid() // false
+carbon.CreateFromTimestamp(0).IsInvalid() // false
+carbon.Parse("").IsInvalid() // false
 carbon.Parse("0").IsInvalid() // true
 carbon.Parse("xxx").IsInvalid() // true
 carbon.Parse("0000-00-00 00:00:00").IsInvalid() // true
@@ -734,7 +722,6 @@ carbon.Parse("0000-00-00").IsInvalid() // true
 carbon.Parse("00:00:00").IsInvalid() // true
 carbon.Parse("2020-08-05 00:00:00").IsInvalid() // false
 carbon.Parse("2020-08-05").IsInvalid() // false
-carbon.Parse("2020-08-05").SetTimezone("xxx").IsInvalid() // true
 
 // 夏時間かどうか
 carbon.Parse("").IsDST() // false

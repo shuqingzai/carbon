@@ -199,8 +199,10 @@ carbon.CreateFromTimeMicro(13, 14, 15, 999999).ToString() // 2020-08-05 13:14:15
 carbon.CreateFromTimeNano(13, 14, 15, 999999999).ToString() // 2020-08-05 13:14:15.999999999 +0800 CST
 ```
 
-##### 将 `时间字符串` 解析成 `Carbon` 实例
+##### 时间解析
+> 该系列方法不支持 `时间戳` 字符串解析，解析时间戳请使用 `CreateFromTimestamp` 或 `CreateFromTimestampXXX` 等方法
 
+###### 将 `时间字符串` 解析成 `Carbon` 实例
 ```go
 carbon.Parse("").ToDateTimeString() // 空字符串
 carbon.Parse("0").ToDateTimeString() // 空字符串
@@ -251,7 +253,7 @@ carbon.Parse("2022-03-08T03:01:14-07:00").ToString() // 2022-03-08 18:01:14 +080
 carbon.Parse("2022-03-08T10:01:14Z").ToString() // 2022-03-08 18:01:14 +0800 CST
 ```
 
-##### 通过一个确认的 `布局模板` 将时间字符串解析成 `Carbon` 实例
+###### 通过一个确认的 `布局模板` 将时间字符串解析成 `Carbon` 实例
 
 ```go
 carbon.ParseByLayout("2020|08|05 13|14|15", "2006|01|02 15|04|05").ToDateTimeString() // 2020-08-05 13:14:15
@@ -260,9 +262,8 @@ carbon.ParseByLayout("今天是 2020年08月05日13时14分15秒", "今天是 20
 carbon.ParseByLayout("2020-08-05 13:14:15", "2006-01-02 15:04:05", carbon.Tokyo).ToDateTimeString() // 2020-08-05 14:14:15
 ```
 
-##### 通过一个确认的 `格式模板` 将时间字符串解析成 `Carbon` 实例
+###### 通过一个确认的 `格式模板` 将时间字符串解析成 `Carbon` 实例
 > 注：如果使用的字母与格式模板冲突时，请使用转义符 "\\" 转义该字母
-
 ```go
 carbon.ParseByFormat("2020|08|05 13|14|15", "Y|m|d H|i|s").ToDateTimeString() // 2020-08-05 13:14:15
 carbon.ParseByFormat("It is 2020-08-05 13:14:15", "\\I\\t \\i\\s Y-m-d H:i:s").ToDateTimeString() // 2020-08-05 13:14:15
@@ -270,17 +271,13 @@ carbon.ParseByFormat("今天是 2020年08月05日13时14分15秒", "今天是 Y�
 carbon.ParseByFormat("2020-08-05 13:14:15", "Y-m-d H:i:s", carbon.Tokyo).ToDateTimeString() // 2020-08-05 14:14:15
 ```
 
-##### 通过多个模糊的 `布局模板` 将时间字符串解析成 `Carbon` 实例
-> 注：该方法不支持通过时间戳 `布局模板` 解析
-
+###### 通过多个模糊的 `布局模板` 将时间字符串解析成 `Carbon` 实例
 ```go
 carbon.ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"}).ToDateTimeString() // 2020-08-05 13:14:15
 carbon.ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"}).CurrentLayout() // 2006|01|02 15|04|05
 ```
 
-##### 通过多个模糊的 `格式模板` 将时间字符串解析成 `Carbon` 实例
-> 注：该方法不支持通过时间戳 `格式模板` 解析
-
+###### 通过多个模糊的 `格式模板` 将时间字符串解析成 `Carbon` 实例
 ```go
 carbon.ParseByFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"}).ToDateTimeString() // 2020-08-05 13:14:15
 carbon.ParseByFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"}).CurrentLayout() // 2006|01|02 15|04|05
@@ -653,70 +650,60 @@ carbon.MinDuration().Seconds() // -9.223372036854776e+09
 
 ```go
 // 是否有错误
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").HasError() // false
 carbon.NewCarbon().HasError() // false
+carbon.ZeroValue().HasError() // false
+carbon.EpochValue().HasError() // false
+carbon.CreateFromTimestamp(0).HasError() // false
 carbon.Parse("").HasError() // false
 carbon.Parse("0").HasError() // true
 carbon.Parse("xxx").HasError() // true
 carbon.Parse("2020-08-05").HasError() // false
-carbon.CreateFromTimestamp(0).HasError() // false
 
 // 是否是 nil
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsNil() // false
 carbon.NewCarbon().IsNil() // false
+carbon.ZeroValue().IsNil() // false
+carbon.EpochValue().IsNil() // false
+carbon.CreateFromTimestamp(0).IsNil() // false
 carbon.Parse("").IsNil() // true
 carbon.Parse("0").IsNil() // false
 carbon.Parse("xxx").IsNil() // false
-carbon.NewCarbon().IsNil() // false
-carbon.CreateFromTimestamp(0).IsNil() // false
+carbon.Parse("2020-08-05").IsNil() // false
 
 // 是否是零值时间(0001-01-01 00:00:00 +0000 UTC)
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsZero() // true
 carbon.NewCarbon().IsZero() // true
+carbon.ZeroValue().IsZero() // true
+carbon.EpochValue().IsZero() // false
 carbon.CreateFromTimestamp(0).IsZero() // false
 carbon.Parse("").IsZero() // false
-carbon.Parse("xxx").IsZero() // false
 carbon.Parse("0").IsZero() // false
-carbon.Parse("0000-00-00 00:00:00").IsZero() // false
-carbon.Parse("0000-00-00").IsZero() // false
-carbon.Parse("00:00:00").IsZero() // false
-carbon.Parse("2020-08-05 00:00:00").IsZero() // false
+carbon.Parse("xxx").IsZero() // false
 carbon.Parse("2020-08-05").IsZero() // false
-carbon.Parse("2020-08-05").SetTimezone("xxx").IsZero() // false
 
 // 是否是空值
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsEmpty() // true
 carbon.NewCarbon().IsEmpty() // false
+carbon.ZeroValue().IsEmpty() // false
+carbon.EpochValue().IsEmpty() // false
 carbon.CreateFromTimestamp(0).IsEmpty() // false
 carbon.Parse("").IsEmpty() // true
-carbon.Parse("xxx").IsEmpty() // false
 carbon.Parse("0").IsEmpty() // false
-carbon.Parse("0000-00-00 00:00:00").IsEmpty() // false
-carbon.Parse("0000-00-00").IsEmpty() // false
-carbon.Parse("00:00:00").IsEmpty() // false
-carbon.Parse("2020-08-05 00:00:00").IsEmpty() // false
+carbon.Parse("xxx").IsEmpty() // false
 carbon.Parse("2020-08-05").IsEmpty() // false
-carbon.Parse("2020-08-05").SetTimezone("xxx").IsEmpty() // false
 
 // 是否是 UNIX 纪元时间(1970-01-01 00:00:00 +0000 UTC)
-carbon.Parse("1970-01-01 00:00:00 +0000 UTC").IsEpoch() // true
-carbon.CreateFromTimestamp(0).IsEpoch() // true
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsEpoch() // false
 carbon.NewCarbon().IsEpoch() // false
+carbon.ZeroValue().IsEpoch() // false
+carbon.EpochValue().IsEpoch() // true
+carbon.CreateFromTimestamp(0).IsEpoch() // true
 carbon.Parse("").IsEpoch() // false
 carbon.Parse("0").IsEpoch() // false
 carbon.Parse("xxx").IsEpoch() // false
-carbon.Parse("0000-00-00 00:00:00").IsEpoch() // false
-carbon.Parse("0000-00-00").IsEpoch() // false
-carbon.Parse("00:00:00").IsEpoch() // false
-carbon.Parse("2020-08-05 00:00:00").IsEpoch() // false
 carbon.Parse("2020-08-05").IsEpoch() // false
-carbon.Parse("2020-08-05").SetTimezone("xxx").IsEpoch() // false
 
 // 是否是有效时间
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsValid()
-carbon.CreateFromTimestamp(0).IsValid() // true
 carbon.NewCarbon().IsValid() // true
+carbon.ZeroValue().IsValid() // true
+carbon.EpochValue().IsEpoch() // true
+carbon.CreateFromTimestamp(0).IsValid() // true
 carbon.Parse("").IsValid() // false
 carbon.Parse("0").IsValid() // false
 carbon.Parse("xxx").IsValid() // false
@@ -725,13 +712,13 @@ carbon.Parse("0000-00-00").IsValid() // false
 carbon.Parse("00:00:00").IsValid() // false
 carbon.Parse("2020-08-05 00:00:00").IsValid() // true
 carbon.Parse("2020-08-05").IsValid() // true
-carbon.Parse("2020-08-05").SetTimezone("xxx").IsValid() // false
 
 // 是否是无效时间
-carbon.Parse("0001-01-01 00:00:00 +0000 UTC").IsInvalid() // false
-carbon.CreateFromTimestamp(0).IsInvalid() // false
 carbon.NewCarbon().IsInvalid() // false
-carbon.Parse("").IsInvalid() // true
+carbon.ZeroValue().IsInvalid() // false
+carbon.EpochValue().IsInvalid() // false
+carbon.CreateFromTimestamp(0).IsInvalid() // false
+carbon.Parse("").IsInvalid() // false
 carbon.Parse("0").IsInvalid() // true
 carbon.Parse("xxx").IsInvalid() // true
 carbon.Parse("0000-00-00 00:00:00").IsInvalid() // true
@@ -739,7 +726,6 @@ carbon.Parse("0000-00-00").IsInvalid() // true
 carbon.Parse("00:00:00").IsInvalid() // true
 carbon.Parse("2020-08-05 00:00:00").IsInvalid() // false
 carbon.Parse("2020-08-05").IsInvalid() // false
-carbon.Parse("2020-08-05").SetTimezone("xxx").IsInvalid() // true
 
 // 是否是夏令时
 carbon.Parse("").IsDST() // false
