@@ -202,7 +202,7 @@ carbon.CreateFromTimeNano(13, 14, 15, 999999999).ToString() // 2020-08-05 13:14:
 ##### 时间解析
 > 该系列方法不支持 `时间戳` 字符串解析，解析时间戳请使用 `CreateFromTimestamp` 或 `CreateFromTimestampXXX` 等方法
 
-###### 将 `时间字符串` 解析成 `Carbon` 实例
+###### 通过默认 `布局模板` 将 `时间字符串` 解析成 `Carbon` 实例
 ```go
 carbon.Parse("").ToDateTimeString() // 空字符串
 carbon.Parse("0").ToDateTimeString() // 空字符串

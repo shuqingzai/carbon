@@ -197,7 +197,7 @@ carbon.CreateFromTimeNano(13, 14, 15, 999999999).ToString() // 2020-08-05 13:14:
 ##### time parsing
 > This series of methods don't support `timestamp` string parsing. To parse timestamp, please use methods such as `CreateFromTimestamp` or `CreateFromTimestampXXX`
 
-###### Parse a time string as a `Carbon` instance
+###### Parse a time string as a `Carbon` instance by default layouts
 ```go
 carbon.Parse("").ToDateTimeString() // empty string
 carbon.Parse("0").ToDateTimeString() // empty string

@@ -196,8 +196,10 @@ carbon.CreateFromTimeNano(13, 14, 15, 999999999).ToString() // 2020-08-05 13:14:
 ```
 
 ##### 時間解析
-> この一連のメソッドは `timestamp` 文字列の解析をサポートしていません。タイムスタンプを解析するには、`CreateFromTimestamp` や `CreateFromTimestampXXX` などのメソッドを使用してください
-###### 時間文字列を `Carbon` インスタンスにパース
+> この一連のメソッドは `タイムスタンプ` 文字列の解析をサポートしていません。タイムスタンプを解析するには、`CreateFromTimestamp` や `CreateFromTimestampXXX` などのメソッドを使用してください
+
+###### デフォルトの `レイアウトテンプレート` を使って `時間文字列` を `Carbon` インスタンスに解析します
+
 ```go
 carbon.Parse("").ToDateTimeString() // 空の文字列
 carbon.Parse("0").ToDateTimeString() // 空の文字列
