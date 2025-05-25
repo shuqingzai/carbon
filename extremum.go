@@ -77,36 +77,54 @@ func Min(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	return
 }
 
-// Closest returns the closest Carbon instance between two Carbon instances.
-func (c *Carbon) Closest(c1 *Carbon, c2 *Carbon) *Carbon {
+// Closest returns the closest Carbon instance from some given Carbon instances.
+func (c *Carbon) Closest(c1 *Carbon, c2 ...*Carbon) *Carbon {
 	if c.IsInvalid() {
 		return c
 	}
-	if c1.IsInvalid() {
+	if len(c2) == 0 {
 		return c1
 	}
-	if c2.IsInvalid() {
-		return c2
+	args := append([]*Carbon{c1}, c2...)
+	for _, arg := range args {
+		if arg.IsInvalid() {
+			return arg
+		}
 	}
-	if c.DiffAbsInSeconds(c1) < c.DiffAbsInSeconds(c2) {
-		return c1
+	closest := args[0]
+	minDiff := c.DiffAbsInSeconds(closest)
+	for _, arg := range args[1:] {
+		diff := c.DiffAbsInSeconds(arg)
+		if diff < minDiff {
+			minDiff = diff
+			closest = arg
+		}
 	}
-	return c2
+	return closest
 }
 
-// Farthest returns the farthest Carbon instance between two Carbon instances.
-func (c *Carbon) Farthest(c1 *Carbon, c2 *Carbon) *Carbon {
+// Farthest returns the farthest Carbon instance from some given Carbon instances.
+func (c *Carbon) Farthest(c1 *Carbon, c2 ...*Carbon) *Carbon {
 	if c.IsInvalid() {
 		return c
 	}
-	if c1.IsInvalid() {
+	if len(c2) == 0 {
 		return c1
 	}
-	if c2.IsInvalid() {
-		return c2
+	args := append([]*Carbon{c1}, c2...)
+	for _, arg := range args {
+		if arg.IsInvalid() {
+			return arg
+		}
 	}
-	if c.DiffAbsInSeconds(c1) > c.DiffAbsInSeconds(c2) {
-		return c1
+	farthest := args[0]
+	maxDiff := c.DiffAbsInSeconds(farthest)
+	for _, arg := range args[1:] {
+		diff := c.DiffAbsInSeconds(arg)
+		if diff > maxDiff {
+			maxDiff = diff
+			farthest = arg
+		}
 	}
-	return c2
+	return farthest
 }
