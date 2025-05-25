@@ -62,10 +62,10 @@ func (s *ExtremumSuite) TestMax() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon()
-		s.Equal("2020-08-06 00:00:00 +0000 UTC", Max(c, c1, c2, c3).ToString())
-		s.Equal("2020-08-06 00:00:00 +0000 UTC", Max(c1, c, c2, c3).ToString())
-		s.Equal("2020-08-06 00:00:00 +0000 UTC", Max(c2, c1, c, c3).ToString())
-		s.Equal("2020-08-06 00:00:00 +0000 UTC", Max(c3, c1, c2, c).ToString())
+		s.Equal(c3, Max(c, c1, c2, c3))
+		s.Equal(c3, Max(c1, c, c2, c3))
+		s.Equal(c3, Max(c2, c1, c, c3))
+		s.Equal(c3, Max(c3, c1, c2, c))
 	})
 
 	s.Run("empty carbon", func() {
@@ -85,9 +85,9 @@ func (s *ExtremumSuite) TestMax() {
 	})
 
 	s.Run("valid carbon", func() {
-		s.Equal("2020-08-01 00:00:00 +0000 UTC", Max(c1).ToString())
-		s.Equal("2020-08-03 00:00:00 +0000 UTC", Max(c1, c2).ToString())
-		s.Equal("2020-08-06 00:00:00 +0000 UTC", Max(c1, c2, c3).ToString())
+		s.Equal(c1, Max(c1))
+		s.Equal(c2, Max(c1, c2))
+		s.Equal(c3, Max(c1, c2, c3))
 	})
 }
 
@@ -107,10 +107,10 @@ func (s *ExtremumSuite) TestMin() {
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon()
-		s.Equal("0001-01-01 00:00:00 +0000 UTC", Min(c, c1, c2, c3).ToString())
-		s.Equal("0001-01-01 00:00:00 +0000 UTC", Min(c1, c, c2, c3).ToString())
-		s.Equal("0001-01-01 00:00:00 +0000 UTC", Min(c2, c1, c, c3).ToString())
-		s.Equal("0001-01-01 00:00:00 +0000 UTC", Min(c3, c1, c2, c).ToString())
+		s.Equal(c, Min(c, c1, c2, c3))
+		s.Equal(c, Min(c1, c, c2, c3))
+		s.Equal(c, Min(c2, c1, c, c3))
+		s.Equal(c, Min(c3, c1, c2, c))
 	})
 
 	s.Run("empty carbon", func() {
@@ -130,9 +130,9 @@ func (s *ExtremumSuite) TestMin() {
 	})
 
 	s.Run("valid carbon", func() {
-		s.Equal("2020-08-01 00:00:00 +0000 UTC", Min(c1).ToString())
-		s.Equal("2020-08-01 00:00:00 +0000 UTC", Min(c1, c2).ToString())
-		s.Equal("2020-08-01 00:00:00 +0000 UTC", Min(c1, c2, c3).ToString())
+		s.Equal(c1, Min(c1))
+		s.Equal(c1, Min(c1, c2))
+		s.Equal(c1, Min(c1, c2, c3))
 	})
 }
 
