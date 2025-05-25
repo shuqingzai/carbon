@@ -613,25 +613,24 @@ carbon.Parse("2022-08-05 13:14:15").DiffForHumans(carbon.Now()) // 2 years after
 ##### 時間極值
 
 ```go
-c1 := carbon.Parse("2023-03-28")
-c2 := carbon.Parse("2023-04-16")
+c1 := carbon.Parse("2020-08-01")
+c2 := carbon.Parse("2020-08-05")
+c3 := carbon.Parse("2020-08-06")
+
+// 最大の Carbon インスタンスを返します
+carbon.Max(c1, c2, c3) // c3
+// 最小の Carbon インスタンスを返します
+carbon.Min(c1, c2, c3) // c1
+
 // 最近のCarbonインスタンスを返す
-carbon.Parse("2023-04-01").Closest(c1, c2) // c1
+c1.Closest(c2, c3) // c2
 // 遠いCarbonインスタンスを返す
-carbon.Parse("2023-04-01").Farthest(c1, c2) // c2
+c1.Farthest(c2, c3) // c3
 
 // ゼロ値 Carbon を戻す
 carbon.ZeroValue().ToString() // 0001-01-01 00:00:00 +0000 UTC
 // linux 紀元値 Carbon を戻す
 carbon.EpochValue().ToString() // 1970-01-01 00:00:00 +0000 UTC
-
-yesterday := carbon.Yesterday()
-today     := carbon.Now()
-tomorrow  := carbon.Tomorrow()
-// 最大の Carbon インスタンスを返します
-carbon.Max(yesterday, today, tomorrow) // tomorrow
-// 最小の Carbon インスタンスを返します
-carbon.Min(yesterday, today, tomorrow) // yesterday
 
 // Carbonの最大値を戻す
 carbon.MaxValue().ToString() // 9999-12-31 23:59:59.999999999 +0000 UTC

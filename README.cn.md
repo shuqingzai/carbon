@@ -615,20 +615,19 @@ carbon.Parse("2022-08-05 13:14:15").DiffForHumans(carbon.Now()) // 2 years after
 ##### 时间极值
 
 ```go
-c1 := carbon.Parse("2023-03-28")
-c2 := carbon.Parse("2023-04-16")
-// 返回最近的 Carbon 实例
-carbon.Parse("2023-04-01").Closest(c1, c2) // c1
-// 返回最远的 Carbon 实例
-carbon.Parse("2023-04-01").Farthest(c1, c2) // c2
+c1 := carbon.Parse("2020-08-01")
+c2 := carbon.Parse("2020-08-05")
+c3 := carbon.Parse("2020-08-06")
 
-yesterday := carbon.Yesterday()
-today := carbon.Now()
-tomorrow := carbon.Tomorrow()
 // 返回最大的 Carbon 实例
-carbon.Max(yesterday, today, tomorrow) // tomorrow
+carbon.Max(c1, c2, c3) // c3
 // 返回最小的 Carbon 实例
-carbon.Min(yesterday, today, tomorrow) // yesterday
+carbon.Min(c1, c2, c3) // c1
+
+// 返回最近的 Carbon 实例
+c1.Closest(c2, c3) // c2
+// 返回最远的 Carbon 实例
+c1.Farthest(c2, c3) // c3
 
 // 返回零值 Carbon
 carbon.ZeroValue().ToString() // 0001-01-01 00:00:00 +0000 UTC

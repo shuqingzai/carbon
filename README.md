@@ -608,20 +608,19 @@ carbon.Parse("2022-08-05 13:14:15").DiffForHumans(carbon.Now()) // 2 years after
 ##### Extremum
 
 ```go
-c1 := carbon.Parse("2023-03-28")
-c2 := carbon.Parse("2023-04-16")
-// Return the closest Carbon instance between two Carbon instances
-carbon.Parse("2023-04-01").Closest(c1, c2) // c1
-// Return the farthest Carbon instance between two Carbon instances
-carbon.Parse("2023-04-01").Farthest(c1, c2) // c2
+c1 := carbon.Parse("2020-08-01")
+c2 := carbon.Parse("2020-08-05")
+c3 := carbon.Parse("2020-08-06")
 
-yesterday := carbon.Yesterday()
-today     := carbon.Now()
-tomorrow  := carbon.Tomorrow()
 // Return the maximum Carbon instance from some given Carbon instances
-carbon.Max(yesterday, today, tomorrow) // tomorrow
+carbon.Max(c1, c2, c3) // c3
 // Return the minimum Carbon instance from some given Carbon instances
-carbon.Min(yesterday, today, tomorrow) // yesterday
+carbon.Min(c1, c2, c3) // c1
+
+// Return the closest Carbon instance from some given Carbon instances
+c1.Closest(c2, c3) // c2
+// Return the farthest Carbon instance from some given Carbon instances
+c1.Farthest(c2, c3) // c3
 
 // Return the zero value of Carbon instance
 carbon.ZeroValue().ToString() // 0001-01-01 00:00:00 +0000 UTC
