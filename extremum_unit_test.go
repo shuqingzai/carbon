@@ -47,76 +47,92 @@ func (s *ExtremumSuite) TestMinDuration() {
 }
 
 func (s *ExtremumSuite) TestMax() {
+	c1 := Parse("2020-08-01")
+	c2 := Parse("2020-08-03")
+	c3 := Parse("2020-08-06")
+
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(Max(c, Now()))
-		s.Nil(Max(Now(), c))
-		s.Nil(Max(c, c))
+		s.Nil(Max(c, c1, c2, c3))
+		s.Nil(Max(c1, c, c2, c3))
+		s.Nil(Max(c2, c1, c, c3))
+		s.Nil(Max(c3, c1, c2, c))
 	})
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon()
-		s.Equal("2020-08-06 00:00:00 +0000 UTC", Max(c, Parse("2020-08-06")).ToString())
-		s.Equal("2020-08-05 00:00:00 +0000 UTC", Max(Parse("2020-08-05"), c).ToString())
-		s.Equal("0001-01-01 00:00:00 +0000 UTC", Max(c, c).ToString())
+		s.Equal("2020-08-06 00:00:00 +0000 UTC", Max(c, c1, c2, c3).ToString())
+		s.Equal("2020-08-06 00:00:00 +0000 UTC", Max(c1, c, c2, c3).ToString())
+		s.Equal("2020-08-06 00:00:00 +0000 UTC", Max(c2, c1, c, c3).ToString())
+		s.Equal("2020-08-06 00:00:00 +0000 UTC", Max(c3, c1, c2, c).ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("")
-		s.Empty(Max(c, Now()).ToString())
-		s.Empty(Max(Now(), c).ToString())
-		s.Empty(Max(c, c).ToString())
+		s.Empty(Max(c, c1, c2, c3).ToString())
+		s.Empty(Max(c1, c, c2, c3).ToString())
+		s.Empty(Max(c2, c1, c, c3).ToString())
+		s.Empty(Max(c3, c1, c2, c).ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
-		s.Error(Max(c, Now()).Error)
-		s.Error(Max(Now(), c).Error)
-		s.Error(Max(c, c).Error)
+		s.Error(Max(c, c1, c2, c3).Error)
+		s.Error(Max(c1, c, c2, c3).Error)
+		s.Error(Max(c2, c1, c, c3).Error)
+		s.Error(Max(c3, c1, c2, c).Error)
 	})
 
 	s.Run("valid carbon", func() {
-		s.Equal("2020-08-05 00:00:00 +0000 UTC", Max(Parse("2020-08-05")).ToString())
-		s.Equal("2020-08-05 00:00:00 +0000 UTC", Max(Parse("2020-08-05"), Parse("2020-08-05")).ToString())
-		s.Equal("2020-08-06 00:00:00 +0000 UTC", Max(Parse("2020-08-05"), Parse("2020-08-06")).ToString())
+		s.Equal("2020-08-01 00:00:00 +0000 UTC", Max(c1).ToString())
+		s.Equal("2020-08-03 00:00:00 +0000 UTC", Max(c1, c2).ToString())
+		s.Equal("2020-08-06 00:00:00 +0000 UTC", Max(c1, c2, c3).ToString())
 	})
 }
 
 func (s *ExtremumSuite) TestMin() {
+	c1 := Parse("2020-08-01")
+	c2 := Parse("2020-08-03")
+	c3 := Parse("2020-08-06")
+
 	s.Run("nil carbon", func() {
 		var c *Carbon
 		c = nil
-		s.Nil(Min(c, Now()))
-		s.Nil(Min(Now(), c))
-		s.Nil(Min(c, c))
+		s.Nil(Min(c, c1, c2, c3))
+		s.Nil(Min(c1, c, c2, c3))
+		s.Nil(Min(c2, c1, c, c3))
+		s.Nil(Min(c3, c1, c2, c))
 	})
 
 	s.Run("zero carbon", func() {
 		c := NewCarbon()
-		s.Equal("0001-01-01 00:00:00 +0000 UTC", Min(c, Parse("2020-08-06")).ToString())
-		s.Equal("0001-01-01 00:00:00 +0000 UTC", Min(Parse("2020-08-05"), c).ToString())
-		s.Equal("0001-01-01 00:00:00 +0000 UTC", Min(c, c).ToString())
+		s.Equal("0001-01-01 00:00:00 +0000 UTC", Min(c, c1, c2, c3).ToString())
+		s.Equal("0001-01-01 00:00:00 +0000 UTC", Min(c1, c, c2, c3).ToString())
+		s.Equal("0001-01-01 00:00:00 +0000 UTC", Min(c2, c1, c, c3).ToString())
+		s.Equal("0001-01-01 00:00:00 +0000 UTC", Min(c3, c1, c2, c).ToString())
 	})
 
 	s.Run("empty carbon", func() {
 		c := Parse("")
-		s.Empty(Min(c, Now()).ToString())
-		s.Empty(Min(Now(), c).ToString())
-		s.Empty(Min(c, c).ToString())
+		s.Empty(Min(c, c1, c2, c3).ToString())
+		s.Empty(Min(c1, c, c2, c3).ToString())
+		s.Empty(Min(c2, c1, c, c3).ToString())
+		s.Empty(Min(c3, c1, c2, c).ToString())
 	})
 
 	s.Run("error carbon", func() {
 		c := Parse("xxx")
-		s.Error(Min(c, Now()).Error)
-		s.Error(Min(Now(), c).Error)
-		s.Error(Min(c, c).Error)
+		s.Error(Min(c, c1, c2, c3).Error)
+		s.Error(Min(c1, c, c2, c3).Error)
+		s.Error(Min(c2, c1, c, c3).Error)
+		s.Error(Min(c3, c1, c2, c).Error)
 	})
 
 	s.Run("valid carbon", func() {
-		s.Equal("2020-08-05 00:00:00 +0000 UTC", Min(Parse("2020-08-05")).ToString())
-		s.Equal("2020-08-05 00:00:00 +0000 UTC", Min(Parse("2020-08-05"), Parse("2020-08-05")).ToString())
-		s.Equal("2020-08-05 00:00:00 +0000 UTC", Min(Parse("2020-08-05"), Parse("2020-08-06")).ToString())
+		s.Equal("2020-08-01 00:00:00 +0000 UTC", Min(c1).ToString())
+		s.Equal("2020-08-01 00:00:00 +0000 UTC", Min(c1, c2).ToString())
+		s.Equal("2020-08-01 00:00:00 +0000 UTC", Min(c1, c2, c3).ToString())
 	})
 }
 
