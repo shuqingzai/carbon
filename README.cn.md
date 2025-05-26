@@ -273,14 +273,16 @@ carbon.ParseByFormat("2020-08-05 13:14:15", "Y-m-d H:i:s", carbon.Tokyo).ToDateT
 
 ###### 通过多个模糊的 `布局模板` 将时间字符串解析成 `Carbon` 实例
 ```go
-carbon.ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"}).ToDateTimeString() // 2020-08-05 13:14:15
-carbon.ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"}).CurrentLayout() // 2006|01|02 15|04|05
+c := carbon.ParseByLayouts("2020|08|05 13|14|15", []string{"2006|01|02 15|04|05", "2006|1|2 3|4|5"})
+c.ToDateTimeString() // 2020-08-05 13:14:15
+c.CurrentLayout() // 2006|01|02 15|04|05
 ```
 
 ###### 通过多个模糊的 `格式模板` 将时间字符串解析成 `Carbon` 实例
 ```go
-carbon.ParseByFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"}).ToDateTimeString() // 2020-08-05 13:14:15
-carbon.ParseByFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"}).CurrentLayout() // 2006|01|02 15|04|05
+c := carbon.ParseByFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"})
+c.ToDateTimeString() // 2020-08-05 13:14:15
+c.CurrentLayout() // 2006|01|02 15|04|05
 ```
 
 ##### 时间冻结
