@@ -275,8 +275,6 @@ c.CurrentLayout() // 2006|01|02 15|04|05
 ```
 
 ###### 複数のファジィフォーマットテンプレートによって時間文字列を `Carbon` インスタンスに解析する
-> 注: このメソッドは「タイムスタンプ」文字列の解析をサポートしていません, タイムスタンプを解析するには、`CreateFromTimestamp` や `CreateFromTimestampXXX` などのメソッドを使用してください
-
 ```go
 c := carbon.ParseByFormats("2020|08|05 13|14|15", []string{"Y|m|d H|i|s", "y|m|d h|i|s"})
 c.ToDateTimeString() // 2020-08-05 13:14:15
