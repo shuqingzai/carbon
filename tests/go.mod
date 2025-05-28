@@ -3,14 +3,14 @@ module tests
 go 1.24.0
 
 require (
-	github.com/dromara/carbon/v2 v2.6.5
+	github.com/dromara/carbon/v2 v2.6.7
 	github.com/go-sql-driver/mysql v1.7.0
 	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.10.7
 	github.com/mattn/go-sqlite3 v1.14.22
 	github.com/stretchr/testify v1.10.0
 	gorm.io/driver/mysql v1.5.7
-	gorm.io/driver/postgres v1.5.11
+	gorm.io/driver/postgres v1.6.0
 	gorm.io/driver/sqlite v1.5.7
 	gorm.io/gorm v1.26.1
 	xorm.io/xorm v1.3.9
@@ -42,4 +42,4 @@ require (
 	xorm.io/builder v0.3.11-0.20220531020008-1bd24a7dc978 // indirect
 )
 
-replace github.com/dromara/carbon/v2 v2.6.5 => ../
+replace gitee.com/golang-package/carbon/v2 v2.6.6 => ../
