@@ -240,7 +240,6 @@ func (c *Carbon) Quarter() (quarter int) {
 }
 
 // Month gets current month like 8.
-// 获取当前月
 func (c *Carbon) Month() int {
 	return c.MonthOfYear()
 }
@@ -314,7 +313,7 @@ func (c *Carbon) Timestamp() int64 {
 	return c.StdTime().Unix()
 }
 
-// TimestampMilli gets timestamp with millisecond precision like 1596604455999.
+// TimestampMilli gets timestamp with millisecond precision like 1596604455000.
 func (c *Carbon) TimestampMilli() int64 {
 	if c.IsInvalid() {
 		return 0
@@ -322,7 +321,7 @@ func (c *Carbon) TimestampMilli() int64 {
 	return c.StdTime().UnixMilli()
 }
 
-// TimestampMicro gets timestamp with microsecond precision like 1596604455999999.
+// TimestampMicro gets timestamp with microsecond precision like 1596604455000000.
 func (c *Carbon) TimestampMicro() int64 {
 	if c.IsInvalid() {
 		return 0
@@ -330,7 +329,7 @@ func (c *Carbon) TimestampMicro() int64 {
 	return c.StdTime().UnixMicro()
 }
 
-// TimestampNano gets timestamp with nanosecond precision like 1596604455999999999.
+// TimestampNano gets timestamp with nanosecond precision like 1596604455000000000.
 func (c *Carbon) TimestampNano() int64 {
 	if c.IsInvalid() {
 		return 0
