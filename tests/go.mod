@@ -1,6 +1,8 @@
 module tests
 
-go 1.24.0
+go 1.23.0
+
+toolchain go1.24.0
 
 require (
 	github.com/dromara/carbon/v2 v2.6.7
@@ -9,9 +11,9 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/mattn/go-sqlite3 v1.14.28
 	github.com/stretchr/testify v1.10.0
-	gorm.io/driver/mysql v1.5.7
+	gorm.io/driver/mysql v1.6.0
 	gorm.io/driver/postgres v1.6.0
-	gorm.io/driver/sqlite v1.5.7
+	gorm.io/driver/sqlite v1.6.0
 	gorm.io/gorm v1.30.0
 	xorm.io/xorm v1.3.9
 )
