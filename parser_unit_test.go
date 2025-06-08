@@ -223,8 +223,9 @@ func (s *ParserSuite) TestParseByLayouts() {
 	})
 
 	s.Run("empty layouts", func() {
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByLayouts("2020-08-05 13:14:15", []string{}).ToString())
-		s.Equal("2006-01-02 15:04:05", ParseByLayouts("2020-08-05 13:14:15", []string{}).CurrentLayout())
+		c := ParseByLayouts("2020-08-05 13:14:15", []string{})
+		s.True(c.HasError())
+		s.Empty(c.String())
 	})
 
 	s.Run("without timezone", func() {
@@ -348,11 +349,10 @@ func (s *ParserSuite) TestParseByFormats() {
 		s.Empty(c.String())
 	})
 
-	s.Run("empty layouts", func() {
+	s.Run("empty formats", func() {
 		c := ParseByFormats("2020-08-05 13:14:15", []string{})
-		s.False(c.HasError())
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", c.ToString())
-		s.Equal("2006-01-02 15:04:05", c.CurrentLayout())
+		s.True(c.HasError())
+		s.Empty(c.ToString())
 	})
 
 	s.Run("without timezone", func() {
@@ -386,8 +386,7 @@ func (s *ParserSuite) TestParseWithLayouts() {
 	})
 
 	s.Run("empty layouts", func() {
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseWithLayouts("2020-08-05 13:14:15", []string{}).ToString())
-		s.Equal("2006-01-02 15:04:05", ParseWithLayouts("2020-08-05 13:14:15", []string{}).CurrentLayout())
+		s.Error(ParseWithLayouts("2020-08-05 13:14:15", []string{}).Error)
 	})
 
 	s.Run("without timezone", func() {
@@ -422,8 +421,7 @@ func (s *ParserSuite) TestParseWithFormats() {
 	})
 
 	s.Run("empty layouts", func() {
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseWithFormats("2020-08-05 13:14:15", []string{}).ToString())
-		s.Equal("2006-01-02 15:04:05", ParseWithFormats("2020-08-05 13:14:15", []string{}).CurrentLayout())
+		s.Error(ParseWithFormats("2020-08-05 13:14:15", []string{}).Error)
 	})
 
 	s.Run("without timezone", func() {
