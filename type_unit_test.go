@@ -172,6 +172,13 @@ func (s *CarbonTypeSuite) TestCarbonType_UnmarshalJSON() {
 	})
 }
 
+func (s *CarbonTypeSuite) TestCarbonType_GormDataType() {
+	var model carbonTypeModel
+
+	s.Equal("datetime", model.Carbon1.GormDataType())
+	s.Equal("datetime", model.Carbon2.GormDataType())
+}
+
 type builtinTypeModel struct {
 	Date      Date      `json:"date"`
 	DateMilli DateMilli `json:"date_milli"`
