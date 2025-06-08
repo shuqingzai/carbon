@@ -48,7 +48,7 @@ func Parse(value string, timezone ...string) *Carbon {
 
 // ParseByLayout parses a time string as a Carbon instance by a confirmed layout.
 //
-// Note: it will not support parsing timestamp string in the future.
+// Note: it will not support parsing timestamp string in the future, use CreateFromTimestamp or CreateFromTimestampXXX instead
 func ParseByLayout(value, layout string, timezone ...string) *Carbon {
 	if value == "" {
 		return &Carbon{isEmpty: true}
