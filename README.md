@@ -11,7 +11,7 @@ English | [简体中文](README.cn.md) | [日本語](README.jp.md)
 
 #### Introduction
 
-A simple, semantic and developer-friendly time package for `golang`, `100%` unit test coverage, doesn't depend on `any` third-party library and has been included by [awesome-go](https://github.com/avelino/awesome-go#date-and-time "awesome-go")
+A simple, semantic and developer-friendly time package for `golang`, `100%` unit test coverage, doesn't depend on `any` third-party package and has been included by [awesome-go](https://github.com/avelino/awesome-go#date-and-time "awesome-go")
 
 #### Repository
 
@@ -192,10 +192,10 @@ carbon.CreateFromTimeMilli(13, 14, 15, 999).ToString() // 2020-08-05 13:14:15.99
 carbon.CreateFromTimeMicro(13, 14, 15, 999999).ToString() // 2020-08-05 13:14:15.999999 +0000 UTC
 // Create a Carbon instance from a given hour, minute and second with nanosecond
 carbon.CreateFromTimeNano(13, 14, 15, 999999999).ToString() // 2020-08-05 13:14:15.999999999 +0000 UTC
-
 ```
-##### Parsing
-> This series of methods don't support `timestamp` string parsing. To parse timestamp, please use methods such as `CreateFromTimestamp` or `CreateFromTimestampXXX`
+
+##### Parser
+> This series of methods don't support `timestamp` string parsing, please use `CreateFromTimestamp` or `CreateFromTimestampXXX` instead
 
 ###### Parse a time string as a `Carbon` instance by default layouts
 ```go
@@ -297,7 +297,6 @@ now.DiffForHumans(carbon.Parse("2020-10-05")) // 2 months before
 carbon.ClearTestNow()
 carbon.IsTestNow() // false
 ```
-
 
 ##### Boundary
 
