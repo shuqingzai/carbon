@@ -5,14 +5,14 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/dromara/carbon/v2)](https://goreportcard.com/report/github.com/dromara/carbon/v2)
 [![Go Coverage](https://codecov.io/gh/dromara/carbon/branch/master/graph/badge.svg)](https://codecov.io/gh/dromara/carbon)
 [![Carbon Doc](https://img.shields.io/badge/go.dev-reference-brightgreen?logo=go&logoColor=white&style=flat)](https://pkg.go.dev/github.com/dromara/carbon/v2)
-<a href="https://hellogithub.com/repository/0eddd8c3469549b7b246f85a83d1c42e" target="_blank"><img src="https://api.hellogithub.com/v1/widgets/recommend.svg?rid=0eddd8c3469549b7b246f85a83d1c42e&claim_uid=kKBvMpyxSgLhmJO&theme=small" alt="Featured｜HelloGitHub" /></a>
+<a href="https://hellogithub.com/en/repository/dromara/carbon" target="_blank"><img src="https://api.hellogithub.com/v1/widgets/recommend.svg?rid=0eddd8c3469549b7b246f85a83d1c42e&claim_uid=kKBvMpyxSgLhmJO&theme=small" alt="Featured｜HelloGitHub" /></a>
 [![License](https://img.shields.io/github/license/dromara/carbon)](https://github.com/dromara/carbon/blob/master/LICENSE)
 
 日本語 | [English](README.md) | [简体中文](README.cn.md)
 
 ## イントロ
 
-軽量、セマンティック、開発者に優しい `golang` 時間処理ライブラリ, `いかなる`第三者ライブラリにも依存せず、` 100%`ユニットテストカバレッジ率は、[awesome-go](https://github.com/avelino/awesome-go#date-and-time "awesome-go") と [hello-github](https://hellogithub.com/repository/dromara/carbon "hello-github") 収録
+軽量、セマンティック、開発者に優しい `golang` 時間処理ライブラリ, `いかなる`第三者ライブラリにも依存せず、` 100%`ユニットテストカバレッジ率は、[awesome-go](https://github.com/avelino/awesome-go#date-and-time "awesome-go") と [hello-github](https://hellogithub.com/en/repository/dromara/carbon "hello-github") 収録
 
 ## リポジトリ
 
