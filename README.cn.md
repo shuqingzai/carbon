@@ -5,13 +5,14 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/dromara/carbon/v2)](https://goreportcard.com/report/github.com/dromara/carbon/v2)
 [![Go Coverage](https://codecov.io/gh/dromara/carbon/branch/master/graph/badge.svg)](https://codecov.io/gh/dromara/carbon)
 [![Carbon Doc](https://img.shields.io/badge/go.dev-reference-brightgreen?logo=go&logoColor=white&style=flat)](https://pkg.go.dev/github.com/dromara/carbon/v2)
+<a href="https://hellogithub.com/repository/0eddd8c3469549b7b246f85a83d1c42e" target="_blank"><img src="https://api.hellogithub.com/v1/widgets/recommend.svg?rid=0eddd8c3469549b7b246f85a83d1c42e&claim_uid=kKBvMpyxSgLhmJO&theme=small" alt="Featured｜HelloGitHub" /></a>
 [![License](https://img.shields.io/github/license/dromara/carbon)](https://github.com/dromara/carbon/blob/master/LICENSE)
 
 简体中文 | [English](README.md) | [日本語](README.jp.md)
 
 ## 项目简介
 
-一个轻量级、语义化、对开发者友好的 `golang` 时间处理库，不依赖于 `任何` 第三方库， `100%` 单元测试覆盖率，已被 [awesome-go](https://github.com/yinggaozhen/awesome-go-cn#日期和时间 "awesome-go-cn") 收录，并获得
+一个轻量级、语义化、对开发者友好的 `golang` 时间处理库，不依赖于 `任何` 第三方库， `100%` 单元测试覆盖率，已被 [awesome-go](https://github.com/yinggaozhen/awesome-go-cn#日期和时间 "awesome-go-cn") 和 [hello-github](https://hellogithub.com/repository/dromara/carbon "hello-github") 收录，并获得
 `gitee` 2024 年最有价值项目（`GVP`）和 `gitcode` 2024 年度开源摘星计划 (`G-Star`) 项目
 
 <img src="https://gitee.com/dromara/carbon/raw/master/gvp.jpg" width="100%" alt="gvp"/>
