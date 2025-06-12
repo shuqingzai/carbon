@@ -117,4 +117,4 @@ carbon.IsTestNow() // false
 
 ## 开源协议
 
-`Carbon` 采用 `MIT` 开源协议, 请参阅 [LICENSE](./LICENSE) 查看详细信息。
+`Carbon` 遵循 `MIT` 开源协议, 请参阅 [LICENSE](./LICENSE) 查看详细信息。
