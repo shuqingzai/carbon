@@ -76,6 +76,10 @@ carbon.ClearTestNow()
 carbon.IsTestNow() // false
 ```
 
+## ドキュメント
+
+[carbon.go-pkg.com](https://carbon.go-pkg.com/jp) 完全なドキュメントの表示
+
 ## リファレンス
 
 * [briannesbitt/carbon](https://github.com/briannesbitt/Carbon)

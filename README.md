@@ -79,6 +79,8 @@ carbon.ClearTestNow()
 carbon.IsTestNow() // false
 ```
 
+There are many more examples in the [documentation](https://carbon.go-pkg.com).
+
 ## Documentation
 
 For full documentation, please visit [carbon.go-pkg.com](https://carbon.go-pkg.com)
