@@ -84,10 +84,6 @@ carbon.IsTestNow() // false
 ```
 更多示例请查看 [carbon.go-pkg.com](https://carbon.go-pkg.com).
 
-## 文档
-
-请访问 [carbon.go-pkg.com](https://carbon.go-pkg.com/zh) 查看完整文档
-
 ## 参考项目
 
 * [briannesbitt/carbon](https://github.com/briannesbitt/Carbon)
