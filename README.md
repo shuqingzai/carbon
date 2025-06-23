@@ -1,4 +1,4 @@
-# Carbon
+<p align="center" style="margin-bottom: -10px"><img src="https://gitee.com/dromara/carbon/raw/master/logo.svg" width="10%" alt="gvp" /></p>
 
 [![Carbon Release](https://img.shields.io/github/release/dromara/carbon.svg)](https://github.com/dromara/carbon/releases)
 [![Go Test](https://github.com/dromara/carbon/actions/workflows/test.yml/badge.svg)](https://github.com/dromara/carbon/actions)
@@ -80,10 +80,6 @@ carbon.IsTestNow() // false
 ```
 
 There are many more examples in the [documentation](https://carbon.go-pkg.com).
-
-## Documentation
-
-For full documentation, please visit [carbon.go-pkg.com](https://carbon.go-pkg.com)
 
 ## References
 
