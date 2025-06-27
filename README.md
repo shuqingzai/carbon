@@ -12,7 +12,7 @@ English | [简体中文](README.cn.md) | [日本語](README.jp.md)
 
 ## Introduction
 
-A simple, semantic and developer-friendly time package for `golang`, `100%` unit test coverage, doesn't depend on `any` third-party package and has been included by [awesome-go](https://github.com/avelino/awesome-go#date-and-time "awesome-go") and [hello-github](https://hellogithub.com/en/repository/dromara/carbon "hello-github")
+`Carbon` is a simple, semantic and developer-friendly time package for `golang`, `100%` unit test coverage, doesn't depend on `any` third-party package and has been included by [awesome-go](https://github.com/avelino/awesome-go#date-and-time "awesome-go") and [hello-github](https://hellogithub.com/en/repository/dromara/carbon "hello-github")
 
 ## Repository
 
