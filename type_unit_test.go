@@ -172,13 +172,6 @@ func (s *CarbonTypeSuite) TestCarbonType_UnmarshalJSON() {
 	})
 }
 
-func (s *CarbonTypeSuite) TestCarbonType_GormDataType() {
-	var model carbonTypeModel
-
-	s.Equal("datetime", model.Carbon1.GormDataType())
-	s.Equal("datetime", model.Carbon2.GormDataType())
-}
-
 type builtinTypeModel struct {
 	Date      Date      `json:"date"`
 	DateMilli DateMilli `json:"date_milli"`
@@ -752,40 +745,8 @@ func (s *BuiltinTypeSuite) TestBuiltinType_UnmarshalJSON() {
 	})
 }
 
-func (s *BuiltinTypeSuite) TestBuiltinType_GormDataType() {
-	var model builtinTypeModel
-
-	s.Equal("date", model.Date.GormDataType())
-	s.Equal("datetime(6)", model.DateMilli.GormDataType())
-	s.Equal("datetime(6)", model.DateMicro.GormDataType())
-	s.Equal("datetime(6)", model.DateNano.GormDataType())
-
-	s.Equal("time", model.Time.GormDataType())
-	s.Equal("datetime(6)", model.TimeMilli.GormDataType())
-	s.Equal("datetime(6)", model.TimeMicro.GormDataType())
-	s.Equal("datetime(6)", model.TimeNano.GormDataType())
-
-	s.Equal("datetime", model.DateTime.GormDataType())
-	s.Equal("datetime(6)", model.DateTimeMilli.GormDataType())
-	s.Equal("datetime(6)", model.DateTimeMicro.GormDataType())
-	s.Equal("datetime(6)", model.DateTimeNano.GormDataType())
-
-	s.Equal("timestamp", model.Timestamp.GormDataType())
-	s.Equal("timestamp(6)", model.TimestampMilli.GormDataType())
-	s.Equal("timestamp(6)", model.TimestampMicro.GormDataType())
-	s.Equal("timestamp(6)", model.TimestampNano.GormDataType())
-
-	s.Equal("datetime", model.CreatedAt.GormDataType())
-	s.Equal("datetime", model.UpdatedAt.GormDataType())
-	s.Equal("timestamp", model.DeletedAt.GormDataType())
-	s.Equal("timestamp", model.DeletedAt.GormDataType())
-}
-
 type rfc3339Type string
 
-func (t rfc3339Type) DataType() string {
-	return "datetime"
-}
 func (t rfc3339Type) Layout() string {
 	return RFC3339Layout
 }
@@ -798,9 +759,6 @@ func (w3cType) Layout() string {
 
 type iso8601Type string
 
-func (t iso8601Type) DataType() string {
-	return "datetime"
-}
 func (t iso8601Type) Format() string {
 	return ISO8601Format
 }
@@ -1151,15 +1109,4 @@ func (s *CustomerTypeSuite) TestCustomerType_UnmarshalJSON() {
 		s.Equal("2020-08-05T13:14:15+00:00", model.CreatedAt.String())
 		s.Equal("2020-08-05T13:14:15Z", model.UpdatedAt.String())
 	})
-}
-
-func (s *CustomerTypeSuite) TestCustomerType_GormDataType() {
-	var model CustomerTypeModel
-
-	s.Equal("datetime", model.Customer1.GormDataType())
-	s.Equal("datetime", model.Customer2.GormDataType())
-	s.Equal("datetime", model.Customer3.GormDataType())
-	s.Equal("datetime", model.Customer4.GormDataType())
-	s.Equal("datetime", model.CreatedAt.GormDataType())
-	s.Equal("datetime", model.UpdatedAt.GormDataType())
 }
