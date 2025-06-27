@@ -5,7 +5,7 @@ go 1.23.0
 toolchain go1.24.0
 
 require (
-	github.com/dromara/carbon/v2 v2.6.7
+	github.com/dromara/carbon/v2 v2.6.9
 	github.com/go-sql-driver/mysql v1.9.2
 	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.10.9
@@ -45,4 +45,4 @@ require (
 	xorm.io/builder v0.3.13 // indirect
 )
 
-replace gitee.com/golang-package/carbon/v2 v2.6.7 => ../
+replace github.com/dromara/carbon/v2 => ../
