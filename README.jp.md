@@ -1,4 +1,4 @@
-<p align="center" style="margin-bottom: -10px"><a href="https://carbon.go-pkg.com/" target="_blank"><img src="https://gitee.com/dromara/carbon/raw/master/logo.svg" width="15%" alt="carbon" /></a></p>
+<p align="center" style="margin-bottom: -10px"><a href="https://carbon.go-pkg.com/ja" target="_blank"><img src="https://gitee.com/dromara/carbon/raw/master/logo.svg" width="15%" alt="carbon" /></a></p>
 
 [![Carbon Release](https://img.shields.io/github/release/dromara/carbon.svg)](https://github.com/dromara/carbon/releases)
 [![Go Test](https://github.com/dromara/carbon/actions/workflows/test.yml/badge.svg)](https://github.com/dromara/carbon/actions)
@@ -75,7 +75,7 @@ carbon.Parse("2020-07-05 13:14:15").SetLocale("jp").DiffForHumans() // 1 ヶ月�
 carbon.ClearTestNow()
 carbon.IsTestNow() // false
 ```
-詳細については <a href="https://carbon.go-pkg.com" target="_blank">carbon.go-pkg.com</a>
+詳細については <a href="https://carbon.go-pkg.com/ja" target="_blank">carbon.go-pkg.com</a>
 
 ## リファレンス
 

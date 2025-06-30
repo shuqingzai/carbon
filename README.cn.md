@@ -1,4 +1,4 @@
-<p align="center" style="margin-bottom: -10px"><a href="https://carbon.go-pkg.com/" target="_blank"><img src="https://gitee.com/dromara/carbon/raw/master/logo.svg" width="15%" alt="carbon" /></a></p>
+<p align="center" style="margin-bottom: -10px"><a href="https://carbon.go-pkg.com/zh" target="_blank"><img src="https://gitee.com/dromara/carbon/raw/master/logo.svg" width="15%" alt="carbon" /></a></p>
 
 [![Carbon Release](https://img.shields.io/github/release/dromara/carbon.svg)](https://github.com/dromara/carbon/releases)
 [![Go Test](https://github.com/dromara/carbon/actions/workflows/test.yml/badge.svg)](https://github.com/dromara/carbon/actions)
@@ -82,7 +82,7 @@ carbon.Parse("2020-07-05 13:14:15").SetLocale("zh-CN").DiffForHumans() // 1 月�
 carbon.ClearTestNow()
 carbon.IsTestNow() // false
 ```
-更多示例请查看 <a href="https://carbon.go-pkg.com" target="_blank">carbon.go-pkg.com</a>
+更多示例请查看 <a href="https://carbon.go-pkg.com/zh" target="_blank">carbon.go-pkg.com</a>
 
 ## 参考项目
 
