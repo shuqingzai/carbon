@@ -8,7 +8,7 @@
 <a href="https://hellogithub.com/repository/0eddd8c3469549b7b246f85a83d1c42e" target="_blank"><img src="https://api.hellogithub.com/v1/widgets/recommend.svg?rid=0eddd8c3469549b7b246f85a83d1c42e&claim_uid=kKBvMpyxSgLhmJO&theme=small" alt="Featured｜HelloGitHub" /></a>
 [![License](https://img.shields.io/github/license/dromara/carbon)](https://github.com/dromara/carbon/blob/master/LICENSE)
 
-简体中文 | [English](README.md) | [日本語](README.jp.md)
+简体中文 | [English](README.md) | [日本語](README.ja.md)
 
 ## 项目简介
 
