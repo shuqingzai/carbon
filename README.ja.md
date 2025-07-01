@@ -76,7 +76,7 @@ carbon.Parse("2020-07-05 13:14:15").SetLocale("jp").DiffForHumans() // 1 ヶ月�
 carbon.ClearTestNow()
 carbon.IsTestNow() // false
 ```
-詳細については <a href="https://carbon.go-pkg.com/ja" target="_blank">carbon.go-pkg.com</a>
+詳細については <a href="https://carbon.go-pkg.com/ja" target="_blank">公式ドキュメント</a>
 
 ## リファレンス
 
