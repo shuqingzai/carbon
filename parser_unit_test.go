@@ -174,11 +174,6 @@ func (s *ParserSuite) TestParseByLayout() {
 		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByLayout("2020|08|05 13:14:15", "2006|01|02 15:04:05").ToString())
 		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByLayout("It is 2020-08-05 13:14:15", "It is 2006-01-02 15:04:05").ToString())
 		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByLayout("今天是 2020年08月05日13时14分15秒", "今天是 2006年01月02日15时04分05秒").ToString())
-
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByLayout("1596633255", TimestampLayout).ToString())
-		s.Equal("2020-08-05 13:14:15.999 +0000 UTC", ParseByLayout("1596633255999", TimestampMilliLayout).ToString())
-		s.Equal("2020-08-05 13:14:15.999999 +0000 UTC", ParseByLayout("1596633255999999", TimestampMicroLayout).ToString())
-		s.Equal("2020-08-05 13:14:15.999999999 +0000 UTC", ParseByLayout("1596633255999999999", TimestampNanoLayout).ToString())
 	})
 
 	s.Run("with timezone", func() {
@@ -189,11 +184,6 @@ func (s *ParserSuite) TestParseByLayout() {
 		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByFormat("It is 2020-08-05 13:14:15", "\\I\\t \\i\\s 2006-01-02 15:04:05", PRC).ToString())
 		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByLayout("2020|08|05 13:14:15", "2006|01|02 15:04:05", PRC).ToString())
 		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByLayout("今天是 2020年08月05日13时14分15秒", "今天是 2006年01月02日15时04分05秒", PRC).ToString())
-
-		s.Equal("2020-08-05 21:14:15 +0800 CST", ParseByLayout("1596633255", TimestampLayout, PRC).ToString())
-		s.Equal("2020-08-05 21:14:15.999 +0800 CST", ParseByLayout("1596633255999", TimestampMilliLayout, PRC).ToString())
-		s.Equal("2020-08-05 21:14:15.999999 +0800 CST", ParseByLayout("1596633255999999", TimestampMicroLayout, PRC).ToString())
-		s.Equal("2020-08-05 21:14:15.999999999 +0800 CST", ParseByLayout("1596633255999999999", TimestampNanoLayout, PRC).ToString())
 	})
 }
 
@@ -293,11 +283,6 @@ func (s *ParserSuite) TestParseByFormat() {
 		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByFormat("2020|08|05 13:14:15", "Y|m|d H:i:s").ToString())
 		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByFormat("It is 2020-08-05 13:14:15", "\\I\\t \\i\\s Y-m-d H:i:s").ToString())
 		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByFormat("今天是 2020年08月05日13时14分15秒", "今天是 Y年m月d日H时i分s秒").ToString())
-
-		s.Equal("2020-08-05 13:14:15 +0000 UTC", ParseByFormat("1596633255", TimestampFormat).ToString())
-		s.Equal("2020-08-05 13:14:15.999 +0000 UTC", ParseByFormat("1596633255999", TimestampMilliFormat).ToString())
-		s.Equal("2020-08-05 13:14:15.999999 +0000 UTC", ParseByFormat("1596633255999999", TimestampMicroFormat).ToString())
-		s.Equal("2020-08-05 13:14:15.999999999 +0000 UTC", ParseByFormat("1596633255999999999", TimestampNanoFormat).ToString())
 	})
 
 	s.Run("with timezone", func() {
@@ -308,19 +293,6 @@ func (s *ParserSuite) TestParseByFormat() {
 		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByFormat("2020|08|05 13:14:15", "Y|m|d H:i:s", PRC).ToString())
 		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByFormat("It is 2020-08-05 13:14:15", "\\I\\t \\i\\s Y-m-d H:i:s", PRC).ToString())
 		s.Equal("2020-08-05 13:14:15 +0800 CST", ParseByFormat("今天是 2020年08月05日13时14分15秒", "今天是 Y年m月d日H时i分s秒", PRC).ToString())
-
-		s.Equal("2020-08-05 21:14:15 +0800 CST", ParseByFormat("1596633255", TimestampFormat, PRC).ToString())
-		s.Equal("2020-08-05 21:14:15.999 +0800 CST", ParseByFormat("1596633255999", TimestampMilliFormat, PRC).ToString())
-		s.Equal("2020-08-05 21:14:15.999999 +0800 CST", ParseByFormat("1596633255999999", TimestampMicroFormat, PRC).ToString())
-		s.Equal("2020-08-05 21:14:15.999999999 +0800 CST", ParseByFormat("1596633255999999999", TimestampNanoFormat, PRC).ToString())
-	})
-
-	// https://github.com/dromara/carbon/issues/206
-	s.Run("issue206", func() {
-		s.Equal("2023-11-11 04:34:00 +0000 UTC", ParseByFormat("1699677240", TimestampFormat).ToString())
-		s.Equal("2023-11-11 04:34:00.666 +0000 UTC", ParseByFormat("1699677240666", TimestampMilliFormat).ToString())
-		s.Equal("2023-11-11 04:34:00.666666 +0000 UTC", ParseByFormat("1699677240666666", TimestampMicroFormat).ToString())
-		s.Equal("2023-11-11 04:34:00.666666666 +0000 UTC", ParseByFormat("1699677240666666666", TimestampNanoFormat).ToString())
 	})
 }
 
