@@ -1,6 +1,6 @@
 # 中国农历
 
-简体中文 | [English](README.md) | [日本語](README.jp.md)
+简体中文 | [English](README.md) | [日本語](README.ja.md)
 
 #### 用法示例
 

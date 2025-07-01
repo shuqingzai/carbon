@@ -1,6 +1,6 @@
 # Chinese Lunar
 
-English | [简体中文](README.cn.md) | [日本語](README.jp.md)
+English | [简体中文](README.cn.md) | [日本語](README.ja.md)
 
 #### Usage and example
 
