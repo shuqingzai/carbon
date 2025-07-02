@@ -106,4 +106,4 @@ carbon.IsTestNow() // false
 
 ## オープンソースプロトコル
 
-`Carbon` は `MIT` オープンソースプロトコルに準拠しており、詳細は[LICENSE]（./LICENSE）を参照してください
+`Carbon` は `MIT` オープンソースプロトコルに準拠しており、詳細は [LICENSE](./LICENSE) を参照してください
