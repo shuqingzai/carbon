@@ -123,7 +123,7 @@ func (s *CarbonSuite) TestCarbon_Copy() {
 		s.Equal("八月", oldCarbon.ToMonthString())
 		s.Equal("August", newCarbon.ToMonthString())
 
-		newCarbon.SetLocale("jp")
+		newCarbon.SetLocale("ja")
 		s.False(newCarbon.HasError())
 		s.False(oldCarbon.HasError())
 		s.Equal("八月", oldCarbon.ToMonthString())
