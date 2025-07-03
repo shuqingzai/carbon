@@ -100,7 +100,7 @@ carbon.IsTestNow() // false
 
 ## 謝辞
 
-`Carbon` は無料の JetBrains オープンソースライセンスを取得しました，これに感謝します
+`Carbon` は無料の `JetBrains` オープンソースライセンスを取得しました，これに感謝します
 
 <a href="https://www.jetbrains.com" target="_blank"><img src="https://carbon.go-pkg.com/jetbrains.svg?v=2.6.x" height="50" alt="JetBrains"/></a>
 
