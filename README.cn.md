@@ -105,7 +105,7 @@ carbon.IsTestNow() // false
 ## 赞助
 
 `Carbon` 是一个非商业开源项目, 如果你想支持 `Carbon`,
-你可以为开发者 [购买一杯咖啡](https://www.gouguoyin.com/zanzhu.html)
+你可以为开发者 [购买一杯咖啡](https://carbon.go-pkg.com/zh/sponsor.html)
 
 ## 致谢
 

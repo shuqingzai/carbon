@@ -100,7 +100,7 @@ Thanks to all the following who contributed to `Carbon`:
 
 ## Sponsors
 
-`Carbon` is a non-commercial open source project. If you want to support `Carbon`, you can [buy a cup of coffee](https://opencollective.com/go-carbon) for developer.
+`Carbon` is a non-commercial open source project. If you want to support `Carbon`, you can [buy a cup of coffee](https://carbon.go-pkg.com/sponsor.html) for developer.
 
 ## Thanks
 
