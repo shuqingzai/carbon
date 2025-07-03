@@ -96,11 +96,11 @@ carbon.IsTestNow() // false
 
 ## スポンサー
 
-`Carbon` は非営利のオープンソースプロジェクトです，`Carbon` をサポートしたい場合は、開発者のために [コーヒーを1杯購入](https://opencollective.com/go-carbon) できます
+`Carbon` は非営利のオープンソースプロジェクトです，`Carbon` をサポートしたい場合は、開発者のために [コーヒーを1杯購入](https://carbon.go-pkg.com/ja/sponsor.html) できます
 
 ## 謝辞
 
-`Carbon` は無料の `JetBrains` オープンソースライセンスを取得しました，これに感謝します
+`Carbon` は無料の JetBrains オープンソースライセンスを取得しました，これに感謝します
 
 <a href="https://www.jetbrains.com" target="_blank"><img src="https://carbon.go-pkg.com/jetbrains.svg?v=2.6.x" height="50" alt="JetBrains"/></a>
 

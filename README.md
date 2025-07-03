@@ -100,11 +100,11 @@ Thanks to all the following who contributed to `Carbon`:
 
 ## Sponsors
 
-`Carbon` is a non-commercial open source project. If you want to support `Carbon`, you can [buy a cup of coffee](https://opencollective.com/go-carbon) for developer.
+`Carbon` is a non-commercial open source project. If you want to support `Carbon`, you can [buy a cup of coffee](https://carbon.go-pkg.com/sponsor.html) for developer.
 
 ## Thanks
 
-`Carbon` had been being developed with GoLand under the free `JetBrains` Open Source license, I would like to express my
+`Carbon` had been being developed with GoLand under the free JetBrains Open Source license, I would like to express my
 thanks here.
 
 <a href="https://www.jetbrains.com" target="_blank"><img src="https://carbon.go-pkg.com/jetbrains.svg?v=2.6.x" height="50" alt="JetBrains"/></a>

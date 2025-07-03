@@ -105,11 +105,11 @@ carbon.IsTestNow() // false
 ## 赞助
 
 `Carbon` 是一个非商业开源项目, 如果你想支持 `Carbon`,
-你可以为开发者 [购买一杯咖啡](https://www.gouguoyin.com/zanzhu.html)
+你可以为开发者 [购买一杯咖啡](https://carbon.go-pkg.com/zh/sponsor.html)
 
 ## 致谢
 
-`Carbon`已获取免费的 `JetBrains` 开源许可证，在此表示感谢
+`Carbon`已获取免费的 JetBrains 开源许可证，在此表示感谢
 
 <a href="https://www.jetbrains.com" target="_blank"><img src="https://carbon.go-pkg.com/jetbrains.svg?v=2.6.x" height="50" alt="JetBrains"/></a>
 
