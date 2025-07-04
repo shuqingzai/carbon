@@ -158,8 +158,8 @@ func ParseByFormats(value string, formats []string, timezone ...string) *Carbon 
 		return &Carbon{Error: err}
 	}
 	var layouts []string
-	for i := range formats {
-		layouts = append(layouts, format2layout(formats[i]))
+	for _, v := range formats {
+		layouts = append(layouts, format2layout(v))
 	}
 	return ParseByLayouts(value, layouts, tz)
 }
