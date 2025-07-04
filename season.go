@@ -98,5 +98,5 @@ func (c *Carbon) IsWinter() bool {
 		return false
 	}
 	month := c.Month()
-	return month == 12 || month == 1 || month == 2
+	return month == 1 || month == 2 || month == 12
 }
