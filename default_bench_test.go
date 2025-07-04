@@ -17,15 +17,47 @@ func BenchmarkSetDefault(b *testing.B) {
 		},
 	}
 
-	b.ResetTimer()
-	for n := 0; n < b.N; n++ {
-		SetDefault(d)
-	}
+	b.Run("sequential", func(b *testing.B) {
+		b.ResetTimer()
+		for n := 0; n < b.N; n++ {
+			SetDefault(d)
+		}
+	})
+
+	b.Run("concurrent", func(b *testing.B) {
+		done := make(chan bool, b.N)
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			go func() {
+				SetDefault(d)
+				done <- true
+			}()
+		}
+		for i := 0; i < b.N; i++ {
+			<-done
+		}
+	})
 }
 
 func BenchmarkResetDefault(b *testing.B) {
-	b.ResetTimer()
-	for n := 0; n < b.N; n++ {
-		ResetDefault()
-	}
+	b.Run("sequential", func(b *testing.B) {
+		b.ResetTimer()
+		for n := 0; n < b.N; n++ {
+			ResetDefault()
+		}
+	})
+
+	b.Run("concurrent", func(b *testing.B) {
+		done := make(chan bool, b.N)
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			go func() {
+				ResetDefault()
+				done <- true
+			}()
+		}
+		for i := 0; i < b.N; i++ {
+			<-done
+		}
+	})
 }
