@@ -2,11 +2,6 @@ package carbon
 
 import "time"
 
-const (
-	minDuration Duration = -1 << 63
-	maxDuration Duration = 1<<63 - 1
-)
-
 // ZeroValue returns the zero value of Carbon instance.
 func ZeroValue() *Carbon {
 	return MinValue()
@@ -14,17 +9,17 @@ func ZeroValue() *Carbon {
 
 // EpochValue returns the unix epoch value of Carbon instance.
 func EpochValue() *Carbon {
-	return NewCarbon(time.Date(EpochYear, time.January, 1, 0, 0, 0, 0, time.UTC))
+	return NewCarbon(time.Date(EpochYear, time.January, MinDay, MinHour, MinMinute, MinSecond, MinNanosecond, time.UTC))
 }
 
 // MaxValue returns the maximum value of Carbon instance.
 func MaxValue() *Carbon {
-	return NewCarbon(time.Date(9999, time.December, 31, 23, 59, 59, 999999999, time.UTC))
+	return NewCarbon(time.Date(MaxYear, time.December, MaxDay, MaxHour, MaxMinute, MaxSecond, MaxNanosecond, time.UTC))
 }
 
 // MinValue returns the minimum value of Carbon instance.
 func MinValue() *Carbon {
-	return NewCarbon(time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC))
+	return NewCarbon(time.Date(MinYear, time.January, MinDay, MinHour, MinMinute, MinSecond, MinNanosecond, time.UTC))
 }
 
 // MaxDuration returns the maximum value of duration instance.

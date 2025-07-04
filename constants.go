@@ -148,6 +148,30 @@ const (
 	SecondsPerMinute   = 60
 )
 
+// max constants
+const (
+	maxDuration   Duration = 1<<63 - 1
+	MaxYear                = 9999
+	MaxMonth               = 12
+	MaxDay                 = 31
+	MaxHour                = 23
+	MaxMinute              = 59
+	MaxSecond              = 59
+	MaxNanosecond          = 999999999
+)
+
+// min constants
+const (
+	minDuration   Duration = -1 << 63
+	MinYear                = 1
+	MinMonth               = 1
+	MinDay                 = 1
+	MinHour                = 0
+	MinMinute              = 0
+	MinSecond              = 0
+	MinNanosecond          = 0
+)
+
 // layout constants
 const (
 	AtomLayout     = RFC3339Layout
