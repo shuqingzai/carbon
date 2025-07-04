@@ -46,12 +46,12 @@ func Max(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	if len(c2) == 0 {
 		return
 	}
-	for i := range c2 {
-		if c2[i].IsInvalid() {
-			return c2[i]
+	for _, carbon := range c2 {
+		if carbon.IsInvalid() {
+			return carbon
 		}
-		if c2[i].Gte(c) {
-			c = c2[i]
+		if carbon.Gte(c) {
+			c = carbon
 		}
 	}
 	return
@@ -66,12 +66,12 @@ func Min(c1 *Carbon, c2 ...*Carbon) (c *Carbon) {
 	if len(c2) == 0 {
 		return
 	}
-	for i := range c2 {
-		if c2[i].IsInvalid() {
-			return c2[i]
+	for _, carbon := range c2 {
+		if carbon.IsInvalid() {
+			return carbon
 		}
-		if c2[i].Lte(c) {
-			c = c2[i]
+		if carbon.Lte(c) {
+			c = carbon
 		}
 	}
 	return
@@ -88,16 +88,12 @@ func (c *Carbon) Closest(c1 *Carbon, c2 ...*Carbon) *Carbon {
 	if len(c2) == 0 {
 		return c1
 	}
-	args := append([]*Carbon{c1}, c2...)
-	for i := range args {
-		if args[i].IsInvalid() {
-			return args[i]
-		}
-	}
-	closest := args[0]
+	closest := c1
 	minDiff := c.DiffAbsInSeconds(closest)
-	for i := range args[1:] {
-		arg := args[1:][i]
+	for _, arg := range c2 {
+		if arg.IsInvalid() {
+			return arg
+		}
 		diff := c.DiffAbsInSeconds(arg)
 		if diff < minDiff {
 			minDiff = diff
@@ -118,16 +114,12 @@ func (c *Carbon) Farthest(c1 *Carbon, c2 ...*Carbon) *Carbon {
 	if len(c2) == 0 {
 		return c1
 	}
-	args := append([]*Carbon{c1}, c2...)
-	for i := range args {
-		if args[i].IsInvalid() {
-			return args[i]
-		}
-	}
-	farthest := args[0]
+	farthest := c1
 	maxDiff := c.DiffAbsInSeconds(farthest)
-	for i := range args[1:] {
-		arg := args[1:][i]
+	for _, arg := range c2 {
+		if arg.IsInvalid() {
+			return arg
+		}
 		diff := c.DiffAbsInSeconds(arg)
 		if diff > maxDiff {
 			maxDiff = diff
