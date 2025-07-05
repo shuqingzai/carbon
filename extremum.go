@@ -1,6 +1,13 @@
 package carbon
 
-import "time"
+import (
+	"time"
+)
+
+const (
+	minDuration Duration = -1 << 63
+	maxDuration Duration = 1<<63 - 1
+)
 
 // ZeroValue returns the zero value of Carbon instance.
 func ZeroValue() *Carbon {
