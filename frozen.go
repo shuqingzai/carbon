@@ -22,25 +22,19 @@ func SetTestNow(c *Carbon) {
 	frozenNow.testNow = c
 }
 
-// CleanTestNow clears the test Carbon instance for now.
-//
-// Deprecated: it will be removed in the future, use "ClearTestNow" instead.
-func CleanTestNow() {
-	ClearTestNow()
-}
-
 // ClearTestNow clears the test Carbon instance for now.
 func ClearTestNow() {
 	frozenNow.rw.Lock()
 	defer frozenNow.rw.Unlock()
 
 	frozenNow.isFrozen = false
+	frozenNow.testNow = nil
 }
 
 // IsTestNow reports whether is testing time.
 func IsTestNow() bool {
-	frozenNow.rw.Lock()
-	defer frozenNow.rw.Unlock()
+	frozenNow.rw.RLock()
+	defer frozenNow.rw.RUnlock()
 
 	return frozenNow.isFrozen
 }
