@@ -6,238 +6,56 @@ import (
 
 func BenchmarkCarbon_Season(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.Season()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.Season()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.Season()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.Season()
+	}
 }
 
 func BenchmarkCarbon_StartOfSeason(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.StartOfSeason()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.StartOfSeason()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.StartOfSeason()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.StartOfSeason()
+	}
 }
 
 func BenchmarkCarbon_EndOfSeason(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.EndOfSeason()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.EndOfSeason()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.EndOfSeason()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.EndOfSeason()
+	}
 }
 
 func BenchmarkCarbon_IsSpring(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.IsSpring()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.IsSpring()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.IsSpring()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.IsSpring()
+	}
 }
 
 func BenchmarkCarbon_IsSummer(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.IsSummer()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.IsSummer()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.IsSummer()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.IsSummer()
+	}
 }
 
 func BenchmarkCarbon_IsAutumn(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.IsAutumn()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.IsAutumn()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.IsAutumn()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.IsAutumn()
+	}
 }
 
 func BenchmarkCarbon_IsWinter(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.IsWinter()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.IsWinter()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.IsWinter()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.IsWinter()
+	}
 }
