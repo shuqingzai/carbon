@@ -6,376 +6,90 @@ import (
 
 func BenchmarkCarbon_HasError(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.HasError()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.HasError()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.HasError()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.HasError()
+	}
 }
 
 func BenchmarkCarbon_IsNil(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.IsNil()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.IsNil()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.IsNil()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.IsNil()
+	}
 }
 
 func BenchmarkCarbon_IsEmpty(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.IsEmpty()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.IsEmpty()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.IsEmpty()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.IsEmpty()
+	}
 }
 
 func BenchmarkCarbon_IsZero(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.IsZero()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.IsZero()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.IsZero()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.IsZero()
+	}
 }
 
 func BenchmarkCarbon_IsEpoch(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.IsEpoch()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.IsEpoch()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.IsEpoch()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.IsEpoch()
+	}
 }
 
 func BenchmarkCarbon_IsValid(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.IsValid()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.IsValid()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.IsValid()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.IsValid()
+	}
 }
 
 func BenchmarkCarbon_IsInvalid(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.IsInvalid()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.IsInvalid()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.IsInvalid()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.IsValid()
+	}
 }
 
 func BenchmarkCarbon_IsDST(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.IsDST()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.IsDST()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.IsDST()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.IsDST()
+	}
 }
 
 func BenchmarkCarbon_IsAM(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.IsAM()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.IsAM()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.IsAM()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.IsAM()
+	}
 }
 
 func BenchmarkCarbon_IsPM(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.IsPM()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.IsPM()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.IsPM()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.IsPM()
+	}
 }
 
 func BenchmarkCarbon_IsLeapYear(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			c.IsLeapYear()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				c.IsLeapYear()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				c.IsLeapYear()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		c.IsLeapYear()
+	}
 }
 
 func BenchmarkCarbon_IsLongYear(b *testing.B) {
