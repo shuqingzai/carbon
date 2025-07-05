@@ -7,70 +7,18 @@ import (
 
 func BenchmarkCarbonType_Scan(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			_ = c.Scan(c)
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				_ = c.Scan(c)
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				_ = c.Scan(c)
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_ = c.Scan(c)
+	}
 }
 
 func BenchmarkCarbonType_Value(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			_, _ = c.Value()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				_, _ = c.Value()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				_, _ = c.Value()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_, _ = c.Value()
+	}
 }
 
 func BenchmarkCarbonType_MarshalJSON(b *testing.B) {
@@ -79,173 +27,44 @@ func BenchmarkCarbonType_MarshalJSON(b *testing.B) {
 	model.Carbon1 = *Parse("2020-08-05 13:14:15.999999999")
 	model.Carbon2 = Parse("2020-08-05 13:14:15.999999999")
 
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			_, _ = json.Marshal(&model)
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				_, _ = json.Marshal(&model)
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				_, _ = json.Marshal(&model)
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_, _ = json.Marshal(&model)
+	}
 }
 
 func BenchmarkCarbonType_UnmarshalJSON(b *testing.B) {
 	var model carbonTypeModel
 
 	value := `{"carbon1":"2020-08-05 13:14:15","carbon2":"2020-08-05 13:14:15"}`
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			_ = json.Unmarshal([]byte(value), &model)
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				_ = json.Unmarshal([]byte(value), &model)
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				_ = json.Unmarshal([]byte(value), &model)
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_ = json.Unmarshal([]byte(value), &model)
+	}
 }
 
 func BenchmarkCarbonType_String(b *testing.B) {
 	c := Now()
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			_ = c.String()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				_ = c.String()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				_ = c.String()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_ = c.String()
+	}
 }
 
 func BenchmarkBuiltinType_Scan(b *testing.B) {
 	t := NewDateTime(Now())
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			_ = t.Scan(Now())
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				_ = t.Scan(Now())
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				_ = t.Scan(Now())
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_ = t.Scan(Now())
+	}
 }
 
 func BenchmarkBuiltinType_Value(b *testing.B) {
 	t := NewDateTime(Now())
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			_, _ = t.Value()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				_, _ = t.Value()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				_, _ = t.Value()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_, _ = t.Value()
+	}
 }
 
 func BenchmarkBuiltinType_MarshalJSON(b *testing.B) {
@@ -277,105 +96,28 @@ func BenchmarkBuiltinType_MarshalJSON(b *testing.B) {
 	model.UpdatedAt = NewDateTime(c)
 	model.DeletedAt = NewTimestamp(c)
 
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			_, _ = json.Marshal(&model)
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				_, _ = json.Marshal(&model)
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				_, _ = json.Marshal(&model)
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_, _ = json.Marshal(&model)
+	}
 }
 
 func BenchmarkBuiltinType_UnmarshalJSON(b *testing.B) {
 	var model builtinTypeModel
 
 	value := `{"date":"2020-08-05","date_milli":"2020-08-05.999","date_micro":"2020-08-05.999999","date_nano":"2020-08-05.999999999","time":"13:14:15","time_milli":"13:14:15.999","time_micro":"13:14:15.999999","time_nano":"13:14:15.999999999","date_time":"2020-08-05 13:14:15","date_time_milli":"2020-08-05 13:14:15.999","date_time_micro":"2020-08-05 13:14:15.999999","date_time_nano":"2020-08-05 13:14:15.999999999","created_at":"2020-08-05 13:14:15","updated_at":"2020-08-05 13:14:15","timestamp":1596633255,"timestamp_milli":1596633255999,"timestamp_micro":1596633255999999,"timestamp_nano":1596633255999999999,"deleted_at":1596633255}`
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			_ = json.Unmarshal([]byte(value), &model)
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				_ = json.Unmarshal([]byte(value), &model)
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				_ = json.Unmarshal([]byte(value), &model)
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_ = json.Unmarshal([]byte(value), &model)
+	}
 }
 
 func BenchmarkBuiltinType_String(b *testing.B) {
 	t := NewDateTime(Now())
-
-	b.Run("sequential", func(b *testing.B) {
-		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			_ = t.String()
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				_ = t.String()
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
-	})
-
-	b.Run("parallel", func(b *testing.B) {
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				_ = t.String()
-			}
-		})
-	})
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_ = t.String()
+	}
 }
 
 func BenchmarkCustomerType_Scan(b *testing.B) {
