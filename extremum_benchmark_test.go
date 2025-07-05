@@ -25,6 +25,15 @@ func BenchmarkZeroValue(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				ZeroValue()
+			}
+		})
+	})
 }
 
 func BenchmarkEpochValue(b *testing.B) {
@@ -47,6 +56,15 @@ func BenchmarkEpochValue(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				EpochValue()
+			}
+		})
 	})
 }
 
@@ -71,6 +89,15 @@ func BenchmarkMaxValue(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				MaxValue()
+			}
+		})
+	})
 }
 
 func BenchmarkMinValue(b *testing.B) {
@@ -93,6 +120,15 @@ func BenchmarkMinValue(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				MinValue()
+			}
+		})
 	})
 }
 
@@ -117,6 +153,15 @@ func BenchmarkMaxDuration(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				MaxDuration()
+			}
+		})
+	})
 }
 
 func BenchmarkMinDuration(b *testing.B) {
@@ -139,6 +184,15 @@ func BenchmarkMinDuration(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				MinDuration()
+			}
+		})
 	})
 }
 
@@ -166,6 +220,15 @@ func BenchmarkMax(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				Max(c1, c2)
+			}
+		})
+	})
 }
 
 func BenchmarkMin(b *testing.B) {
@@ -192,6 +255,15 @@ func BenchmarkMin(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				Min(c1, c2)
+			}
+		})
+	})
 }
 
 func BenchmarkCarbon_Closest(b *testing.B) {
@@ -202,7 +274,7 @@ func BenchmarkCarbon_Closest(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
 		for n := 0; n < b.N; n++ {
-			c1.Closest(c2, c3)
+			c2.Closest(c1, c3)
 		}
 	})
 
@@ -211,13 +283,22 @@ func BenchmarkCarbon_Closest(b *testing.B) {
 		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
 			go func() {
-				c1.Closest(c2, c3)
+				c2.Closest(c1, c3)
 				done <- true
 			}()
 		}
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c2.Closest(c1, c3)
+			}
+		})
 	})
 }
 
@@ -229,7 +310,7 @@ func BenchmarkCarbon_Farthest(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
 		for n := 0; n < b.N; n++ {
-			c1.Farthest(c2, c3)
+			c2.Farthest(c1, c3)
 		}
 	})
 
@@ -238,12 +319,21 @@ func BenchmarkCarbon_Farthest(b *testing.B) {
 		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
 			go func() {
-				c1.Farthest(c2, c3)
+				c2.Farthest(c1, c3)
 				done <- true
 			}()
 		}
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c2.Farthest(c1, c3)
+			}
+		})
 	})
 }

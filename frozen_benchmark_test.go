@@ -4,11 +4,15 @@ import (
 	"testing"
 )
 
-func BenchmarkParse(b *testing.B) {
+func BenchmarkSetTestNow(b *testing.B) {
+	defer ClearTestNow()
+
+	c := Now()
+
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
 		for n := 0; n < b.N; n++ {
-			Parse("2020-08-05 01:02:03")
+			SetTestNow(c)
 		}
 	})
 
@@ -17,21 +21,30 @@ func BenchmarkParse(b *testing.B) {
 		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
 			go func() {
-				Parse("2020-08-05 01:02:03")
+				SetTestNow(c)
 				done <- true
 			}()
 		}
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				SetTestNow(c)
+			}
+		})
 	})
 }
 
-func BenchmarkParseByLayout(b *testing.B) {
+func BenchmarkClearTestNow(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
 		for n := 0; n < b.N; n++ {
-			ParseByLayout("2020-08-05 13:14:15", DateTimeLayout)
+			ClearTestNow()
 		}
 	})
 
@@ -40,21 +53,30 @@ func BenchmarkParseByLayout(b *testing.B) {
 		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
 			go func() {
-				ParseByLayout("2020-08-05 13:14:15", DateTimeLayout)
+				ClearTestNow()
 				done <- true
 			}()
 		}
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				ClearTestNow()
+			}
+		})
 	})
 }
 
-func BenchmarkParseByFormat(b *testing.B) {
+func BenchmarkIsTestNow(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
 		for n := 0; n < b.N; n++ {
-			ParseByFormat("2020-08-05 13:14:15", DateTimeFormat)
+			IsTestNow()
 		}
 	})
 
@@ -63,21 +85,33 @@ func BenchmarkParseByFormat(b *testing.B) {
 		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
 			go func() {
-				ParseByFormat("2020-08-05 13:14:15", DateTimeFormat)
+				IsTestNow()
 				done <- true
 			}()
 		}
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				IsTestNow()
+			}
+		})
 	})
 }
 
-func BenchmarkParseByLayouts(b *testing.B) {
+func BenchmarkIsTestNow_WhenFrozen(b *testing.B) {
+	SetTestNow(Now())
+	defer ClearTestNow()
+
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
 		for n := 0; n < b.N; n++ {
-			ParseByLayouts("2020-08-05 13:14:15", []string{DateLayout, DateTimeLayout})
+			IsTestNow()
 		}
 	})
 
@@ -86,7 +120,7 @@ func BenchmarkParseByLayouts(b *testing.B) {
 		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
 			go func() {
-				ParseByLayouts("2020-08-05 13:14:15", []string{DateLayout, DateTimeLayout})
+				IsTestNow()
 				done <- true
 			}()
 		}
@@ -94,27 +128,13 @@ func BenchmarkParseByLayouts(b *testing.B) {
 			<-done
 		}
 	})
-}
 
-func BenchmarkParseByFormats(b *testing.B) {
-	b.Run("sequential", func(b *testing.B) {
+	b.Run("parallel", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < b.N; n++ {
-			ParseByFormats("2020-08-05 13:14:15", []string{DateFormat, DateTimeFormat})
-		}
-	})
-
-	b.Run("concurrent", func(b *testing.B) {
-		done := make(chan bool, b.N)
-		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
-			go func() {
-				ParseByFormats("2020-08-05 13:14:15", []string{DateFormat, DateTimeFormat})
-				done <- true
-			}()
-		}
-		for i := 0; i < b.N; i++ {
-			<-done
-		}
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				IsTestNow()
+			}
+		})
 	})
 }

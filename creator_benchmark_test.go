@@ -28,6 +28,15 @@ func BenchmarkCreateFromStdTime(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromStdTime(now)
+			}
+		})
+	})
 }
 
 func BenchmarkCreateFromTimestamp(b *testing.B) {
@@ -50,6 +59,15 @@ func BenchmarkCreateFromTimestamp(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromTimestamp(1649735755)
+			}
+		})
 	})
 }
 
@@ -74,6 +92,15 @@ func BenchmarkCreateFromTimestampMilli(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromTimestampMilli(1649735755)
+			}
+		})
+	})
 }
 
 func BenchmarkCreateFromTimestampMicro(b *testing.B) {
@@ -96,6 +123,15 @@ func BenchmarkCreateFromTimestampMicro(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromTimestampMicro(1649735755)
+			}
+		})
 	})
 }
 
@@ -120,6 +156,15 @@ func BenchmarkCreateFromTimestampNano(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromTimestampNano(1649735755)
+			}
+		})
+	})
 }
 
 func BenchmarkCreateFromDateTime(b *testing.B) {
@@ -142,6 +187,15 @@ func BenchmarkCreateFromDateTime(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromDateTime(2020, 8, 5, 13, 14, 15)
+			}
+		})
 	})
 }
 
@@ -166,6 +220,15 @@ func BenchmarkCreateFromDateTimeMilli(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromDateTimeMilli(2020, 8, 5, 13, 14, 15, 999)
+			}
+		})
+	})
 }
 
 func BenchmarkCreateFromDateTimeMicro(b *testing.B) {
@@ -188,6 +251,15 @@ func BenchmarkCreateFromDateTimeMicro(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromDateTimeMicro(2020, 8, 5, 13, 14, 15, 999999)
+			}
+		})
 	})
 }
 
@@ -212,6 +284,15 @@ func BenchmarkCreateFromDateTimeNano(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromDateTimeNano(2020, 8, 5, 13, 14, 15, 999999999)
+			}
+		})
+	})
 }
 
 func BenchmarkCreateFromDate(b *testing.B) {
@@ -234,6 +315,15 @@ func BenchmarkCreateFromDate(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromDate(2020, 8, 5)
+			}
+		})
 	})
 }
 
@@ -258,6 +348,15 @@ func BenchmarkCreateFromDateMilli(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromDateMilli(2020, 8, 5, 999)
+			}
+		})
+	})
 }
 
 func BenchmarkCreateFromDateMicro(b *testing.B) {
@@ -280,6 +379,15 @@ func BenchmarkCreateFromDateMicro(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromDateMicro(2020, 8, 5, 999999)
+			}
+		})
 	})
 }
 
@@ -304,6 +412,15 @@ func BenchmarkCreateFromDateNano(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromDateNano(2020, 8, 5, 999999999)
+			}
+		})
+	})
 }
 
 func BenchmarkCreateFromTime(b *testing.B) {
@@ -326,6 +443,15 @@ func BenchmarkCreateFromTime(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromTime(13, 14, 15)
+			}
+		})
 	})
 }
 
@@ -350,6 +476,15 @@ func BenchmarkCreateFromTimeMilli(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromTimeMilli(13, 14, 15, 999)
+			}
+		})
+	})
 }
 
 func BenchmarkCreateFromTimeMicro(b *testing.B) {
@@ -373,6 +508,15 @@ func BenchmarkCreateFromTimeMicro(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromTimeMicro(13, 14, 15, 999999)
+			}
+		})
+	})
 }
 
 func BenchmarkCreateFromTimeNano(b *testing.B) {
@@ -395,5 +539,14 @@ func BenchmarkCreateFromTimeNano(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromTimeNano(13, 14, 15, 999999999)
+			}
+		})
 	})
 }

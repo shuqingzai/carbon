@@ -27,6 +27,15 @@ func BenchmarkCarbon_Season(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.Season()
+			}
+		})
+	})
 }
 
 func BenchmarkCarbon_StartOfSeason(b *testing.B) {
@@ -51,6 +60,15 @@ func BenchmarkCarbon_StartOfSeason(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.StartOfSeason()
+			}
+		})
 	})
 }
 
@@ -77,6 +95,15 @@ func BenchmarkCarbon_EndOfSeason(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.EndOfSeason()
+			}
+		})
+	})
 }
 
 func BenchmarkCarbon_IsSpring(b *testing.B) {
@@ -101,6 +128,15 @@ func BenchmarkCarbon_IsSpring(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.IsSpring()
+			}
+		})
 	})
 }
 
@@ -127,6 +163,15 @@ func BenchmarkCarbon_IsSummer(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.IsSummer()
+			}
+		})
+	})
 }
 
 func BenchmarkCarbon_IsAutumn(b *testing.B) {
@@ -152,6 +197,15 @@ func BenchmarkCarbon_IsAutumn(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.IsAutumn()
+			}
+		})
+	})
 }
 
 func BenchmarkCarbon_IsWinter(b *testing.B) {
@@ -176,5 +230,14 @@ func BenchmarkCarbon_IsWinter(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.IsWinter()
+			}
+		})
 	})
 }

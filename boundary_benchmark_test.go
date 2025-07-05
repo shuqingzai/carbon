@@ -27,6 +27,15 @@ func BenchmarkCarbon_StartOfCentury(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.StartOfCentury()
+			}
+		})
+	})
 }
 
 func BenchmarkCarbon_EndOfCentury(b *testing.B) {
@@ -51,6 +60,15 @@ func BenchmarkCarbon_EndOfCentury(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.EndOfCentury()
+			}
+		})
 	})
 }
 
@@ -77,6 +95,15 @@ func BenchmarkCarbon_StartOfDecade(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.StartOfDecade()
+			}
+		})
+	})
 }
 
 func BenchmarkCarbon_EndOfDecade(b *testing.B) {
@@ -101,6 +128,15 @@ func BenchmarkCarbon_EndOfDecade(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.EndOfDecade()
+			}
+		})
 	})
 }
 
@@ -127,6 +163,15 @@ func BenchmarkCarbon_StartOfYear(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.StartOfYear()
+			}
+		})
+	})
 }
 
 func BenchmarkCarbon_EndOfYear(b *testing.B) {
@@ -151,6 +196,15 @@ func BenchmarkCarbon_EndOfYear(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.EndOfYear()
+			}
+		})
 	})
 }
 
@@ -177,6 +231,15 @@ func BenchmarkCarbon_StartOfQuarter(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.StartOfQuarter()
+			}
+		})
+	})
 }
 
 func BenchmarkCarbon_EndOfQuarter(b *testing.B) {
@@ -201,6 +264,15 @@ func BenchmarkCarbon_EndOfQuarter(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.EndOfQuarter()
+			}
+		})
 	})
 }
 
@@ -227,6 +299,15 @@ func BenchmarkCarbon_StartOfMonth(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.StartOfMonth()
+			}
+		})
+	})
 }
 
 func BenchmarkCarbon_EndOfMonth(b *testing.B) {
@@ -251,6 +332,15 @@ func BenchmarkCarbon_EndOfMonth(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.EndOfMonth()
+			}
+		})
 	})
 }
 
@@ -277,6 +367,15 @@ func BenchmarkCarbon_StartOfWeek(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.StartOfWeek()
+			}
+		})
+	})
 }
 
 func BenchmarkCarbon_EndOfWeek(b *testing.B) {
@@ -301,6 +400,15 @@ func BenchmarkCarbon_EndOfWeek(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.EndOfWeek()
+			}
+		})
 	})
 }
 
@@ -327,6 +435,15 @@ func BenchmarkCarbon_StartOfDay(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.StartOfDay()
+			}
+		})
+	})
 }
 
 func BenchmarkCarbon_EndOfDay(b *testing.B) {
@@ -351,6 +468,15 @@ func BenchmarkCarbon_EndOfDay(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.EndOfDay()
+			}
+		})
 	})
 }
 
@@ -377,6 +503,15 @@ func BenchmarkCarbon_StartOfHour(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.StartOfHour()
+			}
+		})
+	})
 }
 
 func BenchmarkCarbon_EndOfHour(b *testing.B) {
@@ -401,6 +536,15 @@ func BenchmarkCarbon_EndOfHour(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.EndOfHour()
+			}
+		})
 	})
 }
 
@@ -427,6 +571,15 @@ func BenchmarkCarbon_StartOfMinute(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.StartOfMinute()
+			}
+		})
+	})
 }
 
 func BenchmarkCarbon_EndOfMinute(b *testing.B) {
@@ -451,6 +604,15 @@ func BenchmarkCarbon_EndOfMinute(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.EndOfMinute()
+			}
+		})
 	})
 }
 
@@ -477,6 +639,15 @@ func BenchmarkCarbon_StartOfSecond(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.StartOfSecond()
+			}
+		})
+	})
 }
 
 func BenchmarkCarbon_EndOfSecond(b *testing.B) {
@@ -501,5 +672,14 @@ func BenchmarkCarbon_EndOfSecond(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.EndOfSecond()
+			}
+		})
 	})
 }

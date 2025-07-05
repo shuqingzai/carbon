@@ -28,6 +28,15 @@ func BenchmarkLanguage_Copy(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				lang.Copy()
+			}
+		})
+	})
 }
 
 func BenchmarkLanguage_SetLocale(b *testing.B) {
@@ -47,6 +56,15 @@ func BenchmarkLanguage_SetLocale(b *testing.B) {
 				lang.SetLocale("en")
 			}()
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				lang.SetLocale("en")
+			}
+		})
 	})
 }
 
@@ -92,6 +110,15 @@ func BenchmarkLanguage_SetResources(b *testing.B) {
 			<-done
 		}
 	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				lang.SetResources(resources)
+			}
+		})
+	})
 }
 
 func BenchmarkLanguage_translate(b *testing.B) {
@@ -117,5 +144,14 @@ func BenchmarkLanguage_translate(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			<-done
 		}
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				lang.translate("month", 1)
+			}
+		})
 	})
 }
