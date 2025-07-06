@@ -10,7 +10,7 @@ func BenchmarkCreateFromStdTime(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		now := time.Now().In(time.Local)
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromStdTime(now)
 		}
 	})
@@ -19,7 +19,7 @@ func BenchmarkCreateFromStdTime(b *testing.B) {
 		var wg sync.WaitGroup
 		now := time.Now().In(time.Local)
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -43,7 +43,7 @@ func BenchmarkCreateFromStdTime(b *testing.B) {
 func BenchmarkCreateFromTimestamp(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromTimestamp(1649735755)
 		}
 	})
@@ -51,7 +51,7 @@ func BenchmarkCreateFromTimestamp(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -74,7 +74,7 @@ func BenchmarkCreateFromTimestamp(b *testing.B) {
 func BenchmarkCreateFromTimestampMilli(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromTimestampMilli(1649735755)
 		}
 	})
@@ -82,7 +82,7 @@ func BenchmarkCreateFromTimestampMilli(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -105,7 +105,7 @@ func BenchmarkCreateFromTimestampMilli(b *testing.B) {
 func BenchmarkCreateFromTimestampMicro(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromTimestampMicro(1649735755)
 		}
 	})
@@ -113,7 +113,7 @@ func BenchmarkCreateFromTimestampMicro(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -136,7 +136,7 @@ func BenchmarkCreateFromTimestampMicro(b *testing.B) {
 func BenchmarkCreateFromTimestampNano(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromTimestampNano(1649735755)
 		}
 	})
@@ -144,7 +144,7 @@ func BenchmarkCreateFromTimestampNano(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -167,7 +167,7 @@ func BenchmarkCreateFromTimestampNano(b *testing.B) {
 func BenchmarkCreateFromDateTime(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromDateTime(2020, 8, 5, 13, 14, 15)
 		}
 	})
@@ -175,7 +175,7 @@ func BenchmarkCreateFromDateTime(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -198,7 +198,7 @@ func BenchmarkCreateFromDateTime(b *testing.B) {
 func BenchmarkCreateFromDateTimeMilli(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromDateTimeMilli(2020, 8, 5, 13, 14, 15, 999)
 		}
 	})
@@ -206,7 +206,7 @@ func BenchmarkCreateFromDateTimeMilli(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -229,7 +229,7 @@ func BenchmarkCreateFromDateTimeMilli(b *testing.B) {
 func BenchmarkCreateFromDateTimeMicro(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromDateTimeMicro(2020, 8, 5, 13, 14, 15, 999999)
 		}
 	})
@@ -237,7 +237,7 @@ func BenchmarkCreateFromDateTimeMicro(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -260,7 +260,7 @@ func BenchmarkCreateFromDateTimeMicro(b *testing.B) {
 func BenchmarkCreateFromDateTimeNano(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromDateTimeNano(2020, 8, 5, 13, 14, 15, 999999999)
 		}
 	})
@@ -268,7 +268,7 @@ func BenchmarkCreateFromDateTimeNano(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -291,7 +291,7 @@ func BenchmarkCreateFromDateTimeNano(b *testing.B) {
 func BenchmarkCreateFromDate(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromDate(2020, 8, 5)
 		}
 	})
@@ -299,7 +299,7 @@ func BenchmarkCreateFromDate(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -322,7 +322,7 @@ func BenchmarkCreateFromDate(b *testing.B) {
 func BenchmarkCreateFromDateMilli(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromDateMilli(2020, 8, 5, 999)
 		}
 	})
@@ -330,7 +330,7 @@ func BenchmarkCreateFromDateMilli(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -353,7 +353,7 @@ func BenchmarkCreateFromDateMilli(b *testing.B) {
 func BenchmarkCreateFromDateMicro(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromDateMicro(2020, 8, 5, 999999)
 		}
 	})
@@ -361,7 +361,7 @@ func BenchmarkCreateFromDateMicro(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -384,7 +384,7 @@ func BenchmarkCreateFromDateMicro(b *testing.B) {
 func BenchmarkCreateFromDateNano(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromDateNano(2020, 8, 5, 999999999)
 		}
 	})
@@ -392,7 +392,7 @@ func BenchmarkCreateFromDateNano(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -415,7 +415,7 @@ func BenchmarkCreateFromDateNano(b *testing.B) {
 func BenchmarkCreateFromTime(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromTime(13, 14, 15)
 		}
 	})
@@ -423,7 +423,7 @@ func BenchmarkCreateFromTime(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -446,7 +446,7 @@ func BenchmarkCreateFromTime(b *testing.B) {
 func BenchmarkCreateFromTimeMilli(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromTimeMilli(13, 14, 15, 999)
 		}
 	})
@@ -454,7 +454,7 @@ func BenchmarkCreateFromTimeMilli(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -477,7 +477,7 @@ func BenchmarkCreateFromTimeMilli(b *testing.B) {
 func BenchmarkCreateFromTimeMicro(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromTimeMicro(13, 14, 15, 999999)
 		}
 	})
@@ -485,7 +485,7 @@ func BenchmarkCreateFromTimeMicro(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -508,7 +508,7 @@ func BenchmarkCreateFromTimeMicro(b *testing.B) {
 func BenchmarkCreateFromTimeNano(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			CreateFromTimeNano(13, 14, 15, 999999999)
 		}
 	})
@@ -516,7 +516,7 @@ func BenchmarkCreateFromTimeNano(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()

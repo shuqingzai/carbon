@@ -10,7 +10,7 @@ func BenchmarkSetTestNow(b *testing.B) {
 		defer ClearTestNow()
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			SetTestNow(c)
 		}
 	})
@@ -20,7 +20,7 @@ func BenchmarkSetTestNow(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -45,7 +45,7 @@ func BenchmarkSetTestNow(b *testing.B) {
 func BenchmarkClearTestNow(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			ClearTestNow()
 		}
 	})
@@ -53,7 +53,7 @@ func BenchmarkClearTestNow(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -76,7 +76,7 @@ func BenchmarkClearTestNow(b *testing.B) {
 func BenchmarkIsTestNow(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			IsTestNow()
 		}
 	})
@@ -84,7 +84,7 @@ func BenchmarkIsTestNow(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()

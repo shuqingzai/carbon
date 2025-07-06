@@ -11,14 +11,14 @@ func BenchmarkCarbonType_Scan(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("sequential", func(b *testing.B) {
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			_ = c.Scan(c)
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -42,14 +42,14 @@ func BenchmarkCarbonType_Value(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("sequential", func(b *testing.B) {
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			_, _ = c.Value()
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -75,14 +75,14 @@ func BenchmarkCarbonType_MarshalJSON(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("sequential", func(b *testing.B) {
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			_, _ = json.Marshal(&model)
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -107,14 +107,14 @@ func BenchmarkCarbonType_UnmarshalJSON(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("sequential", func(b *testing.B) {
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			_ = json.Unmarshal([]byte(value), &model)
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -138,14 +138,14 @@ func BenchmarkCarbonType_String(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("sequential", func(b *testing.B) {
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			_ = c.String()
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -169,14 +169,14 @@ func BenchmarkBuiltinType_Scan(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("sequential", func(b *testing.B) {
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			_ = t.Scan(Now())
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -200,14 +200,14 @@ func BenchmarkBuiltinType_Value(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("sequential", func(b *testing.B) {
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			_, _ = t.Value()
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -256,14 +256,14 @@ func BenchmarkBuiltinType_MarshalJSON(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("sequential", func(b *testing.B) {
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			_, _ = json.Marshal(&model)
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -288,14 +288,14 @@ func BenchmarkBuiltinType_UnmarshalJSON(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("sequential", func(b *testing.B) {
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			_ = json.Unmarshal([]byte(value), &model)
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -319,14 +319,14 @@ func BenchmarkBuiltinType_String(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("sequential", func(b *testing.B) {
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			_ = t.String()
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -350,14 +350,14 @@ func BenchmarkCustomerType_Scan(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("sequential", func(b *testing.B) {
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			_ = t.Scan(Now())
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -381,14 +381,14 @@ func BenchmarkCustomerType_Value(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("sequential", func(b *testing.B) {
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			_, _ = t.Value()
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -421,14 +421,14 @@ func BenchmarkCustomerType_MarshalJSON(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("sequential", func(b *testing.B) {
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			_, _ = json.Marshal(&model)
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -453,14 +453,14 @@ func BenchmarkCustomerType_UnmarshalJSON(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("sequential", func(b *testing.B) {
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			_ = json.Unmarshal([]byte(value), &model)
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -484,14 +484,14 @@ func BenchmarkCustomerType_String(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("sequential", func(b *testing.B) {
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			_ = t.String()
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()

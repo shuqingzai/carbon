@@ -9,7 +9,7 @@ func BenchmarkLanguage_Copy(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		lang := NewLanguage()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			lang.Copy()
 		}
 	})
@@ -18,7 +18,7 @@ func BenchmarkLanguage_Copy(b *testing.B) {
 		var wg sync.WaitGroup
 		lang := NewLanguage()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -43,7 +43,7 @@ func BenchmarkLanguage_SetLocale(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		lang := NewLanguage()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			lang.SetLocale("en")
 		}
 	})
@@ -52,7 +52,7 @@ func BenchmarkLanguage_SetLocale(b *testing.B) {
 		var wg sync.WaitGroup
 		lang := NewLanguage()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -81,7 +81,7 @@ func BenchmarkLanguage_SetResources(b *testing.B) {
 		}
 		lang := NewLanguage()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			lang.SetResources(resources)
 		}
 	})
@@ -94,7 +94,7 @@ func BenchmarkLanguage_SetResources(b *testing.B) {
 		}
 		lang := NewLanguage()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -124,7 +124,7 @@ func BenchmarkLanguage_translate(b *testing.B) {
 		lang := NewLanguage()
 		lang.SetLocale("en")
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			lang.translate("month", 1)
 		}
 	})
@@ -134,7 +134,7 @@ func BenchmarkLanguage_translate(b *testing.B) {
 		lang := NewLanguage()
 		lang.SetLocale("en")
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()

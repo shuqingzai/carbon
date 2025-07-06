@@ -20,7 +20,7 @@ func BenchmarkSetDefault(b *testing.B) {
 		}
 
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			SetDefault(d)
 		}
 	})
@@ -40,7 +40,7 @@ func BenchmarkSetDefault(b *testing.B) {
 		}
 
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -75,7 +75,7 @@ func BenchmarkSetDefault(b *testing.B) {
 func BenchmarkResetDefault(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			ResetDefault()
 		}
 	})
@@ -83,7 +83,7 @@ func BenchmarkResetDefault(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()

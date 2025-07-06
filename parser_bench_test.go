@@ -6,25 +6,23 @@ import (
 )
 
 func BenchmarkParse(b *testing.B) {
-	dateStr := "2020-08-05 01:02:03"
+	datetime := "2020-08-05 01:02:03"
 
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
-			Parse(dateStr)
+		for i := 0; i < b.N/10; i++ {
+			Parse(datetime)
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		b.ResetTimer()
 		var wg sync.WaitGroup
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
-				for n := 0; n < b.N/10; n++ {
-					Parse(dateStr)
-				}
+				Parse(datetime)
 			}()
 		}
 		wg.Wait()
@@ -34,33 +32,31 @@ func BenchmarkParse(b *testing.B) {
 		b.ResetTimer()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				Parse(dateStr)
+				Parse(datetime)
 			}
 		})
 	})
 }
 
 func BenchmarkParseByLayout(b *testing.B) {
-	dateStr := "2020-08-05 13:14:15"
+	datetime := "2020-08-05 13:14:15"
 	layout := DateTimeLayout
 
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
-			ParseByLayout(dateStr, layout)
+		for i := 0; i < b.N/10; i++ {
+			ParseByLayout(datetime, layout)
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		b.ResetTimer()
 		var wg sync.WaitGroup
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
-				for n := 0; n < b.N/10; n++ {
-					ParseByLayout(dateStr, layout)
-				}
+				ParseByLayout(datetime, layout)
 			}()
 		}
 		wg.Wait()
@@ -70,33 +66,31 @@ func BenchmarkParseByLayout(b *testing.B) {
 		b.ResetTimer()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				ParseByLayout(dateStr, layout)
+				ParseByLayout(datetime, layout)
 			}
 		})
 	})
 }
 
 func BenchmarkParseByFormat(b *testing.B) {
-	dateStr := "2020-08-05 13:14:15"
+	datetime := "2020-08-05 13:14:15"
 	format := DateTimeFormat
 
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
-			ParseByFormat(dateStr, format)
+		for n := 0; n < b.N/10; n++ {
+			ParseByFormat(datetime, format)
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		b.ResetTimer()
 		var wg sync.WaitGroup
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
-				for n := 0; n < b.N/10; n++ {
-					ParseByFormat(dateStr, format)
-				}
+				ParseByFormat(datetime, format)
 			}()
 		}
 		wg.Wait()
@@ -106,33 +100,31 @@ func BenchmarkParseByFormat(b *testing.B) {
 		b.ResetTimer()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				ParseByFormat(dateStr, format)
+				ParseByFormat(datetime, format)
 			}
 		})
 	})
 }
 
 func BenchmarkParseByLayouts(b *testing.B) {
-	dateStr := "2020-08-05 13:14:15"
+	datetime := "2020-08-05 13:14:15"
 	layouts := []string{DateLayout, DateTimeLayout}
 
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
-			ParseByLayouts(dateStr, layouts)
+		for i := 0; i < b.N/10; i++ {
+			ParseByLayouts(datetime, layouts)
 		}
 	})
 
 	b.Run("concurrent", func(b *testing.B) {
 		b.ResetTimer()
 		var wg sync.WaitGroup
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
-				for n := 0; n < b.N/10; n++ {
-					ParseByLayouts(dateStr, layouts)
-				}
+				ParseByLayouts(datetime, layouts)
 			}()
 		}
 		wg.Wait()
@@ -142,7 +134,7 @@ func BenchmarkParseByLayouts(b *testing.B) {
 		b.ResetTimer()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				ParseByLayouts(dateStr, layouts)
+				ParseByLayouts(datetime, layouts)
 			}
 		})
 	})
@@ -154,7 +146,7 @@ func BenchmarkParseByFormats(b *testing.B) {
 
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			ParseByFormats(dateStr, formats)
 		}
 	})
@@ -162,13 +154,11 @@ func BenchmarkParseByFormats(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		b.ResetTimer()
 		var wg sync.WaitGroup
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
-				for n := 0; n < b.N/10; n++ {
-					ParseByFormats(dateStr, formats)
-				}
+				ParseByFormats(dateStr, formats)
 			}()
 		}
 		wg.Wait()

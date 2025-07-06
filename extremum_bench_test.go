@@ -8,7 +8,7 @@ import (
 func BenchmarkZeroValue(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			ZeroValue()
 		}
 	})
@@ -16,7 +16,7 @@ func BenchmarkZeroValue(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -39,7 +39,7 @@ func BenchmarkZeroValue(b *testing.B) {
 func BenchmarkEpochValue(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			EpochValue()
 		}
 	})
@@ -47,7 +47,7 @@ func BenchmarkEpochValue(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -70,7 +70,7 @@ func BenchmarkEpochValue(b *testing.B) {
 func BenchmarkMaxValue(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			MaxValue()
 		}
 	})
@@ -78,7 +78,7 @@ func BenchmarkMaxValue(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -101,7 +101,7 @@ func BenchmarkMaxValue(b *testing.B) {
 func BenchmarkMinValue(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			MinValue()
 		}
 	})
@@ -109,7 +109,7 @@ func BenchmarkMinValue(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -132,7 +132,7 @@ func BenchmarkMinValue(b *testing.B) {
 func BenchmarkMaxDuration(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			MaxDuration()
 		}
 	})
@@ -140,7 +140,7 @@ func BenchmarkMaxDuration(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -163,7 +163,7 @@ func BenchmarkMaxDuration(b *testing.B) {
 func BenchmarkMinDuration(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			MinDuration()
 		}
 	})
@@ -171,7 +171,7 @@ func BenchmarkMinDuration(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -196,7 +196,7 @@ func BenchmarkMax(b *testing.B) {
 		c1 := Parse("2020-08-06")
 		c2 := Parse("2021-08-05")
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			Max(c1, c2)
 		}
 	})
@@ -206,7 +206,7 @@ func BenchmarkMax(b *testing.B) {
 		c1 := Parse("2020-08-06")
 		c2 := Parse("2021-08-05")
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -233,7 +233,7 @@ func BenchmarkMin(b *testing.B) {
 		c1 := Parse("2020-08-06")
 		c2 := Parse("2021-08-05")
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			Min(c1, c2)
 		}
 	})
@@ -243,7 +243,7 @@ func BenchmarkMin(b *testing.B) {
 		c1 := Parse("2020-08-06")
 		c2 := Parse("2021-08-05")
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -271,7 +271,7 @@ func BenchmarkCarbon_Closest(b *testing.B) {
 		c2 := Parse("2020-08-05")
 		c3 := Parse("2021-08-06")
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c1.Closest(c2, c3)
 		}
 	})
@@ -282,7 +282,7 @@ func BenchmarkCarbon_Closest(b *testing.B) {
 		c2 := Parse("2020-08-05")
 		c3 := Parse("2021-08-06")
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -311,7 +311,7 @@ func BenchmarkCarbon_Farthest(b *testing.B) {
 		c2 := Parse("2020-08-05")
 		c3 := Parse("2021-08-06")
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c1.Farthest(c2, c3)
 		}
 	})
@@ -322,7 +322,7 @@ func BenchmarkCarbon_Farthest(b *testing.B) {
 		c2 := Parse("2020-08-05")
 		c3 := Parse("2021-08-06")
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()

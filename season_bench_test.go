@@ -10,7 +10,7 @@ func BenchmarkCarbon_Season(b *testing.B) {
 
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Season()
 		}
 	})
@@ -18,7 +18,7 @@ func BenchmarkCarbon_Season(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		b.ResetTimer()
 		var wg sync.WaitGroup
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -45,7 +45,7 @@ func BenchmarkCarbon_StartOfSeason(b *testing.B) {
 
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.StartOfSeason()
 		}
 	})
@@ -53,7 +53,7 @@ func BenchmarkCarbon_StartOfSeason(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		b.ResetTimer()
 		var wg sync.WaitGroup
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -80,7 +80,7 @@ func BenchmarkCarbon_EndOfSeason(b *testing.B) {
 
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.EndOfSeason()
 		}
 	})
@@ -88,7 +88,7 @@ func BenchmarkCarbon_EndOfSeason(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		b.ResetTimer()
 		var wg sync.WaitGroup
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -115,7 +115,7 @@ func BenchmarkCarbon_IsSpring(b *testing.B) {
 
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.IsSpring()
 		}
 	})
@@ -123,7 +123,7 @@ func BenchmarkCarbon_IsSpring(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		b.ResetTimer()
 		var wg sync.WaitGroup
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -150,7 +150,7 @@ func BenchmarkCarbon_IsSummer(b *testing.B) {
 
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.IsSummer()
 		}
 	})
@@ -158,7 +158,7 @@ func BenchmarkCarbon_IsSummer(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		b.ResetTimer()
 		var wg sync.WaitGroup
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -185,7 +185,7 @@ func BenchmarkCarbon_IsAutumn(b *testing.B) {
 
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.IsAutumn()
 		}
 	})
@@ -193,7 +193,7 @@ func BenchmarkCarbon_IsAutumn(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		b.ResetTimer()
 		var wg sync.WaitGroup
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -220,7 +220,7 @@ func BenchmarkCarbon_IsWinter(b *testing.B) {
 
 	b.Run("sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.IsWinter()
 		}
 	})
@@ -228,7 +228,7 @@ func BenchmarkCarbon_IsWinter(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		b.ResetTimer()
 		var wg sync.WaitGroup
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()

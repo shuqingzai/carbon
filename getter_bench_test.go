@@ -9,7 +9,7 @@ func BenchmarkCarbon_StdTime(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.StdTime()
 		}
 	})
@@ -18,7 +18,7 @@ func BenchmarkCarbon_StdTime(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -43,7 +43,7 @@ func BenchmarkCarbon_DaysInYear(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.DaysInYear()
 		}
 	})
@@ -52,7 +52,7 @@ func BenchmarkCarbon_DaysInYear(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -77,7 +77,7 @@ func BenchmarkCarbon_DaysInMonth(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.DaysInMonth()
 		}
 	})
@@ -86,7 +86,7 @@ func BenchmarkCarbon_DaysInMonth(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -111,7 +111,7 @@ func BenchmarkCarbon_MonthOfYear(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.MonthOfYear()
 		}
 	})
@@ -120,7 +120,7 @@ func BenchmarkCarbon_MonthOfYear(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -145,7 +145,7 @@ func BenchmarkCarbon_DayOfYear(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.DayOfYear()
 		}
 	})
@@ -154,7 +154,7 @@ func BenchmarkCarbon_DayOfYear(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -179,7 +179,7 @@ func BenchmarkCarbon_DayOfMonth(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.DayOfMonth()
 		}
 	})
@@ -188,7 +188,7 @@ func BenchmarkCarbon_DayOfMonth(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -213,7 +213,7 @@ func BenchmarkCarbon_DayOfWeek(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.DayOfWeek()
 		}
 	})
@@ -222,7 +222,7 @@ func BenchmarkCarbon_DayOfWeek(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -247,7 +247,7 @@ func BenchmarkCarbon_WeekOfYear(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.WeekOfYear()
 		}
 	})
@@ -256,7 +256,7 @@ func BenchmarkCarbon_WeekOfYear(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -281,7 +281,7 @@ func BenchmarkCarbon_WeekOfMonth(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.WeekOfMonth()
 		}
 	})
@@ -290,7 +290,7 @@ func BenchmarkCarbon_WeekOfMonth(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -315,7 +315,7 @@ func BenchmarkCarbon_DateTime(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.DateTime()
 		}
 	})
@@ -324,7 +324,7 @@ func BenchmarkCarbon_DateTime(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -349,7 +349,7 @@ func BenchmarkCarbon_DateTimeMilli(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.DateTimeMilli()
 		}
 	})
@@ -358,7 +358,7 @@ func BenchmarkCarbon_DateTimeMilli(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -383,7 +383,7 @@ func BenchmarkCarbon_DateTimeMicro(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.DateTimeMicro()
 		}
 	})
@@ -392,7 +392,7 @@ func BenchmarkCarbon_DateTimeMicro(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -417,7 +417,7 @@ func BenchmarkCarbon_DateTimeNano(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.DateTimeNano()
 		}
 	})
@@ -426,7 +426,7 @@ func BenchmarkCarbon_DateTimeNano(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -451,7 +451,7 @@ func BenchmarkCarbon_Date(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Date()
 		}
 	})
@@ -460,7 +460,7 @@ func BenchmarkCarbon_Date(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -485,7 +485,7 @@ func BenchmarkCarbon_DateMilli(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.DateMilli()
 		}
 	})
@@ -494,7 +494,7 @@ func BenchmarkCarbon_DateMilli(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -519,7 +519,7 @@ func BenchmarkCarbon_DateMicro(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.DateMicro()
 		}
 	})
@@ -528,7 +528,7 @@ func BenchmarkCarbon_DateMicro(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -553,7 +553,7 @@ func BenchmarkCarbon_DateNano(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.DateNano()
 		}
 	})
@@ -562,7 +562,7 @@ func BenchmarkCarbon_DateNano(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -587,7 +587,7 @@ func BenchmarkCarbon_Time(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Time()
 		}
 	})
@@ -596,7 +596,7 @@ func BenchmarkCarbon_Time(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -621,7 +621,7 @@ func BenchmarkCarbon_TimeMilli(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.TimeMilli()
 		}
 	})
@@ -630,7 +630,7 @@ func BenchmarkCarbon_TimeMilli(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -655,7 +655,7 @@ func BenchmarkCarbon_TimeMicro(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.TimeMicro()
 		}
 	})
@@ -664,7 +664,7 @@ func BenchmarkCarbon_TimeMicro(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -689,7 +689,7 @@ func BenchmarkCarbon_TimeNano(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.TimeNano()
 		}
 	})
@@ -698,7 +698,7 @@ func BenchmarkCarbon_TimeNano(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -723,7 +723,7 @@ func BenchmarkCarbon_Century(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Century()
 		}
 	})
@@ -732,7 +732,7 @@ func BenchmarkCarbon_Century(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -757,7 +757,7 @@ func BenchmarkCarbon_Decade(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Decade()
 		}
 	})
@@ -766,7 +766,7 @@ func BenchmarkCarbon_Decade(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -791,7 +791,7 @@ func BenchmarkCarbon_Year(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Year()
 		}
 	})
@@ -800,7 +800,7 @@ func BenchmarkCarbon_Year(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -825,7 +825,7 @@ func BenchmarkCarbon_Quarter(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Quarter()
 		}
 	})
@@ -834,7 +834,7 @@ func BenchmarkCarbon_Quarter(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -859,7 +859,7 @@ func BenchmarkCarbon_Month(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Month()
 		}
 	})
@@ -868,7 +868,7 @@ func BenchmarkCarbon_Month(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -893,7 +893,7 @@ func BenchmarkCarbon_Week(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Week()
 		}
 	})
@@ -902,7 +902,7 @@ func BenchmarkCarbon_Week(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -927,7 +927,7 @@ func BenchmarkCarbon_Day(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Day()
 		}
 	})
@@ -936,7 +936,7 @@ func BenchmarkCarbon_Day(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -961,7 +961,7 @@ func BenchmarkCarbon_Hour(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Hour()
 		}
 	})
@@ -970,7 +970,7 @@ func BenchmarkCarbon_Hour(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -995,7 +995,7 @@ func BenchmarkCarbon_Minute(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Minute()
 		}
 	})
@@ -1004,7 +1004,7 @@ func BenchmarkCarbon_Minute(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1029,7 +1029,7 @@ func BenchmarkCarbon_Second(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Second()
 		}
 	})
@@ -1038,7 +1038,7 @@ func BenchmarkCarbon_Second(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1063,7 +1063,7 @@ func BenchmarkCarbon_Millisecond(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Millisecond()
 		}
 	})
@@ -1072,7 +1072,7 @@ func BenchmarkCarbon_Millisecond(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1097,7 +1097,7 @@ func BenchmarkCarbon_Microsecond(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Microsecond()
 		}
 	})
@@ -1106,7 +1106,7 @@ func BenchmarkCarbon_Microsecond(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1131,7 +1131,7 @@ func BenchmarkCarbon_Nanosecond(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Nanosecond()
 		}
 	})
@@ -1140,7 +1140,7 @@ func BenchmarkCarbon_Nanosecond(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1165,7 +1165,7 @@ func BenchmarkCarbon_Timestamp(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Timestamp()
 		}
 	})
@@ -1174,7 +1174,7 @@ func BenchmarkCarbon_Timestamp(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1199,7 +1199,7 @@ func BenchmarkCarbon_TimestampMilli(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.TimestampMilli()
 		}
 	})
@@ -1208,7 +1208,7 @@ func BenchmarkCarbon_TimestampMilli(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1233,7 +1233,7 @@ func BenchmarkCarbon_TimestampMicro(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.TimestampMicro()
 		}
 	})
@@ -1242,7 +1242,7 @@ func BenchmarkCarbon_TimestampMicro(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1267,7 +1267,7 @@ func BenchmarkCarbon_TimestampNano(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.TimestampNano()
 		}
 	})
@@ -1276,7 +1276,7 @@ func BenchmarkCarbon_TimestampNano(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1301,7 +1301,7 @@ func BenchmarkCarbon_Timezone(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Timezone()
 		}
 	})
@@ -1310,7 +1310,7 @@ func BenchmarkCarbon_Timezone(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1335,7 +1335,7 @@ func BenchmarkCarbon_ZoneName(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.ZoneName()
 		}
 	})
@@ -1344,7 +1344,7 @@ func BenchmarkCarbon_ZoneName(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1369,7 +1369,7 @@ func BenchmarkCarbon_ZoneOffset(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.ZoneOffset()
 		}
 	})
@@ -1378,7 +1378,7 @@ func BenchmarkCarbon_ZoneOffset(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1403,7 +1403,7 @@ func BenchmarkCarbon_Locale(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Locale()
 		}
 	})
@@ -1412,7 +1412,7 @@ func BenchmarkCarbon_Locale(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1437,7 +1437,7 @@ func BenchmarkCarbon_WeekStartsAt(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.WeekStartsAt()
 		}
 	})
@@ -1446,7 +1446,7 @@ func BenchmarkCarbon_WeekStartsAt(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1471,7 +1471,7 @@ func BenchmarkCarbon_WeekEndsAt(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.WeekEndsAt()
 		}
 	})
@@ -1480,7 +1480,7 @@ func BenchmarkCarbon_WeekEndsAt(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1505,7 +1505,7 @@ func BenchmarkCarbon_CurrentLayout(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.CurrentLayout()
 		}
 	})
@@ -1514,7 +1514,7 @@ func BenchmarkCarbon_CurrentLayout(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -1539,7 +1539,7 @@ func BenchmarkCarbon_Age(b *testing.B) {
 	b.Run("sequential", func(b *testing.B) {
 		c := Now()
 		b.ResetTimer()
-		for n := 0; n < 10; n++ {
+		for i := 0; i < b.N/10; i++ {
 			c.Age()
 		}
 	})
@@ -1548,7 +1548,7 @@ func BenchmarkCarbon_Age(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < 10; i++ {
+		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
