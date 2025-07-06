@@ -18,6 +18,9 @@ func TestFrozenSuite(t *testing.T) {
 func (s *FrozenSuite) TestSetTestNow() {
 	now := Parse("2020-08-05")
 
+	SetTestNow(nil)
+	s.NotEqual(now, Now())
+
 	SetTestNow(now)
 	s.Equal("2020-08-05", Now().ToDateString())
 	s.Equal("2020-08-04", Yesterday().ToDateString())
