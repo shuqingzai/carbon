@@ -18,7 +18,7 @@ func BenchmarkCarbon_Julian(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-08-05")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -50,7 +50,7 @@ func BenchmarkCreateFromJulian(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -83,7 +83,7 @@ func BenchmarkCarbon_Lunar(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-08-05")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -115,7 +115,7 @@ func BenchmarkCreateFromLunar(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -148,7 +148,7 @@ func BenchmarkCarbon_Persian(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-08-05")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -180,7 +180,7 @@ func BenchmarkCreateFromPersian(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()

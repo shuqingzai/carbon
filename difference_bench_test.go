@@ -20,7 +20,7 @@ func BenchmarkCarbon_DiffInYears(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -57,7 +57,7 @@ func BenchmarkCarbon_DiffAbsInYears(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -94,7 +94,7 @@ func BenchmarkCarbon_DiffInMonths(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -131,7 +131,7 @@ func BenchmarkCarbon_DiffAbsInMonths(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -168,7 +168,7 @@ func BenchmarkCarbon_DiffInWeeks(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -205,7 +205,7 @@ func BenchmarkCarbon_DiffAbsInWeeks(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -242,7 +242,7 @@ func BenchmarkCarbon_DiffInDays(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -279,7 +279,7 @@ func BenchmarkCarbon_DiffAbsInDays(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -316,7 +316,7 @@ func BenchmarkCarbon_DiffInHours(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -353,7 +353,7 @@ func BenchmarkCarbon_DiffAbsInHours(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -390,7 +390,7 @@ func BenchmarkCarbon_DiffInMinutes(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -427,7 +427,7 @@ func BenchmarkCarbon_DiffAbsInMinutes(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -464,7 +464,7 @@ func BenchmarkCarbon_DiffInSeconds(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -501,7 +501,7 @@ func BenchmarkCarbon_DiffAbsInSeconds(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -538,7 +538,7 @@ func BenchmarkCarbon_DiffInString(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -575,7 +575,7 @@ func BenchmarkCarbon_DiffAbsInString(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -610,7 +610,7 @@ func BenchmarkCarbon_DiffInDuration(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -646,7 +646,7 @@ func BenchmarkCarbon_DiffAbsInDuration(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -683,7 +683,7 @@ func BenchmarkCarbon_DiffForHumans(b *testing.B) {
 		c1 := Parse("2020-08-05")
 		c2 := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()

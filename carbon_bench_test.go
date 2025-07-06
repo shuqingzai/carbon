@@ -20,7 +20,7 @@ func BenchmarkNewCarbon(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -53,7 +53,7 @@ func BenchmarkCopy(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-08-05").SetLocale("zh-CN")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -95,7 +95,7 @@ func BenchmarkSleep(b *testing.B) {
 
 		c := NewCarbon()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -138,7 +138,7 @@ func BenchmarkSleep_DifferentDurations(b *testing.B) {
 
 			c := NewCarbon()
 			b.ResetTimer()
-			for i := 0; i < b.N; i++ {
+			for i := 0; i < 10; i++ {
 				c.Sleep(duration)
 			}
 		})

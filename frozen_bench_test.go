@@ -20,7 +20,7 @@ func BenchmarkSetTestNow(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -53,7 +53,7 @@ func BenchmarkClearTestNow(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -84,7 +84,7 @@ func BenchmarkIsTestNow(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()

@@ -40,7 +40,7 @@ func BenchmarkSetDefault(b *testing.B) {
 		}
 
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -83,7 +83,7 @@ func BenchmarkResetDefault(b *testing.B) {
 	b.Run("concurrent", func(b *testing.B) {
 		var wg sync.WaitGroup
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()

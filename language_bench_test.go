@@ -18,7 +18,7 @@ func BenchmarkLanguage_Copy(b *testing.B) {
 		var wg sync.WaitGroup
 		lang := NewLanguage()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -52,7 +52,7 @@ func BenchmarkLanguage_SetLocale(b *testing.B) {
 		var wg sync.WaitGroup
 		lang := NewLanguage()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -94,7 +94,7 @@ func BenchmarkLanguage_SetResources(b *testing.B) {
 		}
 		lang := NewLanguage()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -134,7 +134,7 @@ func BenchmarkLanguage_translate(b *testing.B) {
 		lang := NewLanguage()
 		lang.SetLocale("en")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()

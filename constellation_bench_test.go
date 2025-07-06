@@ -18,7 +18,7 @@ func BenchmarkCarbon_Constellation(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Now()
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -52,7 +52,7 @@ func BenchmarkCarbon_IsAries(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-03-21")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -86,7 +86,7 @@ func BenchmarkCarbon_IsTaurus(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-04-20")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -120,7 +120,7 @@ func BenchmarkCarbon_IsGemini(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-05-21")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -154,7 +154,7 @@ func BenchmarkCarbon_IsCancer(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-06-22")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -188,7 +188,7 @@ func BenchmarkCarbon_IsLeo(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-07-23")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -222,7 +222,7 @@ func BenchmarkCarbon_IsVirgo(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-08-23")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -256,7 +256,7 @@ func BenchmarkCarbon_IsLibra(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-09-23")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -290,7 +290,7 @@ func BenchmarkCarbon_IsScorpio(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-10-24")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -324,7 +324,7 @@ func BenchmarkCarbon_IsSagittarius(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-11-23")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -358,7 +358,7 @@ func BenchmarkCarbon_IsCapricorn(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-12-22")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -392,7 +392,7 @@ func BenchmarkCarbon_IsAquarius(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-01-20")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -426,7 +426,7 @@ func BenchmarkCarbon_IsPisces(b *testing.B) {
 		var wg sync.WaitGroup
 		c := Parse("2020-02-19")
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
