@@ -66,7 +66,9 @@ func (c *Carbon) DayOfWeek() int {
 	return (int(c.StdTime().Weekday())+DaysPerWeek-int(c.weekStartsAt))%DaysPerWeek + 1
 }
 
-// WeekOfYear gets week of year like 1, refer to https://en.wikipedia.org/wiki/ISO_8601#Week_dates.
+// WeekOfYear gets week of year like 1.
+//
+// refer to https://en.wikipedia.org/wiki/ISO_8601#Week_dates.
 func (c *Carbon) WeekOfYear() int {
 	if c.IsInvalid() {
 		return 0
