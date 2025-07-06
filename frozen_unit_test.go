@@ -18,6 +18,9 @@ func TestFrozenSuite(t *testing.T) {
 func (s *FrozenSuite) TestSetTestNow() {
 	now := Parse("2020-08-05")
 
+	SetTestNow(nil)
+	s.NotEqual(now, Now())
+
 	SetTestNow(now)
 	s.Equal("2020-08-05", Now().ToDateString())
 	s.Equal("2020-08-04", Yesterday().ToDateString())
@@ -29,7 +32,7 @@ func (s *FrozenSuite) TestSetTestNow() {
 	s.Equal("2 months before", now.DiffForHumans(Parse("2020-10-05")))
 	s.True(IsTestNow())
 
-	CleanTestNow()
+	ClearTestNow()
 	s.Equal(time.Now().In(time.UTC).Format(DateLayout), Now().ToDateString())
 	s.Equal(time.Now().In(time.UTC).Add(time.Hour*-24).Format(DateLayout), Yesterday().ToDateString())
 	s.Equal(time.Now().In(time.UTC).Add(time.Hour*24).Format(DateLayout), Tomorrow().ToDateString())
