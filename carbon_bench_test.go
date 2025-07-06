@@ -73,3 +73,74 @@ func BenchmarkCopy(b *testing.B) {
 		})
 	})
 }
+
+func BenchmarkSleep(b *testing.B) {
+	b.Run("sequential", func(b *testing.B) {
+		testNow := Parse("2020-08-05 13:14:15")
+		SetTestNow(testNow)
+		defer ClearTestNow()
+
+		c := NewCarbon()
+		b.ResetTimer()
+		for n := 0; n < 10; n++ {
+			c.Sleep(1 * time.Hour)
+		}
+	})
+
+	b.Run("concurrent", func(b *testing.B) {
+		var wg sync.WaitGroup
+		testNow := Parse("2020-08-05 13:14:15")
+		SetTestNow(testNow)
+		defer ClearTestNow()
+
+		c := NewCarbon()
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				c.Sleep(1 * time.Hour)
+			}()
+		}
+		wg.Wait()
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		testNow := Parse("2020-08-05 13:14:15")
+		SetTestNow(testNow)
+		defer ClearTestNow()
+
+		c := NewCarbon()
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.Sleep(1 * time.Hour)
+			}
+		})
+	})
+}
+
+func BenchmarkSleep_DifferentDurations(b *testing.B) {
+	durations := []time.Duration{
+		1 * time.Nanosecond,
+		1 * time.Microsecond,
+		1 * time.Millisecond,
+		1 * time.Second,
+		1 * time.Minute,
+		1 * time.Hour,
+	}
+
+	for _, duration := range durations {
+		b.Run(duration.String(), func(b *testing.B) {
+			testNow := Parse("2020-08-05 13:14:15")
+			SetTestNow(testNow)
+			defer ClearTestNow()
+
+			c := NewCarbon()
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				c.Sleep(duration)
+			}
+		})
+	}
+}

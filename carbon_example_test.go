@@ -62,3 +62,35 @@ func ExampleCarbon_Copy() {
 	// old week starts at: Sunday
 	// new week starts at: Monday
 }
+
+func ExampleCarbon_Sleep() {
+	fmt.Println("Normal mode sleep:")
+	c := carbon.NewCarbon()
+	fmt.Printf("Before sleep: %s\n", c.ToString())
+
+	c.Sleep(1 * time.Second)
+	fmt.Printf("After sleep: %s\n", c.ToString())
+
+	fmt.Println("\nTest mode sleep:")
+	testNow := carbon.Parse("2020-08-05 13:14:15")
+	carbon.SetTestNow(testNow)
+	defer carbon.ClearTestNow()
+
+	fmt.Printf("Test time before sleep: %s\n", carbon.Now().ToString())
+
+	c.Sleep(2 * time.Hour)
+	fmt.Printf("Test time after sleep: %s\n", carbon.Now().ToString())
+
+	c.Sleep(30 * time.Minute)
+	fmt.Printf("Test time after another sleep: %s\n", carbon.Now().ToString())
+
+	// Output:
+	// Normal mode sleep:
+	// Before sleep: 0001-01-01 00:00:00 +0000 UTC
+	// After sleep: 0001-01-01 00:00:00 +0000 UTC
+	//
+	// Test mode sleep:
+	// Test time before sleep: 2020-08-05 13:14:15 +0000 UTC
+	// Test time after sleep: 2020-08-05 15:14:15 +0000 UTC
+	// Test time after another sleep: 2020-08-05 15:44:15 +0000 UTC
+}

@@ -142,3 +142,79 @@ func (s *CarbonSuite) TestCarbon_Copy() {
 		s.True(newCarbon.HasError())
 	})
 }
+
+func (s *CarbonSuite) TestCarbon_Sleep() {
+	s.Run("sleep in normal mode", func() {
+		ClearTestNow()
+		s.False(IsTestNow())
+
+		c := NewCarbon()
+		start := time.Now()
+
+		c.Sleep(1 * time.Millisecond)
+
+		duration := time.Since(start)
+		s.GreaterOrEqual(duration, 1*time.Millisecond)
+	})
+
+	s.Run("sleep in test mode", func() {
+		testNow := Parse("2020-08-05 13:14:15")
+		SetTestNow(testNow)
+		defer ClearTestNow()
+
+		s.True(IsTestNow())
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", Now().ToString())
+
+		c := NewCarbon()
+		c.Sleep(1 * time.Hour)
+
+		s.Equal("2020-08-05 14:14:15 +0000 UTC", Now().ToString())
+	})
+
+	s.Run("sleep zero duration", func() {
+		testNow := Parse("2020-08-05 13:14:15")
+		SetTestNow(testNow)
+		defer ClearTestNow()
+
+		s.True(IsTestNow())
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", Now().ToString())
+
+		c := NewCarbon()
+		c.Sleep(0)
+
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", Now().ToString())
+	})
+
+	s.Run("sleep negative duration", func() {
+		testNow := Parse("2020-08-05 13:14:15")
+		SetTestNow(testNow)
+		defer ClearTestNow()
+
+		s.True(IsTestNow())
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", Now().ToString())
+
+		c := NewCarbon()
+		c.Sleep(-1 * time.Hour)
+
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", Now().ToString())
+	})
+
+	s.Run("sleep multiple times", func() {
+		testNow := Parse("2020-08-05 13:14:15")
+		SetTestNow(testNow)
+		defer ClearTestNow()
+
+		s.True(IsTestNow())
+		s.Equal("2020-08-05 13:14:15 +0000 UTC", Now().ToString())
+
+		c := NewCarbon()
+		c.Sleep(30 * time.Minute)
+		s.Equal("2020-08-05 13:44:15 +0000 UTC", Now().ToString())
+
+		c.Sleep(15 * time.Minute)
+		s.Equal("2020-08-05 13:59:15 +0000 UTC", Now().ToString())
+
+		c.Sleep(45 * time.Second)
+		s.Equal("2020-08-05 14:00:00 +0000 UTC", Now().ToString())
+	})
+}
