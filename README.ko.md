@@ -77,7 +77,7 @@ carbon.ClearTestNow()
 carbon.IsTestNow() // false
 ```
 
-더 많은 예시는 <a href="https://carbon.go-pkg.com" target="_blank">문서</a>에서 확인할 수 있습니다.
+더 많은 예시는 <a href="https://carbon.go-pkg.com/ko" target="_blank">문서</a> 에서 확인할 수 있습니다.
 
 ## 참고 자료
 
