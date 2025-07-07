@@ -9,7 +9,7 @@
 [![HelloGitHub](https://api.hellogithub.com/v1/widgets/recommend.svg?rid=0eddd8c3469549b7b246f85a83d1c42e&claim_uid=kKBvMpyxSgLhmJO&theme=small)](https://hellogithub.com/en/repository/dromara/carbon)
 [![License](https://img.shields.io/github/license/dromara/carbon)](https://github.com/dromara/carbon/blob/master/LICENSE)
 
-简体中文 | [English](README.md) | [日本語](README.ja.md)
+简体中文 | [English](README.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 
 ## 项目简介
 
