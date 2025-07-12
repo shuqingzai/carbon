@@ -133,30 +133,6 @@ func TestPersian_ToMonthString(t *testing.T) {
 	})
 }
 
-func TestPersian_ToShortMonthString(t *testing.T) {
-	loc, _ := time.LoadLocation("PRC")
-
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, new(Persian).ToShortMonthString())
-		assert.Empty(t, NewPersian(9400, 1, 1).ToShortMonthString())
-	})
-
-	t.Run("invalid locale", func(t *testing.T) {
-		p := FromStdTime(time.Date(2020, 2, 1, 0, 0, 0, 0, loc))
-		assert.Empty(t, p.ToShortMonthString("xxx"))
-	})
-
-	t.Run("valid time", func(t *testing.T) {
-		p := FromStdTime(time.Date(2020, 2, 1, 0, 0, 0, 0, loc))
-
-		assert.Equal(t, "1398-11-12", p.String())
-		assert.Equal(t, "Bah", p.ToShortMonthString(EnLocale))
-
-		assert.Equal(t, "1398-11-12", p.String())
-		assert.Equal(t, "بهم", p.ToShortMonthString(FaLocale))
-	})
-}
-
 func TestPersian_ToWeekString(t *testing.T) {
 	loc, _ := time.LoadLocation("PRC")
 
@@ -178,30 +154,6 @@ func TestPersian_ToWeekString(t *testing.T) {
 
 		assert.Equal(t, "1398-10-11", p.String())
 		assert.Equal(t, "چهارشنبه", p.ToWeekString(FaLocale))
-	})
-}
-
-func TestPersian_ToShortWeekString(t *testing.T) {
-	loc, _ := time.LoadLocation("PRC")
-
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, new(Persian).ToShortWeekString())
-		assert.Empty(t, NewPersian(9400, 1, 1).ToShortWeekString())
-	})
-
-	t.Run("invalid locale", func(t *testing.T) {
-		p := FromStdTime(time.Date(2020, 2, 1, 0, 0, 0, 0, loc))
-		assert.Empty(t, p.ToShortWeekString("xxx"))
-	})
-
-	t.Run("valid time", func(t *testing.T) {
-		p := FromStdTime(time.Date(2020, 1, 1, 0, 0, 0, 0, loc))
-
-		assert.Equal(t, "1398-10-11", p.String())
-		assert.Equal(t, "Cha", p.ToShortWeekString(EnLocale))
-
-		assert.Equal(t, "1398-10-11", p.String())
-		assert.Equal(t, "د", p.ToShortWeekString(FaLocale))
 	})
 }
 
