@@ -18,17 +18,11 @@ const FaLocale Locale = "fa"
 const defaultLocale = EnLocale
 
 var (
-	EnMonths      = []string{"Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Dey", "Bahman", "Esfand"}
-	ShortEnMonths = []string{"Far", "Ord", "Kho", "Tir", "Mor", "Sha", "Meh", "Aba", "Aza", "Dey", "Bah", "Esf"}
+	EnMonths = []string{"Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Dey", "Bahman", "Esfand"}
+	FaMonths = []string{"فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"}
 
-	FaMonths      = []string{"فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"}
-	ShortFaMonths = []string{"فرو", "ارد", "خرد", "تیر", "مرد", "شهر", "مهر", "آبا", "آذر", "دی", "بهم", "اسف"}
-
-	EnWeeks      = []string{"Yekshanbeh", "Doshanbeh", "Seshanbeh", "Chaharshanbeh", "Panjshanbeh", "Jomeh", "Shanbeh"}
-	ShortEnWeeks = []string{"Yek", "Dos", "Ses", "Cha", "Pan", "Jom", "Sha"}
-
-	FaWeeks      = []string{"نجشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنجشنبه", "جمعه", "شنبه"}
-	ShortFaWeeks = []string{"پ", "چ", "س", "د", "ی", "ش", "ج"}
+	EnWeeks = []string{"Yekshanbeh", "Doshanbeh", "Seshanbeh", "Chaharshanbeh", "Panjshanbeh", "Jomeh", "Shanbeh"}
+	FaWeeks = []string{"نجشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنجشنبه", "جمعه", "شنبه"}
 )
 
 // ErrInvalidPersian returns a invalid persian date.
@@ -174,24 +168,6 @@ func (p *Persian) ToMonthString(locale ...Locale) (month string) {
 	return ""
 }
 
-// ToShortMonthString outputs a short string in persian month format like "فروردین".
-func (p *Persian) ToShortMonthString(locale ...Locale) (month string) {
-	if !p.IsValid() {
-		return ""
-	}
-	loc := defaultLocale
-	if len(locale) > 0 {
-		loc = locale[0]
-	}
-	switch loc {
-	case EnLocale:
-		return ShortEnMonths[p.month-1]
-	case FaLocale:
-		return ShortFaMonths[p.month-1]
-	}
-	return ""
-}
-
 // ToWeekString outputs a string in week layout like "چهارشنبه".
 func (p *Persian) ToWeekString(locale ...Locale) (month string) {
 	if !p.IsValid() {
@@ -207,25 +183,6 @@ func (p *Persian) ToWeekString(locale ...Locale) (month string) {
 		return EnWeeks[week]
 	case FaLocale:
 		return FaWeeks[week]
-	}
-	return ""
-}
-
-// ToShortWeekString outputs a short string in week layout like "چهارشنبه".
-func (p *Persian) ToShortWeekString(locale ...Locale) (month string) {
-	if !p.IsValid() {
-		return ""
-	}
-	loc := defaultLocale
-	if len(locale) > 0 {
-		loc = locale[0]
-	}
-	week := p.ToGregorian().Time.Weekday()
-	switch loc {
-	case EnLocale:
-		return ShortEnWeeks[week]
-	case FaLocale:
-		return ShortFaWeeks[week]
 	}
 	return ""
 }
