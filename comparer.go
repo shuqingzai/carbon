@@ -399,7 +399,6 @@ func (c *Carbon) IsSameSecond(t *Carbon) bool {
 		return false
 	}
 	return c.Format("YmdHis") == t.Format("YmdHis")
-
 }
 
 // Compare compares by an operator.
