@@ -80,10 +80,9 @@ func BenchmarkSleep(b *testing.B) {
 		SetTestNow(testNow)
 		defer ClearTestNow()
 
-		c := NewCarbon()
 		b.ResetTimer()
 		for i := 0; i < b.N/10; i++ {
-			c.Sleep(1 * time.Hour)
+			Sleep(1 * time.Hour)
 		}
 	})
 
@@ -93,13 +92,12 @@ func BenchmarkSleep(b *testing.B) {
 		SetTestNow(testNow)
 		defer ClearTestNow()
 
-		c := NewCarbon()
 		b.ResetTimer()
 		for i := 0; i < b.N/10; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
-				c.Sleep(1 * time.Hour)
+				Sleep(1 * time.Hour)
 			}()
 		}
 		wg.Wait()
@@ -110,11 +108,10 @@ func BenchmarkSleep(b *testing.B) {
 		SetTestNow(testNow)
 		defer ClearTestNow()
 
-		c := NewCarbon()
 		b.ResetTimer()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				c.Sleep(1 * time.Hour)
+				Sleep(1 * time.Hour)
 			}
 		})
 	})
@@ -136,10 +133,9 @@ func BenchmarkSleep_DifferentDurations(b *testing.B) {
 			SetTestNow(testNow)
 			defer ClearTestNow()
 
-			c := NewCarbon()
 			b.ResetTimer()
 			for i := 0; i < b.N/10; i++ {
-				c.Sleep(duration)
+				Sleep(duration)
 			}
 		})
 	}
