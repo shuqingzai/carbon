@@ -3,7 +3,6 @@ package persian
 
 import (
 	"fmt"
-	"math"
 	"time"
 
 	"github.com/dromara/carbon/v2/calendar"
@@ -12,10 +11,13 @@ import (
 
 type Locale string
 
-const EnLocale Locale = "en"
-const FaLocale Locale = "fa"
-
-const defaultLocale = EnLocale
+const (
+	EnLocale      Locale = "en"
+	FaLocale      Locale = "fa"
+	defaultLocale        = EnLocale
+	persianEpoch         = 1948320
+	// persianBaseYear    = 474 // The base year of the Persian calendar cycle
+)
 
 var (
 	EnMonths = []string{"Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Dey", "Bahman", "Esfand"}
@@ -25,11 +27,6 @@ var (
 	FaWeeks = []string{"نجشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنجشنبه", "جمعه", "شنبه"}
 )
 
-// ErrInvalidPersian returns a invalid persian date.
-var ErrInvalidPersian = func() error {
-	return fmt.Errorf("invalid persian date, please make sure the persian date is valid")
-}
-
 // Persian defines a Persian struct.
 type Persian struct {
 	year, month, day int
@@ -38,55 +35,21 @@ type Persian struct {
 
 // NewPersian returns a new Persian instance.
 func NewPersian(year, month, day int) *Persian {
-	p := new(Persian)
-	p.year, p.month, p.day = year, month, day
+	p := &Persian{year: year, month: month, day: day}
 	if !p.IsValid() {
-		p.Error = ErrInvalidPersian()
+		p.Error = fmt.Errorf("invalid persian date: %04d-%02d-%02d", year, month, day)
 	}
 	return p
 }
 
-// MaxValue returns a Persian instance for the greatest supported date.
-func MaxValue() *Persian {
-	return &Persian{
-		year:  9377,
-		month: 12,
-		day:   31,
-	}
-}
-
-// MinValue returns a Persian instance for the lowest supported date.
-func MinValue() *Persian {
-	return &Persian{
-		year:  1,
-		month: 1,
-		day:   1,
-	}
-}
-
 // FromStdTime creates a Persian instance from standard time.Time.
-func FromStdTime(t time.Time) *Persian {
-	p := new(Persian)
+func FromStdTime(t time.Time) (p *Persian) {
 	if t.IsZero() {
 		return nil
 	}
 	gjdn := int(julian.FromStdTime(time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())).JD(0))
-	pjdn := getPersianJdn(475, 1, 1)
-
-	diff := gjdn - pjdn
-	div := diff / 1029983
-	mod := diff % 1029983
-	p.year = (2134*mod/366+2816*(mod%366)+2815)/1028522 + mod/366 + 1 + 2820*div + 474
-	pjdn = getPersianJdn(p.year, 1, 1)
-	fjdn := float64(gjdn - pjdn + 1)
-	if fjdn <= 186 {
-		p.month = int(math.Ceil(fjdn / 31.0))
-	} else {
-		p.month = int(math.Ceil((fjdn - 6) / 30.0))
-	}
-	pjdn = getPersianJdn(p.year, p.month, 1)
-	p.day = gjdn - pjdn + 1
-	return p
+	year, month, day := p.jdn2persian(gjdn)
+	return &Persian{year: year, month: month, day: day}
 }
 
 // ToGregorian converts Persian instance to Gregorian instance.
@@ -102,23 +65,24 @@ func (p *Persian) ToGregorian(timezone ...string) *calendar.Gregorian {
 	if g.Error != nil {
 		return g
 	}
-	jdn := getPersianJdn(p.year, p.month, p.day)
+	jdn := p.getPersianJdn(p.year, p.month, p.day)
+
 	l := jdn + 68569
 	n := 4 * l / 146097
 	l = l - (146097*n+3)/4
 	i := 4000 * (l + 1) / 1461001
 	l = l - 1461*i/4 + 31
 	j := 80 * l / 2447
-	d := l - 2447*j/80
+	day := l - 2447*j/80
 	l = j / 11
-	m := j + 2 - 12*l
-	y := 100*(n-49) + i + l
+	month := j + 2 - 12*l
+	year := 100*(n-49) + i + l
 
-	g.Time = time.Date(y, time.Month(m), d, 0, 0, 0, 0, loc)
+	g.Time = time.Date(year, time.Month(month), day, 0, 0, 0, 0, loc)
 	return g
 }
 
-// Year gets lunar year like 2020.
+// Year gets the Persian year like 2020.
 func (p *Persian) Year() int {
 	if !p.IsValid() {
 		return 0
@@ -126,7 +90,7 @@ func (p *Persian) Year() int {
 	return p.year
 }
 
-// Month gets lunar month like 8.
+// Month gets the Persian month like 8.
 func (p *Persian) Month() int {
 	if !p.IsValid() {
 		return 0
@@ -134,7 +98,7 @@ func (p *Persian) Month() int {
 	return p.month
 }
 
-// Day gets lunar day like 5.
+// Day gets the Persian day like 5.
 func (p *Persian) Day() int {
 	if !p.IsValid() {
 		return 0
@@ -142,7 +106,7 @@ func (p *Persian) Day() int {
 	return p.day
 }
 
-// String implements "Stringer" interface for Persian.
+// String implements the "Stringer" interface for Persian.
 func (p *Persian) String() string {
 	if !p.IsValid() {
 		return ""
@@ -150,7 +114,7 @@ func (p *Persian) String() string {
 	return fmt.Sprintf("%04d-%02d-%02d", p.year, p.month, p.day)
 }
 
-// ToMonthString outputs a string in persian month format like "فروردین".
+// ToMonthString outputs a string in Persian month format like "فروردین".
 func (p *Persian) ToMonthString(locale ...Locale) (month string) {
 	if !p.IsValid() {
 		return ""
@@ -187,37 +151,123 @@ func (p *Persian) ToWeekString(locale ...Locale) (month string) {
 	return ""
 }
 
-// IsValid reports whether is a valid persian date.
+// IsValid reports whether the Persian date is valid.
 func (p *Persian) IsValid() bool {
 	if p == nil || p.Error != nil {
 		return false
 	}
-	if p.year >= MinValue().year && p.year <= MaxValue().year {
-		return true
-	}
-	return false
-}
-
-// IsLeapYear reports whether is a persian leap year.
-func (p *Persian) IsLeapYear() bool {
-	if !p.IsValid() {
+	// Check year range validation (Persian calendar starts from 622 CE)
+	if p.year < 1 || p.year > 9999 || p.month <= 0 || p.month > 12 || p.day <= 0 || p.day > 31 {
 		return false
 	}
-	return (25*p.year+11)%33 < 8
+	// Check month-specific day validation
+	if p.month > 6 && p.month <= 11 && p.day > 30 {
+		return false
+	}
+	if p.month == 12 {
+		// Use IsLeapYear method
+		if (!p.IsLeapYear() && p.day > 29) || (p.IsLeapYear() && p.day > 30) {
+			return false
+		}
+	}
+	return true
 }
 
-// gets Julian day number in Persian calendar
-func getPersianJdn(year, month, day int) int {
-	year = year - 473
-	if year >= 0 {
-		year--
+// IsLeapYear reports whether the Persian year is a leap year.
+func (p *Persian) IsLeapYear() bool {
+	if p == nil || p.Error != nil {
+		return false
 	}
-	epy := 474 + (year % 2820)
-	var md int
+	currentYearJdn := p.getPersianJdn(p.year, 1, 1)
+	nextYearJdn := p.getPersianJdn(p.year+1, 1, 1)
+	daysDiff := nextYearJdn - currentYearJdn
+	return daysDiff > 365
+}
+
+// getPersianYear gets the Persian year from Julian Day Number.
+func (p *Persian) getPersianYear(jdn int) int {
+	days := jdn - persianEpoch
+	year := 474 + days/365
+	for i := 0; i < 3; i++ {
+		yearStartJdn := p.getPersianJdn(year, 1, 1)
+		nextYearStartJdn := p.getPersianJdn(year+1, 1, 1)
+		if jdn >= yearStartJdn && jdn < nextYearStartJdn {
+			return year
+		}
+		if jdn < yearStartJdn {
+			year--
+		} else {
+			year++
+		}
+	}
+	low := year - 10
+	high := year + 10
+	if low < 1 {
+		low = 1
+	}
+	if high > 9999 {
+		high = 9999
+	}
+	for low <= high {
+		mid := (low + high) / 2
+		yearStartJdn := p.getPersianJdn(mid, 1, 1)
+		nextYearStartJdn := p.getPersianJdn(mid+1, 1, 1)
+		if jdn >= yearStartJdn && jdn < nextYearStartJdn {
+			return mid
+		}
+		if jdn < yearStartJdn {
+			high = mid - 1
+		} else {
+			low = mid + 1
+		}
+	}
+	for {
+		yearStartJdn := p.getPersianJdn(year, 1, 1)
+		nextYearStartJdn := p.getPersianJdn(year+1, 1, 1)
+		if jdn >= yearStartJdn && jdn < nextYearStartJdn {
+			return year
+		}
+		if jdn < yearStartJdn {
+			year--
+		} else {
+			year++
+		}
+	}
+}
+
+// getPersianJdn gets the Julian day number in the Persian calendar.
+func (p *Persian) getPersianJdn(year, month, day int) int {
+	yearOffset := year - 474
+	if yearOffset < 0 {
+		yearOffset--
+	}
+	cycleYear := 474 + (yearOffset % 2820)
+	var monthDays int
 	if month <= 7 {
-		md = (month - 1) * 31
+		monthDays = (month - 1) * 31
 	} else {
-		md = (month-1)*30 + 6
+		monthDays = (month-1)*30 + 6
 	}
-	return day + md + (epy*682-110)/2816 + (epy-1)*365 + year/2820*1029983 + 1948320
+	return day + monthDays + (cycleYear*682-110)/2816 + (cycleYear-1)*365 + yearOffset/2820*1029983 + persianEpoch
+}
+
+// jdn2persian converts Julian Day Number to Persian date (year, month, day).
+func (p *Persian) jdn2persian(jdn int) (year, month, day int) {
+	// Get the Persian year
+	year = p.getPersianYear(jdn)
+	// Calculate the JDN of the first day of the year
+	yearStartJdn := p.getPersianJdn(year, 1, 1)
+	// Calculate the number of days from the beginning of the year to the target date
+	days := jdn - yearStartJdn + 1
+	// Use a lookup table to optimize month calculation
+	if days <= 186 {
+		month = (days-1)/31 + 1
+	} else {
+		month = (days-186-1)/30 + 7
+	}
+	// Calculate the JDN of the first day of the month
+	monthStartJdn := p.getPersianJdn(year, month, 1)
+	// Calculate the day
+	day = jdn - monthStartJdn + 1
+	return
 }
