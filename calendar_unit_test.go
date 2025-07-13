@@ -149,7 +149,7 @@ func (s *CalendarSuite) TestCarbon_Persian() {
 
 func (s *CalendarSuite) TestCreateFromPersian() {
 	s.Run("error persian", func() {
-		s.Empty(CreateFromPersian(9999, 12, 14).ToDateTimeString())
+		s.Empty(CreateFromPersian(9999, 12, 31).ToDateTimeString())
 	})
 
 	s.Run("valid persian", func() {
