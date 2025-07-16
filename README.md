@@ -80,7 +80,9 @@ carbon.ClearTestNow()
 carbon.IsTestNow() // false
 ```
 
-There are many more examples in the <a href="https://carbon.go-pkg.com" target="_blank">documentation</a>
+For more usage examples, please refer to <a href="https://carbon.go-pkg.com/zh" target="_blank">official document</a>. 
+
+For performance test reports, please refer to [analysis report](test_report.en.md)
 
 ## References
 
