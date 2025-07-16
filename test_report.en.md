@@ -350,30 +350,30 @@ This report provides a comprehensive performance analysis of the Carbon date and
 
 #### Code-level Optimization
 
-1. **Object Reuse**:
+**Object Reuse**:
    - For frequently used Carbon instances, reuse instead of recreating
    - Use object pool pattern to reduce memory allocation
 
-2. **Caching Strategy**:
+**Caching Strategy**:
    - Add result caching for complex calendar calculations
    - String formatting results can be cached
 
-3. **Algorithm Optimization**:
+**Algorithm Optimization**:
    - Lunar calendar algorithm is relatively complex, can be further optimized
    - JSON serialization can use more efficient implementations
 
 #### Usage Recommendations
 
-1. **High-performance Scenarios**:
+**High-performance Scenarios**:
    - Use built-in types instead of Carbon types
    - Avoid frequent string formatting
    - Reuse Carbon instances
 
-2. **General Scenarios**:
+**General Scenarios**:
    - Carbon types provide better functional support
    - Formatting output performance is sufficient for requirements
 
-3. **Calendar Conversion Scenarios**:
+**Calendar Conversion Scenarios**:
    - Hebrew and Julian calendars have the best performance
    - Lunar calendar conversion is relatively slower but still acceptable
 
@@ -391,18 +391,18 @@ This report provides a comprehensive performance analysis of the Carbon date and
 
 ### Performance Highlights
 
-1. **Exceptional Basic Performance**: Core operations take 50-200 nanoseconds
-2. **Zero Memory Allocation**: Calendar conversion and basic operations have zero memory allocation overhead
-3. **Excellent Concurrency Performance**: Performance degradation is less than 15% in high concurrency scenarios
-4. **Rich Function Support**: Supports multiple calendars and formatting options
-5. **Good Extensibility**: Supports custom formats and types
+**Exceptional Basic Performance**: Core operations take 50-200 nanoseconds
+**Zero Memory Allocation**: Calendar conversion and basic operations have zero memory allocation overhead
+**Excellent Concurrency Performance**: Performance degradation is less than 15% in high concurrency scenarios
+**Rich Function Support**: Supports multiple calendars and formatting options
+**Good Extensibility**: Supports custom formats and types
 
 ### Improvement Directions
 
-1. **Lunar Algorithm Optimization**: Lunar calendar conversion algorithm can be further optimized
-2. **JSON Performance Enhancement**: Consider using more efficient JSON serialization libraries
-3. **Caching Mechanism**: Add result caching for complex calculations
-4. **Memory Pool**: Implement object pools for high-frequency operations
+**Lunar Algorithm Optimization**: Lunar calendar conversion algorithm can be further optimized
+**JSON Performance Enhancement**: Consider using more efficient JSON serialization libraries
+**Caching Mechanism**: Add result caching for complex calculations
+**Memory Pool**: Implement object pools for high-frequency operations
 
 The Carbon project demonstrates excellent overall performance, particularly outstanding in core functionality and calendar conversion aspects. It is a high-performance, feature-complete date and time processing library. 
  
