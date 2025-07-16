@@ -16,7 +16,6 @@ const (
 	FaLocale      Locale = "fa"
 	defaultLocale        = EnLocale
 	persianEpoch         = 1948320
-	// persianBaseYear    = 474 // The base year of the Persian calendar cycle
 )
 
 var (
@@ -188,26 +187,11 @@ func (p *Persian) IsLeapYear() bool {
 func (p *Persian) getPersianYear(jdn int) int {
 	days := jdn - persianEpoch
 	year := 474 + days/365
-	for i := 0; i < 3; i++ {
-		yearStartJdn := p.getPersianJdn(year, 1, 1)
-		nextYearStartJdn := p.getPersianJdn(year+1, 1, 1)
-		if jdn >= yearStartJdn && jdn < nextYearStartJdn {
-			return year
-		}
-		if jdn < yearStartJdn {
-			year--
-		} else {
-			year++
-		}
+	if year < 1 || year > 9999 {
+		return -1
 	}
-	low := year - 10
-	high := year + 10
-	if low < 1 {
-		low = 1
-	}
-	if high > 9999 {
-		high = 9999
-	}
+	low := 1
+	high := 9999
 	for low <= high {
 		mid := (low + high) / 2
 		yearStartJdn := p.getPersianJdn(mid, 1, 1)
@@ -221,18 +205,7 @@ func (p *Persian) getPersianYear(jdn int) int {
 			low = mid + 1
 		}
 	}
-	for {
-		yearStartJdn := p.getPersianJdn(year, 1, 1)
-		nextYearStartJdn := p.getPersianJdn(year+1, 1, 1)
-		if jdn >= yearStartJdn && jdn < nextYearStartJdn {
-			return year
-		}
-		if jdn < yearStartJdn {
-			year--
-		} else {
-			year++
-		}
-	}
+	return -1
 }
 
 // getPersianJdn gets the Julian day number in the Persian calendar.
@@ -253,21 +226,13 @@ func (p *Persian) getPersianJdn(year, month, day int) int {
 
 // jdn2persian converts Julian Day Number to Persian date (year, month, day).
 func (p *Persian) jdn2persian(jdn int) (year, month, day int) {
-	// Get the Persian year
 	year = p.getPersianYear(jdn)
-	// Calculate the JDN of the first day of the year
-	yearStartJdn := p.getPersianJdn(year, 1, 1)
-	// Calculate the number of days from the beginning of the year to the target date
-	days := jdn - yearStartJdn + 1
-	// Use a lookup table to optimize month calculation
+	days := jdn - p.getPersianJdn(year, 1, 1) + 1
 	if days <= 186 {
 		month = (days-1)/31 + 1
 	} else {
 		month = (days-186-1)/30 + 7
 	}
-	// Calculate the JDN of the first day of the month
-	monthStartJdn := p.getPersianJdn(year, month, 1)
-	// Calculate the day
-	day = jdn - monthStartJdn + 1
+	day = jdn - p.getPersianJdn(year, month, 1) + 1
 	return
 }

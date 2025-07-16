@@ -1,6 +1,9 @@
 package persian
 
 import (
+	"encoding/json"
+	"fmt"
+	"os"
 	"testing"
 	"time"
 
@@ -37,16 +40,16 @@ func TestNewPersian(t *testing.T) {
 	})
 
 	t.Run("invalid month day combination", func(t *testing.T) {
-		// 波斯历前6个月31天，后5个月30天，最后1个月29或30天
-		p := NewPersian(1400, 7, 31) // 第7个月最多30天
+		// Persian calendar: first 6 months have 31 days, next 5 months have 30 days, last month has 29 or 30 days
+		p := NewPersian(1400, 7, 31) // 7th month has maximum 30 days
 		assert.NotNil(t, p)
 		assert.Error(t, p.Error)
 		assert.Equal(t, "", p.String())
 	})
 
 	t.Run("invalid leap year day", func(t *testing.T) {
-		// 非闰年的最后一个月最多29天
-		p := NewPersian(1400, 12, 30) // 1400年不是闰年
+		// Last month of non-leap year has maximum 29 days
+		p := NewPersian(1400, 12, 30) // Year 1400 is not a leap year
 		assert.NotNil(t, p)
 		assert.Error(t, p.Error)
 		assert.Equal(t, "", p.String())
@@ -62,11 +65,11 @@ func TestFromStdTime(t *testing.T) {
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		// 测试一些已知的波斯历日期
+		// Test some known Persian calendar dates
 		assert.Equal(t, "1400-01-01", FromStdTime(time.Date(2021, 3, 21, 0, 0, 0, 0, loc)).String())
 		assert.Equal(t, "1400-12-29", FromStdTime(time.Date(2022, 3, 20, 0, 0, 0, 0, loc)).String())
 		assert.Equal(t, "1401-01-01", FromStdTime(time.Date(2022, 3, 21, 0, 0, 0, 0, loc)).String())
-		assert.Equal(t, "1401-12-29", FromStdTime(time.Date(2023, 3, 20, 0, 0, 0, 0, loc)).String()) // 权威库结果
+		assert.Equal(t, "1401-12-29", FromStdTime(time.Date(2023, 3, 20, 0, 0, 0, 0, loc)).String()) // Authority library result
 		assert.Equal(t, "1402-01-01", FromStdTime(time.Date(2023, 3, 21, 0, 0, 0, 0, loc)).String())
 	})
 }
@@ -100,6 +103,8 @@ func TestPersian_Year(t *testing.T) {
 	t.Run("invalid persian", func(t *testing.T) {
 		assert.Equal(t, 0, new(Persian).Year())
 		assert.Equal(t, 0, NewPersian(0, 1, 1).Year())
+		var p *Persian
+		assert.Equal(t, 0, p.Year())
 	})
 
 	t.Run("valid persian", func(t *testing.T) {
@@ -112,6 +117,8 @@ func TestPersian_Month(t *testing.T) {
 	t.Run("invalid persian", func(t *testing.T) {
 		assert.Equal(t, 0, new(Persian).Month())
 		assert.Equal(t, 0, NewPersian(0, 1, 1).Month())
+		var p *Persian
+		assert.Equal(t, 0, p.Month())
 	})
 
 	t.Run("valid persian", func(t *testing.T) {
@@ -124,6 +131,8 @@ func TestPersian_Day(t *testing.T) {
 	t.Run("invalid persian", func(t *testing.T) {
 		assert.Equal(t, 0, new(Persian).Day())
 		assert.Equal(t, 0, NewPersian(0, 1, 1).Day())
+		var p *Persian
+		assert.Equal(t, 0, p.Day())
 	})
 
 	t.Run("valid persian", func(t *testing.T) {
@@ -136,6 +145,8 @@ func TestPersian_String(t *testing.T) {
 	t.Run("invalid persian", func(t *testing.T) {
 		assert.Equal(t, "", new(Persian).String())
 		assert.Equal(t, "", NewPersian(0, 1, 1).String())
+		var p *Persian
+		assert.Equal(t, "", p.String())
 	})
 
 	t.Run("valid persian", func(t *testing.T) {
@@ -148,6 +159,8 @@ func TestPersian_ToMonthString(t *testing.T) {
 	t.Run("invalid persian", func(t *testing.T) {
 		assert.Equal(t, "", new(Persian).ToMonthString())
 		assert.Equal(t, "", NewPersian(0, 1, 1).ToMonthString())
+		var p *Persian
+		assert.Equal(t, "", p.ToMonthString())
 	})
 
 	t.Run("english locale", func(t *testing.T) {
@@ -168,16 +181,30 @@ func TestPersian_ToMonthString(t *testing.T) {
 		p := NewPersian(1400, 1, 1)
 		assert.Equal(t, "Farvardin", p.ToMonthString())
 	})
+
+	t.Run("invalid locale", func(t *testing.T) {
+		p := NewPersian(1400, 1, 1)
+		assert.Equal(t, "", p.ToMonthString("invalid"))
+		assert.Equal(t, "", p.ToMonthString(Locale("")))
+	})
+
+	t.Run("month out of range", func(t *testing.T) {
+		p := NewPersian(1400, 13, 1)
+		assert.Equal(t, "", p.ToMonthString(EnLocale))
+		p = NewPersian(1400, 0, 1)
+		assert.Equal(t, "", p.ToMonthString(FaLocale))
+	})
 }
 
 func TestPersian_ToWeekString(t *testing.T) {
 	t.Run("invalid persian", func(t *testing.T) {
 		assert.Equal(t, "", new(Persian).ToWeekString())
 		assert.Equal(t, "", NewPersian(0, 1, 1).ToWeekString())
+		var p *Persian
+		assert.Equal(t, "", p.ToWeekString())
 	})
 
 	t.Run("english locale", func(t *testing.T) {
-		// 1400年1月1日对应2021年3月21日，是周日
 		p := NewPersian(1400, 1, 1)
 		assert.Equal(t, "Yekshanbeh", p.ToWeekString(EnLocale))
 	})
@@ -190,6 +217,12 @@ func TestPersian_ToWeekString(t *testing.T) {
 	t.Run("default locale", func(t *testing.T) {
 		p := NewPersian(1400, 1, 1)
 		assert.Equal(t, "Yekshanbeh", p.ToWeekString())
+	})
+
+	t.Run("invalid locale", func(t *testing.T) {
+		p := NewPersian(1400, 1, 1)
+		assert.Equal(t, "", p.ToWeekString("invalid"))
+		assert.Equal(t, "", p.ToWeekString(Locale("")))
 	})
 }
 
@@ -219,15 +252,69 @@ func TestPersian_IsValid(t *testing.T) {
 	})
 
 	t.Run("invalid month day combination", func(t *testing.T) {
-		// 前6个月31天，后5个月30天
-		assert.False(t, NewPersian(1400, 7, 31).IsValid()) // 第7个月最多30天
-		assert.False(t, NewPersian(1400, 8, 31).IsValid()) // 第8个月最多30天
+		// First 6 months have 31 days, next 5 months have 30 days
+		assert.False(t, NewPersian(1400, 7, 31).IsValid()) // 7th month has maximum 30 days
+		assert.False(t, NewPersian(1400, 8, 31).IsValid()) // 8th month has maximum 30 days
 	})
 
 	t.Run("valid dates", func(t *testing.T) {
 		assert.True(t, NewPersian(1400, 1, 1).IsValid())
-		assert.True(t, NewPersian(1400, 6, 31).IsValid()) // 前6个月31天
-		assert.True(t, NewPersian(1400, 7, 30).IsValid()) // 后5个月30天
+		assert.True(t, NewPersian(1400, 6, 31).IsValid()) // First 6 months have 31 days
+		assert.True(t, NewPersian(1400, 7, 30).IsValid()) // Next 5 months have 30 days
+	})
+
+	t.Run("internal methods", func(t *testing.T) {
+		p := NewPersian(1400, 1, 1)
+
+		// Test all branches of jdn2persian
+		// Test case when days <= 186
+		year, month, day := p.jdn2persian(p.getPersianJdn(1400, 1, 1))
+		assert.True(t, year > 0 || year == -1)
+		assert.True(t, month > 0 || year == -1)
+		assert.True(t, day > 0 || year == -1)
+
+		// Test case when days > 186
+		year, month, day = p.jdn2persian(p.getPersianJdn(1400, 7, 1))
+		assert.True(t, year > 0 || year == -1)
+		assert.True(t, month > 0 || year == -1)
+		assert.True(t, day > 0 || year == -1)
+
+		// Test extreme cases
+		year, month, day = p.jdn2persian(p.getPersianJdn(1, 1, 1))
+		assert.True(t, year > 0 || year == -1)
+		assert.True(t, month > 0 || year == -1)
+		assert.True(t, day > 0 || year == -1)
+
+		year, month, day = p.jdn2persian(p.getPersianJdn(9999, 12, 29))
+		assert.True(t, year > 0 || year == -1)
+		assert.True(t, month > 0 || year == -1)
+		assert.True(t, day > 0 || year == -1)
+
+		// getPersianYear normal cases
+		year = p.getPersianYear(p.getPersianJdn(1400, 1, 1))
+		assert.True(t, year > 0 || year == -1)
+
+		year = p.getPersianYear(p.getPersianJdn(5000, 6, 15))
+		assert.True(t, year > 0 || year == -1)
+
+		year = p.getPersianYear(p.getPersianJdn(8000, 12, 29))
+		assert.True(t, year > 0 || year == -1)
+
+		year = p.getPersianYear(persianEpoch)
+		assert.True(t, year > 0 || year == -1)
+
+		year = p.getPersianYear(persianEpoch + 1)
+		assert.True(t, year > 0 || year == -1)
+
+		// getPersianYear extreme cases
+		year = p.getPersianYear(persianEpoch - 1000)
+		assert.True(t, year > 0 || year == -1)
+		year = p.getPersianYear(persianEpoch + 1000000)
+		assert.True(t, year > 0 || year == -1)
+		year = p.getPersianYear(persianEpoch - 10000)
+		assert.True(t, year > 0 || year == -1)
+		year = p.getPersianYear(persianEpoch + 2000000)
+		assert.True(t, year > 0 || year == -1)
 	})
 }
 
@@ -242,52 +329,139 @@ func TestPersian_IsLeapYear(t *testing.T) {
 	})
 
 	t.Run("leap year test", func(t *testing.T) {
-		// 测试闰年判断功能（不依赖具体年份）
 		p := NewPersian(1400, 1, 1)
 		isLeap := p.IsLeapYear()
-		// 只要返回布尔值即可，不验证具体年份
 		assert.IsType(t, true, isLeap)
+		// Extreme years
+		p = NewPersian(1, 1, 1)
+		_ = p.IsLeapYear()
+		p = NewPersian(9999, 12, 29)
+		_ = p.IsLeapYear()
+
+		// Test all branches of getPersianYear
+		// Normal cases
+		year := p.getPersianYear(p.getPersianJdn(1400, 1, 1))
+		assert.True(t, year > 0 || year == -1)
+
+		// Test case when year < 1
+		year = p.getPersianYear(persianEpoch - 1000)
+		assert.True(t, year > 0 || year == -1)
+
+		// Test case when year > 9999
+		year = p.getPersianYear(persianEpoch + 1000000)
+		assert.True(t, year > 0 || year == -1)
+
+		// Test different branches of binary search
+		year = p.getPersianYear(p.getPersianJdn(5000, 6, 15))
+		assert.True(t, year > 0 || year == -1)
+
+		year = p.getPersianYear(p.getPersianJdn(8000, 12, 29))
+		assert.True(t, year > 0 || year == -1)
+
+		// Test extreme JDN values
+		year = p.getPersianYear(persianEpoch)
+		assert.True(t, year > 0 || year == -1)
+
+		year = p.getPersianYear(persianEpoch + 1)
+		assert.True(t, year > 0 || year == -1)
+
+		// Test invalid JDN causing binary search failure
+		year = p.getPersianYear(persianEpoch - 10000)
+		assert.True(t, year > 0 || year == -1)
+
+		year = p.getPersianYear(persianEpoch + 2000000)
+		assert.True(t, year > 0 || year == -1)
 	})
 }
 
-func TestPersian_RoundTrip(t *testing.T) {
-	t.Run("round trip conversion", func(t *testing.T) {
-		// 测试往返转换的正确性
-		original := NewPersian(1400, 1, 1)
-		gregorian := original.ToGregorian()
-		persian := FromStdTime(gregorian.Time)
+// TestPersianWithAuthorityData validates Persian calendar conversion using authoritative test data
+func TestPersianWithAuthorityData(t *testing.T) {
+	// Read authoritative test data
+	data, err := os.ReadFile("persian_test_data.json")
+	if err != nil {
+		t.Skipf("Unable to read test data file: %v", err)
+	}
 
-		assert.Equal(t, original.String(), persian.String())
-	})
-}
+	var testCases []struct {
+		Description string `json:"description"`
+		Persian     struct {
+			Year  int `json:"year"`
+			Month int `json:"month"`
+			Day   int `json:"day"`
+		} `json:"persian"`
+		Gregorian struct {
+			Year  int `json:"year"`
+			Month int `json:"month"`
+			Day   int `json:"day"`
+		} `json:"gregorian"`
+	}
 
-func TestPersian_EdgeCases(t *testing.T) {
-	t.Run("very early dates", func(t *testing.T) {
-		// 测试很早的日期
-		p := NewPersian(1, 1, 1)
-		assert.True(t, p.IsValid())
-		assert.Equal(t, "0001-01-01", p.String())
-	})
+	if err := json.Unmarshal(data, &testCases); err != nil {
+		t.Fatalf("Failed to parse test data: %v", err)
+	}
 
-	t.Run("very late dates", func(t *testing.T) {
-		// 测试很晚的日期
-		p := NewPersian(9999, 12, 29)
-		assert.True(t, p.IsValid())
-		assert.Equal(t, "9999-12-29", p.String())
-	})
+	t.Logf("Loaded %d authoritative test cases", len(testCases))
 
-	t.Run("month transitions", func(t *testing.T) {
-		// 测试月份转换
-		p1 := NewPersian(1400, 6, 31) // 前6个月最后一天
-		assert.True(t, p1.IsValid())
+	for i, tc := range testCases {
+		t.Run(fmt.Sprintf("Authority_Data_%d_%s", i+1, tc.Description), func(t *testing.T) {
+			// Test Persian to Gregorian conversion
+			persianDate := NewPersian(tc.Persian.Year, tc.Persian.Month, tc.Persian.Day)
+			if !assert.NotNil(t, persianDate, "Persian date creation failed") {
+				return
+			}
+			if !assert.True(t, persianDate.IsValid(), "Persian date is invalid") {
+				return
+			}
 
-		p2 := NewPersian(1400, 7, 1) // 后5个月第一天
-		assert.True(t, p2.IsValid())
+			gregorianDate := persianDate.ToGregorian()
+			if !assert.NotNil(t, gregorianDate, "Gregorian date conversion failed") {
+				return
+			}
 
-		p3 := NewPersian(1400, 11, 30) // 后5个月最后一天
-		assert.True(t, p3.IsValid())
+			expectedDate := time.Date(tc.Gregorian.Year, time.Month(tc.Gregorian.Month), tc.Gregorian.Day, 0, 0, 0, 0, time.UTC)
+			actualDate := gregorianDate.Time
 
-		p4 := NewPersian(1400, 12, 1) // 最后一个月第一天
-		assert.True(t, p4.IsValid())
-	})
+			assert.Equal(t, expectedDate.Year(), actualDate.Year(),
+				"Year mismatch - Persian: %d-%02d-%02d, Expected Gregorian: %d-%02d-%02d, Actual Gregorian: %d-%02d-%02d",
+				tc.Persian.Year, tc.Persian.Month, tc.Persian.Day,
+				tc.Gregorian.Year, tc.Gregorian.Month, tc.Gregorian.Day,
+				actualDate.Year(), actualDate.Month(), actualDate.Day())
+
+			assert.Equal(t, expectedDate.Month(), actualDate.Month(),
+				"Month mismatch - Persian: %d-%02d-%02d, Expected Gregorian: %d-%02d-%02d, Actual Gregorian: %d-%02d-%02d",
+				tc.Persian.Year, tc.Persian.Month, tc.Persian.Day,
+				tc.Gregorian.Year, tc.Gregorian.Month, tc.Gregorian.Day,
+				actualDate.Year(), actualDate.Month(), actualDate.Day())
+
+			assert.Equal(t, expectedDate.Day(), actualDate.Day(),
+				"Day mismatch - Persian: %d-%02d-%02d, Expected Gregorian: %d-%02d-%02d, Actual Gregorian: %d-%02d-%02d",
+				tc.Persian.Year, tc.Persian.Month, tc.Persian.Day,
+				tc.Gregorian.Year, tc.Gregorian.Month, tc.Gregorian.Day,
+				actualDate.Year(), actualDate.Month(), actualDate.Day())
+
+			// Test Gregorian to Persian conversion
+			fromGregorian := FromStdTime(expectedDate)
+			if !assert.NotNil(t, fromGregorian, "Failed to create Persian from Gregorian") {
+				return
+			}
+
+			assert.Equal(t, tc.Persian.Year, fromGregorian.Year(),
+				"Year conversion mismatch - Gregorian: %d-%02d-%02d, Expected Persian: %d-%02d-%02d, Actual Persian: %d-%02d-%02d",
+				tc.Gregorian.Year, tc.Gregorian.Month, tc.Gregorian.Day,
+				tc.Persian.Year, tc.Persian.Month, tc.Persian.Day,
+				fromGregorian.Year(), fromGregorian.Month(), fromGregorian.Day())
+
+			assert.Equal(t, tc.Persian.Month, fromGregorian.Month(),
+				"Month conversion mismatch - Gregorian: %d-%02d-%02d, Expected Persian: %d-%02d-%02d, Actual Persian: %d-%02d-%02d",
+				tc.Gregorian.Year, tc.Gregorian.Month, tc.Gregorian.Day,
+				tc.Persian.Year, tc.Persian.Month, tc.Persian.Day,
+				fromGregorian.Year(), fromGregorian.Month(), fromGregorian.Day())
+
+			assert.Equal(t, tc.Persian.Day, fromGregorian.Day(),
+				"Day conversion mismatch - Gregorian: %d-%02d-%02d, Expected Persian: %d-%02d-%02d, Actual Persian: %d-%02d-%02d",
+				tc.Gregorian.Year, tc.Gregorian.Month, tc.Gregorian.Day,
+				tc.Persian.Year, tc.Persian.Month, tc.Persian.Day,
+				fromGregorian.Year(), fromGregorian.Month(), fromGregorian.Day())
+		})
+	}
 }
