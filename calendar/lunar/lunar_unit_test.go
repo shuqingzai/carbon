@@ -1,6 +1,8 @@
 package lunar
 
 import (
+	"encoding/json"
+	"os"
 	"testing"
 	"time"
 
@@ -24,7 +26,7 @@ func TestFromStdTime(t *testing.T) {
 	})
 
 	t.Run("valid time", func(t *testing.T) {
-		// 特殊边界
+		// Special boundary cases
 		assert.Equal(t, "2020-04-01", FromStdTime(time.Date(2020, 5, 23, 0, 0, 0, 0, loc)).String())
 		assert.Equal(t, "2020-05-01", FromStdTime(time.Date(2020, 6, 21, 0, 0, 0, 0, loc)).String())
 
@@ -480,4 +482,62 @@ func TestLunar_IsPigYear(t *testing.T) {
 		assert.True(t, FromStdTime(time.Date(2031, 8, 5, 0, 0, 0, 0, loc)).IsPigYear())
 		assert.False(t, FromStdTime(time.Date(2020, 8, 5, 0, 0, 0, 0, loc)).IsPigYear())
 	})
+}
+
+func TestLunar_AuthorityData(t *testing.T) {
+	file, err := os.Open("lunar_test_data.json")
+	if err != nil {
+		t.Fatalf("failed to open test data file: %v", err)
+	}
+	defer file.Close()
+
+	type lunarData struct {
+		Year        int  `json:"year"`
+		Month       int  `json:"month"`
+		Day         int  `json:"day"`
+		IsLeapMonth bool `json:"isLeapMonth"`
+	}
+	type gregorianData struct {
+		Year  int `json:"year"`
+		Month int `json:"month"`
+		Day   int `json:"day"`
+	}
+	type testCase struct {
+		Description string        `json:"description"`
+		Lunar       lunarData     `json:"lunar"`
+		Gregorian   gregorianData `json:"gregorian"`
+	}
+
+	var cases []testCase
+	dec := json.NewDecoder(file)
+	if err := dec.Decode(&cases); err != nil {
+		t.Fatalf("failed to decode test data: %v", err)
+	}
+
+	loc, _ := time.LoadLocation("PRC")
+
+	for _, c := range cases {
+		// Lunar to Gregorian conversion
+		l := NewLunar(c.Lunar.Year, c.Lunar.Month, c.Lunar.Day, c.Lunar.IsLeapMonth)
+		g := l.ToGregorian("PRC")
+		if g.Time.IsZero() {
+			t.Errorf("[%s] Lunar->Gregorian failed: %+v", c.Description, c.Lunar)
+		} else {
+			gy, gm, gd := g.Time.In(loc).Date()
+			if gy != c.Gregorian.Year || int(gm) != c.Gregorian.Month || gd != c.Gregorian.Day {
+				t.Errorf("[%s] Lunar->Gregorian error: expected %04d-%02d-%02d, got %04d-%02d-%02d", c.Description, c.Gregorian.Year, c.Gregorian.Month, c.Gregorian.Day, gy, int(gm), gd)
+			}
+		}
+
+		// Gregorian to Lunar conversion
+		gt := time.Date(c.Gregorian.Year, time.Month(c.Gregorian.Month), c.Gregorian.Day, 0, 0, 0, 0, loc)
+		l2 := FromStdTime(gt)
+		if l2 == nil {
+			t.Errorf("[%s] Gregorian->Lunar failed: %+v", c.Description, c.Gregorian)
+		} else {
+			if l2.year != c.Lunar.Year || l2.month != c.Lunar.Month || l2.day != c.Lunar.Day || l2.isLeapMonth != c.Lunar.IsLeapMonth {
+				t.Errorf("[%s] Gregorian->Lunar error: expected %04d-%02d-%02d leap=%v, got %04d-%02d-%02d leap=%v", c.Description, c.Lunar.Year, c.Lunar.Month, c.Lunar.Day, c.Lunar.IsLeapMonth, l2.year, l2.month, l2.day, l2.isLeapMonth)
+			}
+		}
+	}
 }
