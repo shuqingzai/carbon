@@ -293,7 +293,6 @@ func (l *Lunar) ToDateString() string {
 }
 
 // IsValid reports whether is a valid lunar date.
-// 是否是有效的年份
 func (l *Lunar) IsValid() bool {
 	if l == nil || l.Error != nil {
 		return false

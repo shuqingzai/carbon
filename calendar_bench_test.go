@@ -199,3 +199,68 @@ func BenchmarkCreateFromPersian(b *testing.B) {
 		})
 	})
 }
+
+func BenchmarkCarbon_Hebrew(b *testing.B) {
+	b.Run("sequential", func(b *testing.B) {
+		c := Parse("2020-08-05")
+		b.ResetTimer()
+		for i := 0; i < b.N/10; i++ {
+			c.Hebrew()
+		}
+	})
+
+	b.Run("concurrent", func(b *testing.B) {
+		var wg sync.WaitGroup
+		c := Parse("2020-08-05")
+		b.ResetTimer()
+		for i := 0; i < b.N/10; i++ {
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				c.Hebrew()
+			}()
+		}
+		wg.Wait()
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		c := Parse("2020-08-05")
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				c.Hebrew()
+			}
+		})
+	})
+}
+
+func BenchmarkCreateFromHebrew(b *testing.B) {
+	b.Run("sequential", func(b *testing.B) {
+		b.ResetTimer()
+		for i := 0; i < b.N/10; i++ {
+			CreateFromHebrew(5784, 10, 20)
+		}
+	})
+
+	b.Run("concurrent", func(b *testing.B) {
+		var wg sync.WaitGroup
+		b.ResetTimer()
+		for i := 0; i < b.N/10; i++ {
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				CreateFromHebrew(5784, 10, 20)
+			}()
+		}
+		wg.Wait()
+	})
+
+	b.Run("parallel", func(b *testing.B) {
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				CreateFromHebrew(5784, 10, 20)
+			}
+		})
+	})
+}
