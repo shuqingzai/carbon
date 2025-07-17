@@ -47,7 +47,7 @@ func FromStdTime(t time.Time) (p *Persian) {
 		return nil
 	}
 	gjdn := int(julian.FromStdTime(time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())).JD(0))
-	year, month, day := p.jdn2persian(gjdn)
+	year, month, day := jdn2persian(gjdn)
 	return &Persian{year: year, month: month, day: day}
 }
 
@@ -64,7 +64,7 @@ func (p *Persian) ToGregorian(timezone ...string) *calendar.Gregorian {
 	if g.Error != nil {
 		return g
 	}
-	jdn := p.getPersianJdn(p.year, p.month, p.day)
+	jdn := getPersianJdn(p.year, p.month, p.day)
 
 	l := jdn + 68569
 	n := 4 * l / 146097
@@ -177,14 +177,14 @@ func (p *Persian) IsLeapYear() bool {
 	if p == nil || p.Error != nil {
 		return false
 	}
-	currentYearJdn := p.getPersianJdn(p.year, 1, 1)
-	nextYearJdn := p.getPersianJdn(p.year+1, 1, 1)
+	currentYearJdn := getPersianJdn(p.year, 1, 1)
+	nextYearJdn := getPersianJdn(p.year+1, 1, 1)
 	daysDiff := nextYearJdn - currentYearJdn
 	return daysDiff > 365
 }
 
 // getPersianYear gets the Persian year from Julian Day Number.
-func (p *Persian) getPersianYear(jdn int) int {
+func getPersianYear(jdn int) int {
 	days := jdn - persianEpoch
 	year := 474 + days/365
 	if year < 1 || year > 9999 {
@@ -194,8 +194,8 @@ func (p *Persian) getPersianYear(jdn int) int {
 	high := 9999
 	for low <= high {
 		mid := (low + high) / 2
-		yearStartJdn := p.getPersianJdn(mid, 1, 1)
-		nextYearStartJdn := p.getPersianJdn(mid+1, 1, 1)
+		yearStartJdn := getPersianJdn(mid, 1, 1)
+		nextYearStartJdn := getPersianJdn(mid+1, 1, 1)
 		if jdn >= yearStartJdn && jdn < nextYearStartJdn {
 			return mid
 		}
@@ -209,7 +209,7 @@ func (p *Persian) getPersianYear(jdn int) int {
 }
 
 // getPersianJdn gets the Julian day number in the Persian calendar.
-func (p *Persian) getPersianJdn(year, month, day int) int {
+func getPersianJdn(year, month, day int) int {
 	yearOffset := year - 474
 	if yearOffset < 0 {
 		yearOffset--
@@ -225,14 +225,14 @@ func (p *Persian) getPersianJdn(year, month, day int) int {
 }
 
 // jdn2persian converts Julian Day Number to Persian date (year, month, day).
-func (p *Persian) jdn2persian(jdn int) (year, month, day int) {
-	year = p.getPersianYear(jdn)
-	days := jdn - p.getPersianJdn(year, 1, 1) + 1
+func jdn2persian(jdn int) (year, month, day int) {
+	year = getPersianYear(jdn)
+	days := jdn - getPersianJdn(year, 1, 1) + 1
 	if days <= 186 {
 		month = (days-1)/31 + 1
 	} else {
 		month = (days-186-1)/30 + 7
 	}
-	day = jdn - p.getPersianJdn(year, month, 1) + 1
+	day = jdn - getPersianJdn(year, month, 1) + 1
 	return
 }

@@ -264,56 +264,54 @@ func TestPersian_IsValid(t *testing.T) {
 	})
 
 	t.Run("internal methods", func(t *testing.T) {
-		p := NewPersian(1400, 1, 1)
-
 		// Test all branches of jdn2persian
 		// Test case when days <= 186
-		year, month, day := p.jdn2persian(p.getPersianJdn(1400, 1, 1))
+		year, month, day := jdn2persian(getPersianJdn(1400, 1, 1))
 		assert.True(t, year > 0 || year == -1)
 		assert.True(t, month > 0 || year == -1)
 		assert.True(t, day > 0 || year == -1)
 
 		// Test case when days > 186
-		year, month, day = p.jdn2persian(p.getPersianJdn(1400, 7, 1))
+		year, month, day = jdn2persian(getPersianJdn(1400, 7, 1))
 		assert.True(t, year > 0 || year == -1)
 		assert.True(t, month > 0 || year == -1)
 		assert.True(t, day > 0 || year == -1)
 
 		// Test extreme cases
-		year, month, day = p.jdn2persian(p.getPersianJdn(1, 1, 1))
+		year, month, day = jdn2persian(getPersianJdn(1, 1, 1))
 		assert.True(t, year > 0 || year == -1)
 		assert.True(t, month > 0 || year == -1)
 		assert.True(t, day > 0 || year == -1)
 
-		year, month, day = p.jdn2persian(p.getPersianJdn(9999, 12, 29))
+		year, month, day = jdn2persian(getPersianJdn(9999, 12, 29))
 		assert.True(t, year > 0 || year == -1)
 		assert.True(t, month > 0 || year == -1)
 		assert.True(t, day > 0 || year == -1)
 
 		// getPersianYear normal cases
-		year = p.getPersianYear(p.getPersianJdn(1400, 1, 1))
+		year = getPersianYear(getPersianJdn(1400, 1, 1))
 		assert.True(t, year > 0 || year == -1)
 
-		year = p.getPersianYear(p.getPersianJdn(5000, 6, 15))
+		year = getPersianYear(getPersianJdn(5000, 6, 15))
 		assert.True(t, year > 0 || year == -1)
 
-		year = p.getPersianYear(p.getPersianJdn(8000, 12, 29))
+		year = getPersianYear(getPersianJdn(8000, 12, 29))
 		assert.True(t, year > 0 || year == -1)
 
-		year = p.getPersianYear(persianEpoch)
+		year = getPersianYear(persianEpoch)
 		assert.True(t, year > 0 || year == -1)
 
-		year = p.getPersianYear(persianEpoch + 1)
+		year = getPersianYear(persianEpoch + 1)
 		assert.True(t, year > 0 || year == -1)
 
 		// getPersianYear extreme cases
-		year = p.getPersianYear(persianEpoch - 1000)
+		year = getPersianYear(persianEpoch - 1000)
 		assert.True(t, year > 0 || year == -1)
-		year = p.getPersianYear(persianEpoch + 1000000)
+		year = getPersianYear(persianEpoch + 1000000)
 		assert.True(t, year > 0 || year == -1)
-		year = p.getPersianYear(persianEpoch - 10000)
+		year = getPersianYear(persianEpoch - 10000)
 		assert.True(t, year > 0 || year == -1)
-		year = p.getPersianYear(persianEpoch + 2000000)
+		year = getPersianYear(persianEpoch + 2000000)
 		assert.True(t, year > 0 || year == -1)
 	})
 }
@@ -333,43 +331,43 @@ func TestPersian_IsLeapYear(t *testing.T) {
 		isLeap := p.IsLeapYear()
 		assert.IsType(t, true, isLeap)
 		// Extreme years
-		p = NewPersian(1, 1, 1)
-		_ = p.IsLeapYear()
-		p = NewPersian(9999, 12, 29)
-		_ = p.IsLeapYear()
+		p1 := NewPersian(1, 1, 1)
+		_ = p1.IsLeapYear()
+		p2 := NewPersian(9999, 12, 29)
+		_ = p2.IsLeapYear()
 
 		// Test all branches of getPersianYear
 		// Normal cases
-		year := p.getPersianYear(p.getPersianJdn(1400, 1, 1))
+		year := getPersianYear(getPersianJdn(1400, 1, 1))
 		assert.True(t, year > 0 || year == -1)
 
 		// Test case when year < 1
-		year = p.getPersianYear(persianEpoch - 1000)
+		year = getPersianYear(persianEpoch - 1000)
 		assert.True(t, year > 0 || year == -1)
 
 		// Test case when year > 9999
-		year = p.getPersianYear(persianEpoch + 1000000)
+		year = getPersianYear(persianEpoch + 1000000)
 		assert.True(t, year > 0 || year == -1)
 
 		// Test different branches of binary search
-		year = p.getPersianYear(p.getPersianJdn(5000, 6, 15))
+		year = getPersianYear(getPersianJdn(5000, 6, 15))
 		assert.True(t, year > 0 || year == -1)
 
-		year = p.getPersianYear(p.getPersianJdn(8000, 12, 29))
+		year = getPersianYear(getPersianJdn(8000, 12, 29))
 		assert.True(t, year > 0 || year == -1)
 
 		// Test extreme JDN values
-		year = p.getPersianYear(persianEpoch)
+		year = getPersianYear(persianEpoch)
 		assert.True(t, year > 0 || year == -1)
 
-		year = p.getPersianYear(persianEpoch + 1)
+		year = getPersianYear(persianEpoch + 1)
 		assert.True(t, year > 0 || year == -1)
 
 		// Test invalid JDN causing binary search failure
-		year = p.getPersianYear(persianEpoch - 10000)
+		year = getPersianYear(persianEpoch - 10000)
 		assert.True(t, year > 0 || year == -1)
 
-		year = p.getPersianYear(persianEpoch + 2000000)
+		year = getPersianYear(persianEpoch + 2000000)
 		assert.True(t, year > 0 || year == -1)
 	})
 }
