@@ -54,6 +54,9 @@ var (
 		0x0e968, 0x0d520, 0x0daa0, 0x16aa6, 0x056d0, 0x04ae0, 0x0a9d4, 0x0a2d0, 0x0d150, 0x0f252, // 2090-2099
 		0x0d520, // 2100
 	}
+
+	maxYear = 2100
+	minYear = 1900
 )
 
 // ErrInvalidLunar returns a invalid lunar date.
@@ -73,27 +76,11 @@ func NewLunar(year, month, day int, isLeapMonth bool) *Lunar {
 	l := new(Lunar)
 	l.year, l.month, l.day, l.isLeapMonth = year, month, day, isLeapMonth
 	if !l.IsValid() {
-		l.Error = ErrInvalidLunar()
+		if !l.IsValid() {
+			l.Error = fmt.Errorf("invalid persian date: %04d-%02d-%02d", year, month, day)
+		}
 	}
 	return l
-}
-
-// MaxValue returns a Lunar instance for the greatest supported date.
-func MaxValue() *Lunar {
-	return &Lunar{
-		year:  2100,
-		month: 12,
-		day:   31,
-	}
-}
-
-// MinValue returns a Lunar instance for the lowest supported date.
-func MinValue() *Lunar {
-	return &Lunar{
-		year:  1900,
-		month: 1,
-		day:   1,
-	}
 }
 
 // FromStdTime creates a Lunar instance from standard time.Time.
@@ -103,7 +90,6 @@ func FromStdTime(t time.Time) *Lunar {
 		return nil
 	}
 	daysInYear, daysInMonth, leapMonth := 365, 30, 0
-	maxYear, minYear := MaxValue().year, MinValue().year
 
 	offset := int(t.Truncate(time.Hour).Sub(time.Date(minYear, 1, 31, 0, 0, 0, 0, t.Location())).Hours() / 24)
 	for l.year = minYear; l.year <= maxYear && offset > 0; l.year++ {
@@ -216,7 +202,6 @@ func (l *Lunar) LeapMonth() int {
 	if !l.IsValid() {
 		return 0
 	}
-	minYear := MinValue().year
 	return years[l.year-minYear] & 0xf
 }
 
@@ -297,7 +282,7 @@ func (l *Lunar) IsValid() bool {
 	if l == nil || l.Error != nil {
 		return false
 	}
-	if l.year >= MinValue().year && l.year <= MaxValue().year {
+	if l.year >= minYear && l.year <= maxYear {
 		return true
 	}
 	return false
@@ -471,7 +456,7 @@ func (l *Lunar) getOffsetInYear() int {
 
 func (l *Lunar) getOffsetInMonth() int {
 	clone, year, offset := *l, 0, 0
-	for year = MinValue().year; year < l.year; year++ {
+	for year = minYear; year < l.year; year++ {
 		clone.year = year
 		offset += clone.getDaysInYear()
 	}
@@ -481,7 +466,7 @@ func (l *Lunar) getOffsetInMonth() int {
 func (l *Lunar) getDaysInYear() int {
 	var days = 348
 	for i := 0x8000; i > 0x8; i >>= 1 {
-		if (years[l.year-MinValue().year] & i) != 0 {
+		if (years[l.year-minYear] & i) != 0 {
 			days++
 		}
 	}
@@ -489,7 +474,7 @@ func (l *Lunar) getDaysInYear() int {
 }
 
 func (l *Lunar) getDaysInMonth() int {
-	if (years[l.year-MinValue().year] & (0x10000 >> uint(l.month))) != 0 {
+	if (years[l.year-minYear] & (0x10000 >> uint(l.month))) != 0 {
 		return 30
 	}
 	return 29
@@ -499,7 +484,7 @@ func (l *Lunar) getDaysInLeapMonth() int {
 	if l.LeapMonth() == 0 {
 		return 0
 	}
-	if years[l.year-MinValue().year]&0x10000 != 0 {
+	if years[l.year-minYear]&0x10000 != 0 {
 		return 30
 	}
 	return 29

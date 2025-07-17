@@ -9,14 +9,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestMaxValue(t *testing.T) {
-	assert.Equal(t, "二一零零年腊月廿一", MaxValue().ToDateString())
-}
-
-func TestMinValue(t *testing.T) {
-	assert.Equal(t, "一九零零年正月初一", MinValue().ToDateString())
-}
-
 func TestFromStdTime(t *testing.T) {
 	loc, _ := time.LoadLocation("PRC")
 
