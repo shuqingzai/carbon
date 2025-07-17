@@ -59,11 +59,6 @@ var (
 	minYear = 1900
 )
 
-// ErrInvalidLunar returns a invalid lunar date.
-var ErrInvalidLunar = func() error {
-	return fmt.Errorf("invalid lunar date, please make sure the lunar date is valid")
-}
-
 // Lunar defines a Lunar struct.
 type Lunar struct {
 	year, month, day int
