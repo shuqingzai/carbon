@@ -281,7 +281,7 @@ func getMonthsFromEpoch(year int) int {
 	return 235*cycles + 12*yearInCycle + (7*yearInCycle+1)/19
 }
 
-// getJDNInYear calculates the Julian Day Number of Hebrew New Year (Tishri 1), including complete authoritative postponement rules
+// getJDNInYear calculates the Julian Day Number of Hebrew New Year (Tishri 1)
 func getJDNInYear(year int) float64 {
 	months := getMonthsFromEpoch(year)
 	parts := 204 + 793*(months%1080)

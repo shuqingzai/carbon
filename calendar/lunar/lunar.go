@@ -88,21 +88,21 @@ func FromStdTime(t time.Time) *Lunar {
 
 	offset := int(t.Truncate(time.Hour).Sub(time.Date(minYear, 1, 31, 0, 0, 0, 0, t.Location())).Hours() / 24)
 	for l.year = minYear; l.year <= maxYear && offset > 0; l.year++ {
-		daysInYear = l.getDaysInYear()
+		daysInYear = getDaysInYear(l.year)
 		offset -= daysInYear
 	}
 	if offset < 0 {
 		offset += daysInYear
 		l.year--
 	}
-	leapMonth = l.LeapMonth()
+	leapMonth = getLeapMonth(l.year)
 	for l.month = 1; l.month <= 12 && offset > 0; l.month++ {
 		if leapMonth > 0 && l.month == (leapMonth+1) && !l.isLeapMonth {
 			l.month--
 			l.isLeapMonth = true
-			daysInMonth = l.getDaysInLeapMonth()
+			daysInMonth = getDaysInLeapMonth(l.year)
 		} else {
-			daysInMonth = l.getDaysInMonth()
+			daysInMonth = getDaysInMonth(l.year, l.month)
 		}
 		offset -= daysInMonth
 		if l.isLeapMonth && l.month == (leapMonth+1) {
@@ -138,9 +138,9 @@ func (l *Lunar) ToGregorian(timezone ...string) *calendar.Gregorian {
 	if g.Error != nil {
 		return g
 	}
-	days := l.getDaysInMonth()
-	offset := l.getOffsetInYear()
-	offset += l.getOffsetInMonth()
+	days := getDaysInMonth(l.year, l.month)
+	offset := getOffsetInYear(l.year, l.month)
+	offset += getOffsetInMonth(l.year)
 
 	// add the time difference of the month before the leap month
 	if l.isLeapMonth {
@@ -197,7 +197,7 @@ func (l *Lunar) LeapMonth() int {
 	if !l.IsValid() {
 		return 0
 	}
-	return years[l.year-minYear] & 0xf
+	return getLeapMonth(l.year)
 }
 
 // String implements "Stringer" interface for Lunar.
@@ -431,56 +431,80 @@ func (l *Lunar) IsPigYear() bool {
 	return false
 }
 
-func (l *Lunar) getOffsetInYear() int {
+// getOffsetInYear calculates the total number of days from the beginning of the year to the specified month.
+// It handles leap months by adding the leap month days when encountered.
+// Returns the offset in days.
+func getOffsetInYear(year, month int) int {
 	flag := false
-	clone, month, offset := *l, 0, 0
-	for month = 1; month < l.month; month++ {
-		leapMonth := l.LeapMonth()
+	offset := 0
+	for m := 1; m < month; m++ {
+		leapMonth := getLeapMonth(year)
 		if !flag {
-			// 处理闰月
-			if leapMonth <= month && leapMonth > 0 {
-				offset += l.getDaysInLeapMonth()
+			if leapMonth <= m && leapMonth > 0 {
+				offset += getDaysInLeapMonth(year)
 				flag = true
 			}
 		}
-		clone.month = month
-		offset += clone.getDaysInMonth()
+		offset += getDaysInMonth(year, m)
 	}
 	return offset
 }
 
-func (l *Lunar) getOffsetInMonth() int {
-	clone, year, offset := *l, 0, 0
-	for year = minYear; year < l.year; year++ {
-		clone.year = year
-		offset += clone.getDaysInYear()
+// getOffsetInMonth calculates the total number of days from the minimum year (1900) to the specified year.
+// This represents the cumulative days across all years up to but not including the target year.
+// Returns the offset in days.
+func getOffsetInMonth(year int) int {
+	offset := 0
+	for y := minYear; y < year; y++ {
+		offset += getDaysInYear(y)
 	}
 	return offset
 }
 
-func (l *Lunar) getDaysInYear() int {
+// getDaysInYear calculates the total number of days in a lunar year.
+// It uses the lunar calendar data array to determine which months have 30 days vs 29 days.
+// The base is 348 days (12 months × 29 days), then adds days for months with 30 days.
+// Finally adds the leap month days if the year has a leap month.
+// Returns the total number of days in the year.
+func getDaysInYear(year int) int {
 	var days = 348
 	for i := 0x8000; i > 0x8; i >>= 1 {
-		if (years[l.year-minYear] & i) != 0 {
+		if (years[year-minYear] & i) != 0 {
 			days++
 		}
 	}
-	return days + l.getDaysInLeapMonth()
+	return days + getDaysInLeapMonth(year)
 }
 
-func (l *Lunar) getDaysInMonth() int {
-	if (years[l.year-minYear] & (0x10000 >> uint(l.month))) != 0 {
+// getDaysInMonth calculates the number of days in a specific lunar month.
+// It uses the lunar calendar data array to determine if the month has 30 or 29 days.
+// The bit pattern in the data array indicates which months are long (30 days).
+// Returns 30 for long months, 29 for short months.
+func getDaysInMonth(year, month int) int {
+	if (years[year-minYear] & (0x10000 >> uint(month))) != 0 {
 		return 30
 	}
 	return 29
 }
 
-func (l *Lunar) getDaysInLeapMonth() int {
-	if l.LeapMonth() == 0 {
+// getDaysInLeapMonth calculates the number of days in the leap month of a lunar year.
+// If the year has no leap month, returns 0.
+// If the year has a leap month, determines if it's a long (30 days) or short (29 days) month.
+// Returns the number of days in the leap month, or 0 if no leap month exists.
+func getDaysInLeapMonth(year int) int {
+	if getLeapMonth(year) == 0 {
 		return 0
 	}
-	if years[l.year-minYear]&0x10000 != 0 {
+	if years[year-minYear]&0x10000 != 0 {
 		return 30
 	}
 	return 29
+}
+
+// getLeapMonth determines which month is the leap month in a lunar year.
+// Returns 0 if the year has no leap month, or the month number (1-12) if a leap month exists.
+// The leap month information is stored in the lower 4 bits of the lunar calendar data.
+// Returns 0 for years outside the supported range (1900-2100).
+func getLeapMonth(year int) int {
+	return years[year-minYear] & 0xf
 }

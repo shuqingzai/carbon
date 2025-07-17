@@ -200,62 +200,55 @@ func BenchmarkGetDaysInYear(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		year := testYears[i%len(testYears)]
-		l := NewLunar(year, 1, 1, false)
-		l.getDaysInYear()
+		getDaysInYear(year)
 	}
 }
 
 func BenchmarkGetDaysInMonth(b *testing.B) {
-	testDates := []*Lunar{
-		NewLunar(2024, 1, 1, false),
-		NewLunar(2024, 2, 1, false),
-		NewLunar(2024, 6, 1, false),
-		NewLunar(2024, 12, 1, false),
-		NewLunar(2024, 6, 1, true), // 闰月
+	testDates := []struct {
+		year, month int
+	}{
+		{2024, 1}, {2024, 2}, {2024, 6}, {2024, 12}, {2024, 6},
 	}
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		l := testDates[i%len(testDates)]
-		l.getDaysInMonth()
+		date := testDates[i%len(testDates)]
+		getDaysInMonth(date.year, date.month)
 	}
 }
 
 func BenchmarkGetDaysInLeapMonth(b *testing.B) {
-	testDates := []*Lunar{
-		NewLunar(2024, 6, 1, true),  // 闰月
-		NewLunar(2024, 1, 1, false), // 非闰月
-	}
-
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		l := testDates[i%len(testDates)]
-		l.getDaysInLeapMonth()
-	}
-}
-
-func BenchmarkGetOffsetInYear(b *testing.B) {
-	testYears := []int{2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029}
+	testYears := []int{2024, 2024}
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		year := testYears[i%len(testYears)]
-		l := NewLunar(year, 1, 1, false)
-		l.getOffsetInYear()
+		getDaysInLeapMonth(year)
 	}
 }
 
-func BenchmarkGetOffsetInMonth(b *testing.B) {
-	testDates := []*Lunar{
-		NewLunar(2024, 1, 1, false),
-		NewLunar(2024, 6, 15, false),
-		NewLunar(2024, 12, 30, false),
-		NewLunar(2024, 6, 1, true), // 闰月
+func BenchmarkGetOffsetInYear(b *testing.B) {
+	testDates := []struct {
+		year, month int
+	}{
+		{2020, 1}, {2021, 1}, {2022, 1}, {2023, 1}, {2024, 1},
+		{2025, 1}, {2026, 1}, {2027, 1}, {2028, 1}, {2029, 1},
 	}
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		l := testDates[i%len(testDates)]
-		l.getOffsetInMonth()
+		date := testDates[i%len(testDates)]
+		getOffsetInYear(date.year, date.month)
+	}
+}
+
+func BenchmarkGetOffsetInMonth(b *testing.B) {
+	testYears := []int{2024, 2024, 2024, 2024}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		year := testYears[i%len(testYears)]
+		getOffsetInMonth(year)
 	}
 }
