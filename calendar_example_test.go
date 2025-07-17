@@ -70,9 +70,9 @@ func ExampleCreateFromPersian() {
 }
 
 func ExampleCarbon_Hebrew() {
-	fmt.Println(carbon.Parse("2024-01-01 00:00:00").Hebrew().String())
-	fmt.Println(carbon.Parse("2024-08-05 00:00:00").Hebrew().String())
-	fmt.Println(carbon.Parse("2025-10-03 00:00:00").Hebrew().String())
+	fmt.Println(carbon.Parse("2024-01-01").Hebrew().String())
+	fmt.Println(carbon.Parse("2024-08-05").Hebrew().String())
+	fmt.Println(carbon.Parse("2025-10-03").Hebrew().String())
 
 	// Output:
 	// 5784-10-20
