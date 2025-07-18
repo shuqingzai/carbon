@@ -392,16 +392,23 @@ This report provides a comprehensive performance analysis of the Carbon date and
 ### Performance Highlights
 
 **Exceptional Basic Performance**: Core operations take 50-200 nanoseconds
+
 **Zero Memory Allocation**: Calendar conversion and basic operations have zero memory allocation overhead
+
 **Excellent Concurrency Performance**: Performance degradation is less than 15% in high concurrency scenarios
+
 **Rich Function Support**: Supports multiple calendars and formatting options
+
 **Good Extensibility**: Supports custom formats and types
 
 ### Improvement Directions
 
 **Lunar Algorithm Optimization**: Lunar calendar conversion algorithm can be further optimized
+
 **JSON Performance Enhancement**: Consider using more efficient JSON serialization libraries
+
 **Caching Mechanism**: Add result caching for complex calculations
+
 **Memory Pool**: Implement object pools for high-frequency operations
 
 The Carbon project demonstrates excellent overall performance, particularly outstanding in core functionality and calendar conversion aspects. It is a high-performance, feature-complete date and time processing library. 
