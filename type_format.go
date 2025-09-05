@@ -3,45 +3,34 @@ package carbon
 import (
 	"bytes"
 	"database/sql/driver"
-	"time"
 )
 
-// FormatTyper defines a FormatTyper interface.
-// 定义 FormatTyper 接口
-type FormatTyper interface {
-	~string
-	Format() string
-}
-
 // FormatType defines a FormatType generic struct.
-// 定义 FormatType 泛型结构体
 type FormatType[T FormatTyper] struct {
 	*Carbon
 }
 
 // NewFormatType returns a new FormatType generic instance.
-// 返回 FormatType 泛型实例
 func NewFormatType[T FormatTyper](c *Carbon) *FormatType[T] {
 	return &FormatType[T]{
 		Carbon: c,
 	}
 }
 
-// Scan implements driver.Scanner interface for FormatType generic struct.
-// 实现 driver.Scanner 接口
+// Scan implements "driver.Scanner" interface for FormatType generic struct.
 func (t *FormatType[T]) Scan(src any) error {
 	var c *Carbon
 	switch v := src.(type) {
 	case nil:
 		return nil
 	case []byte:
-		c = Parse(string(v), DefaultTimezone)
+		c = Parse(string(v))
 	case string:
-		c = Parse(v, DefaultTimezone)
-	case int64:
-		c = CreateFromTimestamp(v, DefaultTimezone)
-	case time.Time:
-		c = CreateFromStdTime(v, DefaultTimezone)
+		c = Parse(v)
+	case StdTime:
+		c = CreateFromStdTime(v)
+	case *StdTime:
+		c = CreateFromStdTime(*v)
 	default:
 		return ErrFailedScan(v)
 	}
@@ -49,30 +38,26 @@ func (t *FormatType[T]) Scan(src any) error {
 	return t.Error
 }
 
-// Value implements driver.Valuer interface for FormatType generic struct.
-// 实现 driver.Valuer 接口
+// Value implements "driver.Valuer" interface for FormatType generic struct.
 func (t FormatType[T]) Value() (driver.Value, error) {
+	if t.IsNil() || t.IsZero() || t.IsEmpty() {
+		return nil, nil
+	}
 	if t.HasError() {
 		return nil, t.Error
 	}
-
-	if t.IsZero() {
-		return nil, nil
-	}
-
 	return t.StdTime(), nil
 }
 
-// MarshalJSON implements json.Marshal interface for FormatType generic struct.
-// 实现 json.Marshaler 接口
+// MarshalJSON implements "json.Marshaler" interface for FormatType generic struct.
 func (t FormatType[T]) MarshalJSON() ([]byte, error) {
-	if t.IsZero() {
-		return []byte(`""`), nil
+	if t.IsNil() || t.IsZero() || t.IsEmpty() {
+		return []byte(`null`), nil
 	}
 	if t.HasError() {
-		return []byte(`""`), t.Error
+		return []byte(`null`), t.Error
 	}
-	v := t.Format(t.getFormat(), t.Timezone())
+	v := t.Format(t.getFormat())
 	b := make([]byte, 0, len(v)+2)
 	b = append(b, '"')
 	b = append(b, v...)
@@ -80,35 +65,26 @@ func (t FormatType[T]) MarshalJSON() ([]byte, error) {
 	return b, nil
 }
 
-// UnmarshalJSON implements json.Unmarshal interface for FormatType generic struct.
-// 实现 json.Unmarshaler 接口
+// UnmarshalJSON implements "json.Unmarshaler" interface for FormatType generic struct.
 func (t *FormatType[T]) UnmarshalJSON(src []byte) error {
 	v := string(bytes.Trim(src, `"`))
-	if v == "" || v == "null" || v == "0" {
+	if v == "" || v == "null" {
 		return nil
 	}
 	*t = *NewFormatType[T](ParseByFormat(v, t.getFormat()))
 	return t.Error
 }
 
-// String implements Stringer interface for FormatType generic struct.
-// 实现 Stringer 接口
-func (t FormatType[T]) String() string {
-	if t.IsInvalid() || t.IsZero() {
+// String implements "Stringer" interface for FormatType generic struct.
+func (t *FormatType[T]) String() string {
+	if t == nil || t.IsInvalid() {
 		return ""
 	}
-	return t.Format(t.getFormat(), t.Timezone())
+	return t.Format(t.getFormat())
 }
 
-// GormDataType sets gorm data type for FormatType generic struct.
-// 设置 gorm 数据类型
-func (FormatType[T]) GormDataType() string {
-	return "time"
-}
-
-// getFormat returns the set format.
-// 返回设置的格式模板
-func (FormatType[T]) getFormat() string {
+// getFormat returns the format of FormatType generic struct.
+func (t *FormatType[T]) getFormat() string {
 	var typer T
 	return typer.Format()
 }

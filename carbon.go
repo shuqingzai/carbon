@@ -18,27 +18,26 @@ type Location = time.Location
 type Duration = time.Duration
 
 // Carbon defines a Carbon struct.
-// 定义 Carbon 结构体
 type Carbon struct {
-	layout       string
-	time         StdTime
-	weekStartsAt Weekday
-	weekendDays  []Weekday
-	loc          *Location
-	lang         *Language
-	Error        error
+	time          StdTime
+	weekStartsAt  Weekday
+	weekendDays   []Weekday
+	loc           *Location
+	lang          *Language
+	currentLayout string
+	isEmpty       bool
+	Error         error
 }
 
 // NewCarbon returns a new Carbon instance.
-// 返回 Carbon 实例
-func NewCarbon(time ...StdTime) *Carbon {
+func NewCarbon(stdTime ...StdTime) *Carbon {
 	c := new(Carbon)
 	c.lang = NewLanguage().SetLocale(DefaultLocale)
-	c.layout = DefaultLayout
 	c.weekStartsAt = DefaultWeekStartsAt
 	c.weekendDays = DefaultWeekendDays
-	if len(time) > 0 {
-		c.time = time[0]
+	c.currentLayout = DefaultLayout
+	if len(stdTime) > 0 {
+		c.time = stdTime[0]
 		c.loc = c.time.Location()
 		return c
 	}
@@ -46,19 +45,28 @@ func NewCarbon(time ...StdTime) *Carbon {
 	return c
 }
 
-// Copy returns a new copy of the current Carbon instance
-// 复制 Carbon 实例
+// Copy returns a copy of the Carbon instance.
 func (c *Carbon) Copy() *Carbon {
-	if c == nil {
+	if c.IsNil() {
 		return nil
 	}
 	return &Carbon{
-		layout:       c.layout,
-		time:         time.Date(c.Year(), time.Month(c.Month()), c.Day(), c.Hour(), c.Minute(), c.Second(), c.Nanosecond(), c.loc),
-		weekStartsAt: c.weekStartsAt,
-		weekendDays:  c.weekendDays,
-		loc:          c.loc,
-		lang:         c.lang.Copy(),
-		Error:        c.Error,
+		time:          time.Date(c.Year(), time.Month(c.Month()), c.Day(), c.Hour(), c.Minute(), c.Second(), c.Nanosecond(), c.loc),
+		weekStartsAt:  c.weekStartsAt,
+		weekendDays:   c.weekendDays,
+		loc:           c.loc,
+		lang:          c.lang.Copy(),
+		currentLayout: c.currentLayout,
+		isEmpty:       c.isEmpty,
+		Error:         c.Error,
 	}
+}
+
+// Sleep sleeps for the specified duration like time.Sleep.
+func Sleep(d time.Duration) {
+	if IsTestNow() && d > 0 {
+		frozenNow.testNow = frozenNow.testNow.AddDuration(d.String())
+		return
+	}
+	time.Sleep(d)
 }

@@ -3,367 +3,695 @@ package carbon
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-func TestCarbon_StartOfCentury(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0000-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfCentury().ToString())
+type BoundarySuite struct {
+	suite.Suite
+}
+
+func TestBoundarySuite(t *testing.T) {
+	suite.Run(t, new(BoundarySuite))
+}
+
+func (s *BoundarySuite) TestCarbon_StartOfCentury() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.StartOfCentury()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").StartOfCentury().ToString())
-		assert.Empty(t, Parse("0").StartOfCentury().ToString())
-		assert.Empty(t, Parse("xxx").StartOfCentury().ToString())
+	s.Run("zero carbon", func() {
+		c := NewCarbon().StartOfCentury()
+		s.False(c.HasError())
+		s.Equal("0000-01-01 00:00:00 +0000 UTC", c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2000-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfCentury().ToString())
-		assert.Equal(t, "2000-01-01 00:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfCentury().ToString())
-		assert.Equal(t, "2000-01-01 00:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfCentury().ToString())
+	s.Run("empty carbon", func() {
+		c := Parse("").StartOfCentury()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx").StartOfCentury()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("valid carbon", func() {
+		s.Equal("2000-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfCentury().ToString())
+		s.Equal("2000-01-01 00:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfCentury().ToString())
+		s.Equal("2000-01-01 00:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfCentury().ToString())
 	})
 }
 
-func TestCarbon_EndOfCentury(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0099-12-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfCentury().ToString())
+func (s *BoundarySuite) TestCarbon_EndOfCentury() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.EndOfCentury()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").EndOfCentury().ToString())
-		assert.Empty(t, Parse("0").EndOfCentury().ToString())
-		assert.Empty(t, Parse("xxx").EndOfCentury().ToString())
+	s.Run("zero carbon", func() {
+		c := NewCarbon().EndOfCentury()
+		s.False(c.HasError())
+		s.Equal("0099-12-31 23:59:59.999999999 +0000 UTC", c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2099-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfCentury().ToString())
-		assert.Equal(t, "2099-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfCentury().ToString())
-		assert.Equal(t, "2099-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfCentury().ToString())
-	})
-}
-
-func TestCarbon_StartOfDecade(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0000-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfDecade().ToString())
+	s.Run("empty carbon", func() {
+		c := Parse("").EndOfCentury()
+		s.False(c.HasError())
+		s.Empty(c.String())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").StartOfDecade().ToString())
-		assert.Empty(t, Parse("0").StartOfDecade().ToString())
-		assert.Empty(t, Parse("xxx").StartOfDecade().ToString())
+	s.Run("error carbon", func() {
+		c := Parse("xxx").EndOfCentury()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfDecade().ToString())
-		assert.Equal(t, "2020-01-01 00:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfDecade().ToString())
-		assert.Equal(t, "2020-01-01 00:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfDecade().ToString())
+	s.Run("valid carbon", func() {
+		s.Equal("2099-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfCentury().ToString())
+		s.Equal("2099-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfCentury().ToString())
+		s.Equal("2099-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfCentury().ToString())
 	})
 }
 
-func TestCarbon_EndOfDecade(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0009-12-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfDecade().ToString())
+func (s *BoundarySuite) TestCarbon_StartOfDecade() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.StartOfDecade()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").EndOfDecade().ToString())
-		assert.Empty(t, Parse("0").EndOfDecade().ToString())
-		assert.Empty(t, Parse("xxx").EndOfDecade().ToString())
+	s.Run("zero carbon", func() {
+		c := NewCarbon().StartOfDecade()
+		s.False(c.HasError())
+		s.Equal("0000-01-01 00:00:00 +0000 UTC", c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2029-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfDecade().ToString())
-		assert.Equal(t, "2029-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfDecade().ToString())
-		assert.Equal(t, "2029-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfDecade().ToString())
-	})
-}
-
-func TestCarbon_StartOfYear(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfYear().ToString())
+	s.Run("empty carbon", func() {
+		c := Parse("").StartOfDecade()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").StartOfYear().ToString())
-		assert.Empty(t, Parse("0").StartOfYear().ToString())
-		assert.Empty(t, Parse("xxx").StartOfYear().ToString())
+	s.Run("error carbon", func() {
+		c := Parse("xxx").StartOfDecade()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfYear().ToString())
-		assert.Equal(t, "2020-01-01 00:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfYear().ToString())
-		assert.Equal(t, "2020-01-01 00:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfYear().ToString())
+	s.Run("valid carbon", func() {
+		s.Equal("2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfDecade().ToString())
+		s.Equal("2020-01-01 00:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfDecade().ToString())
+		s.Equal("2020-01-01 00:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfDecade().ToString())
 	})
 }
 
-func TestCarbon_EndOfYear(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-12-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfYear().ToString())
+func (s *BoundarySuite) TestCarbon_EndOfDecade() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.EndOfDecade()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").EndOfYear().ToString())
-		assert.Empty(t, Parse("0").EndOfYear().ToString())
-		assert.Empty(t, Parse("xxx").EndOfYear().ToString())
+	s.Run("zero carbon", func() {
+		c := NewCarbon().EndOfDecade()
+		s.False(c.HasError())
+		s.Equal("0009-12-31 23:59:59.999999999 +0000 UTC", c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfYear().ToString())
-		assert.Equal(t, "2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfYear().ToString())
-		assert.Equal(t, "2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfYear().ToString())
-	})
-}
-
-func TestCarbon_StartOfQuarter(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfQuarter().ToString())
+	s.Run("empty carbon", func() {
+		c := Parse("").EndOfDecade()
+		s.False(c.HasError())
+		s.Empty(c.String())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").StartOfQuarter().ToString())
-		assert.Empty(t, Parse("0").StartOfQuarter().ToString())
-		assert.Empty(t, Parse("xxx").StartOfQuarter().ToString())
+	s.Run("error carbon", func() {
+		c := Parse("xxx").EndOfDecade()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfQuarter().ToString())
-		assert.Equal(t, "2020-07-01 00:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfQuarter().ToString())
-		assert.Equal(t, "2020-10-01 00:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfQuarter().ToString())
+	s.Run("valid carbon", func() {
+		s.Equal("2029-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfDecade().ToString())
+		s.Equal("2029-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfDecade().ToString())
+		s.Equal("2029-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfDecade().ToString())
 	})
 }
 
-func TestCarbon_EndOfQuarter(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-03-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfQuarter().ToString())
+func (s *BoundarySuite) TestCarbon_StartOfYear() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.StartOfYear()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").EndOfQuarter().ToString())
-		assert.Empty(t, Parse("0").EndOfQuarter().ToString())
-		assert.Empty(t, Parse("xxx").EndOfQuarter().ToString())
+	s.Run("zero carbon", func() {
+		c := NewCarbon().StartOfYear()
+		s.False(c.HasError())
+		s.Equal("0001-01-01 00:00:00 +0000 UTC", c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-03-31 23:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfQuarter().ToString())
-		assert.Equal(t, "2020-09-30 23:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfQuarter().ToString())
-		assert.Equal(t, "2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfQuarter().ToString())
-	})
-}
-
-func TestCarbon_StartOfMonth(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfMonth().ToString())
+	s.Run("empty carbon", func() {
+		c := Parse("").StartOfYear()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").StartOfMonth().ToString())
-		assert.Empty(t, Parse("0").StartOfMonth().ToString())
-		assert.Empty(t, Parse("xxx").StartOfMonth().ToString())
+	s.Run("error carbon", func() {
+		c := Parse("xxx").StartOfYear()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfMonth().ToString())
-		assert.Equal(t, "2020-08-01 00:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfMonth().ToString())
-		assert.Equal(t, "2020-12-01 00:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfMonth().ToString())
+	s.Run("valid carbon", func() {
+		s.Equal("2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfYear().ToString())
+		s.Equal("2020-01-01 00:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfYear().ToString())
+		s.Equal("2020-01-01 00:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfYear().ToString())
 	})
 }
 
-func TestCarbon_EndOfMonth(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-31 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfMonth().ToString())
+func (s *BoundarySuite) TestCarbon_EndOfYear() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.EndOfYear()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").EndOfMonth().ToString())
-		assert.Empty(t, Parse("0").EndOfMonth().ToString())
-		assert.Empty(t, Parse("xxx").EndOfMonth().ToString())
+	s.Run("zero carbon", func() {
+		c := NewCarbon().EndOfYear()
+		s.False(c.HasError())
+		s.Equal("0001-12-31 23:59:59.999999999 +0000 UTC", c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-01-31 23:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfMonth().ToString())
-		assert.Equal(t, "2020-08-31 23:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfMonth().ToString())
-		assert.Equal(t, "2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfMonth().ToString())
-	})
-}
-
-func TestCarbon_StartOfWeek(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfWeek().ToString())
+	s.Run("empty carbon", func() {
+		c := Parse("").EndOfYear()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").StartOfWeek().ToString())
-		assert.Empty(t, Parse("0").StartOfWeek().ToString())
-		assert.Empty(t, Parse("xxx").StartOfWeek().ToString())
+	s.Run("error carbon", func() {
+		c := Parse("xxx").EndOfYear()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2019-12-30 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfWeek().ToString())
-		assert.Equal(t, "2020-08-10 00:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfWeek().ToString())
-		assert.Equal(t, "2020-12-28 00:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfWeek().ToString())
-		assert.Equal(t, "2025-04-07 00:00:00 +0000 UTC", Parse("2025-04-07 00:00:00").StartOfWeek().ToString())
+	s.Run("valid carbon", func() {
+		s.Equal("2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfYear().ToString())
+		s.Equal("2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfYear().ToString())
+		s.Equal("2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfYear().ToString())
 	})
 }
 
-func TestCarbon_EndOfWeek(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-07 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfWeek().ToString())
+func (s *BoundarySuite) TestCarbon_StartOfQuarter() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.StartOfQuarter()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").EndOfWeek().ToString())
-		assert.Empty(t, Parse("0").EndOfWeek().ToString())
-		assert.Empty(t, Parse("xxx").EndOfWeek().ToString())
+	s.Run("zero carbon", func() {
+		c := NewCarbon().StartOfQuarter()
+		s.False(c.HasError())
+		s.Equal("0001-01-01 00:00:00 +0000 UTC", c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-01-05 23:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfWeek().ToString())
-		assert.Equal(t, "2020-08-16 23:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfWeek().ToString())
-		assert.Equal(t, "2021-01-03 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfWeek().ToString())
-		assert.Equal(t, "2025-04-13 23:59:59.999999999 +0000 UTC", Parse("2025-04-13 00:00:00").EndOfWeek().ToString())
-	})
-}
-
-func TestCarbon_StartOfDay(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfDay().ToString())
+	s.Run("empty carbon", func() {
+		c := Parse("").StartOfQuarter()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").StartOfDay().ToString())
-		assert.Empty(t, Parse("0").StartOfDay().ToString())
-		assert.Empty(t, Parse("xxx").StartOfDay().ToString())
+	s.Run("error carbon", func() {
+		c := Parse("xxx").StartOfQuarter()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfDay().ToString())
-		assert.Equal(t, "2020-08-15 00:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfDay().ToString())
-		assert.Equal(t, "2020-12-31 00:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfDay().ToString())
+	s.Run("valid carbon", func() {
+		s.Equal("2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfQuarter().ToString())
+		s.Equal("2020-07-01 00:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfQuarter().ToString())
+		s.Equal("2020-10-01 00:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfQuarter().ToString())
 	})
 }
 
-func TestCarbon_EndOfDay(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-01 23:59:59.999999999 +0000 UTC", NewCarbon().EndOfDay().ToString())
+func (s *BoundarySuite) TestCarbon_EndOfQuarter() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.EndOfQuarter()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").EndOfDay().ToString())
-		assert.Empty(t, Parse("0").EndOfDay().ToString())
-		assert.Empty(t, Parse("xxx").EndOfDay().ToString())
+	s.Run("zero carbon", func() {
+		c := NewCarbon().EndOfQuarter()
+		s.False(c.HasError())
+		s.Equal("0001-03-31 23:59:59.999999999 +0000 UTC", c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-01-01 23:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfDay().ToString())
-		assert.Equal(t, "2020-08-15 23:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfDay().ToString())
-		assert.Equal(t, "2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfDay().ToString())
-	})
-}
-
-func TestCarbon_StartOfHour(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfHour().ToString())
+	s.Run("empty carbon", func() {
+		c := Parse("").EndOfQuarter()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").StartOfHour().ToString())
-		assert.Empty(t, Parse("0").StartOfHour().ToString())
-		assert.Empty(t, Parse("xxx").StartOfHour().ToString())
+	s.Run("error carbon", func() {
+		c := Parse("xxx").EndOfQuarter()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfHour().ToString())
-		assert.Equal(t, "2020-08-15 12:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfHour().ToString())
-		assert.Equal(t, "2020-12-31 23:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfHour().ToString())
+	s.Run("valid carbon", func() {
+		s.Equal("2020-03-31 23:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfQuarter().ToString())
+		s.Equal("2020-09-30 23:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfQuarter().ToString())
+		s.Equal("2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfQuarter().ToString())
 	})
 }
 
-func TestCarbon_EndOfHour(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-01 00:59:59.999999999 +0000 UTC", NewCarbon().EndOfHour().ToString())
+func (s *BoundarySuite) TestCarbon_StartOfMonth() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.StartOfMonth()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").EndOfHour().ToString())
-		assert.Empty(t, Parse("0").EndOfHour().ToString())
-		assert.Empty(t, Parse("xxx").EndOfHour().ToString())
+	s.Run("zero carbon", func() {
+		c := NewCarbon().StartOfMonth()
+		s.False(c.HasError())
+		s.Equal("0001-01-01 00:00:00 +0000 UTC", c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-01-01 00:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfHour().ToString())
-		assert.Equal(t, "2020-08-15 12:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfHour().ToString())
-		assert.Equal(t, "2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfHour().ToString())
-	})
-}
-
-func TestCarbon_StartOfMinute(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfMinute().ToString())
+	s.Run("empty carbon", func() {
+		c := Parse("").StartOfMonth()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").StartOfMinute().ToString())
-		assert.Empty(t, Parse("0").StartOfMinute().ToString())
-		assert.Empty(t, Parse("xxx").StartOfMinute().ToString())
+	s.Run("error carbon", func() {
+		c := Parse("xxx").StartOfMonth()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfMinute().ToString())
-		assert.Equal(t, "2020-08-15 12:30:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfMinute().ToString())
-		assert.Equal(t, "2020-12-31 23:59:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfMinute().ToString())
+	s.Run("valid carbon", func() {
+		s.Equal("2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfMonth().ToString())
+		s.Equal("2020-08-01 00:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfMonth().ToString())
+		s.Equal("2020-12-01 00:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfMonth().ToString())
 	})
 }
 
-func TestCarbon_EndOfMinute(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-01 00:00:59.999999999 +0000 UTC", NewCarbon().EndOfMinute().ToString())
+func (s *BoundarySuite) TestCarbon_EndOfMonth() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.EndOfMonth()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").EndOfMinute().ToString())
-		assert.Empty(t, Parse("0").EndOfMinute().ToString())
-		assert.Empty(t, Parse("xxx").EndOfMinute().ToString())
+	s.Run("zero carbon", func() {
+		c := NewCarbon().EndOfMonth()
+		s.False(c.HasError())
+		s.Equal("0001-01-31 23:59:59.999999999 +0000 UTC", c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-01-01 00:00:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfMinute().ToString())
-		assert.Equal(t, "2020-08-15 12:30:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfMinute().ToString())
-		assert.Equal(t, "2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfMinute().ToString())
-	})
-}
-
-func TestCarbon_StartOfSecond(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-01 00:00:00 +0000 UTC", NewCarbon().StartOfSecond().ToString())
+	s.Run("empty carbon", func() {
+		c := Parse("").EndOfMonth()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").StartOfSecond().ToString())
-		assert.Empty(t, Parse("0").StartOfSecond().ToString())
-		assert.Empty(t, Parse("xxx").StartOfSecond().ToString())
+	s.Run("error carbon", func() {
+		c := Parse("xxx").EndOfMonth()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfSecond().ToString())
-		assert.Equal(t, "2020-08-15 12:30:30 +0000 UTC", Parse("2020-08-15 12:30:30.66666").StartOfSecond().ToString())
-		assert.Equal(t, "2020-12-31 23:59:59 +0000 UTC", Parse("2020-12-31 23:59:59.999999999").StartOfSecond().ToString())
+	s.Run("valid carbon", func() {
+		s.Equal("2020-01-31 23:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfMonth().ToString())
+		s.Equal("2020-08-31 23:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfMonth().ToString())
+		s.Equal("2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfMonth().ToString())
 	})
 }
 
-func TestCarbon_EndOfSecond(t *testing.T) {
-	t.Run("zero time", func(t *testing.T) {
-		assert.Equal(t, "0001-01-01 00:00:00.999999999 +0000 UTC", NewCarbon().EndOfSecond().ToString())
+func (s *BoundarySuite) TestCarbon_StartOfWeek() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.StartOfWeek()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").EndOfSecond().ToString())
-		assert.Empty(t, Parse("0").EndOfSecond().ToString())
-		assert.Empty(t, Parse("xxx").EndOfSecond().ToString())
+	s.Run("zero carbon", func() {
+		c := NewCarbon().StartOfWeek()
+		s.False(c.HasError())
+		s.Equal("0001-01-01 00:00:00 +0000 UTC", c.ToString())
 	})
 
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-01-01 00:00:00.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfSecond().ToString())
-		assert.Equal(t, "2020-08-15 12:30:30.999999999 +0000 UTC", Parse("2020-08-15 12:30:30.66666").EndOfSecond().ToString())
-		assert.Equal(t, "2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59.999999999").EndOfSecond().ToString())
+	s.Run("empty carbon", func() {
+		c := Parse("").StartOfWeek()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx").StartOfWeek()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("valid carbon", func() {
+		s.Equal("2019-12-30 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfWeek().ToString())
+		s.Equal("2020-08-10 00:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfWeek().ToString())
+		s.Equal("2020-12-28 00:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfWeek().ToString())
+		s.Equal("2025-04-07 00:00:00 +0000 UTC", Parse("2025-04-07 00:00:00").StartOfWeek().ToString())
+	})
+}
+
+func (s *BoundarySuite) TestCarbon_EndOfWeek() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.EndOfWeek()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon().EndOfWeek()
+		s.False(c.HasError())
+		s.Equal("0001-01-07 23:59:59.999999999 +0000 UTC", c.ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("").EndOfWeek()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx").EndOfWeek()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("valid carbon", func() {
+		s.Equal("2020-01-05 23:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfWeek().ToString())
+		s.Equal("2020-08-16 23:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfWeek().ToString())
+		s.Equal("2021-01-03 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfWeek().ToString())
+		s.Equal("2025-04-13 23:59:59.999999999 +0000 UTC", Parse("2025-04-13 00:00:00").EndOfWeek().ToString())
+	})
+}
+
+func (s *BoundarySuite) TestCarbon_StartOfDay() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.StartOfDay()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon().StartOfDay()
+		s.False(c.HasError())
+		s.Equal("0001-01-01 00:00:00 +0000 UTC", c.ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("").StartOfDay()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx").StartOfDay()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("valid carbon", func() {
+		s.Equal("2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfDay().ToString())
+		s.Equal("2020-08-15 00:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfDay().ToString())
+		s.Equal("2020-12-31 00:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfDay().ToString())
+	})
+}
+
+func (s *BoundarySuite) TestCarbon_EndOfDay() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.EndOfDay()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon().EndOfDay()
+		s.False(c.HasError())
+		s.Equal("0001-01-01 23:59:59.999999999 +0000 UTC", c.ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("").EndOfDay()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx").EndOfDay()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("valid carbon", func() {
+		s.Equal("2020-01-01 23:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfDay().ToString())
+		s.Equal("2020-08-15 23:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfDay().ToString())
+		s.Equal("2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfDay().ToString())
+	})
+}
+
+func (s *BoundarySuite) TestCarbon_StartOfHour() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.StartOfHour()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon().StartOfHour()
+		s.False(c.HasError())
+		s.Equal("0001-01-01 00:00:00 +0000 UTC", c.ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("").StartOfHour()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx").StartOfHour()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("valid carbon", func() {
+		s.Equal("2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfHour().ToString())
+		s.Equal("2020-08-15 12:00:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfHour().ToString())
+		s.Equal("2020-12-31 23:00:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfHour().ToString())
+	})
+}
+
+func (s *BoundarySuite) TestCarbon_EndOfHour() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.EndOfHour()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon().EndOfHour()
+		s.False(c.HasError())
+		s.Equal("0001-01-01 00:59:59.999999999 +0000 UTC", c.ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("").EndOfHour()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx").EndOfHour()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("valid carbon", func() {
+		s.Equal("2020-01-01 00:59:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfHour().ToString())
+		s.Equal("2020-08-15 12:59:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfHour().ToString())
+		s.Equal("2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfHour().ToString())
+	})
+}
+
+func (s *BoundarySuite) TestCarbon_StartOfMinute() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.StartOfMinute()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon().StartOfMinute()
+		s.False(c.HasError())
+		s.Equal("0001-01-01 00:00:00 +0000 UTC", c.ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("").StartOfMinute()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx").StartOfMinute()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("valid carbon", func() {
+		s.Equal("2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfMinute().ToString())
+		s.Equal("2020-08-15 12:30:00 +0000 UTC", Parse("2020-08-15 12:30:30").StartOfMinute().ToString())
+		s.Equal("2020-12-31 23:59:00 +0000 UTC", Parse("2020-12-31 23:59:59").StartOfMinute().ToString())
+	})
+}
+
+func (s *BoundarySuite) TestCarbon_EndOfMinute() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.EndOfMinute()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon().EndOfMinute()
+		s.False(c.HasError())
+		s.Equal("0001-01-01 00:00:59.999999999 +0000 UTC", c.ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("").EndOfMinute()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx").EndOfMinute()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("valid carbon", func() {
+		s.Equal("2020-01-01 00:00:59.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfMinute().ToString())
+		s.Equal("2020-08-15 12:30:59.999999999 +0000 UTC", Parse("2020-08-15 12:30:30").EndOfMinute().ToString())
+		s.Equal("2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59").EndOfMinute().ToString())
+	})
+}
+
+func (s *BoundarySuite) TestCarbon_StartOfSecond() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.StartOfSecond()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon().StartOfSecond()
+		s.False(c.HasError())
+		s.Equal("0001-01-01 00:00:00 +0000 UTC", c.ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("").StartOfSecond()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx").StartOfSecond()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("valid carbon", func() {
+		s.Equal("2020-01-01 00:00:00 +0000 UTC", Parse("2020-01-01 00:00:00").StartOfSecond().ToString())
+		s.Equal("2020-08-15 12:30:30 +0000 UTC", Parse("2020-08-15 12:30:30.66666").StartOfSecond().ToString())
+		s.Equal("2020-12-31 23:59:59 +0000 UTC", Parse("2020-12-31 23:59:59.999999999").StartOfSecond().ToString())
+	})
+}
+
+func (s *BoundarySuite) TestCarbon_EndOfSecond() {
+	s.Run("nil carbon", func() {
+		var c *Carbon
+		c = nil
+		c = c.EndOfSecond()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("zero carbon", func() {
+		c := NewCarbon().EndOfSecond()
+		s.False(c.HasError())
+		s.Equal("0001-01-01 00:00:00.999999999 +0000 UTC", c.ToString())
+	})
+
+	s.Run("empty carbon", func() {
+		c := Parse("").EndOfSecond()
+		s.False(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("error carbon", func() {
+		c := Parse("xxx").EndOfSecond()
+		s.True(c.HasError())
+		s.Empty(c.ToString())
+	})
+
+	s.Run("valid carbon", func() {
+		s.Equal("2020-01-01 00:00:00.999999999 +0000 UTC", Parse("2020-01-01 00:00:00").EndOfSecond().ToString())
+		s.Equal("2020-08-15 12:30:30.999999999 +0000 UTC", Parse("2020-08-15 12:30:30.66666").EndOfSecond().ToString())
+		s.Equal("2020-12-31 23:59:59.999999999 +0000 UTC", Parse("2020-12-31 23:59:59.999999999").EndOfSecond().ToString())
 	})
 }

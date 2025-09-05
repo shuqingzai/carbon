@@ -2,11 +2,10 @@ package carbon
 
 import (
 	"encoding/json"
-	"strconv"
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
 type carbonTypeModel struct {
@@ -14,167 +13,165 @@ type carbonTypeModel struct {
 	Carbon2 *Carbon `json:"carbon2"`
 }
 
-func TestCarbonType_Scan(t *testing.T) {
+type CarbonTypeSuite struct {
+	suite.Suite
+}
+
+func TestCarbonTypeSuite(t *testing.T) {
+	suite.Run(t, new(CarbonTypeSuite))
+}
+
+func (s *CarbonTypeSuite) TestCarbonType_Scan() {
 	c := Now()
 
-	t.Run("[]byte type", func(t *testing.T) {
-		assert.Nil(t, c.Scan([]byte(c.ToDateString())))
+	s.Run("[]byte type", func() {
+		s.Nil(c.Scan([]byte(c.ToDateString())))
 	})
 
-	t.Run("string type", func(t *testing.T) {
-		assert.Nil(t, c.Scan(c.ToDateString()))
+	s.Run("string type", func() {
+		s.Nil(c.Scan(c.ToDateString()))
 	})
 
-	t.Run("int64 type", func(t *testing.T) {
-		assert.Nil(t, c.Scan(c.Timestamp()))
+	s.Run("time type", func() {
+		tt := time.Now()
+		s.Nil(c.Scan(tt))
 	})
 
-	t.Run("time type", func(t *testing.T) {
-		assert.Nil(t, c.Scan(time.Now()))
+	s.Run("*time type", func() {
+		tt := time.Now()
+		s.Nil(c.Scan(&tt))
 	})
 
-	t.Run("nil type", func(t *testing.T) {
-		assert.Nil(t, c.Scan(nil))
+	s.Run("nil type", func() {
+		s.Nil(c.Scan(nil))
 	})
 
-	t.Run("unsupported type", func(t *testing.T) {
-		assert.Error(t, c.Scan(true))
-		assert.Error(t, c.Scan(func() {}))
-		assert.Error(t, c.Scan(float64(0)))
-		assert.Error(t, c.Scan(map[string]string{}))
+	s.Run("unsupported type", func() {
+		s.Error(c.Scan(true))
+		s.Error(c.Scan(int64(0)))
+		s.Error(c.Scan(func() {}))
+		s.Error(c.Scan(float64(0)))
+		s.Error(c.Scan(map[string]string{}))
 	})
 }
 
-func TestCarbonType_Value(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		v, err := Parse("").Value()
-		assert.Nil(t, v)
-		assert.Nil(t, err)
+func (s *CarbonTypeSuite) TestCarbonType_Value() {
+	s.Run("zero carbon", func() {
+		v, e := NewCarbon().Value()
+		s.Nil(v)
+		s.Nil(e)
 	})
 
-	t.Run("zero time", func(t *testing.T) {
-		v, err := NewCarbon().Value()
-		assert.Nil(t, v)
-		assert.Nil(t, err)
+	s.Run("error carbon", func() {
+		v, e := Parse("xxx").Value()
+		s.Nil(v)
+		s.Error(e)
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
-		v, err := Parse("xxx").Value()
-		assert.Nil(t, v)
-		assert.Error(t, err)
+	s.Run("empty carbon", func() {
+		v, e := Parse("").Value()
+		s.Empty(v)
+		s.Nil(e)
 	})
 
-	t.Run("valid time", func(t *testing.T) {
+	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05")
-		v, err := c.Value()
-		assert.Equal(t, c.StdTime(), v)
-		assert.Nil(t, err)
+		v, e := c.Value()
+		s.Equal(c.StdTime(), v)
+		s.Nil(e)
 	})
 }
 
-func TestCarbonType_MarshalJSON(t *testing.T) {
+func (s *CarbonTypeSuite) TestCarbonType_MarshalJSON() {
 	var model carbonTypeModel
 
-	t.Run("nil time", func(t *testing.T) {
-		model.Carbon2 = nil
-
-		data, err := json.Marshal(&model)
-		assert.NoError(t, err)
-		assert.Equal(t, `{"carbon1":"","carbon2":null}`, string(data))
+	s.Run("unset carbon", func() {
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"carbon1":null,"carbon2":null}`, string(v))
 	})
 
-	t.Run("zero time", func(t *testing.T) {
+	s.Run("nil carbon", func() {
+		model.Carbon2 = nil
+
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"carbon1":null,"carbon2":null}`, string(v))
+	})
+
+	s.Run("zero carbon", func() {
 		c := NewCarbon()
 		model.Carbon1 = *c
 		model.Carbon2 = c
 
-		data, err := json.Marshal(&model)
-		assert.NoError(t, err)
-		assert.Equal(t, `{"carbon1":"","carbon2":""}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"carbon1":null,"carbon2":null}`, string(v))
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	s.Run("empty carbon", func() {
+		c := Parse("")
+		model.Carbon1 = *c
+		model.Carbon2 = c
+
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"carbon1":null,"carbon2":null}`, string(v))
+	})
+
+	s.Run("error carbon", func() {
 		c := Parse("xxx")
 		model.Carbon1 = *c
 		model.Carbon2 = c
 
-		data, err := json.Marshal(&model)
-		assert.Error(t, err)
-		assert.Empty(t, string(data))
+		v, e := json.Marshal(&model)
+		s.Error(e)
+		s.Empty(string(v))
 	})
 
-	t.Run("valid time", func(t *testing.T) {
+	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05 13:14:15.999999999")
 		model.Carbon1 = *c
 		model.Carbon2 = c
 
-		data, err := json.Marshal(&model)
-		assert.NoError(t, err)
-		assert.Equal(t, `{"carbon1":"2020-08-05 13:14:15","carbon2":"2020-08-05 13:14:15"}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"carbon1":"2020-08-05 13:14:15","carbon2":"2020-08-05 13:14:15"}`, string(v))
 	})
 }
 
-func TestCarbonType_UnmarshalJSON(t *testing.T) {
+func (s *CarbonTypeSuite) TestCarbonType_UnmarshalJSON() {
 	var model carbonTypeModel
 
-	t.Run("empty value", func(t *testing.T) {
+	s.Run("empty value", func() {
 		value := `{"carbon1":"","carbon2":""}`
-		assert.NoError(t, json.Unmarshal([]byte(value), &model))
+		s.Nil(json.Unmarshal([]byte(value), &model))
 
-		assert.Empty(t, model.Carbon1.String())
-		assert.Empty(t, model.Carbon2.String())
+		s.Empty(model.Carbon1.String())
+		s.Empty(model.Carbon2.String())
+		s.False(model.Carbon1.IsValid())
+		s.False(model.Carbon2.IsValid())
 	})
 
-	t.Run("null value", func(t *testing.T) {
-		value := `{"carbon1":"null","carbon2":"null"}`
-		assert.NoError(t, json.Unmarshal([]byte(value), &model))
+	s.Run("null value", func() {
+		value1 := `{"carbon1":null,"carbon2":null}`
+		s.Nil(json.Unmarshal([]byte(value1), &model))
+		s.Empty(model.Carbon1.String())
+		s.Empty(model.Carbon2.String())
 
-		assert.Empty(t, model.Carbon1.String())
-		assert.Empty(t, model.Carbon2.String())
+		value2 := `{"carbon1":"null","carbon2":"null"}`
+		s.Nil(json.Unmarshal([]byte(value2), &model))
+		s.Empty(model.Carbon1.String())
+		s.Empty(model.Carbon2.String())
 	})
 
-	t.Run("zero value", func(t *testing.T) {
-		value := `{"carbon1":"0","carbon2":"0"}`
-		assert.NoError(t, json.Unmarshal([]byte(value), &model))
-
-		assert.Empty(t, model.Carbon1.String())
-		assert.Empty(t, model.Carbon2.String())
-	})
-
-	t.Run("valid value", func(t *testing.T) {
+	s.Run("valid value", func() {
 		value := `{"carbon1":"2020-08-05 13:14:15","carbon2":"2020-08-05 13:14:15"}`
-		assert.NoError(t, json.Unmarshal([]byte(value), &model))
+		s.Nil(json.Unmarshal([]byte(value), &model))
 
-		assert.Equal(t, "2020-08-05 13:14:15", model.Carbon1.String())
-		assert.Equal(t, "2020-08-05 13:14:15", model.Carbon2.String())
+		s.Equal("2020-08-05 13:14:15", model.Carbon1.String())
+		s.Equal("2020-08-05 13:14:15", model.Carbon2.String())
 	})
-}
-
-func TestCarbonType_String(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		c := Now()
-		c = nil
-		assert.Empty(t, c.String())
-	})
-
-	t.Run("zero time", func(t *testing.T) {
-		assert.Empty(t, NewCarbon().String())
-	})
-
-	t.Run("invalid time", func(t *testing.T) {
-		assert.Empty(t, Parse("").String())
-		assert.Empty(t, Parse("0").String())
-		assert.Empty(t, Parse("xxx").String())
-	})
-
-	t.Run("valid time", func(t *testing.T) {
-		assert.Equal(t, "2020-08-05 13:14:15", Parse("2020-08-05 13:14:15").String())
-		assert.Equal(t, "2020-08-05", Parse("2020-08-05 13:14:15").SetLayout(DateLayout).String())
-	})
-}
-
-func TestCarbonType_GormDataType(t *testing.T) {
-	assert.Equal(t, "time", Now().GormDataType())
 }
 
 type builtinTypeModel struct {
@@ -204,167 +201,196 @@ type builtinTypeModel struct {
 	DeletedAt *Timestamp `json:"deleted_at"`
 }
 
-func TestBuiltinType_Scan(t *testing.T) {
+type BuiltinTypeSuite struct {
+	suite.Suite
+}
+
+func TestBuiltinTypeSuite(t *testing.T) {
+	suite.Run(t, new(BuiltinTypeSuite))
+}
+
+func (s *BuiltinTypeSuite) TestBuiltinType_Scan() {
 	c := Now()
 
-	t.Run("[]byte type", func(t *testing.T) {
-		assert.Nil(t, NewDateTime(c).Scan([]byte(c.ToDateString())))
+	s.Run("[]byte type", func() {
+		s.Nil(NewDateTime(c).Scan([]byte(c.ToDateString())))
 
 		ts1 := NewTimestamp(c)
-		assert.Error(t, ts1.Scan([]byte("xxx")))
-		assert.Nil(t, ts1.Scan([]byte(strconv.Itoa(int(ts1.Timestamp())))))
+		s.Error(ts1.Scan([]byte("xxx")))
 
 		ts2 := NewTimestampMilli(c)
-		assert.Error(t, ts2.Scan([]byte("xxx")))
-		assert.Nil(t, ts2.Scan([]byte(strconv.Itoa(int(ts2.TimestampMilli())))))
+		s.Error(ts2.Scan([]byte("xxx")))
 
 		ts3 := NewTimestampMicro(c)
-		assert.Error(t, ts3.Scan([]byte("xxx")))
-		assert.Nil(t, ts3.Scan([]byte(strconv.Itoa(int(ts3.TimestampMicro())))))
+		s.Error(ts3.Scan([]byte("xxx")))
 
 		ts4 := NewTimestampNano(c)
-		assert.Error(t, ts4.Scan([]byte("xxx")))
-		assert.Nil(t, ts4.Scan([]byte(strconv.Itoa(int(ts3.TimestampNano())))))
+		s.Error(ts4.Scan([]byte("xxx")))
 	})
 
-	t.Run("string type", func(t *testing.T) {
-		assert.Nil(t, NewDateTime(c).Scan(c.ToDateString()))
+	s.Run("string type", func() {
+		s.Nil(NewDateTime(c).Scan(c.ToDateString()))
 
 		ts1 := NewTimestamp(c)
-		assert.Error(t, ts1.Scan("xxx"))
-		assert.Nil(t, ts1.Scan(strconv.Itoa(int(ts1.Timestamp()))))
+		s.Error(ts1.Scan("xxx"))
 
 		ts2 := NewTimestampMilli(c)
-		assert.Error(t, ts2.Scan("xxx"))
-		assert.Nil(t, ts2.Scan(strconv.Itoa(int(ts2.TimestampMilli()))))
+		s.Error(ts2.Scan("xxx"))
 
 		ts3 := NewTimestampMicro(c)
-		assert.Error(t, ts3.Scan("xxx"))
-		assert.Nil(t, ts3.Scan(strconv.Itoa(int(ts3.TimestampMicro()))))
+		s.Error(ts3.Scan("xxx"))
 
 		ts4 := NewTimestampNano(c)
-		assert.Error(t, ts4.Scan("xxx"))
-		assert.Nil(t, ts4.Scan(strconv.Itoa(int(ts4.TimestampNano()))))
+		s.Error(ts4.Scan("xxx"))
 	})
 
-	t.Run("int64 type", func(t *testing.T) {
-		assert.Nil(t, NewDateTime(c).Scan(c.Timestamp()))
-
-		assert.Nil(t, NewTimestamp(c).Scan(c.Timestamp()))
-		assert.Nil(t, NewTimestampMilli(c).Scan(c.TimestampMilli()))
-		assert.Nil(t, NewTimestampMicro(c).Scan(c.TimestampMicro()))
-		assert.Nil(t, NewTimestampNano(c).Scan(c.TimestampNano()))
-	})
-
-	t.Run("time type", func(t *testing.T) {
-		assert.Nil(t, NewDateTime(c).Scan(time.Now()))
+	s.Run("time type", func() {
+		tt := time.Now()
+		s.Nil(NewDateTime(c).Scan(tt))
 
 		ts1 := NewTimestamp(c)
-		assert.Nil(t, ts1.Scan(time.Now()))
+		s.Nil(ts1.Scan(tt))
 
 		ts2 := NewTimestampMilli(c)
-		assert.Nil(t, ts2.Scan(time.Now()))
+		s.Nil(ts2.Scan(tt))
 
 		ts3 := NewTimestampMicro(c)
-		assert.Nil(t, ts3.Scan(time.Now()))
+		s.Nil(ts3.Scan(tt))
 
 		ts4 := NewTimestampNano(c)
-		assert.Nil(t, ts4.Scan(time.Now()))
+		s.Nil(ts4.Scan(tt))
 	})
 
-	t.Run("nil type", func(t *testing.T) {
-		assert.Nil(t, NewDateTime(c).Scan(nil))
+	s.Run("*time type", func() {
+		tt := time.Now()
+		s.Nil(NewDateTime(c).Scan(&tt))
 
 		ts1 := NewTimestamp(c)
-		assert.Nil(t, ts1.Scan(nil))
+		s.Nil(ts1.Scan(&tt))
 
 		ts2 := NewTimestampMilli(c)
-		assert.Nil(t, ts2.Scan(nil))
+		s.Nil(ts2.Scan(&tt))
 
 		ts3 := NewTimestampMicro(c)
-		assert.Nil(t, ts3.Scan(nil))
+		s.Nil(ts3.Scan(&tt))
 
 		ts4 := NewTimestampNano(c)
-		assert.Nil(t, ts4.Scan(nil))
+		s.Nil(ts4.Scan(&tt))
 	})
 
-	t.Run("unsupported type", func(t *testing.T) {
-		assert.Error(t, NewDateTime(c).Scan(true))
-		assert.Error(t, NewDateTime(c).Scan(func() {}))
-		assert.Error(t, NewDateTime(c).Scan(float64(0)))
-		assert.Error(t, NewDateTime(c).Scan(map[string]string{}))
+	s.Run("nil type", func() {
+		s.Nil(NewDateTime(c).Scan(nil))
 
-		assert.Error(t, NewTimestamp(c).Scan(true))
-		assert.Error(t, NewTimestamp(c).Scan(func() {}))
-		assert.Error(t, NewTimestamp(c).Scan(float64(0)))
-		assert.Error(t, NewTimestamp(c).Scan(map[string]string{}))
+		ts1 := NewTimestamp(c)
+		s.Nil(ts1.Scan(nil))
+
+		ts2 := NewTimestampMilli(c)
+		s.Nil(ts2.Scan(nil))
+
+		ts3 := NewTimestampMicro(c)
+		s.Nil(ts3.Scan(nil))
+
+		ts4 := NewTimestampNano(c)
+		s.Nil(ts4.Scan(nil))
+	})
+
+	s.Run("unsupported type", func() {
+		s.Error(NewDateTime(c).Scan(true))
+		s.Error(NewDateTime(c).Scan(func() {}))
+		s.Error(NewDateTime(c).Scan(int64(0)))
+		s.Error(NewDateTime(c).Scan(float64(0)))
+		s.Error(NewDateTime(c).Scan(map[string]string{}))
+
+		s.Error(NewTimestamp(c).Scan(true))
+		s.Error(NewTimestamp(c).Scan(func() {}))
+		s.Error(NewTimestamp(c).Scan(int64(0)))
+		s.Error(NewTimestamp(c).Scan(float64(0)))
+		s.Error(NewTimestamp(c).Scan(map[string]string{}))
 	})
 }
 
-func TestBuiltinType_Value(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
+func (s *BuiltinTypeSuite) TestBuiltinType_Value() {
+	s.Run("nil carbon", func() {
 		v1, e1 := NewDateTime(nil).Value()
-		assert.Nil(t, v1)
-		assert.Nil(t, e1)
+		s.Nil(v1)
+		s.Nil(e1)
 
 		v2, e2 := NewTimestamp(nil).Value()
-		assert.Nil(t, v2)
-		assert.Nil(t, e2)
+		s.Nil(v2)
+		s.Nil(e2)
 	})
 
-	t.Run("zero time", func(t *testing.T) {
+	s.Run("zero carbon", func() {
 		c := NewCarbon()
 
 		v1, e1 := NewDateTime(c).Value()
-		assert.Nil(t, v1)
-		assert.Nil(t, e1)
+		s.Nil(v1)
+		s.Nil(e1)
 
 		v2, e2 := NewTimestamp(c).Value()
-		assert.Nil(t, v2)
-		assert.Nil(t, e2)
+		s.Nil(v2)
+		s.Nil(e2)
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	s.Run("empty carbon", func() {
+		c := Parse("")
+
+		v1, e1 := NewDateTime(c).Value()
+		s.Empty(v1)
+		s.Nil(e1)
+
+		v2, e2 := NewTimestamp(c).Value()
+		s.Empty(v2)
+		s.Nil(e2)
+	})
+
+	s.Run("error carbon", func() {
 		c := Parse("xxx")
 
 		v1, e1 := NewDateTime(c).Value()
-		assert.Nil(t, v1)
-		assert.Error(t, e1)
+		s.Nil(v1)
+		s.Error(e1)
 
 		v2, e2 := NewTimestamp(c).Value()
-		assert.Nil(t, v2)
-		assert.Error(t, e2)
+		s.Nil(v2)
+		s.Error(e2)
 	})
 
-	t.Run("valid time", func(t *testing.T) {
+	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05")
 
 		v1, e1 := NewDateTime(c).Value()
-		assert.Equal(t, c.StdTime(), v1)
-		assert.Nil(t, e1)
+		s.Equal(c.StdTime(), v1)
+		s.Nil(e1)
 
 		v2, e2 := NewTimestamp(c).Value()
-		assert.Equal(t, c.Timestamp(), v2)
-		assert.Nil(t, e2)
+		s.Equal(c.StdTime(), v2)
+		s.Nil(e2)
 
 		v3, e3 := NewTimestampMilli(c).Value()
-		assert.Equal(t, c.TimestampMilli(), v3)
-		assert.Nil(t, e3)
+		s.Equal(c.StdTime(), v3)
+		s.Nil(e3)
 
 		v4, e4 := NewTimestampMicro(c).Value()
-		assert.Equal(t, c.TimestampMicro(), v4)
-		assert.Nil(t, e4)
+		s.Equal(c.StdTime(), v4)
+		s.Nil(e4)
 
 		v5, e5 := NewTimestampNano(c).Value()
-		assert.Equal(t, c.TimestampNano(), v5)
-		assert.Nil(t, e5)
+		s.Equal(c.StdTime(), v5)
+		s.Nil(e5)
 	})
 }
 
-func TestBuiltinType_MarshalJSON(t *testing.T) {
+func (s *BuiltinTypeSuite) TestBuiltinType_MarshalJSON() {
 	var model builtinTypeModel
 
-	t.Run("nil time", func(t *testing.T) {
+	s.Run("unset carbon", func() {
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`, string(v))
+	})
+
+	s.Run("nil carbon", func() {
 		model.Date = *NewDate(nil)
 		model.DateMilli = *NewDateMilli(nil)
 		model.DateMicro = *NewDateMicro(nil)
@@ -389,12 +415,12 @@ func TestBuiltinType_MarshalJSON(t *testing.T) {
 		model.UpdatedAt = NewDateTime(nil)
 		model.DeletedAt = NewTimestamp(nil)
 
-		data, err := json.Marshal(&model)
-		assert.NoError(t, err)
-		assert.Equal(t, `{"date":"","date_milli":"","date_micro":"","date_nano":"","time":"","time_milli":"","time_micro":"","time_nano":"","date_time":"","date_time_milli":"","date_time_micro":"","date_time_nano":"","created_at":"","updated_at":"","timestamp":0,"timestamp_milli":0,"timestamp_micro":0,"timestamp_nano":0,"deleted_at":0}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`, string(v))
 	})
 
-	t.Run("zero time", func(t *testing.T) {
+	s.Run("zero carbon", func() {
 		c := NewCarbon()
 
 		model.Date = *NewDate(c)
@@ -421,12 +447,44 @@ func TestBuiltinType_MarshalJSON(t *testing.T) {
 		model.UpdatedAt = NewDateTime(c)
 		model.DeletedAt = NewTimestamp(c)
 
-		data, err := json.Marshal(&model)
-		assert.NoError(t, err)
-		assert.Equal(t, `{"date":"","date_milli":"","date_micro":"","date_nano":"","time":"","time_milli":"","time_micro":"","time_nano":"","date_time":"","date_time_milli":"","date_time_micro":"","date_time_nano":"","created_at":"","updated_at":"","timestamp":0,"timestamp_milli":0,"timestamp_micro":0,"timestamp_nano":0,"deleted_at":0}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`, string(v))
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	s.Run("empty carbon", func() {
+		c := Parse("")
+
+		model.Date = *NewDate(c)
+		model.DateMilli = *NewDateMilli(c)
+		model.DateMicro = *NewDateMicro(c)
+		model.DateNano = *NewDateNano(c)
+
+		model.Time = *NewTime(c)
+		model.TimeMilli = *NewTimeMilli(c)
+		model.TimeMicro = *NewTimeMicro(c)
+		model.TimeNano = *NewTimeNano(c)
+
+		model.DateTime = *NewDateTime(c)
+		model.DateTimeMilli = *NewDateTimeMilli(c)
+		model.DateTimeMicro = *NewDateTimeMicro(c)
+		model.DateTimeNano = *NewDateTimeNano(c)
+
+		model.Timestamp = *NewTimestamp(c)
+		model.TimestampMilli = *NewTimestampMilli(c)
+		model.TimestampMicro = *NewTimestampMicro(c)
+		model.TimestampNano = *NewTimestampNano(c)
+
+		model.CreatedAt = NewDateTime(c)
+		model.UpdatedAt = NewDateTime(c)
+		model.DeletedAt = NewTimestamp(c)
+
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`, string(v))
+	})
+
+	s.Run("error carbon", func() {
 		c := Parse("xxx")
 
 		var model1 builtinTypeModel
@@ -454,9 +512,9 @@ func TestBuiltinType_MarshalJSON(t *testing.T) {
 		model1.CreatedAt = NewDateTime(c)
 		model1.UpdatedAt = NewDateTime(c)
 
-		data1, err1 := json.Marshal(&model1)
-		assert.Error(t, err1)
-		assert.Empty(t, string(data1))
+		v1, e1 := json.Marshal(&model1)
+		s.Error(e1)
+		s.Empty(string(v1))
 
 		var model2 builtinTypeModel
 
@@ -467,12 +525,12 @@ func TestBuiltinType_MarshalJSON(t *testing.T) {
 
 		model2.DeletedAt = NewTimestamp(c)
 
-		data2, err2 := json.Marshal(&model2)
-		assert.Error(t, err2)
-		assert.Empty(t, string(data2))
+		v2, e2 := json.Marshal(&model2)
+		s.Error(e2)
+		s.Empty(string(v2))
 	})
 
-	t.Run("valid time", func(t *testing.T) {
+	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05 13:14:15.999999999")
 
 		model.Date = *NewDate(c)
@@ -499,227 +557,194 @@ func TestBuiltinType_MarshalJSON(t *testing.T) {
 		model.UpdatedAt = NewDateTime(c)
 		model.DeletedAt = NewTimestamp(c)
 
-		data, err := json.Marshal(&model)
-		assert.NoError(t, err)
-		assert.Equal(t, `{"date":"2020-08-05","date_milli":"2020-08-05.999","date_micro":"2020-08-05.999999","date_nano":"2020-08-05.999999999","time":"13:14:15","time_milli":"13:14:15.999","time_micro":"13:14:15.999999","time_nano":"13:14:15.999999999","date_time":"2020-08-05 13:14:15","date_time_milli":"2020-08-05 13:14:15.999","date_time_micro":"2020-08-05 13:14:15.999999","date_time_nano":"2020-08-05 13:14:15.999999999","created_at":"2020-08-05 13:14:15","updated_at":"2020-08-05 13:14:15","timestamp":1596633255,"timestamp_milli":1596633255999,"timestamp_micro":1596633255999999,"timestamp_nano":1596633255999999999,"deleted_at":1596633255}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"date":"2020-08-05","date_milli":"2020-08-05.999","date_micro":"2020-08-05.999999","date_nano":"2020-08-05.999999999","time":"13:14:15","time_milli":"13:14:15.999","time_micro":"13:14:15.999999","time_nano":"13:14:15.999999999","date_time":"2020-08-05 13:14:15","date_time_milli":"2020-08-05 13:14:15.999","date_time_micro":"2020-08-05 13:14:15.999999","date_time_nano":"2020-08-05 13:14:15.999999999","created_at":"2020-08-05 13:14:15","updated_at":"2020-08-05 13:14:15","timestamp":1596633255,"timestamp_milli":1596633255999,"timestamp_micro":1596633255999999,"timestamp_nano":1596633255999999999,"deleted_at":1596633255}`, string(v))
 	})
 }
 
-func TestBuiltinType_UnmarshalJSON(t *testing.T) {
+func (s *BuiltinTypeSuite) TestBuiltinType_UnmarshalJSON() {
 	var model builtinTypeModel
 
-	t.Run("empty value", func(t *testing.T) {
+	s.Run("empty value", func() {
 		value := `{"date":"","date_milli":"","date_micro":"","date_nano":"","time":"","time_milli":"","time_micro":"","time_nano":"","date_time":"","date_time_milli":"","date_time_micro":"","date_time_nano":"","created_at":"","updated_at":"","timestamp":"","timestamp_milli":"","timestamp_micro":"","timestamp_nano":"","deleted_at":""}`
-		assert.NoError(t, json.Unmarshal([]byte(value), &model))
+		s.Nil(json.Unmarshal([]byte(value), &model))
 
-		assert.Empty(t, model.Date.String())
-		assert.Empty(t, model.DateMilli.String())
-		assert.Empty(t, model.DateMicro.String())
-		assert.Empty(t, model.DateNano.String())
+		s.Empty(model.Date.String())
+		s.Empty(model.DateMilli.String())
+		s.Empty(model.DateMicro.String())
+		s.Empty(model.DateNano.String())
 
-		assert.Empty(t, model.Time.String())
-		assert.Empty(t, model.TimeMilli.String())
-		assert.Empty(t, model.TimeMicro.String())
-		assert.Empty(t, model.TimeNano.String())
+		s.Empty(model.Time.String())
+		s.Empty(model.TimeMilli.String())
+		s.Empty(model.TimeMicro.String())
+		s.Empty(model.TimeNano.String())
 
-		assert.Empty(t, model.DateTime.String())
-		assert.Empty(t, model.DateTimeMilli.String())
-		assert.Empty(t, model.DateTimeMicro.String())
-		assert.Empty(t, model.DateTimeNano.String())
+		s.Empty(model.DateTime.String())
+		s.Empty(model.DateTimeMilli.String())
+		s.Empty(model.DateTimeMicro.String())
+		s.Empty(model.DateTimeNano.String())
 
-		assert.Equal(t, "0", model.Timestamp.String())
-		assert.Equal(t, "0", model.TimestampMilli.String())
-		assert.Equal(t, "0", model.TimestampMicro.String())
-		assert.Equal(t, "0", model.TimestampNano.String())
+		s.Equal("0", model.Timestamp.String())
+		s.Equal("0", model.TimestampMilli.String())
+		s.Equal("0", model.TimestampMicro.String())
+		s.Equal("0", model.TimestampNano.String())
 
-		assert.Zero(t, model.Timestamp.Int64())
-		assert.Zero(t, model.TimestampMilli.Int64())
-		assert.Zero(t, model.TimestampMicro.Int64())
-		assert.Zero(t, model.TimestampNano.Int64())
+		s.Zero(model.Timestamp.Int64())
+		s.Zero(model.TimestampMilli.Int64())
+		s.Zero(model.TimestampMicro.Int64())
+		s.Zero(model.TimestampNano.Int64())
 
-		assert.Empty(t, model.CreatedAt.String())
-		assert.Empty(t, model.UpdatedAt.String())
-		assert.Equal(t, "0", model.DeletedAt.String())
-		assert.Zero(t, model.DeletedAt.Int64())
+		s.Empty(model.CreatedAt.String())
+		s.Empty(model.UpdatedAt.String())
+		s.Equal("0", model.DeletedAt.String())
+		s.Equal(int64(0), model.DeletedAt.Int64())
 	})
 
-	t.Run("null value", func(t *testing.T) {
-		value := `{"date":"null","date_milli":"null","date_micro":"null","date_nano":"null","time":"null","time_milli":"null","time_micro":"null","time_nano":"null","date_time":"null","date_time_milli":"null","date_time_micro":"null","date_time_nano":"null","created_at":"null","updated_at":"null","timestamp":"null","timestamp_milli":"null","timestamp_micro":"null","timestamp_nano":"null","deleted_at":"null"}`
-		assert.NoError(t, json.Unmarshal([]byte(value), &model))
+	s.Run("null value", func() {
+		value1 := `{"date":null,"date_milli":null,"date_micro":null,"date_nano":null,"time":null,"time_milli":null,"time_micro":null,"time_nano":null,"date_time":null,"date_time_milli":null,"date_time_micro":null,"date_time_nano":null,"created_at":null,"updated_at":null,"timestamp":null,"timestamp_milli":null,"timestamp_micro":null,"timestamp_nano":null,"deleted_at":null}`
+		s.Nil(json.Unmarshal([]byte(value1), &model))
 
-		assert.Empty(t, model.Date.String())
-		assert.Empty(t, model.DateMilli.String())
-		assert.Empty(t, model.DateMicro.String())
-		assert.Empty(t, model.DateNano.String())
+		s.Empty(model.Date.String())
+		s.Empty(model.DateMilli.String())
+		s.Empty(model.DateMicro.String())
+		s.Empty(model.DateNano.String())
 
-		assert.Empty(t, model.Time.String())
-		assert.Empty(t, model.TimeMilli.String())
-		assert.Empty(t, model.TimeMicro.String())
-		assert.Empty(t, model.TimeNano.String())
+		s.Empty(model.Time.String())
+		s.Empty(model.TimeMilli.String())
+		s.Empty(model.TimeMicro.String())
+		s.Empty(model.TimeNano.String())
 
-		assert.Empty(t, model.DateTime.String())
-		assert.Empty(t, model.DateTimeMilli.String())
-		assert.Empty(t, model.DateTimeMicro.String())
-		assert.Empty(t, model.DateTimeNano.String())
+		s.Empty(model.DateTime.String())
+		s.Empty(model.DateTimeMilli.String())
+		s.Empty(model.DateTimeMicro.String())
+		s.Empty(model.DateTimeNano.String())
 
-		assert.Equal(t, "0", model.Timestamp.String())
-		assert.Equal(t, "0", model.TimestampMilli.String())
-		assert.Equal(t, "0", model.TimestampMicro.String())
-		assert.Equal(t, "0", model.TimestampNano.String())
+		s.Equal("0", model.Timestamp.String())
+		s.Equal("0", model.TimestampMilli.String())
+		s.Equal("0", model.TimestampMicro.String())
+		s.Equal("0", model.TimestampNano.String())
 
-		assert.Zero(t, model.Timestamp.Int64())
-		assert.Zero(t, model.TimestampMilli.Int64())
-		assert.Zero(t, model.TimestampMicro.Int64())
-		assert.Zero(t, model.TimestampNano.Int64())
+		s.Zero(model.Timestamp.Int64())
+		s.Zero(model.TimestampMilli.Int64())
+		s.Zero(model.TimestampMicro.Int64())
+		s.Zero(model.TimestampNano.Int64())
 
-		assert.Empty(t, model.CreatedAt.String())
-		assert.Empty(t, model.UpdatedAt.String())
-		assert.Equal(t, "0", model.DeletedAt.String())
-		assert.Zero(t, model.DeletedAt.Int64())
+		s.Empty(model.CreatedAt.String())
+		s.Empty(model.UpdatedAt.String())
+		s.Equal("0", model.DeletedAt.String())
+		s.Equal(int64(0), model.DeletedAt.Int64())
+
+		value2 := `{"date":"null","date_milli":"null","date_micro":"null","date_nano":"null","time":"null","time_milli":"null","time_micro":"null","time_nano":"null","date_time":"null","date_time_milli":"null","date_time_micro":"null","date_time_nano":"null","created_at":"null","updated_at":"null","timestamp":"null","timestamp_milli":"null","timestamp_micro":"null","timestamp_nano":"null","deleted_at":"null"}`
+		s.Nil(json.Unmarshal([]byte(value2), &model))
+
+		s.Empty(model.Date.String())
+		s.Empty(model.DateMilli.String())
+		s.Empty(model.DateMicro.String())
+		s.Empty(model.DateNano.String())
+
+		s.Empty(model.Time.String())
+		s.Empty(model.TimeMilli.String())
+		s.Empty(model.TimeMicro.String())
+		s.Empty(model.TimeNano.String())
+
+		s.Empty(model.DateTime.String())
+		s.Empty(model.DateTimeMilli.String())
+		s.Empty(model.DateTimeMicro.String())
+		s.Empty(model.DateTimeNano.String())
+
+		s.Equal("0", model.Timestamp.String())
+		s.Equal("0", model.TimestampMilli.String())
+		s.Equal("0", model.TimestampMicro.String())
+		s.Equal("0", model.TimestampNano.String())
+
+		s.Zero(model.Timestamp.Int64())
+		s.Zero(model.TimestampMilli.Int64())
+		s.Zero(model.TimestampMicro.Int64())
+		s.Zero(model.TimestampNano.Int64())
+
+		s.Empty(model.CreatedAt.String())
+		s.Empty(model.UpdatedAt.String())
+		s.Equal("0", model.DeletedAt.String())
+		s.Equal(int64(0), model.DeletedAt.Int64())
 	})
 
-	t.Run("zero value", func(t *testing.T) {
-		value := `{"date":"0","date_milli":"0","date_micro":"0","date_nano":"0","time":"0","time_milli":"0","time_micro":"0","time_nano":"0","date_time":"0","date_time_milli":"0","date_time_micro":"0","date_time_nano":"0","created_at":"0","updated_at":"0","timestamp":"0","timestamp_milli":"0","timestamp_micro":"0","timestamp_nano":"0","deleted_at":"0"}`
-		assert.NoError(t, json.Unmarshal([]byte(value), &model))
-
-		assert.Empty(t, model.Date.String())
-		assert.Empty(t, model.DateMilli.String())
-		assert.Empty(t, model.DateMicro.String())
-		assert.Empty(t, model.DateNano.String())
-
-		assert.Empty(t, model.Time.String())
-		assert.Empty(t, model.TimeMilli.String())
-		assert.Empty(t, model.TimeMicro.String())
-		assert.Empty(t, model.TimeNano.String())
-
-		assert.Empty(t, model.DateTime.String())
-		assert.Empty(t, model.DateTimeMilli.String())
-		assert.Empty(t, model.DateTimeMicro.String())
-		assert.Empty(t, model.DateTimeNano.String())
-
-		assert.Equal(t, "0", model.Timestamp.String())
-		assert.Equal(t, "0", model.TimestampMilli.String())
-		assert.Equal(t, "0", model.TimestampMicro.String())
-		assert.Equal(t, "0", model.TimestampNano.String())
-
-		assert.Zero(t, model.Timestamp.Int64())
-		assert.Zero(t, model.TimestampMilli.Int64())
-		assert.Zero(t, model.TimestampMicro.Int64())
-		assert.Zero(t, model.TimestampNano.Int64())
-
-		assert.Empty(t, model.CreatedAt.String())
-		assert.Empty(t, model.UpdatedAt.String())
-		assert.Equal(t, "0", model.DeletedAt.String())
-		assert.Zero(t, model.DeletedAt.Int64())
-	})
-
-	t.Run("invalid value", func(t *testing.T) {
+	s.Run("error value", func() {
 		var model1 builtinTypeModel
 
 		value1 := `{"date":"xxx","date_milli":"xxx","date_micro":"xxx","date_nano":"xxx","time":"xxx","time_milli":"xxx","time_micro":"xxx","time_nano":"xxx","date_time":"xxx","date_time_milli":"xxx","date_time_micro":"xxx","date_time_nano":"xxx","created_at":"xxx","updated_at":"xxx","timestamp":"xxx"}`
-		assert.Error(t, json.Unmarshal([]byte(value1), &model1))
+		s.Error(json.Unmarshal([]byte(value1), &model1))
 
 		var model2 builtinTypeModel
 
 		value2 := `{"timestamp":"xxx","timestamp_milli":"xxx","timestamp_micro":"xxx","timestamp_nano":"xxx","deleted_at":"xxx"}`
-		assert.Error(t, json.Unmarshal([]byte(value2), &model2))
+		s.Error(json.Unmarshal([]byte(value2), &model2))
 
-		assert.Empty(t, model.Date.String())
-		assert.Empty(t, model.DateMilli.String())
-		assert.Empty(t, model.DateMicro.String())
-		assert.Empty(t, model.DateNano.String())
+		s.Empty(model.Date.String())
+		s.Empty(model.DateMilli.String())
+		s.Empty(model.DateMicro.String())
+		s.Empty(model.DateNano.String())
 
-		assert.Empty(t, model.Time.String())
-		assert.Empty(t, model.TimeMilli.String())
-		assert.Empty(t, model.TimeMicro.String())
-		assert.Empty(t, model.TimeNano.String())
+		s.Empty(model.Time.String())
+		s.Empty(model.TimeMilli.String())
+		s.Empty(model.TimeMicro.String())
+		s.Empty(model.TimeNano.String())
 
-		assert.Empty(t, model.DateTime.String())
-		assert.Empty(t, model.DateTimeMilli.String())
-		assert.Empty(t, model.DateTimeMicro.String())
-		assert.Empty(t, model.DateTimeNano.String())
+		s.Empty(model.DateTime.String())
+		s.Empty(model.DateTimeMilli.String())
+		s.Empty(model.DateTimeMicro.String())
+		s.Empty(model.DateTimeNano.String())
 
-		assert.Equal(t, "0", model.Timestamp.String())
-		assert.Equal(t, "0", model.TimestampMilli.String())
-		assert.Equal(t, "0", model.TimestampMicro.String())
-		assert.Equal(t, "0", model.TimestampNano.String())
+		s.Equal("0", model.Timestamp.String())
+		s.Equal("0", model.TimestampMilli.String())
+		s.Equal("0", model.TimestampMicro.String())
+		s.Equal("0", model.TimestampNano.String())
 
-		assert.Zero(t, model.Timestamp.Int64())
-		assert.Zero(t, model.TimestampMilli.Int64())
-		assert.Zero(t, model.TimestampMicro.Int64())
-		assert.Zero(t, model.TimestampNano.Int64())
+		s.Zero(model.Timestamp.Int64())
+		s.Zero(model.TimestampMilli.Int64())
+		s.Zero(model.TimestampMicro.Int64())
+		s.Zero(model.TimestampNano.Int64())
 
-		assert.Empty(t, model.CreatedAt.String())
-		assert.Empty(t, model.UpdatedAt.String())
-		assert.Equal(t, "0", model.DeletedAt.String())
-		assert.Zero(t, model.DeletedAt.Int64())
+		s.Empty(model.CreatedAt.String())
+		s.Empty(model.UpdatedAt.String())
+		s.Equal("0", model.DeletedAt.String())
+		s.Equal(int64(0), model.DeletedAt.Int64())
 	})
 
-	t.Run("valid value", func(t *testing.T) {
+	s.Run("valid value", func() {
 		value := `{"date":"2020-08-05","date_milli":"2020-08-05.999","date_micro":"2020-08-05.999999","date_nano":"2020-08-05.999999999","time":"13:14:15","time_milli":"13:14:15.999","time_micro":"13:14:15.999999","time_nano":"13:14:15.999999999","date_time":"2020-08-05 13:14:15","date_time_milli":"2020-08-05 13:14:15.999","date_time_micro":"2020-08-05 13:14:15.999999","date_time_nano":"2020-08-05 13:14:15.999999999","created_at":"2020-08-05 13:14:15","updated_at":"2020-08-05 13:14:15","timestamp":1596633255,"timestamp_milli":1596633255999,"timestamp_micro":1596633255999999,"timestamp_nano":1596633255999999999,"deleted_at":1596633255}`
-		assert.NoError(t, json.Unmarshal([]byte(value), &model))
+		s.Nil(json.Unmarshal([]byte(value), &model))
 
-		assert.Equal(t, "2020-08-05", model.Date.String())
-		assert.Equal(t, "2020-08-05.999", model.DateMilli.String())
-		assert.Equal(t, "2020-08-05.999999", model.DateMicro.String())
-		assert.Equal(t, "2020-08-05.999999999", model.DateNano.String())
+		s.Equal("2020-08-05", model.Date.String())
+		s.Equal("2020-08-05.999", model.DateMilli.String())
+		s.Equal("2020-08-05.999999", model.DateMicro.String())
+		s.Equal("2020-08-05.999999999", model.DateNano.String())
 
-		assert.Equal(t, "13:14:15", model.Time.String())
-		assert.Equal(t, "13:14:15.999", model.TimeMilli.String())
-		assert.Equal(t, "13:14:15.999999", model.TimeMicro.String())
-		assert.Equal(t, "13:14:15.999999999", model.TimeNano.String())
+		s.Equal("13:14:15", model.Time.String())
+		s.Equal("13:14:15.999", model.TimeMilli.String())
+		s.Equal("13:14:15.999999", model.TimeMicro.String())
+		s.Equal("13:14:15.999999999", model.TimeNano.String())
 
-		assert.Equal(t, "2020-08-05 13:14:15", model.DateTime.String())
-		assert.Equal(t, "2020-08-05 13:14:15.999", model.DateTimeMilli.String())
-		assert.Equal(t, "2020-08-05 13:14:15.999999", model.DateTimeMicro.String())
-		assert.Equal(t, "2020-08-05 13:14:15.999999999", model.DateTimeNano.String())
+		s.Equal("2020-08-05 13:14:15", model.DateTime.String())
+		s.Equal("2020-08-05 13:14:15.999", model.DateTimeMilli.String())
+		s.Equal("2020-08-05 13:14:15.999999", model.DateTimeMicro.String())
+		s.Equal("2020-08-05 13:14:15.999999999", model.DateTimeNano.String())
 
-		assert.Equal(t, "1596633255", model.Timestamp.String())
-		assert.Equal(t, "1596633255999", model.TimestampMilli.String())
-		assert.Equal(t, "1596633255999999", model.TimestampMicro.String())
-		assert.Equal(t, "1596633255999999999", model.TimestampNano.String())
+		s.Equal("1596633255", model.Timestamp.String())
+		s.Equal("1596633255999", model.TimestampMilli.String())
+		s.Equal("1596633255999999", model.TimestampMicro.String())
+		s.Equal("1596633255999999999", model.TimestampNano.String())
 
-		assert.Equal(t, int64(1596633255), model.Timestamp.Int64())
-		assert.Equal(t, int64(1596633255999), model.TimestampMilli.Int64())
-		assert.Equal(t, int64(1596633255999999), model.TimestampMicro.Int64())
-		assert.Equal(t, int64(1596633255999999999), model.TimestampNano.Int64())
+		s.Equal(int64(1596633255), model.Timestamp.Int64())
+		s.Equal(int64(1596633255999), model.TimestampMilli.Int64())
+		s.Equal(int64(1596633255999999), model.TimestampMicro.Int64())
+		s.Equal(int64(1596633255999999999), model.TimestampNano.Int64())
 
-		assert.Equal(t, "2020-08-05 13:14:15", model.CreatedAt.String())
-		assert.Equal(t, "2020-08-05 13:14:15", model.UpdatedAt.String())
-		assert.Equal(t, "1596633255", model.DeletedAt.String())
-		assert.Equal(t, int64(1596633255), model.DeletedAt.Int64())
+		s.Equal("2020-08-05 13:14:15", model.CreatedAt.String())
+		s.Equal("2020-08-05 13:14:15", model.UpdatedAt.String())
+		s.Equal("1596633255", model.DeletedAt.String())
+		s.Equal(int64(1596633255), model.DeletedAt.Int64())
 	})
-}
-
-func TestBuiltinType_GormDataType(t *testing.T) {
-	c := Now()
-	dataType := "time"
-
-	assert.Equal(t, dataType, NewDate(c).GormDataType())
-	assert.Equal(t, dataType, NewDateMilli(c).GormDataType())
-	assert.Equal(t, dataType, NewDateMicro(c).GormDataType())
-	assert.Equal(t, dataType, NewDateNano(c).GormDataType())
-
-	assert.Equal(t, dataType, NewTime(c).GormDataType())
-	assert.Equal(t, dataType, NewTimeMilli(c).GormDataType())
-	assert.Equal(t, dataType, NewTimeMicro(c).GormDataType())
-	assert.Equal(t, dataType, NewTimeNano(c).GormDataType())
-
-	assert.Equal(t, dataType, NewDateTime(c).GormDataType())
-	assert.Equal(t, dataType, NewDateTimeMilli(c).GormDataType())
-	assert.Equal(t, dataType, NewDateTimeMicro(c).GormDataType())
-	assert.Equal(t, dataType, NewDateTimeNano(c).GormDataType())
-
-	assert.Equal(t, dataType, NewTimestamp(c).GormDataType())
-	assert.Equal(t, dataType, NewTimestampMilli(c).GormDataType())
-	assert.Equal(t, dataType, NewTimestampMicro(c).GormDataType())
-	assert.Equal(t, dataType, NewTimestampNano(c).GormDataType())
-}
-
-type iso8601Type string
-
-func (t iso8601Type) Format() string {
-	return ISO8601Format
 }
 
 type rfc3339Type string
@@ -728,220 +753,362 @@ func (t rfc3339Type) Layout() string {
 	return RFC3339Layout
 }
 
+type w3cType string
+
+func (w3cType) Layout() string {
+	return W3cLayout
+}
+
+type iso8601Type string
+
+func (t iso8601Type) Format() string {
+	return ISO8601Format
+}
+
+type rssType string
+
+func (rssType) Format() string {
+	return RssFormat
+}
+
 type CustomerTypeModel struct {
-	Customer1 FormatType[iso8601Type] `json:"customer1"`
-	Customer2 LayoutType[rfc3339Type] `json:"customer2"`
+	Customer1 LayoutType[rfc3339Type] `json:"customer1"`
+	Customer2 LayoutType[w3cType]     `json:"customer2"`
+	Customer3 FormatType[iso8601Type] `json:"customer3"`
+	Customer4 FormatType[rssType]     `json:"customer4"`
 
 	CreatedAt *FormatType[iso8601Type] `json:"created_at"`
 	UpdatedAt *LayoutType[rfc3339Type] `json:"updated_at"`
 }
 
-func TestCustomerType_Scan(t *testing.T) {
-	t1 := NewFormatType[iso8601Type](Now())
-	t2 := NewLayoutType[rfc3339Type](Now())
+type CustomerTypeSuite struct {
+	suite.Suite
+}
 
-	t.Run("[]byte type", func(t *testing.T) {
-		assert.Nil(t, t1.Scan([]byte(Now().ToDateString())))
-		assert.Nil(t, t2.Scan([]byte(Now().ToDateString())))
+func TestCustomerTypeSuite(t *testing.T) {
+	suite.Run(t, new(CustomerTypeSuite))
+}
+
+func (s *CustomerTypeSuite) TestCustomerType_Scan() {
+	c := Now()
+
+	t1 := NewLayoutType[rfc3339Type](c)
+	t2 := NewLayoutType[w3cType](c)
+	t3 := NewFormatType[iso8601Type](c)
+	t4 := NewFormatType[rssType](c)
+
+	s.Run("[]byte type", func() {
+		s.Nil(t1.Scan([]byte(c.ToDateString())))
+		s.Nil(t2.Scan([]byte(c.ToDateString())))
+		s.Nil(t3.Scan([]byte(c.ToDateString())))
+		s.Nil(t4.Scan([]byte(c.ToDateString())))
 	})
 
-	t.Run("string type", func(t *testing.T) {
-		assert.Nil(t, t1.Scan(Now().ToDateString()))
-		assert.Nil(t, t2.Scan(Now().ToDateString()))
+	s.Run("string type", func() {
+		s.Nil(t1.Scan(c.ToDateString()))
+		s.Nil(t2.Scan(c.ToDateString()))
+		s.Nil(t3.Scan(c.ToDateString()))
+		s.Nil(t4.Scan(c.ToDateString()))
 	})
 
-	t.Run("int64 type", func(t *testing.T) {
-		assert.Nil(t, t1.Scan(Now().Timestamp()))
-		assert.Nil(t, t2.Scan(Now().Timestamp()))
+	s.Run("time type", func() {
+		tt := time.Now()
+		s.Nil(t1.Scan(tt))
+		s.Nil(t2.Scan(tt))
+		s.Nil(t3.Scan(tt))
+		s.Nil(t4.Scan(tt))
 	})
 
-	t.Run("time type", func(t *testing.T) {
-		assert.Nil(t, t1.Scan(time.Now()))
-		assert.Nil(t, t2.Scan(time.Now()))
+	s.Run("*time type", func() {
+		tt := time.Now()
+		s.Nil(t1.Scan(&tt))
+		s.Nil(t2.Scan(&tt))
+		s.Nil(t3.Scan(&tt))
+		s.Nil(t4.Scan(&tt))
 	})
 
-	t.Run("nil type", func(t *testing.T) {
-		assert.Nil(t, t1.Scan(nil))
-		assert.Nil(t, t2.Scan(nil))
+	s.Run("nil type", func() {
+		s.Nil(t1.Scan(nil))
+		s.Nil(t2.Scan(nil))
+		s.Nil(t3.Scan(nil))
+		s.Nil(t4.Scan(nil))
 	})
 
-	t.Run("unsupported type", func(t *testing.T) {
-		assert.Error(t, t1.Scan(true))
-		assert.Error(t, t1.Scan(func() {}))
-		assert.Error(t, t1.Scan(float64(0)))
-		assert.Error(t, t1.Scan(map[string]string{}))
+	s.Run("unsupported type", func() {
+		s.Error(t1.Scan(true))
+		s.Error(t1.Scan(func() {}))
+		s.Error(t1.Scan(int64(0)))
+		s.Error(t1.Scan(float64(0)))
+		s.Error(t1.Scan(map[string]string{}))
 
-		assert.Error(t, t2.Scan(true))
-		assert.Error(t, t2.Scan(func() {}))
-		assert.Error(t, t2.Scan(float64(0)))
-		assert.Error(t, t2.Scan(map[string]string{}))
+		s.Error(t2.Scan(true))
+		s.Error(t2.Scan(func() {}))
+		s.Error(t2.Scan(int64(0)))
+		s.Error(t2.Scan(float64(0)))
+		s.Error(t2.Scan(map[string]string{}))
+
+		s.Error(t3.Scan(true))
+		s.Error(t3.Scan(func() {}))
+		s.Error(t3.Scan(int64(0)))
+		s.Error(t3.Scan(float64(0)))
+		s.Error(t3.Scan(map[string]string{}))
+
+		s.Error(t4.Scan(true))
+		s.Error(t4.Scan(func() {}))
+		s.Error(t4.Scan(int64(0)))
+		s.Error(t4.Scan(float64(0)))
+		s.Error(t4.Scan(map[string]string{}))
 	})
 }
 
-func TestCustomerType_Value(t *testing.T) {
-	t.Run("nil time", func(t *testing.T) {
-		t1, e1 := NewFormatType[iso8601Type](nil).Value()
-		assert.Nil(t, t1)
-		assert.Nil(t, e1)
+func (s *CustomerTypeSuite) TestCustomerType_Value() {
+	s.Run("nil carbon", func() {
+		t1, e1 := NewLayoutType[rfc3339Type](nil).Value()
+		s.Nil(t1)
+		s.Nil(e1)
 
-		t2, e2 := NewLayoutType[rfc3339Type](nil).Value()
-		assert.Nil(t, t2)
-		assert.Nil(t, e2)
+		t2, e2 := NewLayoutType[w3cType](nil).Value()
+		s.Nil(t2)
+		s.Nil(e2)
+
+		t3, e3 := NewFormatType[iso8601Type](nil).Value()
+		s.Nil(t3)
+		s.Nil(e3)
+
+		t4, e4 := NewFormatType[rssType](nil).Value()
+		s.Nil(t4)
+		s.Nil(e4)
 	})
 
-	t.Run("zero time", func(t *testing.T) {
+	s.Run("zero carbon", func() {
 		c := NewCarbon()
 
-		t1, e1 := NewFormatType[iso8601Type](c).Value()
-		assert.Nil(t, t1)
-		assert.Nil(t, e1)
+		t1, e1 := NewLayoutType[rfc3339Type](c).Value()
+		s.Nil(t1)
+		s.Nil(e1)
 
-		t2, e2 := NewLayoutType[rfc3339Type](c).Value()
-		assert.Nil(t, t2)
-		assert.Nil(t, e2)
+		t2, e2 := NewLayoutType[w3cType](c).Value()
+		s.Nil(t2)
+		s.Nil(e2)
+
+		t3, e3 := NewFormatType[iso8601Type](c).Value()
+		s.Nil(t3)
+		s.Nil(e3)
+
+		t4, e4 := NewFormatType[rssType](c).Value()
+		s.Nil(t4)
+		s.Nil(e4)
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	s.Run("empty carbon", func() {
+		c := Parse("")
+
+		t1, e1 := NewLayoutType[rfc3339Type](c).Value()
+		s.Nil(t1)
+		s.Nil(e1)
+
+		t2, e2 := NewLayoutType[w3cType](c).Value()
+		s.Nil(t2)
+		s.Nil(e2)
+
+		t3, e3 := NewFormatType[iso8601Type](c).Value()
+		s.Nil(t3)
+		s.Nil(e3)
+
+		t4, e4 := NewFormatType[rssType](c).Value()
+		s.Nil(t4)
+		s.Nil(e4)
+	})
+
+	s.Run("error carbon", func() {
 		c := Parse("xxx")
 
-		t1, e1 := NewFormatType[iso8601Type](c).Value()
-		assert.Nil(t, t1)
-		assert.Error(t, e1)
+		t1, e1 := NewLayoutType[rfc3339Type](c).Value()
+		s.Nil(t1)
+		s.Error(e1)
 
-		t2, e2 := NewLayoutType[rfc3339Type](c).Value()
-		assert.Nil(t, t2)
-		assert.Error(t, e2)
+		t2, e2 := NewLayoutType[w3cType](c).Value()
+		s.Nil(t2)
+		s.Error(e2)
+
+		t3, e3 := NewFormatType[iso8601Type](c).Value()
+		s.Nil(t3)
+		s.Error(e3)
+
+		t4, e4 := NewFormatType[rssType](c).Value()
+		s.Nil(t4)
+		s.Error(e4)
 	})
 
-	t.Run("valid time", func(t *testing.T) {
+	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05")
 
-		t1, e1 := NewFormatType[iso8601Type](c).Value()
-		assert.Equal(t, c.StdTime(), t1)
-		assert.Nil(t, e1)
+		t1, e1 := NewLayoutType[rfc3339Type](c).Value()
+		s.Equal(c.StdTime(), t1)
+		s.Nil(e1)
 
-		t2, e2 := NewLayoutType[rfc3339Type](c).Value()
-		assert.Equal(t, c.StdTime(), t2)
-		assert.Nil(t, e2)
+		t2, e2 := NewLayoutType[w3cType](c).Value()
+		s.Equal(c.StdTime(), t2)
+		s.Nil(e2)
+
+		t3, e3 := NewFormatType[iso8601Type](c).Value()
+		s.Equal(c.StdTime(), t3)
+		s.Nil(e3)
+
+		t4, e4 := NewFormatType[rssType](c).Value()
+		s.Equal(c.StdTime(), t4)
+		s.Nil(e4)
 	})
 }
 
-func TestCustomerType_MarshalJSON(t *testing.T) {
+func (s *CustomerTypeSuite) TestCustomerType_MarshalJSON() {
 	var model CustomerTypeModel
 
-	t.Run("nil time", func(t *testing.T) {
-		model.Customer1 = *NewFormatType[iso8601Type](nil)
-		model.Customer2 = *NewLayoutType[rfc3339Type](nil)
+	s.Run("nil carbon", func() {
+		model.Customer1 = *NewLayoutType[rfc3339Type](nil)
+		model.Customer2 = *NewLayoutType[w3cType](nil)
+		model.Customer3 = *NewFormatType[iso8601Type](nil)
+		model.Customer4 = *NewFormatType[rssType](nil)
 
 		model.CreatedAt = NewFormatType[iso8601Type](nil)
 		model.UpdatedAt = NewLayoutType[rfc3339Type](nil)
 
-		data, err := json.Marshal(&model)
-		assert.NoError(t, err)
-		assert.Equal(t, `{"customer1":"","customer2":"","created_at":"","updated_at":""}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"customer1":null,"customer2":null,"customer3":null,"customer4":null,"created_at":null,"updated_at":null}`, string(v))
 	})
 
-	t.Run("zero time", func(t *testing.T) {
+	s.Run("zero carbon", func() {
 		c := NewCarbon()
 
-		model.Customer1 = *NewFormatType[iso8601Type](c)
-		model.Customer2 = *NewLayoutType[rfc3339Type](c)
+		model.Customer1 = *NewLayoutType[rfc3339Type](c)
+		model.Customer2 = *NewLayoutType[w3cType](c)
+		model.Customer3 = *NewFormatType[iso8601Type](c)
+		model.Customer4 = *NewFormatType[rssType](c)
 
 		model.CreatedAt = NewFormatType[iso8601Type](c)
 		model.UpdatedAt = NewLayoutType[rfc3339Type](c)
 
-		data, err := json.Marshal(&model)
-		assert.NoError(t, err)
-		assert.Equal(t, `{"customer1":"","customer2":"","created_at":"","updated_at":""}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"customer1":null,"customer2":null,"customer3":null,"customer4":null,"created_at":null,"updated_at":null}`, string(v))
 	})
 
-	t.Run("invalid time", func(t *testing.T) {
+	s.Run("empty carbon", func() {
+		c := Parse("")
+
+		model.Customer1 = *NewLayoutType[rfc3339Type](c)
+		model.Customer2 = *NewLayoutType[w3cType](c)
+		model.Customer3 = *NewFormatType[iso8601Type](c)
+		model.Customer4 = *NewFormatType[rssType](c)
+
+		model.CreatedAt = NewFormatType[iso8601Type](c)
+		model.UpdatedAt = NewLayoutType[rfc3339Type](c)
+
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"customer1":null,"customer2":null,"customer3":null,"customer4":null,"created_at":null,"updated_at":null}`, string(v))
+	})
+
+	s.Run("error carbon", func() {
 		c := Parse("xxx")
 
-		model.Customer1 = *NewFormatType[iso8601Type](c)
-		model.Customer2 = *NewLayoutType[rfc3339Type](c)
+		var model1 CustomerTypeModel
+		model1.Customer1 = *NewLayoutType[rfc3339Type](c)
+		model1.Customer2 = *NewLayoutType[w3cType](c)
+		v1, e1 := json.Marshal(&model1)
+		s.Error(e1)
+		s.Empty(string(v1))
 
-		model.CreatedAt = NewFormatType[iso8601Type](c)
-		model.UpdatedAt = NewLayoutType[rfc3339Type](c)
+		var model2 CustomerTypeModel
+		model2.Customer3 = *NewFormatType[iso8601Type](c)
+		model2.Customer4 = *NewFormatType[rssType](c)
+		v2, e2 := json.Marshal(&model2)
+		s.Error(e2)
+		s.Empty(string(v2))
 
-		data, err := json.Marshal(&model)
-		assert.Error(t, err)
-		assert.Empty(t, string(data))
+		var model3 CustomerTypeModel
+		model3.CreatedAt = NewFormatType[iso8601Type](c)
+		model3.UpdatedAt = NewLayoutType[rfc3339Type](c)
+		v3, e3 := json.Marshal(&model3)
+		s.Error(e3)
+		s.Empty(string(v3))
+
 	})
 
-	t.Run("valid time", func(t *testing.T) {
+	s.Run("valid carbon", func() {
 		c := Parse("2020-08-05 13:14:15.999999999")
 
-		model.Customer1 = *NewFormatType[iso8601Type](c)
-		model.Customer2 = *NewLayoutType[rfc3339Type](c)
+		model.Customer1 = *NewLayoutType[rfc3339Type](c)
+		model.Customer2 = *NewLayoutType[w3cType](c)
+		model.Customer3 = *NewFormatType[iso8601Type](c)
+		model.Customer4 = *NewFormatType[rssType](c)
 
 		model.CreatedAt = NewFormatType[iso8601Type](c)
 		model.UpdatedAt = NewLayoutType[rfc3339Type](c)
 
-		data, err := json.Marshal(&model)
-		assert.NoError(t, err)
-		assert.Equal(t, `{"customer1":"2020-08-05T13:14:15+00:00","customer2":"2020-08-05T13:14:15Z","created_at":"2020-08-05T13:14:15+00:00","updated_at":"2020-08-05T13:14:15Z"}`, string(data))
+		v, e := json.Marshal(&model)
+		s.Nil(e)
+		s.Equal(`{"customer1":"2020-08-05T13:14:15Z","customer2":"2020-08-05T13:14:15Z","customer3":"2020-08-05T13:14:15+00:00","customer4":"Wed, 05 Aug 2020 13:14:15 +0000","created_at":"2020-08-05T13:14:15+00:00","updated_at":"2020-08-05T13:14:15Z"}`, string(v))
 	})
 }
 
-func TestCustomerType_UnmarshalJSON(t *testing.T) {
+func (s *CustomerTypeSuite) TestCustomerType_UnmarshalJSON() {
 	var model CustomerTypeModel
 
-	t.Run("empty value", func(t *testing.T) {
-		value := `{"customer1":"","customer2":"","created_at":"","updated_at":""}`
-		assert.NoError(t, json.Unmarshal([]byte(value), &model))
+	s.Run("empty value", func() {
+		value := `{"customer1":"","customer2":"","customer3":"","customer4":"","created_at":"","updated_at":""}`
+		s.Nil(json.Unmarshal([]byte(value), &model))
 
-		assert.Empty(t, model.Customer1.String())
-		assert.Empty(t, model.Customer2.String())
-		assert.Empty(t, model.CreatedAt.String())
-		assert.Empty(t, model.UpdatedAt.String())
+		s.Empty(model.Customer1.String())
+		s.Empty(model.Customer2.String())
+		s.Empty(model.Customer3.String())
+		s.Empty(model.Customer4.String())
+		s.Empty(model.CreatedAt.String())
+		s.Empty(model.UpdatedAt.String())
 	})
 
-	t.Run("null value", func(t *testing.T) {
-		value := `{"customer1":"null","customer2":"null","created_at":"null","updated_at":"null"}`
-		assert.NoError(t, json.Unmarshal([]byte(value), &model))
+	s.Run("null value", func() {
+		value1 := `{"customer1":null,"customer2":null,"customer3":null,"customer4":null,"created_at":null,"updated_at":null}`
+		s.Nil(json.Unmarshal([]byte(value1), &model))
 
-		assert.Empty(t, model.Customer1.String())
-		assert.Empty(t, model.Customer2.String())
-		assert.Empty(t, model.CreatedAt.String())
-		assert.Empty(t, model.UpdatedAt.String())
+		s.Empty(model.Customer1.String())
+		s.Empty(model.Customer2.String())
+		s.Empty(model.Customer3.String())
+		s.Empty(model.Customer4.String())
+		s.Empty(model.CreatedAt.String())
+		s.Empty(model.UpdatedAt.String())
+
+		value2 := `{"customer1":"null","customer2":"null","customer3":"null","customer4":"null","created_at":"null","updated_at":"null"}`
+		s.Nil(json.Unmarshal([]byte(value2), &model))
+
+		s.Empty(model.Customer1.String())
+		s.Empty(model.Customer2.String())
+		s.Empty(model.CreatedAt.String())
+		s.Empty(model.UpdatedAt.String())
 	})
 
-	t.Run("zero value", func(t *testing.T) {
-		value := `{"customer1":"0","customer2":"0","created_at":"0","updated_at":"0"}`
-		assert.NoError(t, json.Unmarshal([]byte(value), &model))
+	s.Run("error value", func() {
+		value := `{"customer1":"xxx","customer2":"xxx","customer3":"xxx","customer4":"xxx","created_at":"xxx","updated_at":"xxx"}`
+		s.Error(json.Unmarshal([]byte(value), &model))
 
-		assert.Empty(t, model.Customer1.String())
-		assert.Empty(t, model.Customer2.String())
-		assert.Empty(t, model.CreatedAt.String())
-		assert.Empty(t, model.UpdatedAt.String())
+		s.Empty(model.Customer1.String())
+		s.Empty(model.Customer2.String())
+		s.Empty(model.Customer3.String())
+		s.Empty(model.Customer4.String())
+		s.Empty(model.CreatedAt.String())
+		s.Empty(model.UpdatedAt.String())
 	})
 
-	t.Run("invalid value", func(t *testing.T) {
-		value := `{"customer1":"xxx","customer2":"xxx","created_at":"xxx","updated_at":"xxx"}`
-		assert.Error(t, json.Unmarshal([]byte(value), &model))
+	s.Run("valid value", func() {
+		value := `{"customer1":"2020-08-05T13:14:15Z","customer2":"2020-08-05T13:14:15Z","customer3":"2020-08-05T13:14:15+00:00","customer4":"Wed, 05 Aug 2020 13:14:15 +0000","created_at":"2020-08-05T13:14:15+00:00","updated_at":"2020-08-05T13:14:15Z"}`
+		s.Nil(json.Unmarshal([]byte(value), &model))
 
-		assert.Empty(t, model.Customer1.String())
-		assert.Empty(t, model.Customer2.String())
-		assert.Empty(t, model.CreatedAt.String())
-		assert.Empty(t, model.UpdatedAt.String())
+		s.Equal("2020-08-05T13:14:15Z", model.Customer1.String())
+		s.Equal("2020-08-05T13:14:15Z", model.Customer2.String())
+		s.Equal("2020-08-05T13:14:15+00:00", model.Customer3.String())
+		s.Equal("Wed, 05 Aug 2020 13:14:15 +0000", model.Customer4.String())
+		s.Equal("2020-08-05T13:14:15+00:00", model.CreatedAt.String())
+		s.Equal("2020-08-05T13:14:15Z", model.UpdatedAt.String())
 	})
-
-	t.Run("valid value", func(t *testing.T) {
-		value := `{"customer1":"2020-08-05T13:14:15+00:00","customer2":"2020-08-05T13:14:15Z","created_at":"2020-08-05T13:14:15+00:00","updated_at":"2020-08-05T13:14:15Z"}`
-		assert.NoError(t, json.Unmarshal([]byte(value), &model))
-
-		assert.Equal(t, "2020-08-05T13:14:15+00:00", model.Customer1.String())
-		assert.Equal(t, "2020-08-05T13:14:15Z", model.Customer2.String())
-		assert.Equal(t, "2020-08-05T13:14:15+00:00", model.CreatedAt.String())
-		assert.Equal(t, "2020-08-05T13:14:15Z", model.UpdatedAt.String())
-	})
-}
-
-func TestCustomerType_GormDataType(t *testing.T) {
-	c := Now()
-	dataType := "time"
-
-	assert.Equal(t, dataType, NewFormatType[iso8601Type](c).GormDataType())
-	assert.Equal(t, dataType, NewLayoutType[rfc3339Type](c).GormDataType())
 }

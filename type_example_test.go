@@ -65,25 +65,25 @@ func ExampleLayoutType_MarshalJSON() {
 	//}
 
 	type User struct {
-		Date     carbon.LayoutType[carbon.DateType]     `json:"date"`
-		Time     carbon.LayoutType[carbon.TimeType]     `json:"time"`
-		DateTime carbon.LayoutType[carbon.DateTimeType] `json:"date_time"`
-		Customer carbon.LayoutType[W3CType]             `json:"customer"`
+		Date     carbon.Date                `json:"date"`
+		Time     carbon.Time                `json:"time"`
+		DateTime carbon.DateTime            `json:"date_time"`
+		Customer carbon.LayoutType[W3CType] `json:"customer"`
 
-		CreatedAt *carbon.LayoutType[carbon.DateTimeType] `json:"created_at"`
-		UpdatedAt *carbon.LayoutType[carbon.DateTimeType] `json:"updated_at"`
+		CreatedAt *carbon.DateTime `json:"created_at"`
+		UpdatedAt *carbon.DateTime `json:"updated_at"`
 	}
 
 	c := carbon.Parse("2020-08-05 13:14:15.999999999")
 
 	user := User{
-		Date:     *carbon.NewLayoutType[carbon.DateType](c),
-		Time:     *carbon.NewLayoutType[carbon.TimeType](c),
-		DateTime: *carbon.NewLayoutType[carbon.DateTimeType](c),
+		Date:     *carbon.NewDate(c),
+		Time:     *carbon.NewTime(c),
+		DateTime: *carbon.NewDateTime(c),
 		Customer: *carbon.NewLayoutType[W3CType](c),
 
-		CreatedAt: carbon.NewLayoutType[carbon.DateTimeType](c),
-		UpdatedAt: carbon.NewLayoutType[carbon.DateTimeType](c),
+		CreatedAt: carbon.NewDateTime(c),
+		UpdatedAt: carbon.NewDateTime(c),
 	}
 
 	data, _ := json.Marshal(&user)
@@ -100,13 +100,13 @@ func ExampleLayoutType_UnmarshalJSON() {
 	//	return carbon.W3cLayout
 	//}
 	type User struct {
-		Date     carbon.LayoutType[carbon.DateType]     `json:"date"`
-		Time     carbon.LayoutType[carbon.TimeType]     `json:"time"`
-		DateTime carbon.LayoutType[carbon.DateTimeType] `json:"date_time"`
-		Customer carbon.LayoutType[W3CType]             `json:"customer"`
+		Date     carbon.Date                `json:"date"`
+		Time     carbon.Time                `json:"time"`
+		DateTime carbon.DateTime            `json:"date_time"`
+		Customer carbon.LayoutType[W3CType] `json:"customer"`
 
-		CreatedAt *carbon.LayoutType[carbon.DateTimeType] `json:"created_at"`
-		UpdatedAt *carbon.LayoutType[carbon.DateTimeType] `json:"updated_at"`
+		CreatedAt *carbon.DateTime `json:"created_at"`
+		UpdatedAt *carbon.DateTime `json:"updated_at"`
 	}
 
 	var user User
@@ -133,9 +133,9 @@ func ExampleLayoutType_UnmarshalJSON() {
 func ExampleLayoutType_String() {
 	c := carbon.Parse("2020-08-05 13:14:15.999999999")
 
-	fmt.Println("carbon.Date:", carbon.NewLayoutType[carbon.DateType](c).String())
-	fmt.Println("carbon.Time:", carbon.NewLayoutType[carbon.TimeType](c).String())
-	fmt.Println("carbon.DateTime:", carbon.NewLayoutType[carbon.DateTimeType](c).String())
+	fmt.Println("carbon.Date:", carbon.NewDate(c).String())
+	fmt.Println("carbon.Time:", carbon.NewTime(c).String())
+	fmt.Println("carbon.DateTime:", carbon.NewDateTime(c).String())
 	fmt.Println("Customer:", carbon.NewLayoutType[W3CType](c).String())
 
 	// Output:

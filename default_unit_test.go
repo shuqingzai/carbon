@@ -3,12 +3,22 @@ package carbon
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-func TestSetDefault(t *testing.T) {
-	defer ResetDefault()
+type DefaultSuite struct {
+	suite.Suite
+}
 
+func TestDefaultSuite(t *testing.T) {
+	suite.Run(t, new(DefaultSuite))
+}
+
+func (s *DefaultSuite) TearDownTest() {
+	ResetDefault()
+}
+
+func (s *DefaultSuite) TestSetDefault() {
 	SetDefault(Default{
 		Layout:       DateTimeLayout,
 		Timezone:     PRC,
@@ -19,11 +29,11 @@ func TestSetDefault(t *testing.T) {
 		},
 	})
 
-	assert.Equal(t, DateTimeLayout, DefaultLayout)
-	assert.Equal(t, PRC, DefaultTimezone)
-	assert.Equal(t, "zh-CN", DefaultLocale)
-	assert.Equal(t, Monday, DefaultWeekStartsAt)
-	assert.Equal(t, []Weekday{
+	s.Equal(DateTimeLayout, DefaultLayout)
+	s.Equal(PRC, DefaultTimezone)
+	s.Equal("zh-CN", DefaultLocale)
+	s.Equal(Monday, DefaultWeekStartsAt)
+	s.Equal([]Weekday{
 		Saturday, Sunday,
 	}, DefaultWeekendDays)
 }

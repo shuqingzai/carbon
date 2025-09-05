@@ -3,45 +3,34 @@ package carbon
 import (
 	"bytes"
 	"database/sql/driver"
-	"time"
 )
 
-// LayoutTyper defines a LayoutTyper interface
-// 定义 LayoutTyper 接口
-type LayoutTyper interface {
-	~string
-	Layout() string
-}
-
 // LayoutType defines a LayoutType generic struct
-// 定义 LayoutType 泛型结构体
 type LayoutType[T LayoutTyper] struct {
 	*Carbon
 }
 
 // NewLayoutType returns a new LayoutType generic instance.
-// 返回 LayoutType 泛型实例
 func NewLayoutType[T LayoutTyper](c *Carbon) *LayoutType[T] {
 	return &LayoutType[T]{
 		Carbon: c,
 	}
 }
 
-// Scan implements driver.Scanner interface for LayoutType generic struct.
-// 实现 driver.Scanner 接口
+// Scan implements "driver.Scanner" interface for LayoutType generic struct.
 func (t *LayoutType[T]) Scan(src any) error {
 	var c *Carbon
 	switch v := src.(type) {
 	case nil:
 		return nil
 	case []byte:
-		c = Parse(string(v), DefaultTimezone)
+		c = Parse(string(v))
 	case string:
-		c = Parse(v, DefaultTimezone)
-	case int64:
-		c = CreateFromTimestamp(v, DefaultTimezone)
-	case time.Time:
-		c = CreateFromStdTime(v, DefaultTimezone)
+		c = Parse(v)
+	case StdTime:
+		c = CreateFromStdTime(v)
+	case *StdTime:
+		c = CreateFromStdTime(*v)
 	default:
 		return ErrFailedScan(v)
 	}
@@ -49,31 +38,26 @@ func (t *LayoutType[T]) Scan(src any) error {
 	return t.Error
 }
 
-// Value implements driver.Valuer interface for LayoutType generic struct.
-// 实现 driver.Valuer 接口
+// Value implements "driver.Valuer" interface for LayoutType generic struct.
 func (t LayoutType[T]) Value() (driver.Value, error) {
+	if t.IsNil() || t.IsZero() || t.IsEmpty() {
+		return nil, nil
+	}
 	if t.HasError() {
 		return nil, t.Error
 	}
-
-	if t.IsZero() {
-		return nil, nil
-	}
-
 	return t.StdTime(), nil
 }
 
-// MarshalJSON implements json.Marshal interface for LayoutType generic struct.
-// 实现 json.Marshaler 接口
+// MarshalJSON implements "json.Marshaler" interface for LayoutType generic struct.
 func (t LayoutType[T]) MarshalJSON() ([]byte, error) {
-	if t.IsZero() {
-		return []byte(`""`), nil
+	if t.IsNil() || t.IsZero() || t.IsEmpty() {
+		return []byte(`null`), nil
 	}
 	if t.HasError() {
-		return []byte(`""`), t.Error
+		return []byte(`null`), t.Error
 	}
-
-	v := t.Layout(t.getLayout(), t.Timezone())
+	v := t.Layout(t.getLayout())
 	b := make([]byte, 0, len(v)+2)
 	b = append(b, '"')
 	b = append(b, v...)
@@ -81,36 +65,26 @@ func (t LayoutType[T]) MarshalJSON() ([]byte, error) {
 	return b, nil
 }
 
-// UnmarshalJSON implements json.Unmarshal interface for LayoutType generic struct.
-// 实现 json.Unmarshaler 接口
+// UnmarshalJSON implements "json.Unmarshaler" interface for LayoutType generic struct.
 func (t *LayoutType[T]) UnmarshalJSON(src []byte) error {
 	v := string(bytes.Trim(src, `"`))
-	if v == "" || v == "null" || v == "0" {
+	if v == "" || v == "null" {
 		return nil
 	}
 	*t = *NewLayoutType[T](ParseByLayout(v, t.getLayout()))
 	return t.Error
 }
 
-// String implements Stringer interface for LayoutType generic struct.
-// 实现 Stringer 接口
-func (t LayoutType[T]) String() string {
-	if t.IsInvalid() || t.IsZero() {
+// String implements "Stringer" interface for LayoutType generic struct.
+func (t *LayoutType[T]) String() string {
+	if t == nil || t.IsInvalid() {
 		return ""
 	}
-
-	return t.Layout(t.getLayout(), t.Timezone())
+	return t.Layout(t.getLayout())
 }
 
-// GormDataType sets gorm data type for LayoutType generic struct.
-// 设置 gorm 数据类型
-func (LayoutType[T]) GormDataType() string {
-	return "time"
-}
-
-// getLayout returns the set layout.
-// 返回设置的布局模板
-func (LayoutType[T]) getLayout() string {
+// getLayout returns the layout of LayoutType generic struct.
+func (t *LayoutType[T]) getLayout() string {
 	var typer T
 	return typer.Layout()
 }

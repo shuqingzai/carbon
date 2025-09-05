@@ -1,6 +1,8 @@
 package julian
 
 import (
+	"encoding/json"
+	"os"
 	"testing"
 	"time"
 
@@ -101,4 +103,67 @@ func TestJulian_MJD(t *testing.T) {
 		assert.Equal(t, 60332.5516, FromStdTime(time.Date(2024, 1, 23, 13, 14, 15, 0, time.UTC)).MJD(4))
 		assert.Equal(t, 60332.551563, FromStdTime(time.Date(2024, 1, 23, 13, 14, 15, 0, time.UTC)).MJD(6))
 	})
+}
+
+// TestJulian_AuthorityData tests against authoritative data from Python convertdate library
+func TestJulian_AuthorityData(t *testing.T) {
+	file, err := os.Open("julian_test_data.json")
+	if err != nil {
+		t.Fatalf("failed to open test data file: %v", err)
+	}
+	defer file.Close()
+
+	type testCase struct {
+		Description string  `json:"description"`
+		Julian      float64 `json:"julian"`
+		Gregorian   struct {
+			Year  int `json:"year"`
+			Month int `json:"month"`
+			Day   int `json:"day"`
+		} `json:"gregorian"`
+	}
+
+	var cases []testCase
+	dec := json.NewDecoder(file)
+	if err := dec.Decode(&cases); err != nil {
+		t.Fatalf("failed to decode test data: %v", err)
+	}
+
+	for _, c := range cases {
+		// Julian to Gregorian conversion
+		j := NewJulian(c.Julian)
+		g := j.ToGregorian()
+		if g.Time.IsZero() {
+			t.Errorf("[%s] Julian->Gregorian failed: JDN %.1f", c.Description, c.Julian)
+		} else {
+			gy, gm, gd := g.Time.Date()
+			if gy != c.Gregorian.Year || int(gm) != c.Gregorian.Month || gd != c.Gregorian.Day {
+				t.Errorf("[%s] Julian->Gregorian error: expected %04d-%02d-%02d, got %04d-%02d-%02d",
+					c.Description, c.Gregorian.Year, c.Gregorian.Month, c.Gregorian.Day, gy, int(gm), gd)
+			}
+		}
+
+		// Gregorian to Julian conversion
+		gt := time.Date(c.Gregorian.Year, time.Month(c.Gregorian.Month), c.Gregorian.Day, 0, 0, 0, 0, time.UTC)
+		j2 := FromStdTime(gt)
+		if j2 == nil {
+			t.Errorf("[%s] Gregorian->Julian failed: %04d-%02d-%02d",
+				c.Description, c.Gregorian.Year, c.Gregorian.Month, c.Gregorian.Day)
+		} else {
+			// Allow small floating point differences (within 0.1)
+			expectedJDN := c.Julian
+			actualJDN := j2.JD()
+			if abs(actualJDN-expectedJDN) > 0.1 {
+				t.Errorf("[%s] Gregorian->Julian error: expected JDN %.1f, got %.1f",
+					c.Description, expectedJDN, actualJDN)
+			}
+		}
+	}
+}
+
+func abs(x float64) float64 {
+	if x < 0 {
+		return -x
+	}
+	return x
 }

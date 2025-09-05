@@ -8,7 +8,6 @@ import (
 )
 
 // format map
-// 格式符号映射表
 var formatMap = map[byte]string{
 	'd': "02",      // Day:    Day of the month, 2 digits with leading zeros. Eg: 01 to 31.
 	'D': "Mon",     // Day:    A textual representation of a day, three letters. Eg: Mon through Sun.
@@ -44,7 +43,6 @@ var formatMap = map[byte]string{
 }
 
 // default layouts
-// 默认布局模板
 var defaultLayouts = []string{
 	DateTimeLayout, DateLayout, TimeLayout, DayDateTimeLayout,
 
@@ -66,6 +64,10 @@ var defaultLayouts = []string{
 	ISO8601MilliLayout, ISO8601MicroLayout, ISO8601NanoLayout,
 	RFC3339MilliLayout, RFC3339MicroLayout, RFC3339NanoLayout,
 
+	"15:04:05-07",                          // postgres time with time zone type
+	"2006-01-02 15:04:05-07",               // postgres timestamp with time zone type
+	"2006-01-02 15:04:05-07:00",            // sqlite text type
+	"2006-01-02 15:04:05.999999999 -07:00", // sqlserver datetimeoffset type
 	"2006",
 	"2006-1-2 15:4:5 -0700 MST", "2006-1-2 3:4:5 -0700 MST",
 	"2006-1", "2006-1-2", "2006-1-2 15", "2006-1-2 15:4", "2006-1-2 15:4:5", "2006-1-2 15:4:5.999999999",
@@ -85,7 +87,6 @@ var defaultLayouts = []string{
 }
 
 // converts format to layout.
-// format 转 layout
 func format2layout(format string) string {
 	buffer := &bytes.Buffer{}
 	for i := 0; i < len(format); i++ {
@@ -106,43 +107,36 @@ func format2layout(format string) string {
 }
 
 // parses a timezone string as a time.Location instance.
-// 将 时区字符串 解析成 time.Location 实例
 func parseTimezone(timezone string) (loc *Location, err error) {
 	if timezone == "" {
 		return nil, ErrEmptyTimezone()
 	}
-	loc, err = time.LoadLocation(timezone)
-	if err != nil {
+	if loc, err = time.LoadLocation(timezone); err != nil {
 		err = fmt.Errorf("%w: %w", ErrInvalidTimezone(timezone), err)
 	}
 	return
 }
 
 // parses a duration string as a time.Duration instance.
-// 将 时长字符串 解析成 time.Duration 实例
 func parseDuration(duration string) (dur Duration, err error) {
 	if duration == "" {
 		return 0, ErrEmptyDuration()
 	}
-	dur, err = time.ParseDuration(duration)
-	if err != nil {
+	if dur, err = time.ParseDuration(duration); err != nil {
 		err = fmt.Errorf("%w: %w", ErrInvalidDuration(duration), err)
 	}
 	return
 }
 
 // parses a timestamp string as a int64 format timestamp.
-// 将 时间戳字符串 解析成 int64 格式时间戳
 func parseTimestamp(timestamp string) (ts int64, err error) {
-	ts, err = strconv.ParseInt(timestamp, 10, 64)
-	if err != nil {
-		return 0, fmt.Errorf("%w: %w", ErrInvalidTimestamp(timestamp), err)
+	if ts, err = strconv.ParseInt(timestamp, 10, 64); err != nil {
+		err = fmt.Errorf("%w: %w", ErrInvalidTimestamp(timestamp), err)
 	}
 	return
 }
 
 // gets absolute value.
-// 获取绝对值
 func getAbsValue(value int64) int64 {
-	return (value ^ value>>31) - value>>31
+	return (value ^ (value >> 63)) - (value >> 63)
 }

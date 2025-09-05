@@ -7,7 +7,7 @@ import (
 )
 
 func ExampleSetTestNow() {
-	defer carbon.CleanTestNow()
+	defer carbon.ClearTestNow()
 
 	now := carbon.Parse("2020-08-05")
 	carbon.SetTestNow(now)
@@ -32,12 +32,12 @@ func ExampleSetTestNow() {
 	// 2 months before
 }
 
-func ExampleCleanTestNow() {
+func ExampleClearTestNow() {
 	carbon.SetTestNow(carbon.Parse("2020-08-05"))
 
 	fmt.Println(carbon.IsTestNow())
 
-	carbon.CleanTestNow()
+	carbon.ClearTestNow()
 
 	fmt.Println(carbon.IsTestNow())
 
